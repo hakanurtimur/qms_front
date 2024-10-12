@@ -1,5 +1,5 @@
 "use client";
-import { userNavItems } from "@/constants/userNavItems";
+import { adminNavItems } from "@/constants/userNavItems";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 
 interface Props {
@@ -7,5 +7,5 @@ interface Props {
 }
 
 export default function Layout({ children }: Props) {
-  return <DashboardLayout navItems={userNavItems}>{children}</DashboardLayout>;
+  return <DashboardLayout navItems={adminNavItems}>{children}</DashboardLayout>;
 }

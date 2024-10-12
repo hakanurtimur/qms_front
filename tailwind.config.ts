@@ -57,12 +57,21 @@ const config = {
             transform: "translateX(0)",
           },
         },
+        "slide-out-to-left": {
+          from: {
+            transform: "translateX(0%)",
+          },
+          to: {
+            transform: "translateX(-100%)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "slide-in-from-left": "slide-in-from-left 0.55s ease-out",
-        "slide-in-from-right": "slide-in-from-right 0.55s ease-out",
+        "slide-in-from-left": "slide-in-from-left 0.50s ease",
+        "slide-in-from-right": "slide-in-from-right 0.50s ease",
+        "slide-out-to-left": "slide-out-to-left 0.50s ease",
       },
       borderRadius: {
         lg: "var(--radius)",
