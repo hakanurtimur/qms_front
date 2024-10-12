@@ -14,7 +14,7 @@ const config = {
   theme: {
     extend: {
       colors: {
-        primary: colors.blue,
+        primary: colors.slate,
         secondary: colors.green,
         tertiary: colors.yellow,
         success: colors.green,

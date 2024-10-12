@@ -1,7 +1,7 @@
 const Logo = ({ className }: { className?: string }) => {
   return (
-    <div className={className + " font-semibold text-xl text-secondary-600"}>
-      LOGO
+    <div className={className + " font-semibold text-3xl text-primary-900"}>
+      QMS
     </div>
   );
 };
