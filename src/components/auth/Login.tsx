@@ -26,30 +26,39 @@ import { Location } from "@/models/location";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useEffect } from "react";
 import LoadingSpinner from "@/components/ui/loadingSpinner";
+import { Module } from "@/models/module";
 
 interface Props {
   locations: Location[];
   locationLoading: boolean;
+  modules: Module[];
+  moduleLoading: boolean;
+  onSubmit: (data: LoginForm) => void;
 }
 
-const Login = ({ locations, locationLoading }: Props) => {
+const Login = ({
+  locations,
+  locationLoading,
+  modules,
+  moduleLoading,
+  onSubmit,
+}: Props) => {
   const form = useForm<LoginForm>({
     resolver: zodResolver(SLoginForm),
     defaultValues: {
-      branch: locations.length > 0 ? locations[0].ldapAddress : "",
+      branch: locations.length > 0 ? locations[0].locationId.toString() : "",
       username: "",
       password: "",
     },
   });
-  const onSubmit = (data: LoginForm) => {
-    console.log(data);
-  };
 
   useEffect(() => {
     if (!locationLoading && locations.length > 0) {
-      form.setValue("branch", locations[0].ldapAddress);
+      form.setValue("branch", locations[0].locationId.toString());
     }
   }, [form, locationLoading, locations]);
+
+  console.log(locations);
 
   return (
     <div className="grid grid-cols-2 w-full h-screen bg-slate-50">
@@ -94,7 +103,7 @@ const Login = ({ locations, locationLoading }: Props) => {
                             {locations.length > 0 &&
                               locations.map((location) => (
                                 <SelectItem
-                                  value={location.ldapAddress}
+                                  value={location.locationId.toString()}
                                   key={location.locationId}
                                 >
                                   {location.locationName}
@@ -157,15 +166,20 @@ const Login = ({ locations, locationLoading }: Props) => {
           </Button>
         </div>
         <div className="flex flex-col justify-center gap-12 items-stretch flex-1">
-          <Button className="" variant="outline" size="4xl">
-            Dökümanlar
-          </Button>
-          <Button variant="outline" size="4xl">
-            Olay Bildirim
-          </Button>
-          <Button variant="outline" size="4xl">
-            Hasta Geri Bildirim
-          </Button>
+          {moduleLoading ? (
+            <LoadingSpinner className={"w-32 h-32"} />
+          ) : (
+            modules.map((module) => (
+              <Button
+                key={module.moduleId}
+                variant="outline"
+                size="4xl"
+                className=""
+              >
+                {module.moduleName}
+              </Button>
+            ))
+          )}
         </div>
       </div>
     </div>

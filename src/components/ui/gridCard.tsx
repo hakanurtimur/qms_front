@@ -1,13 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface Props {
+  className?: string;
   title: string;
   description: string;
 }
 
-const GridCard = ({ title, description }: Props) => {
+const GridCard = ({ title, description, className }: Props) => {
   return (
-    <Card>
+    <Card className={className}>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>

@@ -6,7 +6,6 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Bars3Icon, BellIcon, UserIcon } from "@heroicons/react/24/outline";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
 
 interface Props {
   navItems: {
@@ -19,11 +18,12 @@ interface Props {
       href: string;
     }[];
   }[];
+  open: boolean;
+  onSetOpen: (open: boolean) => void;
   children: React.ReactNode;
 }
 
-const DashboardLayout = ({ navItems, children }: Props) => {
-  const [open, setOpen] = useState(false);
+const DashboardLayout = ({ navItems, open, onSetOpen, children }: Props) => {
   return (
     <div className="flex flex-col min-h-screen w-full bg-muted/40">
       {open && (
@@ -41,7 +41,7 @@ const DashboardLayout = ({ navItems, children }: Props) => {
         </aside>
       )}
       <div
-        className={`transition-all ease duration-500 flex flex-col sm:gap-4 sm:pb-4 ${open ? "sm:pl-64" : "sm:pl-0"}`}
+        className={`transition-[padding] ease duration-500 flex flex-col sm:gap-4 sm:pb-4 ${open ? "sm:pl-64" : "sm:pl-0"}`}
       >
         <header className="sticky py-4 bg-primary-900 top-0 z-0 flex sm:flex-row-reverse h-14 items-center justify-between border-b px-4 sm:static sm:h-auto sm:border-0 sm:px-6">
           <Sheet>
@@ -90,7 +90,7 @@ const DashboardLayout = ({ navItems, children }: Props) => {
             size={"icon"}
             variant={"outline"}
             className={"sm:flex hidden"}
-            onClick={() => setOpen(!open)}
+            onClick={() => onSetOpen(!open)}
           >
             <Bars3Icon className="h-5 w-5" />
           </Button>
