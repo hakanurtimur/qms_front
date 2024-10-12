@@ -30,24 +30,22 @@ import LoadingSpinner from "@/components/ui/loadingSpinner";
 interface Props {
   locations: Location[];
   locationLoading: boolean;
+  onSubmit: (data: AdminLoginForm) => void;
 }
 
-const AdminLogin = ({ locations, locationLoading }: Props) => {
+const AdminLogin = ({ locations, locationLoading, onSubmit }: Props) => {
   const form = useForm<AdminLoginForm>({
     resolver: zodResolver(SAdminLoginForm),
     defaultValues: {
-      branch: locations.length > 0 ? locations[0].ldapAddress : "",
+      branch: locations.length > 0 ? locations[0].locationId.toString() : "",
       username: "",
       password: "",
     },
   });
-  const onSubmit = (data: AdminLoginForm) => {
-    console.log(data);
-  };
 
   useEffect(() => {
     if (!locationLoading && locations.length > 0) {
-      form.setValue("branch", locations[0].ldapAddress);
+      form.setValue("branch", locations[0].locationId.toString());
     }
   }, [form, locationLoading, locations]);
 
@@ -103,7 +101,7 @@ const AdminLogin = ({ locations, locationLoading }: Props) => {
                             {locations.length > 0 &&
                               locations.map((location) => (
                                 <SelectItem
-                                  value={location.ldapAddress}
+                                  value={location.locationId.toString()}
                                   key={location.locationId}
                                 >
                                   {location.locationName}
