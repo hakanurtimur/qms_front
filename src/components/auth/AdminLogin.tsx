@@ -16,15 +16,41 @@ import Logo from "@/components/ui/Logo";
 import { UsersIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Location } from "@/models/location";
+import { useEffect } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import LoadingSpinner from "@/components/ui/loadingSpinner";
 
-const Login = () => {
+interface Props {
+  locations: Location[];
+  locationLoading: boolean;
+}
+
+const AdminLogin = ({ locations, locationLoading }: Props) => {
   const form = useForm<AdminLoginForm>({
     resolver: zodResolver(SAdminLoginForm),
-    defaultValues: { username: "", password: "" },
+    defaultValues: {
+      branch: locations.length > 0 ? locations[0].ldapAddress : "",
+      username: "",
+      password: "",
+    },
   });
   const onSubmit = (data: AdminLoginForm) => {
     console.log(data);
   };
+
+  useEffect(() => {
+    if (!locationLoading && locations.length > 0) {
+      form.setValue("branch", locations[0].ldapAddress);
+    }
+  }, [form, locationLoading, locations]);
+
   return (
     <div className="grid grid-cols-2 w-full h-screen bg-slate-50">
       <div className="flex flex-col gap-4 items-center bg-gradient-to-b from-slate-800 to-slate-900 relative">
@@ -50,6 +76,46 @@ const Login = () => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-8"
               >
+                <FormField
+                  control={form.control}
+                  name="branch"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="flex items-center justify-between">
+                        <div>Şube</div>
+                      </FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          disabled={true}
+                        >
+                          <SelectTrigger>
+                            {locationLoading ? (
+                              <div className="w-full flex items-center justify-center">
+                                <LoadingSpinner />
+                              </div>
+                            ) : (
+                              <SelectValue />
+                            )}
+                          </SelectTrigger>
+                          <SelectContent>
+                            {locations.length > 0 &&
+                              locations.map((location) => (
+                                <SelectItem
+                                  value={location.ldapAddress}
+                                  key={location.locationId}
+                                >
+                                  {location.locationName}
+                                </SelectItem>
+                              ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="username"
@@ -78,7 +144,11 @@ const Login = () => {
                     </FormItem>
                   )}
                 />
-                <Button variant="primary" type="submit">
+                <Button
+                  disabled={locationLoading}
+                  variant="primary"
+                  type="submit"
+                >
                   Giriş Yap
                 </Button>
               </form>
@@ -90,4 +160,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;

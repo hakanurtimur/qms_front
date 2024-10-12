@@ -145,7 +145,12 @@ const Login = ({ locations, locationLoading }: Props) => {
       </div>
       <div className="flex flex-col gap-4 items-center bg-gradient-to-b from-slate-700 to-slate-900 relative">
         <div className="bottom-5 left-5 absolute">
-          <Button variant="primary" size={"icon"} asChild>
+          <Button
+            disabled={locationLoading}
+            variant="primary"
+            size={"icon"}
+            asChild
+          >
             <Link href={"/admin-login"}>
               <BriefcaseIcon className="h-8 w-8" />
             </Link>
