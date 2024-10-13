@@ -19,6 +19,7 @@ const config = {
         tertiary: colors.yellow,
         success: colors.green,
         warning: colors.amber,
+        danger: colors.red,
         info: colors.cyan,
         error: colors.red,
         black: colors.gray,

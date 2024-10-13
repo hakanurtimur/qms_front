@@ -1,12 +1,18 @@
 "use client";
 
 import Login from "@/components/auth/Login";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import listService from "@/services/ListService";
-import { LoginForm } from "@/models/auth";
+import { UserLogin } from "@/models/auth";
 import { useRouter } from "next/navigation";
+import authService from "@/services/AuthService";
+import { toast } from "@/hooks/use-toast";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/context/authContext";
 
 const Page = () => {
+  const { onSetAuthenticated, isAuthenticated, onSetUser } = useAuth();
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const query = useQuery({
@@ -19,10 +25,34 @@ const Page = () => {
     queryFn: () => listService.getModules(),
   });
 
-  const handleSubmit = (data: LoginForm) => {
-    if (data.username === "testuser" && data.password === "12345678") {
+  useEffect(() => {
+    if (isAuthenticated) {
       router.push("/user");
     }
+  }, [isAuthenticated, router]);
+
+  const mutation = useMutation({
+    mutationFn: (data: UserLogin) => authService.userLogin(data),
+    onSuccess: (data) => {
+      toast({
+        variant: "success",
+        description: "Başarıyla giriş yapıldı",
+      });
+      router.push("/user");
+      onSetAuthenticated(true);
+      onSetUser(data);
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        description: error.message,
+      });
+      setError(error.message);
+    },
+  });
+
+  const handleSubmit = async (data: UserLogin) => {
+    await mutation.mutateAsync(data);
   };
 
   return (
@@ -33,6 +63,8 @@ const Page = () => {
         modules={moduleQuery.data?.data ?? []}
         moduleLoading={moduleQuery.isPending}
         onSubmit={handleSubmit}
+        error={error}
+        formLoading={mutation.isPending}
       />
     </div>
   );

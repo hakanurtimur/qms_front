@@ -4,8 +4,16 @@ import { userNavItems } from "@/constants/userNavItems";
 import NavItem from "@/components/layout/NavItem";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Bars3Icon, BellIcon, UserIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowLeftStartOnRectangleIcon,
+  Bars3Icon,
+  BellIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
 import { Badge } from "@/components/ui/badge";
+import authService from "@/services/AuthService";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/authContext";
 
 interface Props {
   navItems: {
@@ -24,11 +32,14 @@ interface Props {
 }
 
 const DashboardLayout = ({ navItems, open, onSetOpen, children }: Props) => {
+  const router = useRouter();
+  const { onSetAuthenticated, user } = useAuth();
+
   return (
     <div className="flex flex-col min-h-screen w-full bg-muted/40">
       {open && (
         <aside
-          className={`animate-slide-in-from-left fixed inset-y-0 left-0 z-10 hidden w-64 flex-col bg-primary-900 sm:flex items-stretch`}
+          className={`animate-slide-in-from-left fixed inset-y-0 left-0 z-10 hidden w-64 flex-col bg-primary-900 sm:flex items-stretch justify-between`}
         >
           <nav className="flex flex-col gap-4 px-2 sm:py-5">
             <div className="p-5 relative z-50">
@@ -38,6 +49,20 @@ const DashboardLayout = ({ navItems, open, onSetOpen, children }: Props) => {
               <NavItem key={item.label} item={item} />
             ))}
           </nav>
+          <div className="flex flex-grow items-end px-2 py-5">
+            <Button
+              variant="darkGhost"
+              className="flex gap-2 w-full justify-start"
+              onClick={async () => {
+                await authService.logout();
+                onSetAuthenticated(false);
+                router.push("/login");
+              }}
+            >
+              <ArrowLeftStartOnRectangleIcon className={"h-5 w-5"} />
+              <span>Çıkış Yap</span>
+            </Button>
+          </div>
         </aside>
       )}
       <div
@@ -61,10 +86,24 @@ const DashboardLayout = ({ navItems, open, onSetOpen, children }: Props) => {
                 {userNavItems.map((item) => (
                   <NavItem item={item} key={item.label} />
                 ))}
+                <div className="flex flex-grow justify-end">
+                  <Button
+                    variant="darkGhost"
+                    className="flex gap-2 w-full justify-start"
+                    onClick={async () => {
+                      await authService.logout();
+                      onSetAuthenticated(false);
+                      router.push("/login");
+                    }}
+                  >
+                    <ArrowLeftStartOnRectangleIcon className={"h-5 w-5"} />
+                    <span>Çıkış Yap</span>
+                  </Button>
+                </div>
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="flex flex-shrink gap-4">
+          <div className="flex flex-shrink gap-4 items-center">
             <Button
               variant="outline"
               size="icon"
@@ -85,6 +124,7 @@ const DashboardLayout = ({ navItems, open, onSetOpen, children }: Props) => {
             >
               <UserIcon className="h-5 w-5" />
             </Button>
+            <div className="text-white">{user && user.username}</div>
           </div>
           <Button
             size={"icon"}
