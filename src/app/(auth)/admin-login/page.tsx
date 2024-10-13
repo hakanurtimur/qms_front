@@ -11,7 +11,7 @@ import { useAuth } from "@/context/authContext";
 
 const Page = () => {
   const router = useRouter();
-  const { onSetAuthenticated, isAuthenticated } = useAuth();
+  const { onSetAuthenticated, isAuthenticated, onSetUser } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const query = useQuery({
     queryKey: ["locations"],
@@ -26,13 +26,14 @@ const Page = () => {
 
   const mutation = useMutation({
     mutationFn: (manager: ManagerLogin) => authService.managerLogin(manager),
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
         variant: "success",
         description: "Başarıyla giriş yapıldı",
       });
       router.push("/admin");
       onSetAuthenticated(true);
+      onSetUser(data);
     },
     onError: (error) => {
       toast({

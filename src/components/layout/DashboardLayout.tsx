@@ -33,7 +33,7 @@ interface Props {
 
 const DashboardLayout = ({ navItems, open, onSetOpen, children }: Props) => {
   const router = useRouter();
-  const { onSetAuthenticated } = useAuth();
+  const { onSetAuthenticated, user } = useAuth();
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-muted/40">
@@ -103,7 +103,7 @@ const DashboardLayout = ({ navItems, open, onSetOpen, children }: Props) => {
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="flex flex-shrink gap-4">
+          <div className="flex flex-shrink gap-4 items-center">
             <Button
               variant="outline"
               size="icon"
@@ -124,6 +124,7 @@ const DashboardLayout = ({ navItems, open, onSetOpen, children }: Props) => {
             >
               <UserIcon className="h-5 w-5" />
             </Button>
+            <div className="text-white">{user && user.username}</div>
           </div>
           <Button
             size={"icon"}

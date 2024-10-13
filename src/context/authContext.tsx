@@ -2,10 +2,13 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import tokenService from "@/services/TokenService";
 import authService from "@/services/AuthService";
 import { useRouter } from "next/navigation";
+import { User } from "@/models/user";
 
 interface AuthContextProps {
   isAuthenticated: boolean | null;
   onSetAuthenticated: (value: boolean) => void;
+  user: User | null;
+  onSetUser: (value: User) => void;
 }
 
 interface AuthProviderProps {
@@ -19,6 +22,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const handleSetAuthenticated = (value: boolean) => {
     setIsAuthenticated(value);
+  };
+
+  const [user, setUser] = useState<User | null>(null);
+
+  const handleSetUser = (value: User) => {
+    setUser(value);
   };
 
   const router = useRouter();
@@ -38,7 +47,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, onSetAuthenticated: handleSetAuthenticated }}
+      value={{
+        isAuthenticated,
+        onSetAuthenticated: handleSetAuthenticated,
+        user,
+        onSetUser: handleSetUser,
+      }}
     >
       {children}
     </AuthContext.Provider>

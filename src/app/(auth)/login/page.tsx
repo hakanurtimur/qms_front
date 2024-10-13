@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/authContext";
 
 const Page = () => {
-  const { onSetAuthenticated, isAuthenticated } = useAuth();
+  const { onSetAuthenticated, isAuthenticated, onSetUser } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -33,13 +33,14 @@ const Page = () => {
 
   const mutation = useMutation({
     mutationFn: (data: UserLogin) => authService.userLogin(data),
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast({
         variant: "success",
         description: "Başarıyla giriş yapıldı",
       });
       router.push("/user");
       onSetAuthenticated(true);
+      onSetUser(data);
     },
     onError: (error) => {
       toast({
