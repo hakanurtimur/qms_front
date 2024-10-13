@@ -1,6 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { AdminLoginForm, SAdminLoginForm } from "@/models/auth";
+import { ManagerLogin, SManagerLogin } from "@/models/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -30,14 +30,22 @@ import LoadingSpinner from "@/components/ui/loadingSpinner";
 interface Props {
   locations: Location[];
   locationLoading: boolean;
-  onSubmit: (data: AdminLoginForm) => void;
+  onSubmit: (data: ManagerLogin) => void;
+  error: string | null;
+  formLoading: boolean;
 }
 
-const AdminLogin = ({ locations, locationLoading, onSubmit }: Props) => {
-  const form = useForm<AdminLoginForm>({
-    resolver: zodResolver(SAdminLoginForm),
+const AdminLogin = ({
+  locations,
+  locationLoading,
+  onSubmit,
+  error,
+  formLoading,
+}: Props) => {
+  const form = useForm<ManagerLogin>({
+    resolver: zodResolver(SManagerLogin),
     defaultValues: {
-      branch: locations.length > 0 ? locations[0].locationId.toString() : "",
+      locationId: locations.length > 0 ? locations[0].locationId : 0,
       username: "",
       password: "",
     },
@@ -45,7 +53,7 @@ const AdminLogin = ({ locations, locationLoading, onSubmit }: Props) => {
 
   useEffect(() => {
     if (!locationLoading && locations.length > 0) {
-      form.setValue("branch", locations[0].locationId.toString());
+      form.setValue("locationId", locations[0].locationId);
     }
   }, [form, locationLoading, locations]);
 
@@ -76,7 +84,7 @@ const AdminLogin = ({ locations, locationLoading, onSubmit }: Props) => {
               >
                 <FormField
                   control={form.control}
-                  name="branch"
+                  name="locationId"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="flex items-center justify-between">
@@ -85,7 +93,7 @@ const AdminLogin = ({ locations, locationLoading, onSubmit }: Props) => {
                       <FormControl>
                         <Select
                           onValueChange={field.onChange}
-                          value={field.value}
+                          value={field.value.toString()}
                           disabled={true}
                         >
                           <SelectTrigger>
@@ -142,12 +150,19 @@ const AdminLogin = ({ locations, locationLoading, onSubmit }: Props) => {
                     </FormItem>
                   )}
                 />
+                <p className="text-danger-500">{error && error}</p>
                 <Button
-                  disabled={locationLoading}
+                  disabled={locationLoading || formLoading}
                   variant="primary"
                   type="submit"
                 >
-                  Giriş Yap
+                  {formLoading || locationLoading ? (
+                    <div className="w-full flex items-center justify-center">
+                      <LoadingSpinner />
+                    </div>
+                  ) : (
+                    <p>Giriş Yap</p>
+                  )}
                 </Button>
               </form>
             </Form>

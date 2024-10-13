@@ -1,6 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { LoginForm, SLoginForm } from "@/models/auth";
+import { SUserLogin, UserLogin } from "@/models/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -33,7 +33,9 @@ interface Props {
   locationLoading: boolean;
   modules: Module[];
   moduleLoading: boolean;
-  onSubmit: (data: LoginForm) => void;
+  onSubmit: (data: UserLogin) => void;
+  error: string | null;
+  formLoading: boolean;
 }
 
 const Login = ({
@@ -42,11 +44,13 @@ const Login = ({
   modules,
   moduleLoading,
   onSubmit,
+  error,
+  formLoading,
 }: Props) => {
-  const form = useForm<LoginForm>({
-    resolver: zodResolver(SLoginForm),
+  const form = useForm<UserLogin>({
+    resolver: zodResolver(SUserLogin),
     defaultValues: {
-      branch: locations.length > 0 ? locations[0].locationId.toString() : "",
+      locationId: locations.length > 0 ? locations[0].locationId : 0,
       username: "",
       password: "",
     },
@@ -54,11 +58,9 @@ const Login = ({
 
   useEffect(() => {
     if (!locationLoading && locations.length > 0) {
-      form.setValue("branch", locations[0].locationId.toString());
+      form.setValue("locationId", locations[0].locationId);
     }
   }, [form, locationLoading, locations]);
-
-  console.log(locations);
 
   return (
     <div className="grid grid-cols-2 w-full h-screen bg-slate-50">
@@ -78,7 +80,7 @@ const Login = ({
               >
                 <FormField
                   control={form.control}
-                  name="branch"
+                  name="locationId"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="flex items-center justify-between">
@@ -87,7 +89,7 @@ const Login = ({
                       <FormControl>
                         <Select
                           onValueChange={field.onChange}
-                          value={field.value}
+                          value={field.value.toString()}
                           disabled={true}
                         >
                           <SelectTrigger>
@@ -144,8 +146,19 @@ const Login = ({
                     </FormItem>
                   )}
                 />
-                <Button variant="primary" type="submit">
-                  Giriş Yap
+                <p className="text-danger-500">{error && error}</p>
+                <Button
+                  disabled={locationLoading || formLoading}
+                  variant="primary"
+                  type="submit"
+                >
+                  {formLoading || locationLoading ? (
+                    <div className="w-full flex items-center justify-center">
+                      <LoadingSpinner />
+                    </div>
+                  ) : (
+                    <p>Giriş Yap</p>
+                  )}
                 </Button>
               </form>
             </Form>

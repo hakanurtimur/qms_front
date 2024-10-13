@@ -1,17 +1,17 @@
 import { z } from "zod";
 
-export const SLoginForm = z.object({
+export const SUserLogin = z.object({
   username: z.string().min(6, "Geçerli bir kullanıcı ismi giriniz"),
-  password: z.string().min(8, "Şifre en az 8 karakter olmalıdır"),
-  branch: z.string().min(1),
+  password: z.string().min(6, "Şifre en az 8 karakter olmalıdır"),
+  locationId: z.number().min(1),
 });
 
-export type LoginForm = z.infer<typeof SLoginForm>;
+export type UserLogin = z.infer<typeof SUserLogin>;
 
-export const SAdminLoginForm = z.object({
+export const SManagerLogin = z.object({
   username: z.string().min(6, "Geçerli bir kullanıcı ismi giriniz"),
-  password: z.string().min(8, "Şifre en az 8 karakter olmalıdır"),
-  branch: z.string().min(1),
+  password: z.string().min(6, "Şifre en az 8 karakter olmalıdır"),
+  locationId: z.number().min(1),
 });
 
-export type AdminLoginForm = z.infer<typeof SAdminLoginForm>;
+export type ManagerLogin = z.infer<typeof SManagerLogin>;
