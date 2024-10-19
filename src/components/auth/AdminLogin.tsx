@@ -60,7 +60,7 @@ const AdminLogin = ({
 
   return (
     <div className="grid grid-cols-2 w-full h-screen bg-slate-50">
-      <div className="flex flex-col gap-4 items-center bg-gradient-to-b from-slate-800 to-slate-900 relative">
+      <div className="md:flex hidden flex-col gap-4 items-center bg-gradient-to-b from-slate-800 to-slate-900 relative">
         <div className="absolute bottom-5 right-5">
           <Button variant="primary" size={"icon"} asChild>
             <Link href={"/login"}>
@@ -69,11 +69,21 @@ const AdminLogin = ({
           </Button>
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center gap-8 animate-slide-in-from-right relative">
-        <div className="absolute right-5 top-5">
+      <div className="md:col-span-1 md:pb-0 md:px-0 px-5 py-5 col-span-2 flex flex-col items-center justify-center gap-8 animate-slide-in-from-right relative">
+        <div className="md:absolute right-5 top-5">
           <Logo />
         </div>
-        <FormContainerCard title={"Yönetici Girişi"} className="w-1/2">
+        <div className="md:hidden block">
+          <Button variant="primary" size={"icon"} asChild>
+            <Link href={"/login"}>
+              <UsersIcon className="h-8 w-8" />
+            </Link>
+          </Button>
+        </div>
+        <FormContainerCard
+          title={"Yönetici Girişi"}
+          className="md:w-1/2 w-full"
+        >
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField

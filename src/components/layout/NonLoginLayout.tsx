@@ -20,7 +20,7 @@ const NonLoginLayout = ({ title, children }: Props) => {
           <Button
             size={"icon"}
             variant={"outline"}
-            className={"sm:flex hidden"}
+            className={"flex"}
             onClick={router.back}
           >
             <ChevronLeftIcon className="h-5 w-5" />
