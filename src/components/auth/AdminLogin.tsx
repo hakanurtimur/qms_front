@@ -15,7 +15,6 @@ import { Button } from "@/components/ui/button";
 import Logo from "@/components/ui/Logo";
 import { UsersIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Location } from "@/models/location";
 import { useEffect } from "react";
 import {
@@ -26,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import LoadingSpinner from "@/components/ui/loadingSpinner";
+import FormContainerCard from "@/components/ui/formContainerCard";
 
 interface Props {
   locations: Location[];
@@ -72,102 +72,94 @@ const AdminLogin = ({
         <div className="absolute right-5 top-5">
           <Logo />
         </div>
-        <Card className="w-1/2 border-slate-900 border-4">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl">Yönetici Girişi</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
+        <FormContainerCard title={"Yönetici Girişi"} className="w-1/2">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="locationId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex items-center justify-between">
+                      <div>Şube</div>
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value.toString()}
+                        disabled={true}
+                      >
+                        <SelectTrigger>
+                          {locationLoading ? (
+                            <div className="w-full flex items-center justify-center">
+                              <LoadingSpinner />
+                            </div>
+                          ) : (
+                            <SelectValue />
+                          )}
+                        </SelectTrigger>
+                        <SelectContent>
+                          {locations.length > 0 &&
+                            locations.map((location) => (
+                              <SelectItem
+                                value={location.locationId.toString()}
+                                key={location.locationId}
+                              >
+                                {location.locationName}
+                              </SelectItem>
+                            ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Kullanıcı Adı</FormLabel>
+                    <FormControl>
+                      <Input placeholder="" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex items-center justify-between">
+                      <div>Şifre</div>
+                    </FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <p className="text-danger-500">{error && error}</p>
+              <Button
+                disabled={locationLoading || formLoading}
+                variant="primary"
+                type="submit"
               >
-                <FormField
-                  control={form.control}
-                  name="locationId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center justify-between">
-                        <div>Şube</div>
-                      </FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          value={field.value.toString()}
-                          disabled={true}
-                        >
-                          <SelectTrigger>
-                            {locationLoading ? (
-                              <div className="w-full flex items-center justify-center">
-                                <LoadingSpinner />
-                              </div>
-                            ) : (
-                              <SelectValue />
-                            )}
-                          </SelectTrigger>
-                          <SelectContent>
-                            {locations.length > 0 &&
-                              locations.map((location) => (
-                                <SelectItem
-                                  value={location.locationId.toString()}
-                                  key={location.locationId}
-                                >
-                                  {location.locationName}
-                                </SelectItem>
-                              ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="username"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Kullanıcı Adı</FormLabel>
-                      <FormControl>
-                        <Input placeholder="" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center justify-between">
-                        <div>Şifre</div>
-                      </FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <p className="text-danger-500">{error && error}</p>
-                <Button
-                  disabled={locationLoading || formLoading}
-                  variant="primary"
-                  type="submit"
-                >
-                  {formLoading || locationLoading ? (
-                    <div className="w-full flex items-center justify-center">
-                      <LoadingSpinner />
-                    </div>
-                  ) : (
-                    <p>Giriş Yap</p>
-                  )}
-                </Button>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
+                {formLoading || locationLoading ? (
+                  <div className="w-full flex items-center justify-center">
+                    <LoadingSpinner />
+                  </div>
+                ) : (
+                  <p>Giriş Yap</p>
+                )}
+              </Button>
+            </form>
+          </Form>
+        </FormContainerCard>
       </div>
     </div>
   );

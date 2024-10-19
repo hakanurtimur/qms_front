@@ -23,10 +23,11 @@ import {
 import { BriefcaseIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { Location } from "@/models/location";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useEffect } from "react";
 import LoadingSpinner from "@/components/ui/loadingSpinner";
 import { Module } from "@/models/module";
+import { routeNameGenerator } from "@/utils/routeNameGenerator";
+import FormContainerCard from "@/components/ui/formContainerCard";
 
 interface Props {
   locations: Location[];
@@ -68,102 +69,94 @@ const Login = ({
         <div className="absolute top-5 left-5">
           <Logo />
         </div>
-        <Card className="w-1/2 border-slate-900 border-4">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl">Personel Girişi</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
+        <FormContainerCard title={"Personel Girişi"} className="w-1/2">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="locationId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex items-center justify-between">
+                      <div>Şube</div>
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value.toString()}
+                        disabled={true}
+                      >
+                        <SelectTrigger>
+                          {locationLoading ? (
+                            <div className="w-full flex items-center justify-center">
+                              <LoadingSpinner />
+                            </div>
+                          ) : (
+                            <SelectValue />
+                          )}
+                        </SelectTrigger>
+                        <SelectContent>
+                          {locations.length > 0 &&
+                            locations.map((location) => (
+                              <SelectItem
+                                value={location.locationId.toString()}
+                                key={location.locationId}
+                              >
+                                {location.locationName}
+                              </SelectItem>
+                            ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Kullanıcı Adı</FormLabel>
+                    <FormControl>
+                      <Input placeholder="" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex items-center justify-between">
+                      <div>Şifre</div>
+                    </FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <p className="text-danger-500">{error && error}</p>
+              <Button
+                disabled={locationLoading || formLoading}
+                variant="primary"
+                type="submit"
               >
-                <FormField
-                  control={form.control}
-                  name="locationId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center justify-between">
-                        <div>Şube</div>
-                      </FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          value={field.value.toString()}
-                          disabled={true}
-                        >
-                          <SelectTrigger>
-                            {locationLoading ? (
-                              <div className="w-full flex items-center justify-center">
-                                <LoadingSpinner />
-                              </div>
-                            ) : (
-                              <SelectValue />
-                            )}
-                          </SelectTrigger>
-                          <SelectContent>
-                            {locations.length > 0 &&
-                              locations.map((location) => (
-                                <SelectItem
-                                  value={location.locationId.toString()}
-                                  key={location.locationId}
-                                >
-                                  {location.locationName}
-                                </SelectItem>
-                              ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="username"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Kullanıcı Adı</FormLabel>
-                      <FormControl>
-                        <Input placeholder="" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex items-center justify-between">
-                        <div>Şifre</div>
-                      </FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <p className="text-danger-500">{error && error}</p>
-                <Button
-                  disabled={locationLoading || formLoading}
-                  variant="primary"
-                  type="submit"
-                >
-                  {formLoading || locationLoading ? (
-                    <div className="w-full flex items-center justify-center">
-                      <LoadingSpinner />
-                    </div>
-                  ) : (
-                    <p>Giriş Yap</p>
-                  )}
-                </Button>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
+                {formLoading || locationLoading ? (
+                  <div className="w-full flex items-center justify-center">
+                    <LoadingSpinner />
+                  </div>
+                ) : (
+                  <p>Giriş Yap</p>
+                )}
+              </Button>
+            </form>
+          </Form>
+        </FormContainerCard>
       </div>
       <div className="flex flex-col gap-4 items-center bg-gradient-to-b from-slate-700 to-slate-900 relative">
         <div className="bottom-5 left-5 absolute">
@@ -188,8 +181,11 @@ const Login = ({
                 variant="outline"
                 size="4xl"
                 className=""
+                asChild
               >
-                {module.moduleName}
+                <Link href={`modules/${routeNameGenerator(module.moduleName)}`}>
+                  {module.moduleName}
+                </Link>
               </Button>
             ))
           )}
