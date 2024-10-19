@@ -70,11 +70,26 @@ const Login = ({
 
   return (
     <div className="grid grid-cols-2 w-full h-screen bg-slate-50">
-      <div className="flex flex-col items-center justify-center gap-8 animate-slide-in-from-left relative">
-        <div className="absolute top-5 left-5">
+      <div className="md:col-span-1 md:pb-0 py-5 md:px-0 px-5  col-span-2 flex flex-col items-center justify-center gap-8 animate-slide-in-from-left relative">
+        <div className="md:absolute top-5 left-5 mt-5 md:mt-0">
           <Logo />
         </div>
-        <FormContainerCard title={"Personel Girişi"} className="w-1/2">
+        <div className="md:hidden block">
+          <Button
+            disabled={locationLoading}
+            variant="primary"
+            size={"icon"}
+            asChild
+          >
+            <Link href={"/admin-login"}>
+              <BriefcaseIcon className="h-8 w-8" />
+            </Link>
+          </Button>
+        </div>
+        <FormContainerCard
+          title={"Personel Girişi"}
+          className="md:w-1/2 w-full"
+        >
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
@@ -180,8 +195,8 @@ const Login = ({
           </Form>
         </FormContainerCard>
       </div>
-      <div className="flex flex-col gap-4 items-center bg-gradient-to-b from-slate-700 to-slate-900 relative">
-        <div className="bottom-5 left-5 absolute">
+      <div className="md:col-span-1 md:pb-0 md:px-0 px-5 py-5 col-span-2  flex flex-col gap-4 items-center bg-gradient-to-b from-slate-700 to-slate-900 relative">
+        <div className="bottom-5 left-5 hidden md:block absolute">
           <Button
             disabled={locationLoading}
             variant="primary"
