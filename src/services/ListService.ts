@@ -7,7 +7,7 @@ export class ListService {
     return await api.get(`/location`, {});
   }
   public async getModules(): Promise<ModuleData> {
-    return await api.get(`/modul`, {});
+    return await api.get(`/module`, {});
   }
 }
 
