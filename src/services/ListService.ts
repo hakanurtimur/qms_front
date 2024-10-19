@@ -7,7 +7,7 @@ export class ListService {
     return await api.get(`/location`, {});
   }
   public async getModules(): Promise<ModuleData> {
-    return await api.get(`/module`, {});
+    return await api.get(`/module/get-non-login-module-list`, {});
   }
 }
 

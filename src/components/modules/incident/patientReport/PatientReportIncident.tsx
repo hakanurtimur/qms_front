@@ -1,3 +1,7 @@
+"use client";
+import { IncidentFormPatient, SIncidentForm } from "@/models/incidentForm";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -6,39 +10,42 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  PatientFeedbackForm,
-  SPatientFeedbackForm,
-} from "@/models/patientFeedbackForm";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 interface Props {
   containerRef: React.RefObject<HTMLDivElement>;
-  onSubmitPatient: (data: PatientFeedbackForm) => void;
-  patientModel: PatientFeedbackForm;
-  onReset: () => void;
+  patientFormModel: IncidentFormPatient | null;
+  onPatientReportSubmit: (data: IncidentFormPatient) => void;
 }
 
-const PatientInformation = ({
+const PatientReportIncident = ({
   containerRef,
-  onSubmitPatient: onSubmit,
-  patientModel,
-  onReset,
+  patientFormModel,
+  onPatientReportSubmit: onSubmit,
 }: Props) => {
-  const form = useForm<PatientFeedbackForm>({
-    resolver: zodResolver(SPatientFeedbackForm),
+  const form = useForm<IncidentFormPatient>({
+    resolver: zodResolver(SIncidentForm),
     defaultValues: {
-      name: patientModel.name,
-      bornDate: patientModel.bornDate,
-      patientNum: patientModel.patientNum,
-      phoneNum: patientModel.phoneNum,
-      description: patientModel.description,
+      name: patientFormModel?.name || "",
+      bornDate: patientFormModel?.bornDate || "",
+      patientNum: patientFormModel?.patientNum || "",
+      date: "",
+      incidentPlace: "",
+      incidentDescription: "",
+      file: undefined,
     },
   });
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      form.setValue("file", files[0]);
+    } else {
+      form.setValue("file", undefined);
+    }
+  };
 
   return (
     <Form {...form}>
@@ -52,7 +59,7 @@ const PatientInformation = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel className={"flex items-center justify-between"}>
-                <div>Hasta Adı</div>
+                Hasta Adı
               </FormLabel>
               <FormControl>
                 <Input {...field} readOnly />
@@ -67,7 +74,7 @@ const PatientInformation = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel className={"flex items-center justify-between"}>
-                <div>Doğum Tarihi</div>
+                Doğum Tarihi
               </FormLabel>
               <FormControl>
                 <Input {...field} readOnly />
@@ -82,7 +89,7 @@ const PatientInformation = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel className={"flex items-center justify-between"}>
-                <div>Hasta No</div>
+                Hasta No
               </FormLabel>
               <FormControl>
                 <Input {...field} readOnly />
@@ -93,11 +100,26 @@ const PatientInformation = ({
         />
         <FormField
           control={form.control}
-          name={"phoneNum"}
+          name={"date"}
           render={({ field }) => (
             <FormItem>
               <FormLabel className={"flex items-center justify-between"}>
-                <div>Telefon Numarası</div>
+                Olay Tarihi
+              </FormLabel>
+              <FormControl>
+                <Input {...field} type={"date"} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name={"incidentPlace"}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className={"flex items-center justify-between"}>
+                Olay Yeri
               </FormLabel>
               <FormControl>
                 <Input {...field} />
@@ -108,26 +130,11 @@ const PatientInformation = ({
         />
         <FormField
           control={form.control}
-          name={"reportType"}
+          name={"incidentDescription"}
           render={({ field }) => (
             <FormItem>
               <FormLabel className={"flex items-center justify-between"}>
-                <div>Bildirim Türü</div>
-              </FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={"description"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className={"flex items-center justify-between"}>
-                <div>Açıklama</div>
+                Açıklama
               </FormLabel>
               <FormControl>
                 <Textarea {...field} />
@@ -136,18 +143,39 @@ const PatientInformation = ({
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name={"file"}
+          render={() => (
+            <FormItem>
+              <FormLabel className={"flex items-center justify-between"}>
+                Dosya
+              </FormLabel>
+              <FormControl>
+                <Input onChange={handleFileChange} type={"file"} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <div
           ref={containerRef}
-          className="w-full flex items-center justify-end gap-4"
+          className={"w-full flex items-center justify-end gap-4"}
         >
-          <Button onClick={onReset} variant="outline" type={"button"}>
+          <Button
+            onClick={() => {
+              form.reset();
+            }}
+            variant={"outline"}
+            type={"button"}
+          >
             Temizle
           </Button>
-          <Button type={"submit"}>Kaydet</Button>
+          <Button type={"submit"}>Gönder</Button>
         </div>
       </form>
     </Form>
   );
 };
 
-export default PatientInformation;
+export default PatientReportIncident;

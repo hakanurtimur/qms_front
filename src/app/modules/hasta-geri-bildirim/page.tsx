@@ -32,7 +32,6 @@ const Page = () => {
 
   const handleReset = () => {
     setPatientModel(null);
-    console.log("WORKS");
   };
 
   return (
