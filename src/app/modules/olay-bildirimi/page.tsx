@@ -22,7 +22,7 @@ const DUMMY_PATIENT: IncidentFormPatient = {
   file: undefined,
 };
 
-export function Page() {
+const Page = () => {
   const [patient, setPatient] = useState<IncidentFormPatient | null>(null);
   const handleSubmitPatientFilter = (data: IncidentFormFilter) => {
     console.log(data);
@@ -69,6 +69,6 @@ export function Page() {
       </Tabs>
     </div>
   );
-}
+};
 
 export default Page;

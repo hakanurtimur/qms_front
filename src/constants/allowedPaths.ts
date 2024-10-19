@@ -2,7 +2,7 @@ export const allowedPaths: (string | RegExp)[] = [
   "/login",
   "/admin-login",
   "/modules/hasta-geri-bildirim",
-  "/modules/olay-bildirim",
+  "/modules/olay-bildirimi",
   "/modules/dokumanlar",
 ];
 
