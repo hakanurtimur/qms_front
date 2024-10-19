@@ -46,7 +46,7 @@ const Page = () => {
   };
   return (
     <div className="w-full flex items-center justify-center">
-      <Tabs defaultValue="general" className="w-1/2">
+      <Tabs defaultValue="general" className="md:w-1/2 w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="general">Genel</TabsTrigger>
           <TabsTrigger value="patient">Hasta</TabsTrigger>
