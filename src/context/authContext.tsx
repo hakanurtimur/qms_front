@@ -56,6 +56,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     if (!isPathAllowed(pathname) && isAuthenticated === false) {
       router.push("/login");
     }
+    // TODO: role check
   }, [pathname, isAuthenticated, router]);
 
   return (

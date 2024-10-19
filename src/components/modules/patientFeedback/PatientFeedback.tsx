@@ -44,13 +44,13 @@ const PatientFeedback = ({
             onSubmitFilter={(data) => {
               onSubmitFilter(data);
             }}
+            onReset={onReset}
           />
           {patientModel && (
             <PatientInformation
               containerRef={containerRef}
               onSubmitPatient={onSubmitPatient}
               patientModel={patientModel}
-              onReset={onReset}
             />
           )}
         </FormContainerCard>

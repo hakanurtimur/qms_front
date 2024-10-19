@@ -20,14 +20,12 @@ interface Props {
   containerRef: React.RefObject<HTMLDivElement>;
   onSubmitPatient: (data: PatientFeedbackForm) => void;
   patientModel: PatientFeedbackForm;
-  onReset: () => void;
 }
 
 const PatientInformation = ({
   containerRef,
   onSubmitPatient: onSubmit,
   patientModel,
-  onReset,
 }: Props) => {
   const form = useForm<PatientFeedbackForm>({
     resolver: zodResolver(SPatientFeedbackForm),
@@ -35,8 +33,9 @@ const PatientInformation = ({
       name: patientModel.name,
       bornDate: patientModel.bornDate,
       patientNum: patientModel.patientNum,
-      phoneNum: patientModel.phoneNum,
-      description: patientModel.description,
+      phoneNum: patientModel.phoneNum ?? "",
+      description: patientModel.description ?? "",
+      reportType: patientModel.reportType ?? "",
     },
   });
 
@@ -46,104 +45,113 @@ const PatientInformation = ({
         onSubmit={form.handleSubmit(onSubmit)}
         className={"space-y-8 animate-slide-in-from-bottom"}
       >
-        <FormField
-          control={form.control}
-          name={"name"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className={"flex items-center justify-between"}>
-                <div>Hasta Adı</div>
-              </FormLabel>
-              <FormControl>
-                <Input {...field} readOnly />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={"bornDate"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className={"flex items-center justify-between"}>
-                <div>Doğum Tarihi</div>
-              </FormLabel>
-              <FormControl>
-                <Input {...field} readOnly />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={"patientNum"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className={"flex items-center justify-between"}>
-                <div>Hasta No</div>
-              </FormLabel>
-              <FormControl>
-                <Input {...field} readOnly />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={"phoneNum"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className={"flex items-center justify-between"}>
-                <div>Telefon Numarası</div>
-              </FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={"reportType"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className={"flex items-center justify-between"}>
-                <div>Bildirim Türü</div>
-              </FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={"description"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className={"flex items-center justify-between"}>
-                <div>Açıklama</div>
-              </FormLabel>
-              <FormControl>
-                <Textarea {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div
-          ref={containerRef}
-          className="w-full flex items-center justify-end gap-4"
-        >
-          <Button onClick={onReset} variant="outline" type={"button"}>
-            Temizle
-          </Button>
-          <Button type={"submit"}>Kaydet</Button>
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-8 items-start">
+          <FormField
+            control={form.control}
+            name={"name"}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className={"flex items-center justify-between"}>
+                  <div>Hasta Adı</div>
+                </FormLabel>
+                <FormControl>
+                  <Input className={"bg-slate-100"} {...field} readOnly />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name={"bornDate"}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className={"flex items-center justify-between"}>
+                  <div>Doğum Tarihi</div>
+                </FormLabel>
+                <FormControl>
+                  <Input className={"bg-slate-100"} {...field} readOnly />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name={"patientNum"}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className={"flex items-center justify-between"}>
+                  <div>Hasta No</div>
+                </FormLabel>
+                <FormControl>
+                  <Input className={"bg-slate-100"} {...field} readOnly />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name={"phoneNum"}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className={"flex items-center justify-between"}>
+                  <div>Telefon Numarası</div>
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name={"description"}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className={"flex items-center justify-between"}>
+                  <div>Açıklama</div>
+                </FormLabel>
+                <FormControl>
+                  <Textarea rows={4} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name={"reportType"}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className={"flex items-center justify-between"}>
+                  <div>Bildirim Türü</div>
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div></div>
+          <div
+            ref={containerRef}
+            className="w-full flex justify-end gap-4 items-end"
+          >
+            <Button
+              onClick={() => {
+                form.reset();
+              }}
+              variant="outline"
+              type={"button"}
+            >
+              Temizle
+            </Button>
+            <Button type={"submit"}>Kaydet</Button>
+          </div>
         </div>
       </form>
     </Form>

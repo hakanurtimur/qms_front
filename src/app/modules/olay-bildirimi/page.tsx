@@ -16,6 +16,7 @@ const DUMMY_PATIENT: IncidentFormPatient = {
   name: "Hakan Urtimur",
   bornDate: "04.01.1997",
   patientNum: "12345678901",
+  phoneNum: "0532 123 45 67",
   date: "",
   incidentPlace: "",
   incidentDescription: "",
@@ -46,7 +47,7 @@ const Page = () => {
   };
   return (
     <div className="w-full flex items-center justify-center">
-      <Tabs defaultValue="general" className="md:w-1/2 w-full">
+      <Tabs defaultValue="patient" className="md:w-1/2 w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="general">Genel</TabsTrigger>
           <TabsTrigger value="patient">Hasta</TabsTrigger>

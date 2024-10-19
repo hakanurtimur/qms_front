@@ -20,6 +20,7 @@ class AuthService {
     });
     const authData = response.data as AuthData;
     const user = parseJwt(authData.accessToken);
+    console.log(user);
     tokenService.setAuthData(response.data as AuthData);
     return user;
   }

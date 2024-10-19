@@ -86,7 +86,7 @@ const DashboardLayout = ({ navItems, open, onSetOpen, children }: Props) => {
             </SheetTrigger>
             <SheetContent
               side="left"
-              className="sm:max-w-xs bg-primary-900 text-slate-50"
+              className="sm:max-w-xs bg-primary-900 text-primary-50"
             >
               <nav className="flex flex-col gap-4 px-2 sm:py-5">
                 <div className="p-5">

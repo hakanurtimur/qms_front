@@ -33,33 +33,36 @@ const PatientReportFilter = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className={"space-y-8"}>
-        <FormField
-          control={form.control}
-          name={"protocolNum"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className={"flex items-center justify-between"}>
-                Protokol No
-              </FormLabel>
-              <FormControl>
-                <Input {...field} type={"number"} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="flex items-center justify-end w-full gap-4">
-          <Button
-            onClick={() => {
-              onResetPatientForm();
-              form.reset();
-            }}
-            type={"button"}
-            variant={"outline"}
-          >
-            Temizle
-          </Button>
-          <Button type={"submit"}>Getir</Button>
+        <div className="grid grid-cols-2 w-full gap-8 items-end">
+          <FormField
+            control={form.control}
+            name={"protocolNum"}
+            render={({ field }) => (
+              <FormItem className="flex-grow-1 flex-shrink-0">
+                <FormLabel className={"flex items-center justify-between"}>
+                  Protokol No
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} type={"number"} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="flex items-center justify-end  gap-4">
+            <Button
+              onClick={() => {
+                onResetPatientForm();
+                form.reset();
+              }}
+              type={"button"}
+              variant={"outline"}
+            >
+              Sıfırla
+            </Button>
+            <Button type={"submit"}>Getir</Button>
+          </div>
         </div>
       </form>
     </Form>

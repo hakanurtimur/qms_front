@@ -7,9 +7,9 @@ interface Props {
 }
 const FormContainerCard = ({ title, className, children }: Props) => {
   return (
-    <Card className={`border-slate-900 border-4 ${className}`}>
+    <Card className={`border-slate-900 border-4 p-10 ${className}`}>
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl">{title}</CardTitle>
+        <CardTitle className="text-2xl mb-10">{title}</CardTitle>
       </CardHeader>
       <CardContent>{children}</CardContent>
     </Card>

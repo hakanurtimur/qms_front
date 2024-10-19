@@ -69,7 +69,7 @@ const Login = ({
   }, [form, locationLoading, locations]);
 
   return (
-    <div className="grid grid-cols-2 w-full h-screen bg-slate-50">
+    <div className="grid grid-cols-2 w-full h-screen bg-primary-50">
       <div className="md:col-span-1 md:pb-0 py-5 md:px-0 px-5  col-span-2 flex flex-col items-center justify-center gap-8 animate-slide-in-from-left relative">
         <div className="md:absolute top-5 left-5 mt-5 md:mt-0">
           <Logo />
@@ -177,6 +177,9 @@ const Login = ({
                   </FormItem>
                 )}
               />
+              <div className="flex items-en justify-end">
+                <p className="text-primary-900 text-sm">Şifremi Unuttum</p>
+              </div>
               <p className="text-danger-500">{error && error}</p>
               <Button
                 disabled={locationLoading || formLoading}

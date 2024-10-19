@@ -19,9 +19,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 interface Props {
   onSubmitFilter: (data: PatientFeedbackFilterForm) => void;
+  onReset: () => void;
 }
 
-const PatientFiltering = ({ onSubmitFilter: onSubmit }: Props) => {
+const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
   const form = useForm<PatientFeedbackFilterForm>({
     resolver: zodResolver(SPatientFeedbackFilterForm),
     defaultValues: {
@@ -33,58 +34,70 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit }: Props) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className={"space-y-8"}>
-        <FormField
-          control={form.control}
-          name={"interviewer"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className={"flex items-center justify-between"}>
-                <div>Görüşü Yapan</div>
-              </FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+        <div className="grid md:grid-cols-2 grid-cols-1 w-full gap-8 items-start mb-8">
+          <FormField
+            control={form.control}
+            name={"interviewer"}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className={"flex items-center justify-between"}>
+                  <div>Görüşü Yapan</div>
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name={"protocolNum"}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className={"flex items-center justify-between"}>
+                  Protokol No
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} type={"number"} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name={"patientTC"}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className={"flex items-center justify-between"}>
+                  Hasta TC
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} type={"number"} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {form.formState.errors.general && (
+            <p className="text-danger-500 text-sm">
+              {form.formState.errors.general.message}
+            </p>
           )}
-        />
-        <FormField
-          control={form.control}
-          name={"protocolNum"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className={"flex items-center justify-between"}>
-                Protokol No
-              </FormLabel>
-              <FormControl>
-                <Input {...field} type={"number"} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name={"patientTC"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className={"flex items-center justify-between"}>
-                Hasta TC
-              </FormLabel>
-              <FormControl>
-                <Input {...field} type={"number"} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {form.formState.errors.general && (
-          <p className="text-danger-500 text-sm">
-            {form.formState.errors.general.message}
-          </p>
-        )}
-        <div className="w-full flex items-center justify-end">
-          <Button type={"submit"}>Getir</Button>
+          <div className="w-full flex items-end h-full justify-end gap-4">
+            <Button
+              onClick={() => {
+                onReset();
+                form.reset();
+              }}
+              type={"button"}
+              variant={"outline"}
+            >
+              Sıfırla
+            </Button>
+            <Button type={"submit"}>Getir</Button>
+          </div>
         </div>
       </form>
     </Form>

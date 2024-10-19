@@ -25,6 +25,7 @@ export const SIncidentFormPatient = SIncidentForm.extend({
   name: z.string(),
   bornDate: z.string(),
   patientNum: z.string(),
+  phoneNum: z.string(),
 });
 
 export type IncidentFormPatient = z.infer<typeof SIncidentFormPatient>;

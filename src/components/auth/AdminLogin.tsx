@@ -59,8 +59,8 @@ const AdminLogin = ({
   }, [form, locationLoading, locations]);
 
   return (
-    <div className="grid grid-cols-2 w-full h-screen bg-slate-50">
-      <div className="md:flex hidden flex-col gap-4 items-center bg-gradient-to-b from-slate-800 to-slate-900 relative">
+    <div className="grid grid-cols-2 w-full h-screen bg-primary-50">
+      <div className="md:flex hidden flex-col gap-4 items-center bg-gradient-to-b from-primary-800 to-primary-900 relative">
         <div className="absolute bottom-5 right-5">
           <Button variant="primary" size={"icon"} asChild>
             <Link href={"/login"}>
@@ -171,6 +171,9 @@ const AdminLogin = ({
                   </FormItem>
                 )}
               />
+              <div className="flex items-en justify-end">
+                <p className="text-primary-900 text-sm">Şifremi Unuttum</p>
+              </div>
               <p className="text-danger-500">{error && error}</p>
               <Button
                 disabled={locationLoading || formLoading}
