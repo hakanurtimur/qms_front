@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import tokenService from "@/services/TokenService";
 import authService from "@/services/AuthService";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { User } from "@/models/user";
+import { isPathAllowed } from "@/constants/allowedPaths";
 
 interface AuthContextProps {
   isAuthenticated: boolean | null;
@@ -31,6 +32,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const checkAuth = () => {
@@ -44,6 +46,24 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
     checkAuth();
   }, [router]);
+
+  // Route protection
+  useEffect(() => {
+    if (!isAuthenticated) {
+      if (!isPathAllowed(pathname)) {
+        router.push("/login");
+      }
+    } else {
+      if (
+        pathname === "/login" ||
+        pathname === "/admin-login" ||
+        pathname === "/"
+      ) {
+        // TODO role check
+        router.push("/user");
+      }
+    }
+  }, [pathname, isAuthenticated, router]);
 
   return (
     <AuthContext.Provider

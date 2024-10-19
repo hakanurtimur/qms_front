@@ -29,6 +29,12 @@ class TokenService {
     return currentTime > expirationTime;
   }
 
+  getUser() {
+    const authData = this.getAuthData();
+    if (!authData) return null;
+    return JSON.parse(atob(authData.accessToken.split(".")[1]));
+  }
+
   clearAuthData() {
     localStorage.removeItem(this.storageKey);
   }

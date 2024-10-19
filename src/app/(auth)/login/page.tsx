@@ -7,11 +7,11 @@ import { UserLogin } from "@/models/auth";
 import { useRouter } from "next/navigation";
 import authService from "@/services/AuthService";
 import { toast } from "@/hooks/use-toast";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "@/context/authContext";
 
 const Page = () => {
-  const { onSetAuthenticated, isAuthenticated, onSetUser } = useAuth();
+  const { onSetAuthenticated, onSetUser } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -24,12 +24,6 @@ const Page = () => {
     queryKey: ["modules"],
     queryFn: () => listService.getModules(),
   });
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      router.push("/user");
-    }
-  }, [isAuthenticated, router]);
 
   const mutation = useMutation({
     mutationFn: (data: UserLogin) => authService.userLogin(data),
