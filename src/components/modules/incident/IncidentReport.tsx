@@ -1,6 +1,6 @@
 "use client";
 import { IncidentForm, SIncidentForm } from "@/models/incidentForm";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormContainerCard from "@/components/ui/formContainerCard";
 import {
@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Dropzone } from "@/components/ui/dropZone";
 
 interface Props {
   onSubmit: (data: IncidentForm) => void;
@@ -29,15 +30,6 @@ const IncidentReport = ({ onSubmit }: Props) => {
       file: undefined,
     },
   });
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      form.setValue("file", files[0]);
-    } else {
-      form.setValue("file", undefined);
-    }
-  };
 
   return (
     <FormContainerCard title={"Olay Bildirimi"}>
@@ -88,16 +80,20 @@ const IncidentReport = ({ onSubmit }: Props) => {
               </FormItem>
             )}
           />
-          <FormField
+          <Controller
             control={form.control}
-            name={"file"}
-            render={() => (
+            name="file"
+            render={({ field }) => (
               <FormItem>
-                <FormLabel className={"flex items-center justify-between"}>
+                <FormLabel className="flex items-center justify-between">
                   Dosya
                 </FormLabel>
                 <FormControl>
-                  <Input onChange={handleFileChange} type={"file"} />
+                  <Dropzone
+                    onChange={(file) => field.onChange(file)}
+                    className="min-h-28"
+                    fileExtension="png"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
