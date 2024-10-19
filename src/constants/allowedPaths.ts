@@ -1,16 +1,11 @@
 export const allowedPaths: (string | RegExp)[] = [
   "/login",
   "/admin-login",
-  /^\/modules\/?.*/,
+  "/modules/hasta-geri-bildirim",
+  "/modules/olay-bildirim",
+  "/modules/dokumanlar",
 ];
 
-export const isPathAllowed = (pathname: string): boolean => {
-  return allowedPaths.some((allowedPath) => {
-    if (typeof allowedPath === "string") {
-      return allowedPath === pathname;
-    } else {
-      return allowedPath.test(pathname);
-    }
-    return false;
-  });
+export const isPathAllowed = (pathname: string) => {
+  if (allowedPaths.includes(pathname)) return true;
 };

@@ -11,7 +11,7 @@ interface Props {
 
 export default function Layout({ children }: Props) {
   const { isAuthenticated } = useAuth();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   return (
     <>
       {!isAuthenticated ? (

@@ -140,6 +140,32 @@ export const adminNavItems = [
     icon: UserGroupIcon,
     label: "Kullanıcı Yönetimi",
     href: "/kullanici-yonetimi",
-    items: [],
+    items: [
+      {
+        icon: DocumentTextIcon,
+        label: "Lokasyon İşlem",
+        href: "/kullanici-yonetimi/lokasyon-islem",
+      },
+      {
+        icon: DocumentTextIcon,
+        label: "Personel İşlem",
+        href: "/kullanici-yonetimi/personel-islem",
+      },
+      {
+        icon: DocumentTextIcon,
+        label: "Rol İşlem",
+        href: "/kullanici-yonetimi/rol-islem",
+      },
+      {
+        icon: DocumentTextIcon,
+        label: "Yetkilendirme",
+        href: "/kullanici-yonetimi/yetkilendirme",
+      },
+      {
+        icon: DocumentTextIcon,
+        label: "Tarihçe",
+        href: "/kullanici-yonetimi/tarihce",
+      },
+    ],
   },
 ];

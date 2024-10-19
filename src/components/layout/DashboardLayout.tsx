@@ -14,6 +14,15 @@ import { Badge } from "@/components/ui/badge";
 import authService from "@/services/AuthService";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/authContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 interface Props {
   navItems: {
@@ -117,14 +126,40 @@ const DashboardLayout = ({ navItems, open, onSetOpen, children }: Props) => {
                 3
               </Badge>
             </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="overflow-hidden rounded-full"
-            >
-              <UserIcon className="h-5 w-5" />
-            </Button>
-            <div className="text-white">{user && user.username}</div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant={"darkGhost"}
+                  className="flex w-fit justify-start"
+                >
+                  <UserIcon className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-48">
+                <DropdownMenuLabel>{user?.username}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link
+                    href={"/profile"}
+                    className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                  >
+                    Profil
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <div
+                    onClick={async () => {
+                      await authService.logout();
+                      onSetAuthenticated(false);
+                      router.push("/login");
+                    }}
+                    className="cursor-pointer flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                  >
+                    Çıkış Yap
+                  </div>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
           <Button
             size={"icon"}

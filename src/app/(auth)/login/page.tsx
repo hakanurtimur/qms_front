@@ -7,13 +7,16 @@ import { UserLogin } from "@/models/auth";
 import { useRouter } from "next/navigation";
 import authService from "@/services/AuthService";
 import { toast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/context/authContext";
+import tokenService from "@/services/TokenService";
+import LoadingScreen from "@/components/commons/LoadingScreen";
 
 const Page = () => {
   const { onSetAuthenticated, onSetUser } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   const query = useQuery({
     queryKey: ["locations"],
@@ -25,6 +28,14 @@ const Page = () => {
     queryFn: () => listService.getModules(),
   });
 
+  useEffect(() => {
+    const authToken = !tokenService.isAccessTokenExpired();
+    if (authToken) {
+      router.push("/user");
+    }
+    setLoading(false);
+  }, [router]);
+
   const mutation = useMutation({
     mutationFn: (data: UserLogin) => authService.userLogin(data),
     onSuccess: (data) => {
@@ -32,9 +43,9 @@ const Page = () => {
         variant: "success",
         description: "Başarıyla giriş yapıldı",
       });
-      router.push("/user");
       onSetAuthenticated(true);
       onSetUser(data);
+      router.push("/user");
     },
     onError: (error) => {
       toast({
@@ -51,15 +62,19 @@ const Page = () => {
 
   return (
     <div>
-      <Login
-        locations={query.data?.data ?? []}
-        locationLoading={query.isPending}
-        modules={moduleQuery.data?.data ?? []}
-        moduleLoading={moduleQuery.isPending}
-        onSubmit={handleSubmit}
-        error={error}
-        formLoading={mutation.isPending}
-      />
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <Login
+          locations={query.data?.data ?? []}
+          locationLoading={query.isPending}
+          modules={moduleQuery.data?.data ?? []}
+          moduleLoading={moduleQuery.isPending}
+          onSubmit={handleSubmit}
+          error={error}
+          formLoading={mutation.isPending}
+        />
+      )}
     </div>
   );
 };

@@ -13,10 +13,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/ui/Logo";
-import { UsersIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, EyeSlashIcon, UsersIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { Location } from "@/models/location";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -42,6 +42,7 @@ const AdminLogin = ({
   error,
   formLoading,
 }: Props) => {
+  const [showPassword, setShowPassword] = useState(false);
   const form = useForm<ManagerLogin>({
     resolver: zodResolver(SManagerLogin),
     defaultValues: {
@@ -136,9 +137,26 @@ const AdminLogin = ({
                     <FormLabel className="flex items-center justify-between">
                       <div>Şifre</div>
                     </FormLabel>
-                    <FormControl>
-                      <Input type="password" placeholder="" {...field} />
-                    </FormControl>
+                    <div className="relative">
+                      <FormControl className="relative">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder=""
+                          {...field}
+                        />
+                      </FormControl>
+                      {!showPassword ? (
+                        <EyeIcon
+                          className="h-5 w-5 absolute right-2 top-2 cursor-pointer"
+                          onClick={() => setShowPassword(true)}
+                        />
+                      ) : (
+                        <EyeSlashIcon
+                          className="h-5 w-5 absolute right-2 top-2 cursor-pointer"
+                          onClick={() => setShowPassword(false)}
+                        />
+                      )}
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}

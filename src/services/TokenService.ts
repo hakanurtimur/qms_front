@@ -1,3 +1,5 @@
+import { parseJwt } from "@/models/user";
+
 export interface AuthData {
   accessToken: string;
   accessTokenExpiration: string;
@@ -32,7 +34,7 @@ class TokenService {
   getUser() {
     const authData = this.getAuthData();
     if (!authData) return null;
-    return JSON.parse(atob(authData.accessToken.split(".")[1]));
+    return parseJwt(authData.accessToken);
   }
 
   clearAuthData() {

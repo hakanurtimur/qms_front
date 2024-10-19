@@ -20,10 +20,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BriefcaseIcon } from "@heroicons/react/24/outline";
+import {
+  BriefcaseIcon,
+  EyeIcon,
+  EyeSlashIcon,
+} from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { Location } from "@/models/location";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import LoadingSpinner from "@/components/ui/loadingSpinner";
 import { Module } from "@/models/module";
 import { routeNameGenerator } from "@/utils/routeNameGenerator";
@@ -56,6 +60,7 @@ const Login = ({
       password: "",
     },
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (!locationLoading && locations.length > 0) {
@@ -133,9 +138,26 @@ const Login = ({
                     <FormLabel className="flex items-center justify-between">
                       <div>Şifre</div>
                     </FormLabel>
-                    <FormControl>
-                      <Input type="password" placeholder="" {...field} />
-                    </FormControl>
+                    <div className="relative">
+                      <FormControl className="relative">
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder=""
+                          {...field}
+                        />
+                      </FormControl>
+                      {!showPassword ? (
+                        <EyeIcon
+                          className="h-5 w-5 absolute right-2 top-2 cursor-pointer"
+                          onClick={() => setShowPassword(true)}
+                        />
+                      ) : (
+                        <EyeSlashIcon
+                          className="h-5 w-5 absolute right-2 top-2 cursor-pointer"
+                          onClick={() => setShowPassword(false)}
+                        />
+                      )}
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}

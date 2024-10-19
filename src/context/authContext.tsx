@@ -34,34 +34,27 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
+  const checkAuth = () => {
+    if (tokenService.isAccessTokenExpired()) {
+      setIsAuthenticated(false);
+      authService.logout();
+    } else {
+      setIsAuthenticated(true);
+      setUser(tokenService.getUser());
+    }
+  };
+
+  console.log(user);
+
   useEffect(() => {
-    const checkAuth = () => {
-      if (tokenService.isAccessTokenExpired()) {
-        setIsAuthenticated(false);
-        authService.logout();
-        router.push("/login");
-      } else {
-        setIsAuthenticated(true);
-      }
-    };
     checkAuth();
-  }, [router]);
+  }, []);
 
   // Route protection
+
   useEffect(() => {
-    if (!isAuthenticated) {
-      if (!isPathAllowed(pathname)) {
-        router.push("/login");
-      }
-    } else {
-      if (
-        pathname === "/login" ||
-        pathname === "/admin-login" ||
-        pathname === "/"
-      ) {
-        // TODO role check
-        router.push("/user");
-      }
+    if (!isPathAllowed(pathname) && isAuthenticated === false) {
+      router.push("/login");
     }
   }, [pathname, isAuthenticated, router]);
 
