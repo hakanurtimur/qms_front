@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import LoadingSpinner from "@/components/ui/loadingSpinner";
 import FormContainerCard from "@/components/ui/formContainerCard";
+import CagriButon from "@/components/ui/cagriButon";
 
 interface Props {
   locations: Location[];
@@ -72,6 +73,9 @@ const AdminLogin = ({
       <div className="md:col-span-1 md:pb-0 md:px-0 px-5 py-5 col-span-2 flex flex-col items-center justify-center gap-8 animate-slide-in-from-right relative">
         <div className="md:absolute right-5 top-5">
           <Logo />
+        </div>
+        <div className="md:absolute bottom-5 right-5">
+          <CagriButon />
         </div>
         <div className="md:hidden block">
           <Button variant="primary" size={"icon"} asChild>

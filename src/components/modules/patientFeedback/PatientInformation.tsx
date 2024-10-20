@@ -15,6 +15,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import Combobox from "@/components/ui/combobox";
+import { reportTypes } from "@/constants/dummy_combobox_items";
 
 interface Props {
   containerRef: React.RefObject<HTMLDivElement>;
@@ -121,20 +123,11 @@ const PatientInformation = ({
               </FormItem>
             )}
           />
-          <FormField
+          <Combobox<PatientFeedbackForm>
             control={form.control}
             name={"reportType"}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className={"flex items-center justify-between"}>
-                  <div>Bildirim Türü</div>
-                </FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label={"Bildirim Türü Seçiniz"}
+            options={reportTypes}
           />
           <div></div>
           <div

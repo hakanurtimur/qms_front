@@ -18,6 +18,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dropzone } from "@/components/ui/dropZone";
+import Combobox from "@/components/ui/combobox";
+import { nameSurnamePairs } from "@/constants/dummy_combobox_items";
 
 interface Props {
   onSubmit: (data: IncidentFormEmployee) => void;
@@ -39,20 +41,11 @@ const EmployeeReport = ({ onSubmit }: Props) => {
     <FormContainerCard title={"Olay Bildirimi"}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className={"space-y-8"}>
-          <FormField
+          <Combobox<IncidentFormEmployee>
             control={form.control}
             name={"employeeName"}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className={"flex items-center justify-between"}>
-                  Olay Bildiren
-                </FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label={"Olay Bildiren"}
+            options={nameSurnamePairs}
           />
           <div className="w-full grid grid-cols-2 gap-4">
             <FormField

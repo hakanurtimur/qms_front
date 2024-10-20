@@ -1,0 +1,33 @@
+export const nameSurnamePairs: { [key: string]: string } = {
+  ahmetYilmaz: "Ahmet Yılmaz",
+  ayseKaya: "Ayşe Kaya",
+  mehmetDemir: "Mehmet Demir",
+  fatmaSahin: "Fatma Şahin",
+  aliCelik: "Ali Çelik",
+  elifKurt: "Elif Kurt",
+  mustafaAydin: "Mustafa Aydın",
+  emineOzkan: "Emine Özkan",
+  omerPolat: "Ömer Polat",
+  zeynepYildirim: "Zeynep Yıldırım",
+  hasanKilic: "Hasan Kılıç",
+  merveErdem: "Merve Erdem",
+  selimArslan: "Selim Arslan",
+  dilaraTuran: "Dilara Turan",
+  burakKara: "Burak Kara",
+  sedaYildiz: "Seda Yıldız",
+  hakanCetin: "Hakan Çetin",
+  aylaKorkmaz: "Ayla Korkmaz",
+  muratOzturk: "Murat Öztürk",
+  nurGunes: "Nur Güneş",
+  canEkinci: "Can Ekinci",
+  esraUzun: "Esra Uzun",
+  yusufAksoy: "Yusuf Aksoy",
+  melisSari: "Melis Sarı",
+};
+
+export const reportTypes: { [key: string]: string } = {
+  tesekkur: "Teşekkür",
+  sikayet: "Şikayet",
+  oneri: "Öneri",
+  talep: "Talep",
+};

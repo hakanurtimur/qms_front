@@ -32,6 +32,7 @@ import LoadingSpinner from "@/components/ui/loadingSpinner";
 import { Module } from "@/models/module";
 import { routeNameGenerator } from "@/utils/routeNameGenerator";
 import FormContainerCard from "@/components/ui/formContainerCard";
+import CagriButon from "@/components/ui/cagriButon";
 
 interface Props {
   locations: Location[];
@@ -73,6 +74,9 @@ const Login = ({
       <div className="md:col-span-1 md:pb-0 py-5 md:px-0 px-5  col-span-2 flex flex-col items-center justify-center gap-8 animate-slide-in-from-left relative">
         <div className="md:absolute top-5 left-5 mt-5 md:mt-0">
           <Logo />
+        </div>
+        <div className="md:absolute bottom-5 left-5">
+          <CagriButon />
         </div>
         <div className="md:hidden block">
           <Button

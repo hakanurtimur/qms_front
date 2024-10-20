@@ -16,6 +16,8 @@ import {
   SPatientFeedbackFilterForm,
 } from "@/models/patientFeedbackForm";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Combobox from "@/components/ui/combobox";
+import { nameSurnamePairs } from "@/constants/dummy_combobox_items";
 
 interface Props {
   onSubmitFilter: (data: PatientFeedbackFilterForm) => void;
@@ -31,24 +33,16 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
       patientTC: "",
     },
   });
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className={"space-y-8"}>
         <div className="grid md:grid-cols-2 grid-cols-1 w-full gap-8 items-start mb-8">
-          <FormField
+          <Combobox<PatientFeedbackFilterForm>
             control={form.control}
             name={"interviewer"}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className={"flex items-center justify-between"}>
-                  <div>Görüşü Yapan</div>
-                </FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label={"Görüşü Yapan"}
+            options={nameSurnamePairs}
           />
           <FormField
             control={form.control}
