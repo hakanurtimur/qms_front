@@ -64,8 +64,8 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className=" w-full overflow-scroll flex items-center justify-center">
-      <div className="rounded-md border max-w-6xl min-w-[800px]">
+    <div className="w-full overflow-scroll flex items-center justify-center">
+      <div className="rounded-md border w-full max-w-[1600px] min-w-[800px]">
         <div className="flex items-center py-4 px-4 justify-between gap-10">
           <Input
             name="categoryName"
