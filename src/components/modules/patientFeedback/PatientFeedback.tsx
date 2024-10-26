@@ -6,7 +6,7 @@ import {
 } from "@/models/patientFeedbackForm";
 import PatientFiltering from "@/components/modules/patientFeedback/PatientFiltering";
 import PatientInformation from "@/components/modules/patientFeedback/PatientInformation";
-import FormContainerCard from "@/components/ui/formContainerCard";
+import FormContainerCard from "@/components/ui/form-container-card";
 import { useEffect, useRef } from "react";
 
 interface Props {

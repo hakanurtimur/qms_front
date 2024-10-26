@@ -2,7 +2,7 @@
 import { IncidentForm, SIncidentForm } from "@/models/incidentForm";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormContainerCard from "@/components/ui/formContainerCard";
+import FormContainerCard from "@/components/ui/form-container-card";
 import {
   Form,
   FormControl,

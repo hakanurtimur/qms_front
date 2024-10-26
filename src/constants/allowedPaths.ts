@@ -1,9 +1,9 @@
 export const allowedPaths: (string | RegExp)[] = [
   "/login",
   "/admin-login",
-  "/modules/hasta-geri-bildirim",
-  "/modules/olay-bildirimi",
-  "/modules/dokumanlar",
+  "/modules/1",
+  "/modules/2",
+  "/modules/3",
 ];
 
 export const isPathAllowed = (pathname: string) => {

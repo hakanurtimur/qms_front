@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import FormContainerCard from "@/components/ui/formContainerCard";
+import FormContainerCard from "@/components/ui/form-container-card";
 import PatientReportFilter from "@/components/modules/incident/patientReport/PatientReportFilter";
 import PatientReportIncident from "@/components/modules/incident/patientReport/PatientReportIncident";
 import { IncidentFormFilter, IncidentFormPatient } from "@/models/incidentForm";

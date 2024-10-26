@@ -1,5 +1,5 @@
 import Logo from "@/components/ui/Logo";
-import LoadingSpinner from "@/components/ui/loadingSpinner";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 
 const LoadingScreen = () => {
   return (

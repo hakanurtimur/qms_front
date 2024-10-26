@@ -1,13 +1,11 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 
-export const BASE_PATH = "/api".replace(/\/+$/, "");
-
 class ApiService {
   private api: AxiosInstance;
 
   constructor() {
     this.api = axios.create({
-      baseURL: BASE_PATH,
+      baseURL: "/",
       headers: {
         "Content-Type": "application/json",
       },
@@ -39,7 +37,18 @@ class ApiService {
     path: string,
     params?: Record<string, unknown>,
   ): Promise<R> {
-    const url = BASE_PATH + path;
+    const url = `/api/${path}`;
+    console.log(url);
+    const response = await this.api.get<R>(url, { params });
+    return response.data;
+  }
+  // GET PUBLIC
+  public async getPublic<T, R = AxiosResponse<T>>(
+    path: string,
+    params?: Record<string, unknown>,
+  ): Promise<R> {
+    const url = `/public/${path}`;
+    console.log(url);
     const response = await this.api.get<R>(url, { params });
     return response.data;
   }
@@ -49,7 +58,8 @@ class ApiService {
     path: string,
     data: T,
   ): Promise<R> {
-    const url = BASE_PATH + path;
+    const url = `/api/${path}`;
+    console.log(url);
     const response = await this.api.post<R>(url, data);
     return response.data;
   }
@@ -59,14 +69,14 @@ class ApiService {
     path: string,
     data: Record<string, unknown>,
   ): Promise<R> {
-    const url = BASE_PATH + path;
+    const url = `/api/${path}`;
     const response = await this.api.put<R>(url, data);
     return response.data;
   }
 
   // DELETE
   public async delete<T, R = AxiosResponse<T>>(path: string): Promise<R> {
-    const url = BASE_PATH + path;
+    const url = `/api/${path}`;
     const response = await this.api.delete<R>(url);
     return response.data;
   }

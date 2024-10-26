@@ -24,8 +24,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import LoadingSpinner from "@/components/ui/loadingSpinner";
-import FormContainerCard from "@/components/ui/formContainerCard";
+import LoadingSpinner from "@/components/ui/loading-spinner";
+import FormContainerCard from "@/components/ui/form-container-card";
 import CagriButon from "@/components/ui/cagriButon";
 
 interface Props {

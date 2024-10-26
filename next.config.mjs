@@ -4,7 +4,11 @@ const nextConfig = {
         return [
             {
                 source: '/api/:path*',
-                destination: 'https://www.osmanoguzsensoy.com/:path*', // Proxy API isteklerini yönlendir
+                destination: 'https://www.osmanoguzsensoy.com/api/:path*', // Proxy API isteklerini yönlendir
+            },
+            {
+                source: '/public/:path*',
+                destination: 'https://www.osmanoguzsensoy.com/public/:path*', // Proxy Public isteklerini yönlendir
             },
         ];
     },

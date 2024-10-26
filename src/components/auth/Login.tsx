@@ -28,10 +28,9 @@ import {
 import Link from "next/link";
 import { Location } from "@/models/location";
 import { useEffect, useState } from "react";
-import LoadingSpinner from "@/components/ui/loadingSpinner";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 import { Module } from "@/models/module";
-import { routeNameGenerator } from "@/utils/routeNameGenerator";
-import FormContainerCard from "@/components/ui/formContainerCard";
+import FormContainerCard from "@/components/ui/form-container-card";
 import CagriButon from "@/components/ui/cagriButon";
 
 interface Props {
@@ -227,7 +226,7 @@ const Login = ({
                 className=""
                 asChild
               >
-                <Link href={`modules/${routeNameGenerator(module.moduleName)}`}>
+                <Link href={`modules/${module.moduleId}`}>
                   {module.moduleName}
                 </Link>
               </Button>
