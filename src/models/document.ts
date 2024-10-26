@@ -32,3 +32,16 @@ const SDocumentFilterModel = z.object({
 });
 
 export type DocumentFilterModel = z.infer<typeof SDocumentFilterModel>;
+
+const DocumentApiResponseUrlSchema = z.object({
+  data: SDocumentModel,
+  errorCode: z.string().nullable(),
+  errorMessage: z.string().nullable(),
+  errorMessageParameters: z.any().nullable(),
+  isSuccessful: z.boolean(),
+  statusCode: z.number(),
+});
+
+export type DocumentApiResponseUrl = z.infer<
+  typeof DocumentApiResponseUrlSchema
+>;

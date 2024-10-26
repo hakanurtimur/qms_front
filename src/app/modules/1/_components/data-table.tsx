@@ -43,7 +43,11 @@ export function DataTable<TData, TValue>({
     mutationKey: ["goDoc"],
     mutationFn: (fileId: string) => documentService.goDoc(fileId),
     onSuccess: (data) => {
-      console.log(data.data);
+      console.log(data);
+      console.log(data.data.url);
+      if (data.data.url) {
+        window.open(data.data.url, "_blank");
+      }
     },
   });
 
@@ -60,7 +64,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className=" w-full overflow-x-scroll flex items-center justify-center">
+    <div className=" w-full overflow-scroll flex items-center justify-center">
       <div className="rounded-md border max-w-6xl min-w-[800px]">
         <div className="flex items-center py-4 px-4 justify-between gap-10">
           <Input
@@ -156,7 +160,7 @@ export function DataTable<TData, TValue>({
                           // Do not use this code block in production.
                           // const selected = data[index] as DocumentModel;
                           // mutation.mutate(selected.fileId.toString());
-                          mutation.mutate("5143");
+                          mutation.mutate("857");
                         }}
                         size="icon"
                       >
