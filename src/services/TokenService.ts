@@ -1,5 +1,4 @@
 import { parseJwt } from "@/models/user";
-import { jwtDecode } from "jwt-decode";
 
 export interface AuthData {
   accessToken: string;
@@ -35,9 +34,6 @@ class TokenService {
   getUser() {
     const authData = this.getAuthData();
     if (!authData) return null;
-    console.log(authData);
-    const decodedToken = jwtDecode(authData.accessToken);
-    console.log(decodedToken);
     return parseJwt(authData.accessToken);
   }
 

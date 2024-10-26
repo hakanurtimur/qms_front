@@ -11,6 +11,20 @@ class ApiService {
       },
     });
 
+    this.api.interceptors.request.use(
+      (config) => {
+        const authToken = localStorage.getItem("authData");
+        if (authToken) {
+          const token = JSON.parse(authToken);
+          const accessToken = token.accessToken;
+          config.headers["Authorization"] = `Bearer ${accessToken}`;
+        }
+        config.headers["Access-Control-Allow-Origin"] = "*";
+        return config;
+      },
+      (error) => Promise.reject(error),
+    );
+
     this.api.interceptors.response.use(
       (response) => {
         if (

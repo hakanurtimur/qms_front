@@ -44,8 +44,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  console.log(user);
-
   useEffect(() => {
     checkAuth();
   }, []);

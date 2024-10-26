@@ -143,8 +143,8 @@ export const adminNavItems = [
     items: [
       {
         icon: DocumentTextIcon,
-        label: "Lokasyon İşlem",
-        href: "/kullanici-yonetimi/lokasyon-islem",
+        label: "Lokasyon",
+        href: "/admin/user-management/location",
       },
       {
         icon: DocumentTextIcon,

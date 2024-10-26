@@ -74,7 +74,11 @@ export function DataTable<TData, TValue>({
             onChange={(event) =>
               table
                 .getColumn("categoryName")
-                ?.setFilterValue(event.target.value.toLocaleUpperCase("tr"))
+                ?.setFilterValue(
+                  event.target.value
+                    ? event.target.value.toLocaleUpperCase("tr")
+                    : "",
+                )
             }
             className=""
           />
