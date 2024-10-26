@@ -21,10 +21,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { EyeIcon } from "@heroicons/react/24/outline";
 import React from "react";
-import { DataTablePagination } from "@/app/modules/1/_components/data-table-pagination";
+
 import { useMutation } from "@tanstack/react-query";
 import documentService from "@/services/DocumentService";
 import { Input } from "@/components/ui/input";
+import { DataTablePagination } from "@/components/ui/data-table-pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

@@ -19,29 +19,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import React from "react";
-import FormSheet from "@/app/(app)/admin/user-management/location/_components/sheet";
-import { ManagerLocationModel } from "@/models/admin/location";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
+import { formatDate } from "@/utils/dateUtils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  onSheetFormSubmit: (data: ManagerLocationModel) => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  onSheetFormSubmit,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -62,17 +51,53 @@ export function DataTable<TData, TValue>({
   return (
     <div className="w-full overflow-scroll flex items-center justify-center">
       <div className="rounded-md border w-full max-w-[1600px] min-w-[800px]">
-        <div className="flex items-center py-4 px-4 justify-between gap-10 w-full">
-          <div className="flex-grow-0 flex-shrink">
+        <div className="flex items-center py-4 px-4 gap-10 w-full justify-between">
+          <div className="flex items-center gap-10">
+            <div className="w-64">
+              <Input
+                name="nameSurname"
+                placeholder="Ad Soyad"
+                value={
+                  table.getColumn("nameSurname")?.getFilterValue() as string
+                }
+                onChange={(event) =>
+                  table
+                    .getColumn("nameSurname")
+                    ?.setFilterValue(
+                      event.target.value
+                        ? event.target.value.toLocaleUpperCase("tr")
+                        : "",
+                    )
+                }
+              />
+            </div>
+            <div className={"w-64"}>
+              <Input
+                name="updateTable"
+                placeholder="İşlem Yeri"
+                value={
+                  table.getColumn("updateTable")?.getFilterValue() as string
+                }
+                onChange={(event) =>
+                  table
+                    .getColumn("updateTable")
+                    ?.setFilterValue(
+                      event.target.value
+                        ? event.target.value.toLocaleUpperCase("tr")
+                        : "",
+                    )
+                }
+              />
+            </div>
+          </div>
+          <div className={"w-64"}>
             <Input
-              name="locationName"
-              placeholder="Şube Adı"
-              value={
-                table.getColumn("locationName")?.getFilterValue() as string
-              }
+              name="description"
+              placeholder="Detaylı Arama"
+              value={table.getColumn("description")?.getFilterValue() as string}
               onChange={(event) =>
                 table
-                  .getColumn("locationName")
+                  .getColumn("description")
                   ?.setFilterValue(
                     event.target.value
                       ? event.target.value.toLocaleUpperCase("tr")
@@ -81,47 +106,28 @@ export function DataTable<TData, TValue>({
               }
             />
           </div>
-          <div className="flex gap-2 items-center">
-            <Label>Durum</Label>
-            <Select
-              value={
-                table.getColumn("state")?.getFilterValue() === true
-                  ? "aktif"
-                  : table.getColumn("state")?.getFilterValue() === false
-                    ? "pasif"
-                    : "hepsi"
-              }
-              onValueChange={(value) => {
-                table
-                  .getColumn("state")
-                  ?.setFilterValue(
-                    value === "aktif"
-                      ? true
-                      : value === "pasif"
-                        ? false
-                        : undefined,
-                  );
-              }}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Durum seçiniz" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={"aktif"}>Aktif</SelectItem>
-                <SelectItem value={"pasif"}>Pasif</SelectItem>
-                <SelectItem value={"hepsi"}>Hepsi</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
         </div>
         <div className="rounded-md border px-4 py-4">
           <Table className="table-fixed">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
-                  <TableHead>Ülke</TableHead>
-                  <TableHead>Şehir</TableHead>
                   {headerGroup.headers.map((header, index) => {
+                    if (header.id.includes("createDate")) {
+                      return (
+                        <TableHead
+                          className="flex items-center justify-end"
+                          key={header.id + index}
+                        >
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
+                        </TableHead>
+                      );
+                    }
                     return (
                       <TableHead key={header.id + index}>
                         {header.isPlaceholder
@@ -133,7 +139,6 @@ export function DataTable<TData, TValue>({
                       </TableHead>
                     );
                   })}
-                  <TableHead className="w-20"></TableHead>
                 </TableRow>
               ))}
             </TableHeader>
@@ -144,30 +149,23 @@ export function DataTable<TData, TValue>({
                     key={row.id + index}
                     data-state={row.getIsSelected() && "selected"}
                   >
-                    <TableCell>Türkiye</TableCell>
-                    <TableCell>İzmir</TableCell>
-                    {row
-                      .getVisibleCells()
-                      .map((cell, index) =>
-                        cell.id.includes("state") ? (
-                          <TableCell key={cell.id + index}>
-                            {cell.getValue() === true ? "Aktif" : "Pasif"}
-                          </TableCell>
-                        ) : (
-                          <TableCell key={cell.id + index}>
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext(),
-                            )}
-                          </TableCell>
-                        ),
-                      )}
-                    <TableCell>
-                      <FormSheet
-                        model={row.original as unknown as ManagerLocationModel}
-                        onSubmit={(data) => onSheetFormSubmit(data)}
-                      />
-                    </TableCell>
+                    {row.getVisibleCells().map((cell, index) =>
+                      cell.id.includes("createDate") ? (
+                        <TableCell
+                          className="flex items-center justify-end"
+                          key={cell.id + index}
+                        >
+                          {formatDate(cell.getValue() as string)}
+                        </TableCell>
+                      ) : (
+                        <TableCell key={cell.id + index}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
+                      ),
+                    )}
                   </TableRow>
                 ))
               ) : (

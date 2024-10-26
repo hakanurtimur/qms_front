@@ -164,7 +164,7 @@ export const adminNavItems = [
       {
         icon: DocumentTextIcon,
         label: "Tarihçe",
-        href: "/kullanici-yonetimi/tarihce",
+        href: "/admin/user-management/history",
       },
     ],
   },
