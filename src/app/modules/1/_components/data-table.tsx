@@ -26,6 +26,7 @@ import { useMutation } from "@tanstack/react-query";
 import documentService from "@/services/DocumentService";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
+import { DocumentModel } from "@/models/document";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -162,10 +163,8 @@ export function DataTable<TData, TValue>({
                     <TableCell>
                       <Button
                         onClick={() => {
-                          // Do not use this code block in production.
-                          // const selected = data[index] as DocumentModel;
-                          // mutation.mutate(selected.fileId.toString());
-                          mutation.mutate("857");
+                          const selected = data[index] as DocumentModel;
+                          mutation.mutate(selected.fileId.toString());
                         }}
                         size="icon"
                       >
