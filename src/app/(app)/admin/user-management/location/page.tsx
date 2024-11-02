@@ -66,7 +66,9 @@ const Page = () => {
           onSheetFormSubmit={handleSheetFormSubmit}
         />
       ) : (
-        <LoadingScreen />
+        <div className="w-screen h-screen absolute top-0 left-0">
+          <LoadingScreen />
+        </div>
       )}
     </div>
   );

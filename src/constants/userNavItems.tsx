@@ -149,7 +149,7 @@ export const adminNavItems = [
       {
         icon: DocumentTextIcon,
         label: "Personel İşlem",
-        href: "/kullanici-yonetimi/personel-islem",
+        href: "/admin/user-management/employee-management",
       },
       {
         icon: DocumentTextIcon,

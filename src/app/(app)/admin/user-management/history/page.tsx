@@ -10,7 +10,7 @@ import { columns } from "@/app/(app)/admin/user-management/history/_components/c
 
 const Page = () => {
   const query = useQuery({
-    queryKey: ["documents"],
+    queryKey: ["actionHistory"],
     queryFn: () => actionHistory.list(),
   });
 
@@ -29,7 +29,9 @@ const Page = () => {
       {query.data && !query.isPending ? (
         <DataTable data={query.data.data} columns={columns} />
       ) : (
-        <LoadingScreen />
+        <div className="w-screen h-screen absolute top-0 left-0">
+          <LoadingScreen />
+        </div>
       )}
     </div>
   );

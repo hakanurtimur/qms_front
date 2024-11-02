@@ -52,7 +52,6 @@ class ApiService {
     params?: Record<string, unknown>,
   ): Promise<R> {
     const url = `/api/${path}`;
-    console.log(url);
     const response = await this.api.get<R>(url, { params });
     return response.data;
   }
@@ -62,7 +61,6 @@ class ApiService {
     params?: Record<string, unknown>,
   ): Promise<R> {
     const url = `/public/${path}`;
-    console.log(url);
     const response = await this.api.get<R>(url, { params });
     return response.data;
   }
@@ -73,7 +71,6 @@ class ApiService {
     data: T,
   ): Promise<R> {
     const url = `/api/${path}`;
-    console.log(url);
     const response = await this.api.post<R>(url, data);
     return response.data;
   }

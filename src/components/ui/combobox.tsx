@@ -28,7 +28,7 @@ interface FormSelectFieldProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
   label: string;
-  options: { [key: string]: string };
+  options: { [key: string]: string } | { [key: number]: string };
   placeholder?: string;
 }
 
@@ -74,7 +74,10 @@ function Combobox<T extends FieldValues>({
                           value={value}
                           key={key}
                           onSelect={() => {
-                            field.onChange(key);
+                            const parsedKey = isNaN(Number(key))
+                              ? key
+                              : Number(key);
+                            field.onChange(parsedKey);
                           }}
                         >
                           <Check

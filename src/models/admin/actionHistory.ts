@@ -1,6 +1,7 @@
 // src/schemas/managerHistory.ts
 
 import { z } from "zod";
+import { SResponseModel } from "@/models/api/response";
 
 export const SActionHistory = z.object({
   nameSurname: z.string(),
@@ -13,13 +14,8 @@ export const SActionHistory = z.object({
 
 export type ActionHistoryModel = z.infer<typeof SActionHistory>;
 
-export const SActionHistoryResponse = z.object({
-  statusCode: z.number(),
-  isSuccessful: z.boolean(),
+export const SActionHistoryResponse = SResponseModel.extend({
   data: z.array(SActionHistory),
-  errorCode: z.string().nullable(),
-  errorMessage: z.string().nullable(),
-  errorMessageParameters: z.any().nullable(),
 });
 
 export type ActionHistoryResponseModel = z.infer<typeof SActionHistoryResponse>;

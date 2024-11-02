@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { SResponseModel } from "@/models/api/response";
 
 export const SManagerLocation = z.object({
   locationId: z.number(),
@@ -8,13 +9,8 @@ export const SManagerLocation = z.object({
 
 export type ManagerLocationModel = z.infer<typeof SManagerLocation>;
 
-export const SManagerLocationResponse = z.object({
-  statusCode: z.number(),
-  isSuccessful: z.boolean(),
+export const SManagerLocationResponse = SResponseModel.extend({
   data: z.array(SManagerLocation),
-  errorCode: z.string().nullable(),
-  errorMessage: z.string().nullable(),
-  errorMessageParameters: z.any().nullable(),
 });
 
 export type ManagerLocationResponseModel = z.infer<
