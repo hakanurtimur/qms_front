@@ -7,9 +7,9 @@ import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/authContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import employeeManagementService from "@/services/admin/EmployeeManagement";
-import { EmployeeDataTable } from "@/app/(app)/admin/user-management/employee-management/_components/employee/employee-data-table";
+import { DataTable } from "@/app/(app)/admin/user-management/employee-management/_components/data-table";
 import React from "react";
-import { EmployeeColumns } from "@/app/(app)/admin/user-management/employee-management/_components/employee/employee-columns";
+import { Columns } from "@/app/(app)/admin/user-management/employee-management/_components/columns";
 import LoadingScreen from "@/components/commons/LoadingScreen";
 import { EmployeeToManageTableModel } from "@/models/admin/employeeManagement/employeeToManageTableModel";
 import GuestSheet from "@/app/(app)/admin/user-management/employee-management/_components/guest/guest-sheet";
@@ -23,13 +23,23 @@ const Page = () => {
     queryFn: () => employeeManagementService.listEmployees(),
   });
 
+  const managerQuery = useQuery({
+    queryKey: ["manager-management"],
+    queryFn: () => employeeManagementService.listManagers(),
+  });
+
   const roleQuery = useQuery({
     queryKey: ["roles"],
     queryFn: () => employeeManagementService.getEmployeeRoles(),
   });
 
+  const departmentQuery = useQuery({
+    queryKey: ["departments"],
+    queryFn: () => employeeManagementService.getDepartments(),
+  });
+
   const employeeMutation = useMutation({
-    mutationKey: ["updateManagerLocation"],
+    mutationKey: ["update-employee"],
     mutationFn: (args: {
       id: string;
       data: {
@@ -55,6 +65,37 @@ const Page = () => {
     },
   });
 
+  console.log(managerQuery.data);
+
+  const managerMutation = useMutation({
+    mutationKey: ["update-manager"],
+    mutationFn: (args: {
+      id: string;
+      data: {
+        id: number;
+        roleId: number;
+        departmentId: number;
+        state: boolean;
+      };
+    }) => employeeManagementService.updateManager(args),
+    onSuccess: (data) => {
+      toast({
+        title: "Başarılı",
+        description: "Yönetici başarıyla güncellendi",
+        variant: "success",
+      });
+      console.log(data);
+      managerQuery.refetch().then();
+    },
+    onError: () => {
+      toast({
+        title: "Hata",
+        description: "Yönetici güncellenirken bir hata oluştu",
+        variant: "destructive",
+      });
+    },
+  });
+
   const addGuestMutation = useMutation({
     mutationKey: ["addGuest"],
     mutationFn: (args: { userId: string; data: GuestCreated }) =>
@@ -66,6 +107,7 @@ const Page = () => {
         variant: "success",
       });
       console.log(data);
+      employeeQuery.refetch().then();
     },
     onError: () => {
       toast({
@@ -86,6 +128,25 @@ const Page = () => {
       roleId: formData.roleId,
     };
     employeeMutation.mutate({
+      id: user.userId,
+      data,
+    });
+  };
+
+  const handleUpdateManager = (formData: EmployeeToManageTableModel) => {
+    if (!user) return;
+    const data: {
+      id: number;
+      roleId: number;
+      departmentId: number;
+      state: boolean;
+    } = {
+      id: formData.id,
+      roleId: formData.roleId,
+      departmentId: formData.departmentId,
+      state: formData.workingStatus,
+    };
+    managerMutation.mutate({
       id: user.userId,
       data,
     });
@@ -119,11 +180,13 @@ const Page = () => {
           roleQuery.data &&
           !employeeQuery.isPending &&
           !roleQuery.isPending ? (
-            <EmployeeDataTable
+            <DataTable
               data={employeeQuery.data.data}
-              columns={EmployeeColumns}
+              columns={Columns}
               onSheetFormSubmit={handleUpdateEmployee}
               roles={roleQuery.data.data}
+              departments={undefined}
+              variant={"employee"}
             />
           ) : (
             <div className="w-screen h-screen absolute top-0 left-0">
@@ -131,29 +194,27 @@ const Page = () => {
             </div>
           )}
         </TabsContent>
-        {/*<TabsContent value="manager">*/}
-        {/*  <Card>*/}
-        {/*    <CardHeader>*/}
-        {/*      <CardTitle>Password</CardTitle>*/}
-        {/*      <CardDescription>*/}
-        {/*        Change your password here. After saving, you'll be logged out.*/}
-        {/*      </CardDescription>*/}
-        {/*    </CardHeader>*/}
-        {/*    <CardContent className="space-y-2">*/}
-        {/*      <div className="space-y-1">*/}
-        {/*        <Label htmlFor="current">Current password</Label>*/}
-        {/*        <Input id="current" type="password" />*/}
-        {/*      </div>*/}
-        {/*      <div className="space-y-1">*/}
-        {/*        <Label htmlFor="new">New password</Label>*/}
-        {/*        <Input id="new" type="password" />*/}
-        {/*      </div>*/}
-        {/*    </CardContent>*/}
-        {/*    <CardFooter>*/}
-        {/*      <Button>Save password</Button>*/}
-        {/*    </CardFooter>*/}
-        {/*  </Card>*/}
-        {/*</TabsContent>*/}
+        <TabsContent value="manager">
+          {managerQuery.data &&
+          roleQuery.data &&
+          departmentQuery.data &&
+          !managerQuery.isPending &&
+          !departmentQuery.isPending &&
+          !roleQuery.isPending ? (
+            <DataTable
+              data={managerQuery.data.data}
+              columns={Columns}
+              onSheetFormSubmit={handleUpdateManager}
+              roles={roleQuery.data.data}
+              departments={departmentQuery.data.data}
+              variant={"manager"}
+            />
+          ) : (
+            <div className="w-screen h-screen absolute top-0 left-0">
+              <LoadingScreen />
+            </div>
+          )}
+        </TabsContent>
       </Tabs>
     </div>
   );

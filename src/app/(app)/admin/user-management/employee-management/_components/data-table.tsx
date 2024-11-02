@@ -22,19 +22,25 @@ import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { EmployeeToManageTableModel } from "@/models/admin/employeeManagement/employeeToManageTableModel";
 import { EmployeeRole } from "@/models/admin/employeeManagement/roles";
 import { Input } from "@/components/ui/input";
+import ManagerSheet from "@/app/(app)/admin/user-management/employee-management/_components/manager/manager-sheet";
+import { EmployeeDepartment } from "@/models/admin/employeeManagement/departments";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   onSheetFormSubmit: (data: EmployeeToManageTableModel) => void;
   roles: EmployeeRole[];
+  departments: EmployeeDepartment[] | undefined;
+  variant: "employee" | "manager";
 }
 
-export function EmployeeDataTable<TData, TValue>({
+export function DataTable<TData, TValue>({
   columns,
   data,
   onSheetFormSubmit,
   roles,
+  departments,
+  variant,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -69,56 +75,6 @@ export function EmployeeDataTable<TData, TValue>({
             onChange={(event) => setGlobalFilter(event.target.value)}
             className="max-w-sm"
           />
-          {/*<div className="flex-grow-0 flex-shrink">*/}
-          {/*  <Input*/}
-          {/*    name="locationName"*/}
-          {/*    placeholder="Şube Adı"*/}
-          {/*    value={*/}
-          {/*      table.getColumn("locationName")?.getFilterValue() as string*/}
-          {/*    }*/}
-          {/*    onChange={(event) =>*/}
-          {/*      table*/}
-          {/*        .getColumn("locationName")*/}
-          {/*        ?.setFilterValue(*/}
-          {/*          event.target.value*/}
-          {/*            ? event.target.value.toLocaleUpperCase("tr")*/}
-          {/*            : "",*/}
-          {/*        )*/}
-          {/*    }*/}
-          {/*  />*/}
-          {/*</div>*/}
-          {/*<div className="flex gap-2 items-center">*/}
-          {/*  <Label>Durum</Label>*/}
-          {/*  <Select*/}
-          {/*    value={*/}
-          {/*      table.getColumn("state")?.getFilterValue() === true*/}
-          {/*        ? "aktif"*/}
-          {/*        : table.getColumn("state")?.getFilterValue() === false*/}
-          {/*          ? "pasif"*/}
-          {/*          : "hepsi"*/}
-          {/*    }*/}
-          {/*    onValueChange={(value) => {*/}
-          {/*      table*/}
-          {/*        .getColumn("state")*/}
-          {/*        ?.setFilterValue(*/}
-          {/*          value === "aktif"*/}
-          {/*            ? true*/}
-          {/*            : value === "pasif"*/}
-          {/*              ? false*/}
-          {/*              : undefined,*/}
-          {/*        );*/}
-          {/*    }}*/}
-          {/*  >*/}
-          {/*    <SelectTrigger>*/}
-          {/*      <SelectValue placeholder="Durum seçiniz" />*/}
-          {/*    </SelectTrigger>*/}
-          {/*    <SelectContent>*/}
-          {/*      <SelectItem value={"aktif"}>Aktif</SelectItem>*/}
-          {/*      <SelectItem value={"pasif"}>Pasif</SelectItem>*/}
-          {/*      <SelectItem value={"hepsi"}>Hepsi</SelectItem>*/}
-          {/*    </SelectContent>*/}
-          {/*  </Select>*/}
-          {/*</div>*/}
         </div>
         <div className="rounded-md border px-4 py-4">
           <Table className="table-fixed">
@@ -165,13 +121,26 @@ export function EmployeeDataTable<TData, TValue>({
                         ),
                       )}
                     <TableCell>
-                      <EmployeeSheet
-                        model={
-                          row.original as unknown as EmployeeToManageTableModel
-                        }
-                        onSubmit={(data) => onSheetFormSubmit(data)}
-                        roles={roles}
-                      />
+                      {variant === "employee" ? (
+                        <EmployeeSheet
+                          model={
+                            row.original as unknown as EmployeeToManageTableModel
+                          }
+                          onSubmit={(data) => onSheetFormSubmit(data)}
+                          roles={roles}
+                        />
+                      ) : variant === "manager" && departments ? (
+                        <ManagerSheet
+                          model={
+                            row.original as unknown as EmployeeToManageTableModel
+                          }
+                          onSubmit={(data) => {
+                            onSheetFormSubmit(data);
+                          }}
+                          roles={roles}
+                          departments={departments}
+                        />
+                      ) : null}
                     </TableCell>
                   </TableRow>
                 ))

@@ -3,7 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { EmployeeToManageTableModel } from "@/models/admin/employeeManagement/employeeToManageTableModel";
 
-export const EmployeeColumns: ColumnDef<EmployeeToManageTableModel>[] = [
+export const Columns: ColumnDef<EmployeeToManageTableModel>[] = [
   {
     accessorKey: "nameSurname",
     header: "Ad-Soyad",
