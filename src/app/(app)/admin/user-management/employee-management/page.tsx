@@ -103,7 +103,7 @@ const Page = () => {
     onSuccess: (data) => {
       toast({
         title: "Başarılı",
-        description: "Misafir kullanıcı başarıyla eklendi",
+        description: "Misafir kullanıcı eklendi",
         variant: "success",
       });
       console.log(data);
