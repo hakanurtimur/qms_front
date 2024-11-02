@@ -18,18 +18,13 @@ export const userNavItems = [
     items: [
       {
         icon: DocumentTextIcon,
-        label: "Politikalar",
-        href: "/dokumanlar/politikalar",
+        label: "Dokümanlar",
+        href: "/dokumanlar/dokumanlar",
       },
       {
         icon: DocumentTextIcon,
-        label: "Prosedürler",
-        href: "/dokumanlar/prosedurler",
-      },
-      {
-        icon: DocumentTextIcon,
-        label: "Formlar",
-        href: "/dokumanlar/formlar",
+        label: "Talepler",
+        href: "/dokumanlar/talepler",
       },
     ],
   },
@@ -154,7 +149,12 @@ export const adminNavItems = [
       {
         icon: DocumentTextIcon,
         label: "Rol İşlem",
-        href: "/kullanici-yonetimi/rol-islem",
+        href: "/admin/user-management/role-management",
+      },
+      {
+        icon: DocumentTextIcon,
+        label: "Modül İşlem",
+        href: "/admin/user-management/module-management",
       },
       {
         icon: DocumentTextIcon,
