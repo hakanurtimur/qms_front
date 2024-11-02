@@ -49,7 +49,13 @@ const EmployeeForm = ({ model, onSubmit, roles }: Props) => {
   const roleOptions = convertRolesToOptions(roles);
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        onError={(errors) => {
+          console.log(errors);
+        }}
+        className="space-y-5"
+      >
         <FormField
           control={form.control}
           name="nameSurname"
@@ -68,102 +74,73 @@ const EmployeeForm = ({ model, onSubmit, roles }: Props) => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="departmentName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Bölüm</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder=""
-                  {...field}
-                  className={"bg-primary-100"}
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="jobName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Görev</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder=""
-                  {...field}
-                  className={"bg-primary-100"}
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="titleName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Ünvan</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder=""
-                  {...field}
-                  className={"bg-primary-100"}
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <FormItem>
+          <FormLabel>Bölüm</FormLabel>
+          <FormControl>
+            <Input
+              placeholder=""
+              value={model.departmentName ?? ""}
+              className={"bg-primary-100"}
+              readOnly
+            />
+          </FormControl>
+        </FormItem>
+        <FormItem>
+          <FormLabel>Görev</FormLabel>
+          <FormControl>
+            <Input
+              placeholder=""
+              value={model.jobName ?? ""}
+              className={"bg-primary-100"}
+              readOnly
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>Ünvan</FormLabel>
+          <FormControl>
+            <Input
+              placeholder=""
+              value={model.titleName ?? ""}
+              className={"bg-primary-100"}
+              readOnly
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+
         <Combobox<EmployeeToManageTableModel>
           control={form.control}
           name={"roleId"}
           label={"Rol"}
           options={roleOptions}
         />
-        <FormField
-          control={form.control}
-          name="mail"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Mail</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder=""
-                  {...field}
-                  className={"bg-primary-100"}
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="phoneNumber"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>GSM</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder=""
-                  {...field}
-                  className={"bg-primary-100"}
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <FormItem>
+          <FormLabel>Mail</FormLabel>
+          <FormControl>
+            <Input
+              placeholder=""
+              value={model.mail ?? ""}
+              className={"bg-primary-100"}
+              readOnly
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>GSM</FormLabel>
+          <FormControl>
+            <Input
+              placeholder=""
+              value={model.phoneNumber ?? ""}
+              className={"bg-primary-100"}
+              readOnly
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+
         <SheetFooter>
           <SheetClose asChild>
             <Button type="button" variant="outline">

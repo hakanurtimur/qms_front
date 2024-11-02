@@ -3,22 +3,22 @@ import { SResponseModel } from "@/models/api/response";
 
 export const SEmployeeToManageTableModel = z.object({
   id: z.number(),
-  userId: z.number(),
-  username: z.string().nullable(),
-  name: z.string().nullable(),
-  surname: z.string().nullable(),
+  userId: z.number().optional(),
+  username: z.string().nullable().optional(),
+  name: z.string().nullable().optional(),
+  surname: z.string().nullable().optional(),
   nameSurname: z.string(),
-  ticketName: z.string().nullable(),
-  titleName: z.string(),
-  titleId: z.number(),
+  ticketName: z.string().nullable().optional(),
+  titleName: z.string().nullable(),
+  titleId: z.number().optional(),
   jobId: z.number(),
   jobName: z.string(),
   departmentId: z.number(),
-  departmentName: z.string(),
+  departmentName: z.string().optional().nullable(),
   roleId: z.number(),
-  roleName: z.string(),
-  mail: z.string(),
-  phoneNumber: z.string(),
+  roleName: z.string().nullable(),
+  mail: z.string().nullable(),
+  phoneNumber: z.string().nullable(),
   workingStatus: z.boolean(),
 });
 
@@ -41,3 +41,10 @@ export const SEmployeeToManageResponse = SResponseModel.extend({
 export type EmployeeToManageResponseModel = z.infer<
   typeof SEmployeeToManageResponse
 >;
+
+export const SEmployeeToManageRequest = z.object({
+  userId: z.number(),
+  roleId: z.number(),
+  departmentId: z.number(),
+  workingStatus: z.boolean(),
+});

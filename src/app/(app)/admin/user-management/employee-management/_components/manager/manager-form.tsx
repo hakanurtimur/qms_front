@@ -113,66 +113,51 @@ const ManagerForm = ({ model, onSubmit, roles, departments }: Props) => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="titleName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Ünvan</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder=""
-                  {...field}
-                  className={"bg-primary-100"}
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
+        <FormItem>
+          <FormLabel>Ünvan</FormLabel>
+          <FormControl>
+            <Input
+              placeholder=""
+              value={model.titleName ?? ""}
+              className={"bg-primary-100"}
+              readOnly
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+
         <Combobox<EmployeeToManageTableModel>
           control={form.control}
           name={"roleId"}
           label={"Rol"}
           options={roleOptions}
         />
-        <FormField
-          control={form.control}
-          name="mail"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Mail</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder=""
-                  {...field}
-                  className={"bg-primary-100"}
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="phoneNumber"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>GSM</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder=""
-                  {...field}
-                  className={"bg-primary-100"}
-                  readOnly
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
+        <FormItem>
+          <FormLabel>Mail</FormLabel>
+          <FormControl>
+            <Input
+              placeholder=""
+              value={model.mail ?? ""}
+              className={"bg-primary-100"}
+              readOnly
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>GSM</FormLabel>
+          <FormControl>
+            <Input
+              placeholder=""
+              value={model.phoneNumber ?? ""}
+              className={"bg-primary-100"}
+              readOnly
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
         <FormField
           control={form.control}
           name="workingStatus"

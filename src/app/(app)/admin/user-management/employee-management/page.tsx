@@ -55,6 +55,7 @@ const Page = () => {
       });
       console.log(data);
       employeeQuery.refetch().then();
+      managerQuery.refetch().then();
     },
     onError: () => {
       toast({
@@ -64,8 +65,6 @@ const Page = () => {
       });
     },
   });
-
-  console.log(managerQuery.data);
 
   const managerMutation = useMutation({
     mutationKey: ["update-manager"],
@@ -85,9 +84,39 @@ const Page = () => {
         variant: "success",
       });
       console.log(data);
+      employeeQuery.refetch().then();
       managerQuery.refetch().then();
     },
-    onError: () => {
+    onError: (error) => {
+      console.log(error);
+      toast({
+        title: "Hata",
+        description: "Yönetici güncellenirken bir hata oluştu",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const managerDepartmentMutation = useMutation({
+    mutationKey: ["update-manager-department"],
+    mutationFn: (args: {
+      id: string;
+      data: {
+        id: number;
+        departmentId: number;
+      };
+    }) => employeeManagementService.addDepartmentToManager(args),
+    onSuccess: (data) => {
+      toast({
+        title: "Başarılı",
+        description: "Yönetici başarıyla güncellendi",
+        variant: "success",
+      });
+      console.log(data);
+      managerQuery.refetch().then();
+    },
+    onError: (error) => {
+      console.log(error);
       toast({
         title: "Hata",
         description: "Yönetici güncellenirken bir hata oluştu",
@@ -117,6 +146,7 @@ const Page = () => {
       });
     },
   });
+  console.log(managerQuery.data);
 
   const handleUpdateEmployee = (formData: EmployeeToManageTableModel) => {
     if (!user) return;
@@ -152,6 +182,23 @@ const Page = () => {
     });
   };
 
+  const handleAddDepartmentToManager = (
+    formData: EmployeeToManageTableModel,
+  ) => {
+    if (!user) return;
+    const data: {
+      id: number;
+      departmentId: number;
+    } = {
+      id: formData.id,
+      departmentId: formData.departmentId,
+    };
+    managerDepartmentMutation.mutate({
+      id: user.userId,
+      data,
+    });
+  };
+
   const handleGuestSubmit = (data: GuestCreated) => {
     if (!user) return;
     addGuestMutation.mutate({
@@ -173,21 +220,25 @@ const Page = () => {
             <TabsTrigger value="employee">Personel</TabsTrigger>
             <TabsTrigger value="manager">Yönetici</TabsTrigger>
           </TabsList>
-          <GuestSheet onSubmit={handleGuestSubmit} />
         </div>
         <TabsContent value="employee">
           {employeeQuery.data &&
           roleQuery.data &&
           !employeeQuery.isPending &&
           !roleQuery.isPending ? (
-            <DataTable
-              data={employeeQuery.data.data}
-              columns={Columns}
-              onSheetFormSubmit={handleUpdateEmployee}
-              roles={roleQuery.data.data}
-              departments={undefined}
-              variant={"employee"}
-            />
+            <>
+              <div className="flex w-full justify-end my-2">
+                <GuestSheet onSubmit={handleGuestSubmit} />
+              </div>
+              <DataTable
+                data={employeeQuery.data.data}
+                columns={Columns}
+                onSheetFormSubmit={handleUpdateEmployee}
+                roles={roleQuery.data.data}
+                departments={undefined}
+                variant={"employee"}
+              />
+            </>
           ) : (
             <div className="w-screen h-screen absolute top-0 left-0">
               <LoadingScreen />
@@ -205,6 +256,7 @@ const Page = () => {
               data={managerQuery.data.data}
               columns={Columns}
               onSheetFormSubmit={handleUpdateManager}
+              onAddDepartment={handleAddDepartmentToManager}
               roles={roleQuery.data.data}
               departments={departmentQuery.data.data}
               variant={"manager"}

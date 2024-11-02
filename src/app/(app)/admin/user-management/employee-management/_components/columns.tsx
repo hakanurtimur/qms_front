@@ -13,6 +13,10 @@ export const Columns: ColumnDef<EmployeeToManageTableModel>[] = [
     header: "Bölüm",
   },
   {
+    accessorKey: "id",
+    header: "id",
+  },
+  {
     accessorKey: "jobName",
     header: "Görev",
   },

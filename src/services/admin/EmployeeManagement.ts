@@ -62,7 +62,19 @@ export class EmployeeManagementService {
       state: boolean;
     };
   }): Promise<unknown> {
-    return await api.put(`/userResource/${args.id}`, {
+    return await api.put(`/userHead/${args.id}`, {
+      userId: +args.id,
+      ...args.data,
+    });
+  }
+  public async addDepartmentToManager(args: {
+    id: string;
+    data: {
+      id: number;
+      departmentId: number;
+    };
+  }): Promise<unknown> {
+    return await api.post(`/userHead/${args.id}`, {
       userId: +args.id,
       ...args.data,
     });

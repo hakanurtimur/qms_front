@@ -21,7 +21,7 @@ const GuestSheet = ({ onSubmit }: Props) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button size="lg" className="gap-2">
+        <Button className="gap-2">
           <PlusIcon className="w-4 h-4" />
           <p>Misafir Kullanıcı Ekle</p>
         </Button>
