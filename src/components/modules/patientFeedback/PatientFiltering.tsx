@@ -36,8 +36,8 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={"space-y-8"}>
-        <div className="grid md:grid-cols-2 grid-cols-1 w-full gap-8 items-start mb-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className={""}>
+        <div className="grid md:grid-cols-1 grid-cols-1 w-full gap-8 items-start mb-8 ">
           <Combobox<PatientFeedbackFilterForm>
             control={form.control}
             name={"interviewer"}
@@ -55,7 +55,7 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
                 <FormControl>
                   <Input {...field} type={"number"} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="absolute" />
               </FormItem>
             )}
           />
@@ -70,16 +70,20 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
                 <FormControl>
                   <Input {...field} type={"number"} />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="absolute"  />
               </FormItem>
             )}
           />
           {form.formState.errors.general && (
-            <p className="text-danger-500 text-sm">
+            <p className="text-danger-500 text-sm relative">
               {form.formState.errors.general.message}
             </p>
           )}
-          <div className="w-full flex items-end h-full justify-end gap-4">
+          
+        </div>
+        <div className="w-full flex pt-16 items-end justify-end gap-4
+
+        ">
             <Button
               onClick={() => {
                 onReset();
@@ -92,7 +96,6 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
             </Button>
             <Button type={"submit"}>Getir</Button>
           </div>
-        </div>
       </form>
     </Form>
   );
