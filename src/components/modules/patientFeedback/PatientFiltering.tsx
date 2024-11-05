@@ -33,7 +33,7 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
       patientTC: "",
     },
   });
-
+  // değişkenlerin tanımlanması
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className={""}>
