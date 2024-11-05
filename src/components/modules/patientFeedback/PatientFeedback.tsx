@@ -8,6 +8,7 @@ import PatientFiltering from "@/components/modules/patientFeedback/PatientFilter
 import PatientInformation from "@/components/modules/patientFeedback/PatientInformation";
 import FormContainerCard from "@/components/ui/form-container-card";
 import { useEffect, useRef } from "react";
+import NewPatientForm from "@/app/modules/2/components/NewPatientForm";
 
 interface Props {
   onSubmitFilter: (data: PatientFeedbackFilterForm) => void;
@@ -37,22 +38,34 @@ const PatientFeedback = ({
   }, [patientModel]);
 
   return (
-    <div className={"w-full flex flex-col items-center justify-center"}>
-      <div className="md:w-1/2 w-full">
-        <FormContainerCard title={"Hasta Geri Bildirimi"} className="w-full">
-          <PatientFiltering
-            onSubmitFilter={(data) => {
-              onSubmitFilter(data);
-            }}
-            onReset={onReset}
-          />
-          {patientModel && (
-            <PatientInformation
-              containerRef={containerRef}
-              onSubmitPatient={onSubmitPatient}
-              patientModel={patientModel}
+    <div className={"w-full flex flex-row items-center justify-center "}>
+      <div className="md:w-fit w-full flex flex-row ">
+        <FormContainerCard className="w-full flex flex-row ">
+          <h1 className="text-2xl font-semibold text-center w-full my-1 mb-16 ">
+            Hasta Geri Bildirim Formu
+          </h1>
+          <div className="w-full flex flex-row  justify-center gap-6 pe-14">
+            <PatientFiltering
+
+              onSubmitFilter={(data) => {
+                onSubmitFilter(data);
+              }}
+              onReset={onReset}
             />
-          )}
+
+            {patientModel && (
+              <>
+                <div className="w-1 h-80  bg-black-50 rounded flex flex-row items-center justify-center">
+                </div>
+                <NewPatientForm
+
+                  containerRef={containerRef}
+                  onSubmitPatient={onSubmitPatient}
+                  patientModel={patientModel}
+                />
+              </>
+            )}
+          </div>
         </FormContainerCard>
       </div>
     </div>

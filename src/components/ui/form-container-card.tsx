@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface Props {
-  title: string;
+  title?: string;
   className?: string;
   children: React.ReactNode;
 }
