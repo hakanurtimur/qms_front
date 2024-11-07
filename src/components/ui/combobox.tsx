@@ -30,6 +30,7 @@ interface FormSelectFieldProps<T extends FieldValues> {
   label: string;
   options: { [key: string]: string } | { [key: number]: string };
   placeholder?: string;
+  width?: string;
 }
 
 function Combobox<T extends FieldValues>({
@@ -38,13 +39,15 @@ function Combobox<T extends FieldValues>({
   label,
   options,
   placeholder = "Seçiniz",
+  width = "",
 }: FormSelectFieldProps<T>) {
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="space-y-0 pt-0 flex items-start flex-col gap-2">
+        <div className={width}>
+        <FormItem className="space-y-0 pt-0 flex items-start  flex-col gap-2"  >
           <FormLabel className="mt-0">{label}</FormLabel>
           <FormControl>
             <Popover>
@@ -97,6 +100,7 @@ function Combobox<T extends FieldValues>({
           </FormControl>
           <FormMessage />
         </FormItem>
+        </div>
       )}
     />
   );

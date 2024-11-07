@@ -36,8 +36,8 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
   // değişkenlerin tanımlanması
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={""}>
-        <div className="grid md:grid-cols-1 grid-cols-1 w-full gap-8 items-start mb-8 ">
+      <form onSubmit={form.handleSubmit(onSubmit)} className={"flex flex-col w-full h-full"}>
+        <div className="flex flex-col h-full w-full gap-8  justify-between mb-5  ">
           <Combobox<PatientFeedbackFilterForm>
             control={form.control}
             name={"interviewer"}
@@ -53,7 +53,8 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
                   Protokol No
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} type={"number"} />
+                  <Input {...field} type={"number"}  
+                   />
                 </FormControl>
                 <FormMessage className="absolute" />
               </FormItem>
@@ -70,7 +71,7 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
                 <FormControl>
                   <Input {...field} type={"number"} />
                 </FormControl>
-                <FormMessage className="absolute"  />
+                <FormMessage className="absolute" />
               </FormItem>
             )}
           />
@@ -79,11 +80,7 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
               {form.formState.errors.general.message}
             </p>
           )}
-          
-        </div>
-        <div className="w-full flex pt-16 items-end justify-end gap-4
-
-        ">
+          <div className="w-full h-full flex  items-end justify-start gap-4">
             <Button
               onClick={() => {
                 onReset();
@@ -96,6 +93,9 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
             </Button>
             <Button type={"submit"}>Getir</Button>
           </div>
+
+        </div>
+
       </form>
     </Form>
   );

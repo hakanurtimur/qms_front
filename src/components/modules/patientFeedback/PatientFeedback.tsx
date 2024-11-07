@@ -8,7 +8,7 @@ import PatientFiltering from "@/components/modules/patientFeedback/PatientFilter
 import PatientInformation from "@/components/modules/patientFeedback/PatientInformation";
 import FormContainerCard from "@/components/ui/form-container-card";
 import { useEffect, useRef } from "react";
-import NewPatientForm from "@/app/modules/2/components/NewPatientForm";
+import PatientDetailsForm from "@/app/modules/2/components/patient-details-form";
 
 interface Props {
   onSubmitFilter: (data: PatientFeedbackFilterForm) => void;
@@ -39,34 +39,33 @@ const PatientFeedback = ({
 
   return (
     <div className={"w-full flex flex-row items-center justify-center "}>
-      <div className="md:w-fit w-full flex flex-row ">
-        <FormContainerCard className="w-full flex flex-row ">
-          <h1 className="text-2xl font-semibold text-center w-full my-1 mb-16 ">
-            Hasta Geri Bildirim Formu
-          </h1>
-          <div className="w-full flex flex-row  justify-center gap-6 pe-14">
-            <PatientFiltering
-
-              onSubmitFilter={(data) => {
-                onSubmitFilter(data);
-              }}
-              onReset={onReset}
-            />
+      <div className="md:w-fit w-full flex flex-row  ">
+        <div className="w-full flex flex-row pt-12 border-4 border-black-800 shadow-2xl p-10 px-14 rounded-md">
+          <div className="w-full flex flex-row justify-center gap-8 ">
+            <div className="w-56 h-[475px] ">
+              <PatientFiltering
+                onSubmitFilter={(data) => {
+                  onSubmitFilter(data);
+                }}
+                onReset={onReset}
+              />
+            </div>
 
             {patientModel && (
               <>
-                <div className="w-1 h-80  bg-black-50 rounded flex flex-row items-center justify-center">
+                <div className="w-full flex-row flex gap-10">
+                  <div className="w-1 h-92  bg-gray-200 flex flex-row items-center justify-center">
+                  </div>
+                  <PatientDetailsForm
+                    containerRef={containerRef}
+                    onSubmitPatient={onSubmitPatient}
+                    patientModel={patientModel}
+                  />
                 </div>
-                <NewPatientForm
-
-                  containerRef={containerRef}
-                  onSubmitPatient={onSubmitPatient}
-                  patientModel={patientModel}
-                />
               </>
             )}
           </div>
-        </FormContainerCard>
+        </div>
       </div>
     </div>
   );
