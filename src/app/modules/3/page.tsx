@@ -30,7 +30,7 @@ const Page = () => {
   const [patient, setPatient] = useState<IncidentFormPatient | null>(null);
   const [open, setOpen] = React.useState(false);
 
-  const [selectedTab, setSelectedTab] = useState("general");
+  const [selectedTab, setSelectedTab] = useState("");
 
   const handleSubmitPatientFilter = (data: IncidentFormFilter) => {
     console.log(data);
@@ -62,6 +62,7 @@ const Page = () => {
   };
 
   const options = {
+    
     general: "Genel",
     patient: "Hasta",
     employee: "Çalışan",
