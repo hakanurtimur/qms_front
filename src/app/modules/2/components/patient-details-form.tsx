@@ -66,7 +66,7 @@ const PatientDetailsForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex items-center justify-between">
-                    <div>Ad</div>
+                    <div>Adı Soyadı</div>
                   </FormLabel>
                   <FormControl>
                     <Input className="bg-slate-100 pe-11" {...field} />
@@ -130,7 +130,7 @@ const PatientDetailsForm = ({
                   width="w-[217px]"
                   control={form.control}
                   {...field}
-                  label="Rapor Türü"
+                  label="Bildiri Türü"
                   options={reportTypes}
                 />
               )}
