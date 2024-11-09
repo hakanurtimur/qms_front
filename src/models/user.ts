@@ -8,6 +8,7 @@ const SUser = z
     "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": z.string(),
     TicketName: z.string(),
     TitleId: z.string(),
+    RoleId: z.string(), // Added RoleId field
     JobId: z.string(),
     DepartmentId: z.string(),
     jti: z.string(),
@@ -23,10 +24,11 @@ const SUser = z
       ],
     username:
       payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
-    TicketName: payload.TicketName,
-    TitleId: payload.TitleId,
-    JobId: payload.JobId,
-    DepartmentId: payload.DepartmentId,
+    ticketName: payload.TicketName,
+    titleId: payload.TitleId,
+    roleId: payload.RoleId,
+    jobId: payload.JobId,
+    departmentId: payload.DepartmentId,
     jti: payload.jti,
     aud: payload.aud,
     nbf: payload.nbf,
@@ -38,6 +40,5 @@ export type User = z.infer<typeof SUser>;
 
 export function parseJwt(token: string): User {
   const decodedToken = jwtDecode(token);
-
   return SUser.parse(decodedToken);
 }
