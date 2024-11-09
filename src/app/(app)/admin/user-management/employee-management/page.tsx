@@ -146,7 +146,6 @@ const Page = () => {
       });
     },
   });
-  console.log(managerQuery.data);
 
   const handleUpdateEmployee = (formData: EmployeeToManageTableModel) => {
     if (!user) return;
