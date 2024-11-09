@@ -4,6 +4,8 @@ import { SResponseModel } from "@/models/api/response";
 export const SManagerLocation = z.object({
   locationId: z.number(),
   locationName: z.string(),
+  cityName: z.string(),
+  countryName: z.string(),
   state: z.boolean(),
 });
 
