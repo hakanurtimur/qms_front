@@ -2,7 +2,6 @@
 
 import {
   ColumnDef,
-  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -45,9 +44,7 @@ export function DataTable<TData, TValue>({
   data,
   onSheetFormSubmit,
 }: DataTableProps<TData, TValue>) {
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
+  const [globalFilter, setGlobalFilter] = React.useState("");
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
@@ -57,7 +54,7 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
     getFilteredRowModel: getFilteredRowModel(),
     initialState: {
       pagination: {
@@ -66,7 +63,7 @@ export function DataTable<TData, TValue>({
     },
     state: {
       sorting,
-      columnFilters,
+      globalFilter,
     },
   });
 
@@ -77,18 +74,10 @@ export function DataTable<TData, TValue>({
           <div className="flex-grow-0 flex-shrink">
             <Input
               name="locationName"
-              placeholder="Şube Adı"
-              value={
-                table.getColumn("locationName")?.getFilterValue() as string
-              }
+              placeholder="Detaylı Arama"
+              value={globalFilter ?? ""}
               onChange={(event) =>
-                table
-                  .getColumn("locationName")
-                  ?.setFilterValue(
-                    event.target.value
-                      ? event.target.value.toLocaleUpperCase("tr")
-                      : "",
-                  )
+                setGlobalFilter(event.target.value.toLocaleUpperCase("tr"))
               }
             />
           </div>

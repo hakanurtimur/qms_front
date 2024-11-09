@@ -129,9 +129,7 @@ export function DataTable<TData, TValue>({
                     onChange={(value) =>
                       table
                         .getColumn("categoryName")
-                        ?.setFilterValue(
-                          value ? value.toLocaleUpperCase("tr") : "",
-                        )
+                        ?.setFilterValue(value ? value : "")
                     }
                     placeholder={"Kategoriler"}
                     options={categoryOpts}
@@ -162,9 +160,7 @@ export function DataTable<TData, TValue>({
                     onChange={(value) =>
                       table
                         .getColumn("folderName")
-                        ?.setFilterValue(
-                          value ? value.toLocaleUpperCase("tr") : "",
-                        )
+                        ?.setFilterValue(value ? value : "")
                     }
                     placeholder={"Klasör Adı"}
                     options={folderOpts}
