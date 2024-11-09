@@ -163,7 +163,7 @@ export function DataTable<TData, TValue>({
                     <TableCell>
                       <Button
                         onClick={() => {
-                          const selected = data[index] as DocumentModel;
+                          const selected = row.original as DocumentModel;
                           mutation.mutate(selected.fileId.toString());
                         }}
                         size="icon"
