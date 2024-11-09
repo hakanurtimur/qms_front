@@ -62,7 +62,6 @@ const Page = () => {
   };
 
   const options = {
-    
     general: "Genel",
     patient: "Hasta",
     employee: "Çalışan",
@@ -70,10 +69,6 @@ const Page = () => {
 
   return (
     <div className="relative h-full w-full bg-white">
-      {/* Arka Plan Katmanı */}
-      
-      
-
       {/* İçerik Katmanı */}
       <div className="relative z-10 w-full flex justify-between">
         <div className="w-1/6 p-4">
@@ -91,6 +86,7 @@ const Page = () => {
             </div>
           )}
           {selectedTab === "patient" && (
+
             <PatientReport
               onSubmitFilter={handleSubmitPatientFilter}
               onResetPatientForm={handleResetPatientForm}
@@ -99,7 +95,9 @@ const Page = () => {
             />
           )}
           {selectedTab === "employee" && (
-            <EmployeeReport onSubmit={handleEmployeeReportSubmit} />
+            <div className="w-full h-[500px] border-4 p-10 border-black-900 rounded-lg shadow-2xl mr-52 bg-white">
+              <EmployeeReport onSubmit={handleEmployeeReportSubmit} />
+            </div>
           )}
         </div>
       </div>
