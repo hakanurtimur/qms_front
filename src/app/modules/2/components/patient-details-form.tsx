@@ -1,21 +1,24 @@
 import React from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import {
   Form,
+  FormControl,
+  FormField,
   FormItem,
   FormLabel,
-  FormControl,
   FormMessage,
-  FormField,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PatientFeedbackForm } from "@/models/patientFeedbackForm";
 import { Textarea } from "@/components/ui/textarea";
 import Combobox from "@/components/ui/combobox";
 import { Button } from "@/components/ui/button";
-import { TPatientDetails, PatientDetailsSchema } from "../models/patient-details-model";
+import {
+  PatientDetailsSchema,
+  TPatientDetails,
+} from "../models/patient-details-model";
+
 interface PatientDetailsFormProps {
   containerRef: React.RefObject<HTMLDivElement>;
   onSubmitPatient: (data: PatientFeedbackForm) => void;
@@ -28,8 +31,6 @@ const reportTypes = {
   oneri: "Öneri",
   talep: "Talep",
 };
-
-
 
 const PatientDetailsForm = ({
   containerRef,
@@ -56,7 +57,7 @@ const PatientDetailsForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={"space-y-8  animate-slide-in-from-bottom flex w-full" }
+        className={"space-y-8  animate-slide-in-from-bottom flex w-full"}
       >
         <div className="flex flex-col w-full gap-8 items-start ">
           <div className="flex flex-row gap-10 w-full">

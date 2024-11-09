@@ -5,8 +5,6 @@ import {
   PatientFeedbackForm,
 } from "@/models/patientFeedbackForm";
 import PatientFiltering from "@/components/modules/patientFeedback/PatientFiltering";
-import PatientInformation from "@/components/modules/patientFeedback/PatientInformation";
-import FormContainerCard from "@/components/ui/form-container-card";
 import { useEffect, useRef } from "react";
 import PatientDetailsForm from "@/app/modules/2/components/patient-details-form";
 
@@ -54,8 +52,7 @@ const PatientFeedback = ({
             {patientModel && (
               <>
                 <div className="w-full flex-row flex gap-10">
-                  <div className="w-1 h-92  bg-gray-200 flex flex-row items-center justify-center">
-                  </div>
+                  <div className="w-1 h-92  bg-gray-200 flex flex-row items-center justify-center"></div>
                   <PatientDetailsForm
                     containerRef={containerRef}
                     onSubmitPatient={onSubmitPatient}

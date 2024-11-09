@@ -36,7 +36,10 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
   // değişkenlerin tanımlanması
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={"flex flex-col w-full h-full"}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={"flex flex-col w-full h-full"}
+      >
         <div className="flex flex-col h-full w-full gap-8  justify-between mb-5  ">
           <Combobox<PatientFeedbackFilterForm>
             control={form.control}
@@ -53,8 +56,7 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
                   Protokol No
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} type={"number"}  
-                   />
+                  <Input {...field} type={"number"} />
                 </FormControl>
                 <FormMessage className="absolute" />
               </FormItem>
@@ -93,9 +95,7 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
             </Button>
             <Button type={"submit"}>Getir</Button>
           </div>
-
         </div>
-
       </form>
     </Form>
   );

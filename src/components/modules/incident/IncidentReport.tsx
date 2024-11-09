@@ -2,7 +2,6 @@
 import { IncidentForm, SIncidentForm } from "@/models/incidentForm";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormContainerCard from "@/components/ui/form-container-card";
 import {
   Form,
   FormControl,
@@ -12,7 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
 import { Textarea } from "@/components/ui/textarea";
 import { Dropzone } from "@/components/ui/dropZone";
 import { DatePicker } from "@/components/ui/date-picker";
@@ -38,7 +37,10 @@ const IncidentReport = ({ onSubmit }: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={"space-y-7 w-full justify-center items-center bg-white"}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={"space-y-7 w-full justify-center items-center bg-white"}
+      >
         <div className="w-full grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
@@ -91,9 +93,7 @@ const IncidentReport = ({ onSubmit }: Props) => {
                 Açıklama
               </FormLabel>
               <FormControl>
-                <Textarea
-                  className="w-full"
-                  rows={4} {...field} />
+                <Textarea className="w-full" rows={4} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

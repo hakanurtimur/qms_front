@@ -59,13 +59,13 @@ export function DynamicCombobox({
               role="combobox"
               className={cn(
                 "flex w-full justify-between font-normal",
-                !value && "text-muted-foreground"
+                !value && "text-muted-foreground",
               )}
             >
               <span className="grow-0">
-
-                {value ? (options as Record<string | number, string>)[value] : placeholder}
-
+                {value
+                  ? (options as Record<string | number, string>)[value]
+                  : placeholder}
               </span>
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
@@ -79,14 +79,16 @@ export function DynamicCombobox({
                   {Object.entries(options).map(([key, value]) => (
                     <CommandItem
                       className="flex items-center"
-                      value={value as any}
+                      value={value}
                       key={key}
-                      onSelect={() => handleSelect(isNaN(Number(key)) ? key : Number(key))}
+                      onSelect={() =>
+                        handleSelect(isNaN(Number(key)) ? key : Number(key))
+                      }
                     >
                       <Check
                         className={cn(
                           "mr-2 h-4 w-4",
-                          key === value ? "opacity-100" : "opacity-0"
+                          key === value ? "opacity-100" : "opacity-0",
                         )}
                       />
                       {value}
