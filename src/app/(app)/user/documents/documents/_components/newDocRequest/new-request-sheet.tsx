@@ -20,7 +20,7 @@ const NewRequestSheet = ({ onSubmit }: Props) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button>
+        <Button className="flex gap-2">
           <PlusIcon className="w-4 h-4 text-white" /> <p>Dokuman Talebi</p>
         </Button>
       </SheetTrigger>

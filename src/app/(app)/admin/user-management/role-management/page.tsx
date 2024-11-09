@@ -96,7 +96,7 @@ const Page = () => {
         title={"Rol İşlemleri"}
         description={"Buradan rolleri yönetebilirsiniz."}
       />
-      <div className={"max-w-4xl flex flex-col space-y-10"}>
+      <div className={"w-full flex flex-col space-y-10"}>
         <div className="flex justify-between">
           <Button>Listele</Button>
           <CreateRoleSheet onSubmit={handleSheetFormSubmitAdd} />

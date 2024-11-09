@@ -3,21 +3,17 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { DocumentModel } from "@/models/document";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown } from "lucide-react";
+import SortingBtn from "@/components/ui/sorting-btn";
 
 export const columns: ColumnDef<DocumentModel>[] = [
   {
     accessorKey: "categoryName",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          className="bg-transparent hover:bg-transparent p-0"
+        <SortingBtn
+          text={"Kategori"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Kategori
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        />
       );
     },
   },
@@ -25,14 +21,10 @@ export const columns: ColumnDef<DocumentModel>[] = [
     accessorKey: "folderName",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          className="bg-transparent hover:bg-transparent p-0"
+        <SortingBtn
+          text={"Klasör Adı"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Klasör Adı
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        />
       );
     },
   },
