@@ -119,8 +119,6 @@ export function DataTable<TData, TValue>({
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
-                  <TableHead>Ülke</TableHead>
-                  <TableHead>Şehir</TableHead>
                   {headerGroup.headers.map((header, index) => {
                     return (
                       <TableHead key={header.id + index}>
@@ -144,8 +142,6 @@ export function DataTable<TData, TValue>({
                     key={row.id + index}
                     data-state={row.getIsSelected() && "selected"}
                   >
-                    <TableCell>Türkiye</TableCell>
-                    <TableCell>İzmir</TableCell>
                     {row
                       .getVisibleCells()
                       .map((cell, index) =>
