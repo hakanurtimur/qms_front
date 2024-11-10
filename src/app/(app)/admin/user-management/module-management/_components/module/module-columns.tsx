@@ -3,7 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
-import { ModuleToManageModel } from "@/models/admin/moduleManagement/moduleManagement";
+import { ModuleToManageModel } from "@/models/admin/moduleManagement/moduleToManageModel";
 
 export const moduleColumns: ColumnDef<ModuleToManageModel>[] = [
   {

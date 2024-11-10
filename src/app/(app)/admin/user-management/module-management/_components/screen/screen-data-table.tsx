@@ -23,18 +23,25 @@ import {
 import React from "react";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import ModuleUpdateSheet from "./moduleSheet/module-update-sheet";
-import { ModuleToManageModel } from "@/models/admin/moduleManagement/moduleToManageModel";
+import { ScreenToManageModel } from "@/models/admin/moduleManagement/screenToManageModel";
+import ScreenUpdateSheet from "@/app/(app)/admin/user-management/module-management/_components/screen/screenSheet/screen-update-sheet";
 import NonFormCombobox from "@/components/ui/nonform-combobox";
+import { Input } from "@/components/ui/input";
 
 interface DataTableProps<TData, TValue> {
-  moduleNameOpts: { [key: string]: string };
+  screenModuleOpts: { [key: string]: string };
+  screenTypeOpts: { [key: string]: string };
+  screenSubModuleOpts: { [key: string]: string };
+  screenRoleOpts: { [key: string]: string };
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function ModuleDataTable<TData, TValue>({
-  moduleNameOpts,
+export function ScreenDataTable<TData, TValue>({
+  screenModuleOpts,
+  screenTypeOpts,
+  screenSubModuleOpts,
+  screenRoleOpts,
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -87,6 +94,17 @@ export function ModuleDataTable<TData, TValue>({
           <div className="flex items-center py-4 px-4 gap-10 justify-between">
             <NonFormCombobox
               width={"w-1/2 max-w-sm"}
+              placeholder="Tip Adı"
+              value={
+                (table.getColumn("typeName")?.getFilterValue() as string) || ""
+              }
+              onChange={(value) =>
+                table.getColumn("typeName")?.setFilterValue(value ? value : "")
+              }
+              options={screenTypeOpts}
+            />
+            <NonFormCombobox
+              width={"w-1/2 max-w-sm"}
               placeholder="Modül Adı"
               value={
                 (table.getColumn("moduleName")?.getFilterValue() as string) ||
@@ -97,17 +115,42 @@ export function ModuleDataTable<TData, TValue>({
                   .getColumn("moduleName")
                   ?.setFilterValue(value ? value : "")
               }
-              options={moduleNameOpts}
+              options={screenModuleOpts}
             />
-            {/*TODO: add input */}
-            {/*<Input*/}
-            {/*  placeholder="Arama yapın..."*/}
-            {/*  value={globalFilter ?? ""}*/}
-            {/*  onChange={(event) =>*/}
-            {/*    setGlobalFilter(event.target.value.toLocaleUpperCase("tr"))*/}
-            {/*  }*/}
-            {/*  className="max-w-sm"*/}
-            {/*/>*/}
+            <NonFormCombobox
+              width={"w-1/2 max-w-sm"}
+              placeholder="Alt Modül Adı"
+              value={
+                (table
+                  .getColumn("subModuleName")
+                  ?.getFilterValue() as string) || ""
+              }
+              onChange={(value) =>
+                table
+                  .getColumn("subModuleName")
+                  ?.setFilterValue(value ? value : "")
+              }
+              options={screenSubModuleOpts}
+            />
+            <NonFormCombobox
+              width={"w-1/2 max-w-sm"}
+              placeholder="Rol Adı"
+              value={
+                (table.getColumn("roleName")?.getFilterValue() as string) || ""
+              }
+              onChange={(value) =>
+                table.getColumn("roleName")?.setFilterValue(value ? value : "")
+              }
+              options={screenRoleOpts}
+            />
+            <Input
+              placeholder="Arama yapın..."
+              value={globalFilter ?? ""}
+              onChange={(event) =>
+                setGlobalFilter(event.target.value.toLocaleUpperCase("tr"))
+              }
+              className="max-w-sm"
+            />
           </div>
           <div className="rounded-md border px-4 py-4">
             <Table className="table-fixed">
@@ -146,9 +189,9 @@ export function ModuleDataTable<TData, TValue>({
                         </TableCell>
                       ))}
                       <TableCell>
-                        <ModuleUpdateSheet
-                          model={row.original as ModuleToManageModel}
-                          onSubmit={(data: ModuleToManageModel) => {
+                        <ScreenUpdateSheet
+                          model={row.original as ScreenToManageModel}
+                          onSubmit={(data: ScreenToManageModel) => {
                             console.log(data);
                           }}
                         />

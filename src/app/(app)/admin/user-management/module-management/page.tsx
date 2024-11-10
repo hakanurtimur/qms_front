@@ -7,6 +7,8 @@ import { ModuleDataTable } from "@/app/(app)/admin/user-management/module-manage
 import { moduleColumns } from "@/app/(app)/admin/user-management/module-management/_components/module/module-columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
+import { ScreenDataTable } from "@/app/(app)/admin/user-management/module-management/_components/screen/screen-data-table";
+import { screenColumns } from "@/app/(app)/admin/user-management/module-management/_components/screen/screen-columns";
 
 const Page = () => {
   // TODO: add query service
@@ -16,7 +18,7 @@ const Page = () => {
   //   queryFn: () => documentService.getDocuments(moduleId),
   // });
 
-  const query = {
+  const moduleQuery = {
     data: {
       data: [
         {
@@ -31,10 +33,64 @@ const Page = () => {
     },
   };
 
-  const moduleNames = query.data?.data.map((doc) => doc.moduleName);
+  const screenQuery = {
+    data: {
+      data: [
+        {
+          typeName: "Patient Records",
+          moduleName: "Medical History",
+          subModuleName: "Allergies",
+          roleName: "Doctor",
+          state: true,
+        },
+        {
+          typeName: "Treatment Plan",
+          moduleName: "Surgery",
+          subModuleName: "Post-Operative Care",
+          roleName: "Nurse",
+          state: false,
+        },
+        {
+          typeName: "Billing Information",
+          moduleName: "Insurance",
+          subModuleName: "Claims Processing",
+          roleName: "Billing Staff",
+          state: true,
+        },
+      ],
+    },
+  };
+
+  const moduleNames = moduleQuery.data?.data.map((doc) => doc.moduleName);
 
   const moduleNameOpts = moduleNames
     ? convertStringArrayToOptions(moduleNames)
+    : null;
+
+  const screenTypeNames = screenQuery.data?.data.map((doc) => doc.typeName);
+
+  const screenTypeOpts = screenTypeNames
+    ? convertStringArrayToOptions(screenTypeNames)
+    : null;
+
+  const screenModuleNames = screenQuery.data?.data.map((doc) => doc.moduleName);
+
+  const screenModuleOpts = screenModuleNames
+    ? convertStringArrayToOptions(screenModuleNames)
+    : null;
+
+  const screenSubModuleNames = screenQuery.data?.data.map(
+    (doc) => doc.subModuleName,
+  );
+
+  const screenSubModuleOpts = screenSubModuleNames
+    ? convertStringArrayToOptions(screenSubModuleNames)
+    : null;
+
+  const screenRoleNames = screenQuery.data?.data.map((doc) => doc.roleName);
+
+  const screenRoleOpts = screenRoleNames
+    ? convertStringArrayToOptions(screenRoleNames)
     : null;
 
   return (
@@ -52,18 +108,37 @@ const Page = () => {
           </TabsList>
         </div>
         <TabsContent value={"modules"}>
-          {query.data && moduleNameOpts ? (
+          {moduleQuery.data && moduleNameOpts ? (
             <ModuleDataTable
               moduleNameOpts={moduleNameOpts}
               columns={moduleColumns}
-              data={query.data.data}
+              data={moduleQuery.data.data}
             />
           ) : (
-            <LoadingScreen />
+            <div className="w-screen h-screen absolute top-0 left-0">
+              <LoadingScreen />
+            </div>
           )}
         </TabsContent>
         <TabsContent value={"screens"}>
-          <div>TEST</div>
+          {screenQuery.data &&
+          screenModuleOpts &&
+          screenTypeOpts &&
+          screenSubModuleOpts &&
+          screenRoleOpts ? (
+            <ScreenDataTable
+              columns={screenColumns}
+              screenModuleOpts={screenModuleOpts}
+              screenTypeOpts={screenTypeOpts}
+              screenSubModuleOpts={screenSubModuleOpts}
+              screenRoleOpts={screenRoleOpts}
+              data={screenQuery.data.data}
+            />
+          ) : (
+            <div className="w-screen h-screen absolute top-0 left-0">
+              <LoadingScreen />
+            </div>
+          )}
         </TabsContent>
       </Tabs>
     </div>

@@ -9,15 +9,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import React from "react";
-import ModuleForm from "@/app/(app)/admin/user-management/module-management/_components/module/moduleSheet/module-form";
-import { ModuleToManageModel } from "@/models/admin/moduleManagement/moduleToManageModel";
+import { ScreenToManageModel } from "@/models/admin/moduleManagement/screenToManageModel";
+import ScreenForm from "@/app/(app)/admin/user-management/module-management/_components/screen/screenSheet/screen-form";
 
 interface Props {
-  model: ModuleToManageModel;
-  onSubmit: (data: ModuleToManageModel) => void;
+  model: ScreenToManageModel;
+  onSubmit: (data: ScreenToManageModel) => void;
 }
 
-const ModuleUpdateSheet = ({ model, onSubmit }: Props) => {
+const ScreenUpdateSheet = ({ model, onSubmit }: Props) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -27,15 +27,15 @@ const ModuleUpdateSheet = ({ model, onSubmit }: Props) => {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Modül Bilgileri</SheetTitle>
+          <SheetTitle>Ekran Bilgileri</SheetTitle>
           <SheetDescription>
-            Buradan modülleri düzenleyebilirsiniz.
+            Buradan ekranları düzenleyebilirsiniz.
           </SheetDescription>
         </SheetHeader>
-        <ModuleForm model={model} onSubmit={onSubmit} />
+        <ScreenForm model={model} onSubmit={onSubmit} />
       </SheetContent>
     </Sheet>
   );
 };
 
-export default ModuleUpdateSheet;
+export default ScreenUpdateSheet;

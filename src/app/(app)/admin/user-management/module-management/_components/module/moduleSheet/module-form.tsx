@@ -15,7 +15,7 @@ import React from "react";
 import {
   ModuleToManageModel,
   SModuleToManageModel,
-} from "@/models/admin/moduleManagement/moduleManagement";
+} from "@/models/admin/moduleManagement/moduleToManageModel";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 
