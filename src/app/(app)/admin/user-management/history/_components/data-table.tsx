@@ -7,6 +7,8 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -35,23 +37,32 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
+  const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 5,
+      },
+    },
     state: {
+      sorting,
       columnFilters,
     },
   });
 
   return (
-    <div className="w-full overflow-scroll flex items-center justify-center">
-      <div className="rounded-md border w-full max-w-[1600px] min-w-[800px]">
-        <div className="flex items-center py-4 px-4 gap-10 w-full justify-between">
+    <div className="w-full overflow-scroll flex items-center justify-center no-scrollbar">
+      <div className="rounded-md border w-full max-w-[1600px] min-w-[800px] no-scrollbar">
+        <div className="flex items-center py-4 px-4 gap-10 w-full justify-between no-scrollbar">
           <div className="flex items-center gap-10">
             <div className="w-64">
               <Input
@@ -157,6 +168,14 @@ export function DataTable<TData, TValue>({
                         >
                           {formatDate(cell.getValue() as string)}
                         </TableCell>
+                      ) : cell.id.includes("updateTable") ? (
+                        <>
+                          <TableCell key={cell.id + index}>
+                            {[cell.getValue() as string]
+                              .toString()
+                              .toLocaleUpperCase("tr")}
+                          </TableCell>
+                        </>
                       ) : (
                         <TableCell key={cell.id + index}>
                           {flexRender(

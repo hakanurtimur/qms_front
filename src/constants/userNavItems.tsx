@@ -19,7 +19,7 @@ export const userNavItems = [
       {
         icon: DocumentTextIcon,
         label: "Dokümanlar",
-        href: "/dokumanlar/dokumanlar",
+        href: "/user/documents/documents",
       },
       {
         icon: DocumentTextIcon,

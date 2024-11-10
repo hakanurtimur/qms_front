@@ -47,59 +47,61 @@ function Combobox<T extends FieldValues>({
       name={name}
       render={({ field }) => (
         <div className={width}>
-        <FormItem className="space-y-0 pt-0 flex items-start  flex-col gap-2"  >
-          <FormLabel className="mt-0">{label}</FormLabel>
-          <FormControl>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  className={cn(
-                    "flex w-full justify-between font-normal",
-                    !field.value && "text-muted-foreground",
-                  )}
-                >
-                  <span className="grow-0">
-                    {field.value ? options[field.value] : placeholder}
-                  </span>
-                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="p-0">
-                <Command>
-                  <CommandInput placeholder="Ara" />
-                  <CommandList>
-                    <CommandEmpty>Bulunamadı</CommandEmpty>
-                    <CommandGroup>
-                      {Object.entries(options).map(([key, value]) => (
-                        <CommandItem
-                          value={value}
-                          key={key}
-                          onSelect={() => {
-                            const parsedKey = isNaN(Number(key))
-                              ? key
-                              : Number(key);
-                            field.onChange(parsedKey);
-                          }}
-                        >
-                          <Check
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              key === field.value ? "opacity-100" : "opacity-0",
-                            )}
-                          />
-                          {value}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
+          <FormItem className="space-y-0 pt-0 flex items-start  flex-col gap-2">
+            <FormLabel className="mt-0">{label}</FormLabel>
+            <FormControl>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    className={cn(
+                      "flex w-full justify-between font-normal",
+                      !field.value && "text-muted-foreground",
+                    )}
+                  >
+                    <span className="grow-0">
+                      {field.value ? options[field.value] : placeholder}
+                    </span>
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="p-0">
+                  <Command>
+                    <CommandInput placeholder="Ara" />
+                    <CommandList>
+                      <CommandEmpty>Bulunamadı</CommandEmpty>
+                      <CommandGroup>
+                        {Object.entries(options).map(([key, value]) => (
+                          <CommandItem
+                            value={value}
+                            key={key}
+                            onSelect={() => {
+                              const parsedKey = isNaN(Number(key))
+                                ? key
+                                : Number(key);
+                              field.onChange(parsedKey);
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                key === field.value
+                                  ? "opacity-100"
+                                  : "opacity-0",
+                              )}
+                            />
+                            {value}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
         </div>
       )}
     />

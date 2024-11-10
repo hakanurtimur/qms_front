@@ -10,9 +10,6 @@ import {
 } from "@/models/incidentForm";
 import PatientReport from "@/components/modules/incident/patientReport/PatientReport";
 import React, { useState } from "react";
-import Combobox from "@/components/ui/combobox";
-import { Control, useForm } from "react-hook-form";
-import { any } from "zod";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 
 const DUMMY_PATIENT: IncidentFormPatient = {
@@ -26,15 +23,21 @@ const DUMMY_PATIENT: IncidentFormPatient = {
   file: undefined,
 };
 
+export const incidentPlaces = {
+  "Dahiliye": "Dahiliye",
+  "Cerrahi": "Cerrahi",
+  "Ortopedi": "Ortopedi",
+}
+
 const Page = () => {
   const [patient, setPatient] = useState<IncidentFormPatient | null>(null);
-  const [open, setOpen] = React.useState(false);
 
-  const [selectedTab, setSelectedTab] = useState("");
+  const [selectedTab, setSelectedTab] = useState<string | number>("");
 
   const handleSubmitPatientFilter = (data: IncidentFormFilter) => {
     console.log(data);
     setPatient(DUMMY_PATIENT);
+    console.log(patient);
   };
 
   const handlePatientReportSubmit = (data: IncidentFormPatient) => {
@@ -53,11 +56,7 @@ const Page = () => {
     console.log(data);
   };
 
-  const handleTabChange = (value: any) => {
-    setSelectedTab(value);
-  };
-
-  const handleTabSelect = (value: string) => {
+  const handleTabChange = (value: string | number) => {
     setSelectedTab(value);
   };
 
@@ -95,7 +94,7 @@ const Page = () => {
             />
           )}
           {selectedTab === "employee" && (
-            <div className="w-full h-[500px] border-4 p-10 border-black-900 rounded-lg shadow-2xl mr-52 bg-white">
+            <div className="w-full h-fit border-4 p-10 border-black-900 rounded-lg shadow-2xl mr-52 bg-white">
               <EmployeeReport onSubmit={handleEmployeeReportSubmit} />
             </div>
           )}

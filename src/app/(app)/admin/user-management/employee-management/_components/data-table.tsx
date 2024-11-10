@@ -5,6 +5,8 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -49,6 +51,7 @@ export function DataTable<TData, TValue>({
     [],
   );
   const [globalFilter, setGlobalFilter] = React.useState("");
+  const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
     data,
@@ -57,25 +60,35 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: (row, columnId, filterValue) => {
       const value = row.getValue(columnId);
       return String(value).toLowerCase().includes(filterValue.toLowerCase());
     },
+    initialState: {
+      pagination: {
+        pageSize: 5,
+      },
+    },
     state: {
+      sorting,
       columnFilters,
       globalFilter,
     },
   });
 
   return (
-    <div className="w-full overflow-scroll flex items-center justify-center">
-      <div className="rounded-md border w-full max-w-[1600px] min-w-[800px]">
-        <div className="flex items-center py-4 px-4 justify-between gap-10 w-full">
+    <div className="w-full overflow-scroll flex items-center justify-center no-scrollbar">
+      <div className="rounded-md border w-full max-w-[1600px] min-w-[800px] no-scrollbar">
+        <div className="flex items-center py-4 px-4 justify-between gap-10 w-full no-scrollbar">
           <Input
             placeholder="Arama yapın..."
             value={globalFilter ?? ""}
-            onChange={(event) => setGlobalFilter(event.target.value)}
+            onChange={(event) =>
+              setGlobalFilter(event.target.value.toLocaleUpperCase("tr"))
+            }
             className="max-w-sm"
           />
         </div>
@@ -112,7 +125,7 @@ export function DataTable<TData, TValue>({
                       .map((cell, index) =>
                         cell.id.includes("workingStatus") ? (
                           <TableCell key={cell.id + index}>
-                            {cell.getValue() === true ? "Aktif" : "Pasif"}
+                            {cell.getValue() === true ? "AKTİF" : "PASİF"}
                           </TableCell>
                         ) : (
                           <TableCell key={cell.id + index}>

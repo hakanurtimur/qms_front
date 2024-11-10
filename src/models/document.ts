@@ -7,7 +7,6 @@ export const SDocumentModel = z.object({
   folderName: z.string(),
   printing: z.number(),
   reading: z.number(),
-  subCategoryName: z.string(),
   url: z.string().nullable(),
 });
 
@@ -26,7 +25,6 @@ export type DocumentApiResponse = z.infer<typeof DocumentApiResponseSchema>;
 
 const SDocumentFilterModel = z.object({
   categoryName: z.string().optional(),
-  subCategoryName: z.string().optional(),
   folderName: z.string().optional(),
   fileName: z.string().optional(),
 });

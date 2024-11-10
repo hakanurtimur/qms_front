@@ -7,6 +7,8 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -46,23 +48,32 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
+  const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 5,
+      },
+    },
     state: {
+      sorting,
       columnFilters,
     },
   });
 
   return (
-    <div className="w-full overflow-scroll flex items-center justify-center">
-      <div className="rounded-md border w-full max-w-[1600px] min-w-[800px]">
-        <div className="flex items-center py-4 px-4 justify-between gap-10 w-full">
+    <div className="w-full overflow-scroll flex items-center justify-center no-scrollbar">
+      <div className="rounded-md border w-full max-w-[1600px] min-w-[800px] no-scrollbar">
+        <div className="flex items-center py-4 px-4 justify-between gap-10 w-full no-scrollbar">
           <div className="flex-grow-0 flex-shrink">
             <Input
               name="locationName"
@@ -86,18 +97,18 @@ export function DataTable<TData, TValue>({
             <Select
               value={
                 table.getColumn("state")?.getFilterValue() === true
-                  ? "aktif"
+                  ? "AKTİF"
                   : table.getColumn("state")?.getFilterValue() === false
-                    ? "pasif"
-                    : "hepsi"
+                    ? "PASİF"
+                    : "HEPSİ"
               }
               onValueChange={(value) => {
                 table
                   .getColumn("state")
                   ?.setFilterValue(
-                    value === "aktif"
+                    value === "AKTİF"
                       ? true
-                      : value === "pasif"
+                      : value === "PASİF"
                         ? false
                         : undefined,
                   );
@@ -107,9 +118,9 @@ export function DataTable<TData, TValue>({
                 <SelectValue placeholder="Durum seçiniz" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value={"aktif"}>Aktif</SelectItem>
-                <SelectItem value={"pasif"}>Pasif</SelectItem>
-                <SelectItem value={"hepsi"}>Hepsi</SelectItem>
+                <SelectItem value={"AKTİF"}>AKTİF</SelectItem>
+                <SelectItem value={"PASİF"}>PASİF</SelectItem>
+                <SelectItem value={"HEPSİ"}>HEPSİ</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -119,8 +130,6 @@ export function DataTable<TData, TValue>({
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
-                  <TableHead>Ülke</TableHead>
-                  <TableHead>Şehir</TableHead>
                   {headerGroup.headers.map((header, index) => {
                     return (
                       <TableHead key={header.id + index}>
@@ -144,14 +153,12 @@ export function DataTable<TData, TValue>({
                     key={row.id + index}
                     data-state={row.getIsSelected() && "selected"}
                   >
-                    <TableCell>Türkiye</TableCell>
-                    <TableCell>İzmir</TableCell>
                     {row
                       .getVisibleCells()
                       .map((cell, index) =>
                         cell.id.includes("state") ? (
                           <TableCell key={cell.id + index}>
-                            {cell.getValue() === true ? "Aktif" : "Pasif"}
+                            {cell.getValue() === true ? "AKTİF" : "PASİF"}
                           </TableCell>
                         ) : (
                           <TableCell key={cell.id + index}>

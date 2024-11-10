@@ -3,9 +3,20 @@
 import * as React from "react";
 import { CalendarIcon, ClockIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { format, startOfMonth, addDays, addMonths, subMonths, isSameMonth, isSameDay } from "date-fns";
+import {
+  addMonths,
+  format,
+  isSameDay,
+  isSameMonth,
+  startOfMonth,
+  subMonths,
+} from "date-fns";
 import { tr } from "date-fns/locale";
 import {
   Select,
@@ -36,7 +47,10 @@ export function DatePicker({
   const [open, setOpen] = React.useState(false);
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
   const [currentMonth, setCurrentMonth] = React.useState(new Date());
-  const [selectedTime, setSelectedTime] = React.useState<{ hours: string; minutes: string }>({
+  const [selectedTime, setSelectedTime] = React.useState<{
+    hours: string;
+    minutes: string;
+  }>({
     hours: "00",
     minutes: "00",
   });
@@ -105,7 +119,7 @@ export function DatePicker({
               role="combobox"
               className={cn(
                 "flex w-full justify-between font-normal",
-                !selectedDate && "text-muted-foreground"
+                !selectedDate && "text-muted-foreground",
               )}
             >
               <span className="flex-1 text-left">
@@ -115,7 +129,11 @@ export function DatePicker({
                     : format(selectedDate, "dd.MM.yyyy")
                   : placeholder}
               </span>
-              {includeTime ? <ClockIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" /> : <CalendarIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />}
+              {includeTime ? (
+                <ClockIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              ) : (
+                <CalendarIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              )}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-4">
@@ -132,7 +150,10 @@ export function DatePicker({
             </div>
             <div className="grid grid-cols-7 gap-2">
               {["Pzt", "Sal", "Çar", "Per", "Cum", "Cts", "Paz"].map((day) => (
-                <div key={day} className="text-center text-xs font-medium text-gray-500">
+                <div
+                  key={day}
+                  className="text-center text-xs font-medium text-gray-500"
+                >
                   {day}
                 </div>
               ))}
@@ -145,7 +166,7 @@ export function DatePicker({
                   className={cn(
                     "p-1 rounded-lg hover:bg-gray-200",
                     isSameDay(day, selectedDate!) && "bg-blue-500 text-white",
-                    !isSameMonth(day, currentMonth) && "text-gray-300"
+                    !isSameMonth(day, currentMonth) && "text-gray-300",
                   )}
                 >
                   {format(day, "d")}
@@ -159,15 +180,14 @@ export function DatePicker({
                     Saat
                   </label>
                   <Select
-                  value={selectedTime.hours} 
-                  onValueChange={(value) => handleTimeChange("hours", value)}>
+                    value={selectedTime.hours}
+                    onValueChange={(value) => handleTimeChange("hours", value)}
+                  >
                     <SelectTrigger className="w-20">
                       <SelectValue placeholder="00" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectGroup>
-                        {generateTimeOptions(24)}
-                      </SelectGroup>
+                      <SelectGroup>{generateTimeOptions(24)}</SelectGroup>
                     </SelectContent>
                   </Select>
                 </div>
@@ -176,15 +196,16 @@ export function DatePicker({
                     Dakika
                   </label>
                   <Select
-                   value={selectedTime.minutes}
-                  onValueChange={(value) => handleTimeChange("minutes", value)}>
+                    value={selectedTime.minutes}
+                    onValueChange={(value) =>
+                      handleTimeChange("minutes", value)
+                    }
+                  >
                     <SelectTrigger className="w-20">
                       <SelectValue placeholder="00" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectGroup>
-                        {generateTimeOptions(60)}
-                      </SelectGroup>
+                      <SelectGroup>{generateTimeOptions(60)}</SelectGroup>
                     </SelectContent>
                   </Select>
                 </div>

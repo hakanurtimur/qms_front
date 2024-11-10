@@ -6,6 +6,7 @@ import React from "react";
 import { DataTable } from "@/app/modules/1/_components/data-table";
 import { columns } from "@/app/modules/1/_components/columns";
 import LoadingScreen from "@/components/commons/LoadingScreen";
+import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
 
 const Page = () => {
   const pathname = usePathname();
@@ -16,10 +17,26 @@ const Page = () => {
     queryFn: () => documentService.getDocuments(moduleId),
   });
 
+  const categories = query.data?.data.map((doc) => doc.categoryName);
+
+  const folderNames = query.data?.data.map((doc) => doc.folderName);
+
+  const categroyOpts = categories
+    ? convertStringArrayToOptions(categories)
+    : null;
+  const folderOpts = folderNames
+    ? convertStringArrayToOptions(folderNames)
+    : null;
+
   return (
     <>
-      {query.data ? (
-        <DataTable columns={columns} data={query.data.data} />
+      {query.data && categroyOpts && folderOpts ? (
+        <DataTable
+          categoryOpts={categroyOpts}
+          folderOpts={folderOpts}
+          columns={columns}
+          data={query.data.data}
+        />
       ) : (
         <LoadingScreen />
       )}

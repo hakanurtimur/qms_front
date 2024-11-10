@@ -21,11 +21,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { EyeIcon, InformationCircleIcon } from "@heroicons/react/24/outline";
+import {
+  EyeIcon,
+  InformationCircleIcon,
+  PrinterIcon,
+} from "@heroicons/react/24/outline";
 import React from "react";
-
-import { useMutation } from "@tanstack/react-query";
-import documentService from "@/services/DocumentService";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { DocumentModel } from "@/models/document";
@@ -36,6 +37,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import NonFormCombobox from "@/components/ui/nonform-combobox";
+import RevisionRequestSheet from "@/app/(app)/user/documents/documents/_components/revisionDocRequest/revision-request-sheet";
+import { RequestDocumentModel } from "@/models/user/documents/requestDocument";
 
 interface DataTableProps<TData, TValue> {
   categoryOpts: { [key: string]: string };
@@ -66,17 +69,19 @@ export function DataTable<TData, TValue>({
   ]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
-  const mutation = useMutation({
-    mutationKey: ["goDoc"],
-    mutationFn: (fileId: string) => documentService.goDoc(fileId),
-    onSuccess: (data) => {
-      console.log(data);
-      console.log(data.data.url);
-      if (data.data.url) {
-        window.open(data.data.url, "_blank");
-      }
-    },
-  });
+  // TODO: add related mutation
+
+  // const mutation = useMutation({
+  //   mutationKey: ["goDoc"],
+  //   mutationFn: (fileId: string) => documentService.goDoc(fileId),
+  //   onSuccess: (data) => {
+  //     console.log(data);
+  //     console.log(data.data.url);
+  //     if (data.data.url) {
+  //       window.open(data.data.url, "_blank");
+  //     }
+  //   },
+  // });
 
   const table = useReactTable({
     data,
@@ -101,7 +106,7 @@ export function DataTable<TData, TValue>({
   return (
     <TooltipProvider>
       <div className="w-full overflow-scroll flex items-center justify-center no-scrollbar">
-        <div className="rounded-md border max-w-6xl min-w-[800px] no-scrollbar">
+        <div className="rounded-md border no-scrollbar">
           <div className="flex items-center py-4 px-4 gap-10">
             <div className="flex flex-1 flex-shrink-0 items-center gap-10">
               <div className="flex flex-1 col-span-1 items-center gap-2">
@@ -172,7 +177,7 @@ export function DataTable<TData, TValue>({
                 </div>
               </div>
             </div>
-            <div className="flex flex-1 max-w-[420px] flex-shrink-0 col-span-1 justify-stretch gap-2">
+            <div className="flex flex-1 max-w-[520px] flex-shrink-0 col-span-1 justify-stretch gap-2">
               <Tooltip>
                 <TooltipTrigger>
                   <InformationCircleIcon className="w-5 h-5" />
@@ -197,7 +202,6 @@ export function DataTable<TData, TValue>({
                     .getColumn("fileName")
                     ?.setFilterValue(event.target.value.toLocaleUpperCase("tr"))
                 }
-                className="max-w-sm"
               />
             </div>
           </div>
@@ -218,7 +222,7 @@ export function DataTable<TData, TValue>({
                         </TableHead>
                       );
                     })}
-                    <TableHead className="w-20"></TableHead>
+                    <TableHead className="w-40">İşlem</TableHead>
                   </TableRow>
                 ))}
               </TableHeader>
@@ -238,15 +242,51 @@ export function DataTable<TData, TValue>({
                         </TableCell>
                       ))}
                       <TableCell>
-                        <Button
-                          onClick={() => {
-                            const selected = row.original as DocumentModel;
-                            mutation.mutate(selected.fileId.toString());
-                          }}
-                          size="icon"
-                        >
-                          <EyeIcon className="w-4 h-4" />
-                        </Button>
+                        <div className="flex items-center gap-4">
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                onClick={() => {
+                                  const selected =
+                                    row.original as DocumentModel;
+                                  // mutation.mutate(selected.fileId.toString());
+
+                                  console.log(selected.fileId.toString());
+                                }}
+                                size="icon"
+                              >
+                                <PrinterIcon className="w-4 h-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Yazdır</TooltipContent>
+                          </Tooltip>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                onClick={() => {
+                                  const selected =
+                                    row.original as DocumentModel;
+                                  // mutation.mutate(selected.fileId.toString());
+                                  console.log(selected.fileId.toString());
+                                }}
+                                size="icon"
+                              >
+                                <EyeIcon className="w-4 h-4" />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Görüntüle</TooltipContent>
+                          </Tooltip>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <RevisionRequestSheet
+                                onSubmit={(data: RequestDocumentModel) => {
+                                  console.log(data);
+                                }}
+                              />
+                            </TooltipTrigger>
+                            <TooltipContent>Revizyon Talebi</TooltipContent>
+                          </Tooltip>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))

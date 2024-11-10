@@ -7,6 +7,8 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -37,23 +39,32 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
+  const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 5,
+      },
+    },
     state: {
+      sorting,
       columnFilters,
     },
   });
 
   return (
-    <div className="w-full overflow-scroll flex items-center justify-start">
-      <div className="rounded-md border w-full max-w-4xl min-w-[800px]">
-        <div className="rounded-md border px-4 py-4">
+    <div className="w-full overflow-scroll flex items-center justify-start no-scrollbar">
+      <div className="rounded-md border w-full min-w-[800px] no-scrollbar">
+        <div className="rounded-md border px-4 py-4 no-scrollbar">
           <Table className="table-fixed">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -86,7 +97,7 @@ export function DataTable<TData, TValue>({
                       .map((cell, index) =>
                         cell.id.includes("state") ? (
                           <TableCell key={cell.id + index}>
-                            {cell.getValue() === true ? "Aktif" : "Pasif"}
+                            {cell.getValue() === true ? "AKTİF" : "PASİF"}
                           </TableCell>
                         ) : (
                           <TableCell key={cell.id + index}>

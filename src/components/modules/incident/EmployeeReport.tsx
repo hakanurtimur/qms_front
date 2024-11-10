@@ -22,6 +22,8 @@ import Combobox from "@/components/ui/combobox";
 import { nameSurnamePairs } from "@/constants/dummy_combobox_items";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 import { DatePicker } from "@/components/ui/date-picker";
+import { Select } from "@/components/ui/select";
+import { incidentPlaces } from "@/app/modules/3/page";
 
 interface Props {
   onSubmit: (data: IncidentFormEmployee) => void;
@@ -35,20 +37,23 @@ const EmployeeReport = ({ onSubmit }: Props) => {
       date: "",
       incidentPlace: "",
       incidentDescription: "",
+      affectedPerson: "",
+      secondaryVictim: "no",
+      secondaryVictimName: "",
       file: null,
     },
   });
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full h-full">
-        <div className="w-full flex flex-col gap-16">
-          <div className="w-full flex flex-col md:flex-row gap-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 w-full h-full">
+        <div className="w-full flex md:flex-row gap-16 ">
+          <div className="w-full flex flex-col md:flex-col gap-6">
             <FormField
               control={form.control}
               name="employeeName"
               render={({ field }) => (
-                <FormItem className="w-1/3">
+                <FormItem className="w-full">
                   <FormLabel>Çalışan</FormLabel>
                   <FormControl>
                     <DynamicCombobox
@@ -58,7 +63,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
                       placeholder="Seçiniz"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="absolute" />
                 </FormItem>
               )}
             />
@@ -66,7 +71,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
               control={form.control}
               name="date"
               render={({ field }) => (
-                <FormItem className="w-1/3">
+                <FormItem className="w-full">
                   <FormLabel>Olay Tarihi</FormLabel>
                   <FormControl>
                     <DatePicker
@@ -76,7 +81,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
                       includeTime={true}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="absolute" />
                 </FormItem>
               )}
             />
@@ -84,65 +89,115 @@ const EmployeeReport = ({ onSubmit }: Props) => {
               control={form.control}
               name="incidentPlace"
               render={({ field }) => (
-                <FormItem className="flex-1">
+                <FormItem className="w-full">
                   <FormLabel>Olay Yeri</FormLabel>
                   <FormControl>
                     <DynamicCombobox
                       {...field}
-                      options={["Hastane", "Ev", "İşyeri"]}
+                      options={incidentPlaces}
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="absolute" />
                 </FormItem>
               )}
             />
           </div>
-          <div className="w-full flex flex-col md:flex-row gap-4">
+          <div className="w-full flex flex-col md:flex-col gap-6">
             <FormField
               control={form.control}
-              name="incidentDescription"
+              name="affectedPerson"
               render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>Açıklama</FormLabel>
+                <FormItem className="w-full ">
+                  <FormLabel>Olaydan Etkilenen</FormLabel>
                   <FormControl>
-                    <Textarea className="w-full h-full" rows={5} {...field} />
+                    <Input className="w-full" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="absolute"/>
                 </FormItem>
               )}
             />
-            <Controller
+            <FormField
               control={form.control}
-              name="file"
+              name="secondaryVictim"
               render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>Dosya Yükleme</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel>İkincil Mağdur Var mı?</FormLabel>
                   <FormControl>
-                    <Dropzone
-                      onChange={(file) => field.onChange(file)}
-                      className="w-full h-full"
-                      fileExtension="pdf"
+                    <DynamicCombobox
+                      {...field}
+                      options={{ yes: "Evet", no: "Hayır" }}
+                      onChange={(value) => field.onChange(value)}
+                      placeholder="Seçiniz"
                     />
+
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="absolute" />
                 </FormItem>
               )}
             />
+            {form.watch('secondaryVictim') === 'yes' && (
+              <FormField
+                control={form.control}
+                name="secondaryVictimName"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Ad Soyad</FormLabel>
+                    <FormControl>
+                      <Input className="w-full" {...field} />
+                    </FormControl>
+                    <FormMessage className="absolute" />
+                  </FormItem>
+                )}
+              />
+            )}
           </div>
-          <div className="w-full flex items-center justify-end gap-4">
-            <Button
-              onClick={() => {
-                form.reset();
-              }}
-              variant="outline"
-              type="button"
-            >
-              Temizle
-            </Button>
-            <Button type="submit">Gönder</Button>
-          </div>
+        </div>
+        <div className="w-full flex flex-col md:flex-row gap-4">
+          <FormField
+            control={form.control}
+            name="incidentDescription"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Açıklama</FormLabel>
+                <FormControl>
+                  <Textarea className="w-full min-h-24"  {...field} />
+                </FormControl>
+                <FormMessage className="absolute" />
+              </FormItem>
+            )}
+          />
+          <Controller
+            control={form.control}
+            name="file"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Dosya Yükleme</FormLabel>
+                <FormControl>
+                  <Dropzone
+                    onChange={(file) => field.onChange(file)}
+                    className="w-full h-24"
+                    fileExtension="pdf"
+                  />
+                </FormControl>
+                <FormMessage className="absolute" />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="w-full flex items-center justify-end gap-4">
+          <Button
+            onClick={() => {
+              form.reset();
+            }}
+            variant="outline"
+            type="button"
+          >
+            Temizle
+          </Button>
+          <Button type="submit">Gönder</Button>
         </div>
       </form>
     </Form>
