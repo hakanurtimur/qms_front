@@ -23,12 +23,6 @@ const DUMMY_PATIENT: IncidentFormPatient = {
   file: undefined,
 };
 
-export const incidentPlaces = {
-  "Dahiliye": "Dahiliye",
-  "Cerrahi": "Cerrahi",
-  "Ortopedi": "Ortopedi",
-}
-
 const Page = () => {
   const [patient, setPatient] = useState<IncidentFormPatient | null>(null);
 
@@ -85,7 +79,6 @@ const Page = () => {
             </div>
           )}
           {selectedTab === "patient" && (
-
             <PatientReport
               onSubmitFilter={handleSubmitPatientFilter}
               onResetPatientForm={handleResetPatientForm}

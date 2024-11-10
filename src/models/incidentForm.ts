@@ -1,4 +1,3 @@
-import { incidentPlaces } from "@/app/modules/3/page";
 import { z } from "zod";
 
 export const SIncidentForm = z.object({
@@ -21,7 +20,6 @@ export const SIncidentFormEmployee = SIncidentForm.extend({
   affectedPerson: z.string().min(3, "En az 3 karakter olmalıdır"),
   secondaryVictim: z.enum(["yes", "no"]),
   secondaryVictimName: z.string().min(3, "En az 3 karakter olmalıdır"),
-
 });
 
 export type IncidentFormEmployee = z.infer<typeof SIncidentFormEmployee>;

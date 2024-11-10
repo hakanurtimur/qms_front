@@ -5,7 +5,6 @@ import {
 } from "@/models/incidentForm";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormContainerCard from "@/components/ui/form-container-card";
 import {
   Form,
   FormControl,
@@ -18,12 +17,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dropzone } from "@/components/ui/dropZone";
-import Combobox from "@/components/ui/combobox";
 import { nameSurnamePairs } from "@/constants/dummy_combobox_items";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 import { DatePicker } from "@/components/ui/date-picker";
-import { Select } from "@/components/ui/select";
-import { incidentPlaces } from "@/app/modules/3/page";
+import { incidentPlaces } from "@/constants/incidentPlaces";
 
 interface Props {
   onSubmit: (data: IncidentFormEmployee) => void;
@@ -46,7 +43,10 @@ const EmployeeReport = ({ onSubmit }: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 w-full h-full">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-2 w-full h-full"
+      >
         <div className="w-full flex md:flex-row gap-16 ">
           <div className="w-full flex flex-col md:flex-col gap-6">
             <FormField
@@ -114,7 +114,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
                   <FormControl>
                     <Input className="w-full" {...field} />
                   </FormControl>
-                  <FormMessage className="absolute"/>
+                  <FormMessage className="absolute" />
                 </FormItem>
               )}
             />
@@ -131,13 +131,12 @@ const EmployeeReport = ({ onSubmit }: Props) => {
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
                     />
-
                   </FormControl>
                   <FormMessage className="absolute" />
                 </FormItem>
               )}
             />
-            {form.watch('secondaryVictim') === 'yes' && (
+            {form.watch("secondaryVictim") === "yes" && (
               <FormField
                 control={form.control}
                 name="secondaryVictimName"
@@ -162,7 +161,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
               <FormItem className="flex-1">
                 <FormLabel>Açıklama</FormLabel>
                 <FormControl>
-                  <Textarea className="w-full min-h-24"  {...field} />
+                  <Textarea className="w-full min-h-24" {...field} />
                 </FormControl>
                 <FormMessage className="absolute" />
               </FormItem>
