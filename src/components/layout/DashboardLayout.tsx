@@ -27,8 +27,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import ForgotPassowordForm from "@/components/ui/reusable-forms/forgot-passoword-form";
-import { ForgotPasswordModel } from "@/models/auth";
+import { ChangePasswordModel } from "@/models/auth";
+import ChangePassowordForm from "@/components/ui/reusable-forms/change-passoword-form";
 
 interface Props {
   navItems: {
@@ -159,8 +159,8 @@ const DashboardLayout = ({ navItems, open, onSetOpen, children }: Props) => {
                     <SheetHeader>
                       <SheetTitle>Şifremi Unuttum</SheetTitle>
                     </SheetHeader>
-                    <ForgotPassowordForm
-                      onSubmit={(data: ForgotPasswordModel) => {
+                    <ChangePassowordForm
+                      onSubmit={(data: ChangePasswordModel) => {
                         console.log(data);
                       }}
                       error={null}

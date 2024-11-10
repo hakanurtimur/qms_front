@@ -176,7 +176,12 @@ const AdminLogin = ({
                 )}
               />
               <div className="flex items-en justify-end">
-                <p className="text-primary-900 text-sm">Şifremi Unuttum</p>
+                <Link
+                  href="/forgot-password"
+                  className="text-primary-900 text-sm"
+                >
+                  Şifremi Unuttum
+                </Link>
               </div>
               <p className="text-danger-500">{error && error}</p>
               <Button
