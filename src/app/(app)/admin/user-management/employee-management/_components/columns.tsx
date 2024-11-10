@@ -62,5 +62,8 @@ export const Columns: ColumnDef<EmployeeToManageTableModel>[] = [
         </Button>
       );
     },
+    cell: ({ cell }) => {
+      return cell.getValue() ? "AKTİF" : "PASİF";
+    },
   },
 ];

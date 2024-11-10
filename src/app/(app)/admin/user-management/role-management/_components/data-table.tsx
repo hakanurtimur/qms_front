@@ -100,22 +100,14 @@ export function DataTable<TData, TValue>({
                     key={row.id + index}
                     data-state={row.getIsSelected() && "selected"}
                   >
-                    {row
-                      .getVisibleCells()
-                      .map((cell, index) =>
-                        cell.id.includes("state") ? (
-                          <TableCell key={cell.id + index}>
-                            {cell.getValue() === true ? "AKTİF" : "PASİF"}
-                          </TableCell>
-                        ) : (
-                          <TableCell key={cell.id + index}>
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext(),
-                            )}
-                          </TableCell>
-                        ),
-                      )}
+                    {row.getVisibleCells().map((cell, index) => (
+                      <TableCell key={cell.id + index}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
                     <TableCell>
                       <RoleSheet
                         model={

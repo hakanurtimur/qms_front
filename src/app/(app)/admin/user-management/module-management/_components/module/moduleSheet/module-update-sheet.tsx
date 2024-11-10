@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import React from "react";
-import ModuleForm from "@/app/(app)/admin/user-management/module-management/_components/moduleSheet/module-form";
+import ModuleForm from "@/app/(app)/admin/user-management/module-management/_components/module/moduleSheet/module-form";
 import { ModuleToManageModel } from "@/models/admin/moduleManagement/moduleManagement";
 
 interface Props {

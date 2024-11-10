@@ -26,7 +26,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import ModuleUpdateSheet from "./moduleSheet/module-update-sheet";
 import { ModuleToManageModel } from "@/models/admin/moduleManagement/moduleManagement";
 import NonFormCombobox from "@/components/ui/nonform-combobox";
-import { Input } from "@/components/ui/input";
 
 interface DataTableProps<TData, TValue> {
   moduleNameOpts: { [key: string]: string };
@@ -34,7 +33,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function ModuleDataTable<TData, TValue>({
   moduleNameOpts,
   columns,
   data,
@@ -98,16 +97,17 @@ export function DataTable<TData, TValue>({
                   .getColumn("moduleName")
                   ?.setFilterValue(value ? value : "")
               }
-              options={moduleNameOpts ?? {}}
+              options={moduleNameOpts}
             />
-            <Input
-              placeholder="Arama yapın..."
-              value={globalFilter ?? ""}
-              onChange={(event) =>
-                setGlobalFilter(event.target.value.toLocaleUpperCase("tr"))
-              }
-              className="max-w-sm"
-            />
+            {/*TODO: add input */}
+            {/*<Input*/}
+            {/*  placeholder="Arama yapın..."*/}
+            {/*  value={globalFilter ?? ""}*/}
+            {/*  onChange={(event) =>*/}
+            {/*    setGlobalFilter(event.target.value.toLocaleUpperCase("tr"))*/}
+            {/*  }*/}
+            {/*  className="max-w-sm"*/}
+            {/*/>*/}
           </div>
           <div className="rounded-md border px-4 py-4">
             <Table className="table-fixed">

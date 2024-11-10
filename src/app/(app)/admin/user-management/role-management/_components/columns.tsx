@@ -29,5 +29,8 @@ export const columns: ColumnDef<RoleManagementRoleModel>[] = [
         </Button>
       );
     },
+    cell: ({ cell }) => {
+      return cell.getValue() ? "Aktif" : "Pasif";
+    },
   },
 ];

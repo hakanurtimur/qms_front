@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { ModuleToManageModel } from "@/models/admin/moduleManagement/moduleManagement";
 
-export const columns: ColumnDef<ModuleToManageModel>[] = [
+export const moduleColumns: ColumnDef<ModuleToManageModel>[] = [
   {
     accessorKey: "moduleName",
     header: ({ column }) => {
@@ -34,15 +34,9 @@ export const columns: ColumnDef<ModuleToManageModel>[] = [
         </Button>
       );
     },
+    // TODO ADD THIS BEHAVIOR TO ALL BOOLEAN COLUMNS
     cell: ({ cell }) => {
       return cell.getValue() ? "AKTİF" : "PASİF";
-    },
-    filterFn: (row, columnId, filterValue) => {
-      const value = row.getValue(columnId);
-      console.log(value);
-      if (filterValue === "AKTİF") return value === true;
-      if (filterValue === "PASİF") return value === false;
-      return true;
     },
   },
 ];

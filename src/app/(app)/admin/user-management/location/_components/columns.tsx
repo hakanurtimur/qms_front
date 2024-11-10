@@ -51,5 +51,8 @@ export const columns: ColumnDef<ManagerLocationModel>[] = [
         </Button>
       );
     },
+    cell: ({ cell }) => {
+      return cell.getValue() ? "AKTİF" : "PASİF";
+    },
   },
 ];

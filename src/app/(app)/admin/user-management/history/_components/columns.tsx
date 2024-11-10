@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ActionHistoryModel } from "@/models/admin/actionHistory";
 import SortingBtn from "@/components/ui/sorting-btn";
 import { Button } from "@/components/ui/button";
+import { formatDate } from "@/utils/dateUtils";
 
 export const columns: ColumnDef<ActionHistoryModel>[] = [
   {
@@ -26,6 +27,9 @@ export const columns: ColumnDef<ActionHistoryModel>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
       );
+    },
+    cell: ({ cell }) => {
+      return [cell.getValue() as string].toString().toLocaleUpperCase("tr");
     },
   },
   {
@@ -50,6 +54,9 @@ export const columns: ColumnDef<ActionHistoryModel>[] = [
           İşlem Tarihi
         </Button>
       );
+    },
+    cell: ({ cell }) => {
+      return formatDate(cell.getValue() as string);
     },
   },
 ];

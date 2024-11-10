@@ -3,8 +3,8 @@ import React from "react";
 
 import LoadingScreen from "@/components/commons/LoadingScreen";
 import PageHeader from "@/components/ui/pageHeader";
-import { DataTable } from "@/app/(app)/admin/user-management/module-management/_components/data-table";
-import { columns } from "@/app/(app)/admin/user-management/module-management/_components/columns";
+import { ModuleDataTable } from "@/app/(app)/admin/user-management/module-management/_components/module/module-data-table";
+import { moduleColumns } from "@/app/(app)/admin/user-management/module-management/_components/module/module-columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
 
@@ -53,9 +53,9 @@ const Page = () => {
         </div>
         <TabsContent value={"modules"}>
           {query.data && moduleNameOpts ? (
-            <DataTable
+            <ModuleDataTable
               moduleNameOpts={moduleNameOpts}
-              columns={columns}
+              columns={moduleColumns}
               data={query.data.data}
             />
           ) : (
