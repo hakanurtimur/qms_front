@@ -24,9 +24,9 @@ import React from "react";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ScreenToManageModel } from "@/models/admin/moduleManagement/screenToManageModel";
-import ScreenUpdateSheet from "@/app/(app)/admin/user-management/module-management/_components/screen/screenSheet/screen-update-sheet";
 import NonFormCombobox from "@/components/ui/nonform-combobox";
 import { Input } from "@/components/ui/input";
+import ScreenUpdateSheet from "@/app/(app)/admin/user-management/module-management/_components/screen/screenSheet/screen-update-sheet";
 
 interface DataTableProps<TData, TValue> {
   screenModuleOpts: { [key: string]: string };
