@@ -15,3 +15,9 @@ export const SManagerLogin = z.object({
 });
 
 export type ManagerLogin = z.infer<typeof SManagerLogin>;
+
+export const SForgotPasswordModel = z.object({
+  email: z.string().email("Geçerli bir email adresi giriniz"),
+});
+
+export type ForgotPasswordModel = z.infer<typeof SForgotPasswordModel>;

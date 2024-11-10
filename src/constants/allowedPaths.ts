@@ -1,6 +1,7 @@
 export const allowedPaths: (string | RegExp)[] = [
   "/login",
   "/admin-login",
+  "/forgot-password",
   "/modules/1",
   "/modules/2",
   "/modules/3",

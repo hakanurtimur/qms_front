@@ -2,7 +2,14 @@
 import Logo from "@/components/ui/Logo";
 import { userNavItems } from "@/constants/userNavItems";
 import NavItem from "@/components/layout/NavItem";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import {
   ArrowLeftStartOnRectangleIcon,
@@ -14,15 +21,14 @@ import { Badge } from "@/components/ui/badge";
 import authService from "@/services/AuthService";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/authContext";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import ForgotPassowordForm from "@/components/ui/reusable-forms/forgot-passoword-form";
+import { ForgotPasswordModel } from "@/models/auth";
 
 interface Props {
   navItems: {
@@ -126,40 +132,61 @@ const DashboardLayout = ({ navItems, open, onSetOpen, children }: Props) => {
                 3
               </Badge>
             </Button>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+            <Popover>
+              <PopoverTrigger asChild>
                 <Button
                   variant={"darkGhost"}
                   className="flex w-fit justify-start"
                 >
                   <UserIcon className="h-5 w-5" />
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-48">
-                <DropdownMenuLabel>{user?.username}</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link
-                    href={"/profile"}
-                    className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                  >
-                    Profil
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <div
-                    onClick={async () => {
-                      await authService.logout();
-                      onSetAuthenticated(false);
-                      router.push("/login");
-                    }}
-                    className="cursor-pointer flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                  >
-                    Çıkış Yap
-                  </div>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              </PopoverTrigger>
+              <PopoverContent className="w-48 flex flex-col gap-2">
+                <div className="font-bold px-2.5">{user?.username}</div>
+                <Link
+                  href={"/profile"}
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  Profil
+                </Link>
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <button className="flex cursor-pointer items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
+                      Şifremi Unuttum
+                    </button>
+                  </SheetTrigger>
+                  <SheetContent side="right">
+                    <SheetHeader>
+                      <SheetTitle>Şifremi Unuttum</SheetTitle>
+                    </SheetHeader>
+                    <ForgotPassowordForm
+                      onSubmit={(data: ForgotPasswordModel) => {
+                        console.log(data);
+                      }}
+                      error={null}
+                      formLoading={false}
+                      variant={"sheet"}
+                    />
+                    <SheetClose>
+                      <Button className="mt-5" variant={"outline"}>
+                        Kapat
+                      </Button>
+                    </SheetClose>
+                  </SheetContent>
+                </Sheet>
+
+                <div
+                  onClick={async () => {
+                    await authService.logout();
+                    onSetAuthenticated(false);
+                    router.push("/login");
+                  }}
+                  className="cursor-pointer flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  Çıkış Yap
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
           <Button
             size={"icon"}
