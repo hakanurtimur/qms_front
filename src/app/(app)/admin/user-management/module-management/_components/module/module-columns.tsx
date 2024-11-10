@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { ModuleToManageModel } from "@/models/admin/moduleManagement/moduleToManageModel";
+import SortingBtn from "@/components/ui/sorting-btn";
 
 export const moduleColumns: ColumnDef<ModuleToManageModel>[] = [
   {
@@ -25,13 +26,10 @@ export const moduleColumns: ColumnDef<ModuleToManageModel>[] = [
     accessorKey: "state",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          className="bg-transparent hover:bg-transparent p-0"
+        <SortingBtn
+          text={"Durum"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Durum
-        </Button>
+        />
       );
     },
     // TODO ADD THIS BEHAVIOR TO ALL BOOLEAN COLUMNS

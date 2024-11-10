@@ -1,7 +1,6 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
 import { ScreenToManageModel } from "@/models/admin/moduleManagement/screenToManageModel";
 import SortingBtn from "@/components/ui/sorting-btn";
 
@@ -54,13 +53,10 @@ export const screenColumns: ColumnDef<ScreenToManageModel>[] = [
     accessorKey: "state",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          className="bg-transparent hover:bg-transparent p-0"
+        <SortingBtn
+          text={"Durum"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Durum
-        </Button>
+        />
       );
     },
     cell: ({ cell }) => {

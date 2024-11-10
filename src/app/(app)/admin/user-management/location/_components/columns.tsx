@@ -2,7 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { ManagerLocationModel } from "@/models/admin/location";
-import { Button } from "@/components/ui/button";
 import SortingBtn from "@/components/ui/sorting-btn";
 
 export const columns: ColumnDef<ManagerLocationModel>[] = [
@@ -41,14 +40,12 @@ export const columns: ColumnDef<ManagerLocationModel>[] = [
   },
   {
     accessorKey: "state",
-    header: () => {
+    header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          className="bg-transparent hover:bg-transparent p-0"
-        >
-          Durum
-        </Button>
+        <SortingBtn
+          text={"Durum"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
       );
     },
     cell: ({ cell }) => {

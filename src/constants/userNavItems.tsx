@@ -24,7 +24,7 @@ export const userNavItems = [
       {
         icon: DocumentTextIcon,
         label: "Talepler",
-        href: "/dokumanlar/talepler",
+        href: "/user/documents/requests",
       },
     ],
   },
