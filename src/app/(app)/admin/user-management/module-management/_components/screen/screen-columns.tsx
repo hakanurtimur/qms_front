@@ -1,38 +1,49 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { ManagerLocationModel } from "@/models/admin/location";
+import { ScreenToManageModel } from "@/models/admin/moduleManagement/screenToManageModel";
 import SortingBtn from "@/components/ui/sorting-btn";
 
-export const columns: ColumnDef<ManagerLocationModel>[] = [
+export const screenColumns: ColumnDef<ScreenToManageModel>[] = [
   {
-    accessorKey: "countryName",
+    accessorKey: "typeName",
     header: ({ column }) => {
       return (
         <SortingBtn
-          text={"Ülke"}
+          text="Tip Adı"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
       );
     },
   },
   {
-    accessorKey: "cityName",
+    accessorKey: "moduleName",
     header: ({ column }) => {
       return (
         <SortingBtn
-          text={"Şehir"}
+          text="Modül Adı"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
       );
     },
   },
   {
-    accessorKey: "locationName",
+    accessorKey: "subModuleName",
     header: ({ column }) => {
       return (
         <SortingBtn
-          text={"Şube Adı"}
+          text="Alt Modül Adı"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
+      );
+    },
+  },
+  {
+    accessorKey: "roleName",
+    header: ({ column }) => {
+      return (
+        <SortingBtn
+          text="Rol Adı"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
       );

@@ -23,7 +23,6 @@ import {
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
-import { formatDate } from "@/utils/dateUtils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -160,31 +159,14 @@ export function DataTable<TData, TValue>({
                     key={row.id + index}
                     data-state={row.getIsSelected() && "selected"}
                   >
-                    {row.getVisibleCells().map((cell, index) =>
-                      cell.id.includes("createDate") ? (
-                        <TableCell
-                          className="flex items-center justify-end"
-                          key={cell.id + index}
-                        >
-                          {formatDate(cell.getValue() as string)}
-                        </TableCell>
-                      ) : cell.id.includes("updateTable") ? (
-                        <>
-                          <TableCell key={cell.id + index}>
-                            {[cell.getValue() as string]
-                              .toString()
-                              .toLocaleUpperCase("tr")}
-                          </TableCell>
-                        </>
-                      ) : (
-                        <TableCell key={cell.id + index}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
-                        </TableCell>
-                      ),
-                    )}
+                    {row.getVisibleCells().map((cell, index) => (
+                      <TableCell key={cell.id + index}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
                   </TableRow>
                 ))
               ) : (

@@ -3,7 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ActionHistoryModel } from "@/models/admin/actionHistory";
 import SortingBtn from "@/components/ui/sorting-btn";
-import { Button } from "@/components/ui/button";
+import { formatDate } from "@/utils/dateUtils";
 
 export const columns: ColumnDef<ActionHistoryModel>[] = [
   {
@@ -27,6 +27,9 @@ export const columns: ColumnDef<ActionHistoryModel>[] = [
         />
       );
     },
+    cell: ({ cell }) => {
+      return [cell.getValue() as string].toString().toLocaleUpperCase("tr");
+    },
   },
   {
     accessorKey: "description",
@@ -41,15 +44,16 @@ export const columns: ColumnDef<ActionHistoryModel>[] = [
   },
   {
     accessorKey: "createDate",
-    header: () => {
+    header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          className="bg-transparent hover:bg-transparent p-0"
-        >
-          İşlem Tarihi
-        </Button>
+        <SortingBtn
+          text={"İşlem Tarihi"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
       );
+    },
+    cell: ({ cell }) => {
+      return formatDate(cell.getValue() as string);
     },
   },
 ];

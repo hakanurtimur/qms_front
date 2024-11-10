@@ -2,7 +2,6 @@
 
 import {
   ColumnDef,
-  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -24,6 +23,7 @@ import React from "react";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import RoleSheet from "@/app/(app)/admin/user-management/role-management/_components/sheet";
 import { RoleManagementRoleModel } from "@/models/admin/roleManagementRoleModel";
+import { Input } from "@/components/ui/input";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -36,9 +36,7 @@ export function DataTable<TData, TValue>({
   data,
   onSheetFormSubmit,
 }: DataTableProps<TData, TValue>) {
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
+  const [globalFilter, setGlobalFilter] = React.useState("");
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
@@ -48,7 +46,7 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
     getFilteredRowModel: getFilteredRowModel(),
     initialState: {
       pagination: {
@@ -57,13 +55,23 @@ export function DataTable<TData, TValue>({
     },
     state: {
       sorting,
-      columnFilters,
+      globalFilter,
     },
   });
 
   return (
     <div className="w-full overflow-scroll flex items-center justify-start no-scrollbar">
       <div className="rounded-md border w-full min-w-[800px] no-scrollbar">
+        <div className="flex items-center py-4 px-4 justify-between gap-10 w-full no-scrollbar">
+          <Input
+            placeholder="Arama yapın..."
+            value={globalFilter ?? ""}
+            onChange={(event) =>
+              setGlobalFilter(event.target.value.toLocaleUpperCase("tr"))
+            }
+            className="max-w-sm"
+          />
+        </div>
         <div className="rounded-md border px-4 py-4 no-scrollbar">
           <Table className="table-fixed">
             <TableHeader>
@@ -92,22 +100,14 @@ export function DataTable<TData, TValue>({
                     key={row.id + index}
                     data-state={row.getIsSelected() && "selected"}
                   >
-                    {row
-                      .getVisibleCells()
-                      .map((cell, index) =>
-                        cell.id.includes("state") ? (
-                          <TableCell key={cell.id + index}>
-                            {cell.getValue() === true ? "AKTİF" : "PASİF"}
-                          </TableCell>
-                        ) : (
-                          <TableCell key={cell.id + index}>
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext(),
-                            )}
-                          </TableCell>
-                        ),
-                      )}
+                    {row.getVisibleCells().map((cell, index) => (
+                      <TableCell key={cell.id + index}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
                     <TableCell>
                       <RoleSheet
                         model={

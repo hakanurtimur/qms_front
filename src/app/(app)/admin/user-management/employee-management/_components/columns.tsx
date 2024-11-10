@@ -3,7 +3,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { EmployeeToManageTableModel } from "@/models/admin/employeeManagement/employeeToManageTableModel";
 import SortingBtn from "@/components/ui/sorting-btn";
-import { Button } from "@/components/ui/button";
 
 export const Columns: ColumnDef<EmployeeToManageTableModel>[] = [
   {
@@ -52,15 +51,16 @@ export const Columns: ColumnDef<EmployeeToManageTableModel>[] = [
   },
   {
     accessorKey: "workingStatus",
-    header: () => {
+    header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          className="bg-transparent hover:bg-transparent p-0"
-        >
-          Durum
-        </Button>
+        <SortingBtn
+          text={"Durum"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
       );
+    },
+    cell: ({ cell }) => {
+      return cell.getValue() ? "AKTİF" : "PASİF";
     },
   },
 ];
