@@ -56,7 +56,14 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
                   Protokol No
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} type={"number"} />
+                  <Input {...field} type={"text"}
+                     onKeyDown={(event) => {
+                      if (!/[0-9]/.test(event.key)) {
+                        event.preventDefault();
+                      }
+                    }
+                    }
+                  />
                 </FormControl>
                 <FormMessage className="absolute" />
               </FormItem>

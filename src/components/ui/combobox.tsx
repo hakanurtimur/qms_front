@@ -41,6 +41,8 @@ function Combobox<T extends FieldValues>({
   placeholder = "Seçiniz",
   width = "",
 }: FormSelectFieldProps<T>) {
+  const [open, setOpen] = React.useState(false);
+
   return (
     <FormField
       control={control}
@@ -50,7 +52,7 @@ function Combobox<T extends FieldValues>({
           <FormItem className="space-y-0 pt-0 flex items-start  flex-col gap-2">
             <FormLabel className="mt-0">{label}</FormLabel>
             <FormControl>
-              <Popover>
+              <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
@@ -81,6 +83,7 @@ function Combobox<T extends FieldValues>({
                                 ? key
                                 : Number(key);
                               field.onChange(parsedKey);
+                              setOpen(false);
                             }}
                           >
                             <Check

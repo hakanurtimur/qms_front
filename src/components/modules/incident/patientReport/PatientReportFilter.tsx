@@ -32,25 +32,33 @@ const PatientReportFilter = ({
   });
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={"space-y-8"}>
-        <div className="grid grid-cols-2 w-full gap-8 items-end">
-          <FormField
-            control={form.control}
-            name={"protocolNum"}
-            render={({ field }) => (
-              <FormItem className="flex-grow-1 flex-shrink-0">
-                <FormLabel className={"flex items-center justify-between"}>
-                  Protokol No
-                </FormLabel>
-                <FormControl>
-                  <Input {...field} type={"number"} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <div className="flex items-center justify-end  gap-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} 
+        className={"flex flex-col w-full h-[200px] gap-10   "}>
+          <div className="flex flex-col justify-start w-full h-full gap-8 items-start">
+            <FormField
+              control={form.control}
+              name={"protocolNum"}
+              render={({ field }) => (
+                <FormItem className="md:w-52">
+                  <FormLabel className={"flex items-center justify-between"}>
+                    Protokol No
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} type={"text"}
+                      //sadece rakam girilmesi için
+                      onKeyDown={(event) => {
+                        if (!/[0-9]/.test(event.key)) {
+                          event.preventDefault();
+                        }
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex h-full items-end justify-start gap-4">
             <Button
               onClick={() => {
                 onResetPatientForm();
@@ -63,8 +71,8 @@ const PatientReportFilter = ({
             </Button>
             <Button type={"submit"}>Getir</Button>
           </div>
-        </div>
       </form>
+
     </Form>
   );
 };

@@ -16,8 +16,14 @@ const Layout = ({ children }: Props) => {
   if (pathname === "/modules/3") {
     title = "Olay Bildirimi";
   }
+  if (pathname === "/modules") {
+    title = "Olay Bildirimi";
+  }
 
-  return <NonLoginLayout title={title}>{children}</NonLoginLayout>;
+
+  return <NonLoginLayout title={title}>
+    {children}
+    </NonLoginLayout>;
 };
 
 export default Layout;

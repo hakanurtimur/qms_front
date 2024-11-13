@@ -222,7 +222,7 @@ const Login = ({
         <div className="flex flex-col justify-center gap-12 items-stretch flex-1">
           {moduleLoading ? (
             <LoadingSpinner className={"w-32 h-32"} />
-          ) : (
+          ) : ( 
             modules.map((module) => (
               <Button
                 key={module.moduleId}
@@ -231,7 +231,7 @@ const Login = ({
                 className=""
                 asChild
               >
-                <Link href={`modules/${module.moduleId}`}>
+                <Link href={`modules/`}>
                   {module.moduleName}
                 </Link>
               </Button>

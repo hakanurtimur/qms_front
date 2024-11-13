@@ -79,15 +79,21 @@ const Page = () => {
             </div>
           )}
           {selectedTab === "patient" && (
-            <PatientReport
-              onSubmitFilter={handleSubmitPatientFilter}
-              onResetPatientForm={handleResetPatientForm}
-              patientFormModel={DUMMY_PATIENT}
-              onPatientReportSubmit={handlePatientReportSubmit}
-            />
+            <div className={"w-fit min-h-[500px] border-4 p-10 border-black-900 rounded-lg shadow-2xl bg-white" 
+              + (patient ? "" : " mr-52")
+            } 
+
+            >
+              <PatientReport
+                onSubmitFilter={handleSubmitPatientFilter}
+                patientFormModel={patient}
+                onResetPatientForm={handleResetPatientForm}
+                onPatientReportSubmit={handlePatientReportSubmit}
+              />
+            </div>
           )}
           {selectedTab === "employee" && (
-            <div className="w-full h-fit border-4 p-10 border-black-900 rounded-lg shadow-2xl mr-52 bg-white">
+            <div className="w-fit h-fit border-4 p-10 border-black-900 rounded-lg shadow-2xl mr-52 bg-white">
               <EmployeeReport onSubmit={handleEmployeeReportSubmit} />
             </div>
           )}

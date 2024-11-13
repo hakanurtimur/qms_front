@@ -53,7 +53,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
               control={form.control}
               name="employeeName"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-56">
                   <FormLabel>Çalışan</FormLabel>
                   <FormControl>
                     <DynamicCombobox
@@ -61,6 +61,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
                       options={nameSurnamePairs}
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
+                      width="[300px]"
                     />
                   </FormControl>
                   <FormMessage className="absolute" />
@@ -71,7 +72,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
               control={form.control}
               name="date"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-56">
                   <FormLabel>Olay Tarihi</FormLabel>
                   <FormControl>
                     <DatePicker
@@ -89,7 +90,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
               control={form.control}
               name="incidentPlace"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-56">
                   <FormLabel>Olay Yeri</FormLabel>
                   <FormControl>
                     <DynamicCombobox
@@ -97,6 +98,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
                       options={incidentPlaces}
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
+                      width="[250px]"
                     />
                   </FormControl>
                   <FormMessage className="absolute" />
@@ -122,7 +124,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
               control={form.control}
               name="secondaryVictim"
               render={({ field }) => (
-                <FormItem className="w-full">
+                <FormItem className="w-56">
                   <FormLabel>İkincil Mağdur Var mı?</FormLabel>
                   <FormControl>
                     <DynamicCombobox
@@ -130,6 +132,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
                       options={{ yes: "Evet", no: "Hayır" }}
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
+                      width="[350px]"
                     />
                   </FormControl>
                   <FormMessage className="absolute" />
@@ -141,7 +144,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
                 control={form.control}
                 name="secondaryVictimName"
                 render={({ field }) => (
-                  <FormItem className="w-full">
+                  <FormItem className="w-56">
                     <FormLabel>Ad Soyad</FormLabel>
                     <FormControl>
                       <Input className="w-full" {...field} />

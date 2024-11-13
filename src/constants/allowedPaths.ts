@@ -5,6 +5,7 @@ export const allowedPaths: (string | RegExp)[] = [
   "/modules/1",
   "/modules/2",
   "/modules/3",
+  "/modules",
 ];
 
 export const isPathAllowed = (pathname: string) => {

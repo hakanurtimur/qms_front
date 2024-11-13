@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { CalendarIcon, ClockIcon } from "lucide-react";
+import { CalendarIcon, Check, ClockIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Popover,
@@ -32,6 +32,8 @@ interface DatePickerProps {
   label?: string;
   placeholder?: string;
   width?: string;
+  value?: string;
+  readonly?: boolean;
   onChange?: (value: string) => void;
   includeTime?: boolean; // Yeni prop
 }
@@ -42,55 +44,56 @@ export function DatePicker({
   placeholder = "Tarih seçiniz",
   width = "",
   onChange,
+  readonly,
+  value,
   includeTime = false, // Varsayılan olarak zaman seçimi kapalı
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
-  const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
-  const [currentMonth, setCurrentMonth] = React.useState(new Date());
-  const [selectedTime, setSelectedTime] = React.useState<{
-    hours: string;
-    minutes: string;
-  }>({
-    hours: "00",
-    minutes: "00",
-  });
+  const [selectedDateTime, setSelectedDateTime] = React.useState<Date>(new Date());
 
-  const startDate = startOfMonth(currentMonth);
-  const days = Array.from({ length: 42 }).map((_, index) => {
-    const day = new Date(startDate);
-    day.setDate(startDate.getDate() + index);
-    return day;
-  });
-
-  const handleSelect = (date: Date) => {
-    setSelectedDate(date);
-    setOpen(false);
-    if (onChange) {
-      const formattedDate = format(date, "dd.MM.yyyy");
-      if (includeTime) {
-        const formattedDateTime = `${formattedDate} ${selectedTime.hours}:${selectedTime.minutes}`;
-        onChange(formattedDateTime);
-      } else {
-        onChange(formattedDate);
+  React.useEffect(() => {
+    if (value) {
+      const date = new Date(value);
+      if (!isNaN(date.getTime())) {
+        setSelectedDateTime(date);
       }
+    }
+  }, [value]);
+
+  React.useEffect(() => {
+    if (onChange) {
+      onChange(format(selectedDateTime, "yyyy-MM-dd'T'HH:mm"));
+    }
+  }, [selectedDateTime, onChange]);
+
+  const handleYearChange = (value: string) => {
+    const year = parseInt(value, 10);
+    const newDate = new Date(selectedDateTime);
+    newDate.setFullYear(year);
+    setSelectedDateTime(newDate);
+  };
+
+  const handleMonthChange = (increment: number) => {
+    const newDate = addMonths(selectedDateTime, increment);
+    setSelectedDateTime(newDate);
+  };
+
+  const handleDateSelect = (date: Date) => {
+    if (!readonly) {
+      const newDate = new Date(selectedDateTime);
+      newDate.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
+      setSelectedDateTime(newDate);
     }
   };
 
   const handleTimeChange = (type: "hours" | "minutes", value: string) => {
-    setSelectedTime((prev) => ({ ...prev, [type]: value }));
-    if (onChange && selectedDate) {
-      const formattedDate = format(selectedDate, "dd.MM.yyyy");
-      const formattedDateTime = `${formattedDate} ${type === "hours" ? value : selectedTime.hours}:${type === "minutes" ? value : selectedTime.minutes}`;
-      onChange(formattedDateTime);
+    const newDate = new Date(selectedDateTime);
+    if (type === "hours") {
+      newDate.setHours(parseInt(value, 10));
+    } else {
+      newDate.setMinutes(parseInt(value, 10));
     }
-  };
-
-  const nextMonth = () => {
-    setCurrentMonth(addMonths(currentMonth, 1));
-  };
-
-  const prevMonth = () => {
-    setCurrentMonth(subMonths(currentMonth, 1));
+    setSelectedDateTime(newDate);
   };
 
   const generateTimeOptions = (max: number) => {
@@ -104,29 +107,45 @@ export function DatePicker({
     });
   };
 
+  const startDate = startOfMonth(selectedDateTime);
+  const days = Array.from({ length: 42 }).map((_, index) => {
+    const day = new Date(startDate);
+    day.setDate(startDate.getDate() + index);
+    return day;
+  });
+
   return (
     <div className={width}>
       <div className="space-y-1 flex flex-col">
         {label && (
           <label htmlFor={name} className="text-sm font-medium">
-            {label}
+            {label || "Tarih"}
           </label>
         )}
-        <Popover open={open} onOpenChange={setOpen}>
+        <Popover
+          open={open}
+          onOpenChange={(value) => {
+            if (readonly) {
+              return;
+            }
+            setOpen(value);
+          }}
+        >
           <PopoverTrigger asChild>
             <Button
               variant="outline"
               role="combobox"
               className={cn(
                 "flex w-full justify-between font-normal",
-                !selectedDate && "text-muted-foreground",
+                !selectedDateTime && "text-muted-foreground",
+                readonly && "bg-primary-100"
               )}
             >
               <span className="flex-1 text-left">
-                {selectedDate
+                {selectedDateTime
                   ? includeTime
-                    ? `${format(selectedDate, "dd.MM.yyyy")} ${selectedTime.hours}:${selectedTime.minutes}`
-                    : format(selectedDate, "dd.MM.yyyy")
+                    ? `${format(selectedDateTime, "dd.MM.yyyy")} ${selectedDateTime.getHours().toString().padStart(2, "0")}:${selectedDateTime.getMinutes().toString().padStart(2, "0")}`
+                    : format(selectedDateTime, "dd.MM.yyyy")
                   : placeholder}
               </span>
               {includeTime ? (
@@ -136,15 +155,32 @@ export function DatePicker({
               )}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto p-4">
+          <PopoverContent className="w-auto p-4 ">
             <div className="flex justify-between items-center mb-2">
-              <Button variant="ghost" size="sm" onClick={prevMonth}>
+              <Button variant="ghost" size="sm" onClick={() => handleMonthChange(-1)}>
                 &lt;
               </Button>
-              <span className="font-semibold">
-                {format(currentMonth, "MMMM yyyy", { locale: tr })}
+              <span className="font-semibold flex justify-center items-center">
+                {format(selectedDateTime, "MMMM", { locale: tr })}{" "}
+                <Select
+                  value={selectedDateTime.getFullYear().toString()}
+                  onValueChange={handleYearChange}
+                >
+                  <SelectTrigger className="w-20 border-none shadow-none">
+                    <SelectValue placeholder={new Date().getFullYear().toString()} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((year) => (
+                        <SelectItem key={year} value={year.toString()}>
+                          {year}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </span>
-              <Button variant="ghost" size="sm" onClick={nextMonth}>
+              <Button variant="ghost" size="sm" onClick={() => handleMonthChange(1)}>
                 &gt;
               </Button>
             </div>
@@ -161,12 +197,12 @@ export function DatePicker({
                 <button
                   key={index}
                   type="button"
-                  onClick={() => handleSelect(day)}
-                  disabled={!isSameMonth(day, currentMonth)}
+                  onClick={() => handleDateSelect(day)}
+                  disabled={!isSameMonth(day, selectedDateTime)}
                   className={cn(
                     "p-1 rounded-lg hover:bg-gray-200",
-                    isSameDay(day, selectedDate!) && "bg-blue-500 text-white",
-                    !isSameMonth(day, currentMonth) && "text-gray-300",
+                    isSameDay(day, selectedDateTime) && "bg-blue-500 text-white",
+                    !isSameMonth(day, selectedDateTime) && "text-gray-300"
                   )}
                 >
                   {format(day, "d")}
@@ -174,13 +210,13 @@ export function DatePicker({
               ))}
             </div>
             {includeTime && (
-              <div className="mt-4 flex space-x-4">
+              <div className="mt-4 flex space-x-4 ">
                 <div className="flex flex-col">
                   <label htmlFor="hours" className="text-sm font-medium mb-1">
                     Saat
                   </label>
                   <Select
-                    value={selectedTime.hours}
+                    value={selectedDateTime.getHours().toString().padStart(2, "0")}
                     onValueChange={(value) => handleTimeChange("hours", value)}
                   >
                     <SelectTrigger className="w-20">
@@ -196,10 +232,8 @@ export function DatePicker({
                     Dakika
                   </label>
                   <Select
-                    value={selectedTime.minutes}
-                    onValueChange={(value) =>
-                      handleTimeChange("minutes", value)
-                    }
+                    value={selectedDateTime.getMinutes().toString().padStart(2, "0")}
+                    onValueChange={(value) => handleTimeChange("minutes", value)}
                   >
                     <SelectTrigger className="w-20">
                       <SelectValue placeholder="00" />
@@ -208,6 +242,12 @@ export function DatePicker({
                       <SelectGroup>{generateTimeOptions(60)}</SelectGroup>
                     </SelectContent>
                   </Select>
+                </div>
+                <div className="flex flex-row justify-center items-end">
+                  <Check
+                    onClick={() => setOpen(false)}
+                    className="h-9 w-9 p-1 items-center justify-center text-primary-800 cursor-pointer hover:text-primary-900 transition-colors duration-200 ease-in-out transform hover:bg-slate-100 border rounded"
+                  />
                 </div>
               </div>
             )}

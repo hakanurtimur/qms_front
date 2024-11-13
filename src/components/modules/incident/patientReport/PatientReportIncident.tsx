@@ -14,6 +14,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dropzone } from "@/components/ui/dropZone";
+import { DatePicker } from "@/components/ui/date-picker";
+import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
+import { incidentPlaces } from "@/constants/incidentPlaces";
 
 interface Props {
   containerRef: React.RefObject<HTMLDivElement>;
@@ -43,143 +46,169 @@ const PatientReportIncident = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={"space-y-8 animate-slide-in-from-bottom"}
+        className={"flex flex-col w-[900px] h-full gap-4 transition-opacity  duration-500 ease-in-out opacity-100  "}
+      
       >
-        <div className="grid grid-cols-2 items-center gap-8 mt-8">
-          <FormField
-            control={form.control}
-            name={"name"}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className={"flex items-center justify-between"}>
-                  Hasta Adı
-                </FormLabel>
-                <FormControl>
-                  <Input {...field} readOnly className="bg-slate-100" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name={"bornDate"}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className={"flex items-center justify-between"}>
-                  Doğum Tarihi
-                </FormLabel>
-                <FormControl>
-                  <Input {...field} readOnly className="bg-slate-100" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name={"patientNum"}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className={"flex items-center justify-between"}>
-                  Hasta No
-                </FormLabel>
-                <FormControl>
-                  <Input {...field} readOnly className="bg-slate-100" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name={"phoneNum"}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className={"flex items-center justify-between"}>
-                  Telefon No
-                </FormLabel>
-                <FormControl>
-                  <Input {...field} readOnly className="bg-slate-100" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-8">
-          <FormField
-            control={form.control}
-            name={"date"}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className={"flex items-center justify-between"}>
-                  Olay Tarihi
-                </FormLabel>
-                <FormControl>
-                  <Input {...field} type={"date"} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name={"incidentPlace"}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className={"flex items-center justify-between"}>
-                  Olay Yeri
-                </FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <FormField
-          control={form.control}
-          name={"incidentDescription"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className={"flex items-center justify-between"}>
-                Açıklama
-              </FormLabel>
-              <FormControl>
-                <Textarea rows={4} {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="w-full flex items-center justify-center">
-          <div className="w-1/2">
-            <Controller
+        <div className="flex flex-col w-full gap-6 ">
+          <div className="flex flex-row w-full gap-6 ">
+            <FormField
               control={form.control}
-              name="file"
+              name={"name"}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="flex items-center justify-between">
-                    Dosya Yükleme
+                  <FormLabel className={"w-52"}>
+                    Hasta Adı
                   </FormLabel>
                   <FormControl>
-                    <Dropzone
-                      onChange={(file) => field.onChange(file)}
-                      className="min-h-36"
-                      fileExtension="pdf"
-                    />
+                    <Input {...field} readOnly className="bg-slate-100 w-52" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <div className="flex flex-col w-52">
+              <FormField
+                control={form.control}
+                name={"bornDate"}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={"w-52"}>
+                      Doğum Tarihi
+                    </FormLabel>
+                    <FormControl>
+                      <DatePicker
+
+                        {...field}
+                        readonly={true}
+                        value={patientFormModel?.bornDate}
+                        placeholder="Tarih Seçiniz"
+                        includeTime={false}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <FormField
+              control={form.control}
+              name={"patientNum"}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className={""}>
+                    Hasta No
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} readOnly className="bg-slate-100 w-52" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name={"phoneNum"}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className={""}>
+                    Telefon No
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} readOnly className="bg-slate-100 w-52" />
+                  </FormControl>
+                  <FormMessage className="absolute "  />
+                </FormItem>
+              )}
+            />
           </div>
+          <div className="flex flex-row w-full gap-8  ">
+            <div className="flex flex-col gap-4 w-52">
+              <FormField
+                control={form.control}
+                name={"date"}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={"w-52"}>
+                      Olay Tarihi
+                    </FormLabel>
+                    <FormControl>
+                      <DatePicker
+                        {...field}
+                        onChange={(value) => field.onChange(value)}
+                        placeholder="Seçiniz"
+                        includeTime={true}
+                      />
+                    </FormControl>
+                    <FormMessage className="absolute "  />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name={"incidentPlace"}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={"w-56"}>
+                      Olay Yeri
+                    </FormLabel>
+                    <FormControl>
+                      <DynamicCombobox
+                        {...field}
+                        options={incidentPlaces}
+                        onChange={(value) => field.onChange(value)}
+                        placeholder="Seçiniz"
+                        width="[230px]"
+                      />
+                    </FormControl>
+                    <FormMessage className="absolute"  />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex flex-col md:w-[660px]  justify-center">
+            <FormField
+              control={form.control}
+              name={"file"}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className={"w-full"}>
+                    Dosya
+                  </FormLabel>
+                  <FormControl>
+                    <Dropzone
+                      className="w-full h-28 justify-center items-center"
+                      {...field}
+                      onChange={(value) => field.onChange(value)}
+                    />
+                  </FormControl>
+                  <FormMessage className="absolute"  />
+                </FormItem>
+              )}
+            />
+            </div>
+          </div>
+
+        </div>
+        <div className="flex flex-col w-full ">
+          <FormField
+            control={form.control}
+            name={"incidentDescription"}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className={"w-full"}>
+                  Açıklama
+                </FormLabel>
+                <FormControl>
+                  <Textarea className="w-full mr-10 h-32" {...field} />
+                </FormControl>
+                <FormMessage className="absolute" />
+              </FormItem>
+            )}
+          />
         </div>
         <div
           ref={containerRef}
-          className={"w-full flex items-center justify-center gap-4"}
+          className={"w-full flex items-end justify-end gap-4"}
         >
           <Button
             onClick={() => {
@@ -193,7 +222,7 @@ const PatientReportIncident = ({
           <Button type={"submit"}>Gönder</Button>
         </div>
       </form>
-    </Form>
+    </Form >
   );
 };
 
