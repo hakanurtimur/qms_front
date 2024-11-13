@@ -156,7 +156,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
             )}
           </div>
         </div>
-        <div className="w-full flex flex-col md:flex-row gap-4">
+        <div className="w-full flex flex-col md:flex-row gap-4 ">
           <FormField
             control={form.control}
             name="incidentDescription"
@@ -174,7 +174,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
             control={form.control}
             name="file"
             render={({ field }) => (
-              <FormItem className="flex-1">
+              <FormItem className="flex-1 ">
                 <FormLabel>Dosya Yükleme</FormLabel>
                 <FormControl>
                   <Dropzone
@@ -189,7 +189,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
           />
         </div>
 
-        <div className="w-full flex items-center justify-end gap-4">
+        <div className="w-full flex items-center justify-end gap-4 pt-4">
           <Button
             onClick={() => {
               form.reset();

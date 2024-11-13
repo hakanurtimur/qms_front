@@ -47,7 +47,7 @@ const PatientReportIncident = ({
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className={"flex flex-col w-[900px] h-full gap-4 transition-opacity  duration-500 ease-in-out opacity-100  "}
-      
+
       >
         <div className="flex flex-col w-full gap-6 ">
           <div className="flex flex-row w-full gap-6 ">
@@ -116,7 +116,7 @@ const PatientReportIncident = ({
                   <FormControl>
                     <Input {...field} readOnly className="bg-slate-100 w-52" />
                   </FormControl>
-                  <FormMessage className="absolute "  />
+                  <FormMessage className="absolute " />
                 </FormItem>
               )}
             />
@@ -139,7 +139,7 @@ const PatientReportIncident = ({
                         includeTime={true}
                       />
                     </FormControl>
-                    <FormMessage className="absolute "  />
+                    <FormMessage className="absolute " />
                   </FormItem>
                 )}
               />
@@ -160,31 +160,31 @@ const PatientReportIncident = ({
                         width="[230px]"
                       />
                     </FormControl>
-                    <FormMessage className="absolute"  />
+                    <FormMessage className="absolute" />
                   </FormItem>
                 )}
               />
             </div>
-            <div className="flex flex-col md:w-[660px]  justify-center">
-            <FormField
-              control={form.control}
-              name={"file"}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className={"w-full"}>
-                    Dosya
-                  </FormLabel>
-                  <FormControl>
-                    <Dropzone
-                      className="w-full h-28 justify-center items-center"
-                      {...field}
-                      onChange={(value) => field.onChange(value)}
-                    />
-                  </FormControl>
-                  <FormMessage className="absolute"  />
-                </FormItem>
-              )}
-            />
+            <div className="flex flex-col md:w-[660px] w-full  justify-center items-center">
+              <FormField
+                control={form.control}
+                name={"file"}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={"w-full"}>
+                      Dosya
+                    </FormLabel>
+                    <FormControl>
+                      <Dropzone
+                        className="w-[350px] h-28 justify-center items-center"
+                        {...field}
+                        onChange={(value) => field.onChange(value)}
+                      />
+                    </FormControl>
+                    <FormMessage className="absolute" />
+                  </FormItem>
+                )}
+              />
             </div>
           </div>
 

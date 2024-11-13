@@ -231,7 +231,7 @@ const Login = ({
                 className=""
                 asChild
               >
-                <Link href={`modules/`}>
+                <Link href={`modules/${module.moduleId}`}>
                   {module.moduleName}
                 </Link>
               </Button>

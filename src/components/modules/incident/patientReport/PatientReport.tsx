@@ -38,7 +38,6 @@ const PatientReport = ({
         <PatientReportFilter
           onSubmitFilter={onSubmitFilter}
           onResetPatientForm={onResetPatientForm}
-
         />
       </div>
 
