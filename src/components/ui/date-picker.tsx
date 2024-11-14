@@ -15,7 +15,6 @@ import {
   isSameDay,
   isSameMonth,
   startOfMonth,
-  subMonths,
 } from "date-fns";
 import { tr } from "date-fns/locale";
 import {
@@ -49,7 +48,9 @@ export function DatePicker({
   includeTime = false, // Varsayılan olarak zaman seçimi kapalı
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
-  const [selectedDateTime, setSelectedDateTime] = React.useState<Date>(new Date());
+  const [selectedDateTime, setSelectedDateTime] = React.useState<Date>(
+    new Date(),
+  );
 
   React.useEffect(() => {
     if (value) {
@@ -138,7 +139,7 @@ export function DatePicker({
               className={cn(
                 "flex w-full justify-between font-normal",
                 !selectedDateTime && "text-muted-foreground",
-                readonly && "bg-primary-100"
+                readonly && "bg-primary-100",
               )}
             >
               <span className="flex-1 text-left">
@@ -157,7 +158,11 @@ export function DatePicker({
           </PopoverTrigger>
           <PopoverContent className="w-auto p-4 ">
             <div className="flex justify-between items-center mb-2">
-              <Button variant="ghost" size="sm" onClick={() => handleMonthChange(-1)}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleMonthChange(-1)}
+              >
                 &lt;
               </Button>
               <span className="font-semibold flex justify-center items-center">
@@ -167,11 +172,16 @@ export function DatePicker({
                   onValueChange={handleYearChange}
                 >
                   <SelectTrigger className="w-20 border-none shadow-none">
-                    <SelectValue placeholder={new Date().getFullYear().toString()} />
+                    <SelectValue
+                      placeholder={new Date().getFullYear().toString()}
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((year) => (
+                      {Array.from(
+                        { length: 100 },
+                        (_, i) => new Date().getFullYear() - i,
+                      ).map((year) => (
                         <SelectItem key={year} value={year.toString()}>
                           {year}
                         </SelectItem>
@@ -180,7 +190,11 @@ export function DatePicker({
                   </SelectContent>
                 </Select>
               </span>
-              <Button variant="ghost" size="sm" onClick={() => handleMonthChange(1)}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleMonthChange(1)}
+              >
                 &gt;
               </Button>
             </div>
@@ -201,8 +215,9 @@ export function DatePicker({
                   disabled={!isSameMonth(day, selectedDateTime)}
                   className={cn(
                     "p-1 rounded-lg hover:bg-gray-200",
-                    isSameDay(day, selectedDateTime) && "bg-blue-500 text-white",
-                    !isSameMonth(day, selectedDateTime) && "text-gray-300"
+                    isSameDay(day, selectedDateTime) &&
+                      "bg-blue-500 text-white",
+                    !isSameMonth(day, selectedDateTime) && "text-gray-300",
                   )}
                 >
                   {format(day, "d")}
@@ -216,7 +231,10 @@ export function DatePicker({
                     Saat
                   </label>
                   <Select
-                    value={selectedDateTime.getHours().toString().padStart(2, "0")}
+                    value={selectedDateTime
+                      .getHours()
+                      .toString()
+                      .padStart(2, "0")}
                     onValueChange={(value) => handleTimeChange("hours", value)}
                   >
                     <SelectTrigger className="w-20">
@@ -232,8 +250,13 @@ export function DatePicker({
                     Dakika
                   </label>
                   <Select
-                    value={selectedDateTime.getMinutes().toString().padStart(2, "0")}
-                    onValueChange={(value) => handleTimeChange("minutes", value)}
+                    value={selectedDateTime
+                      .getMinutes()
+                      .toString()
+                      .padStart(2, "0")}
+                    onValueChange={(value) =>
+                      handleTimeChange("minutes", value)
+                    }
                   >
                     <SelectTrigger className="w-20">
                       <SelectValue placeholder="00" />

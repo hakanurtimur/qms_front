@@ -70,6 +70,7 @@ const Page = () => {
             options={options}
             label="Olaydan etkilenen"
             onChange={handleTabChange}
+            width="[240px]"
           />
         </div>
         <div className="w-5/6 p-4 flex items-center justify-center">
@@ -79,10 +80,11 @@ const Page = () => {
             </div>
           )}
           {selectedTab === "patient" && (
-            <div className={"w-fit min-h-[500px] border-4 p-10 border-black-900 rounded-lg shadow-2xl bg-white" 
-              + (patient ? "" : " mr-52")
-            } 
-
+            <div
+              className={
+                "w-fit min-h-[500px] border-4 p-10 border-black-900 rounded-lg shadow-2xl bg-white" +
+                (patient ? "" : " mr-52")
+              }
             >
               <PatientReport
                 onSubmitFilter={handleSubmitPatientFilter}

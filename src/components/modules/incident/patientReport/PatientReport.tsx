@@ -43,10 +43,7 @@ const PatientReport = ({
 
       {patientFormModel && (
         <div className="w-full flex gap-4">
-
-          <div className="w-1 h-[450px] rounded bg-black-200 text-black-800" >
-
-          </div>
+          <div className="w-1 h-[450px] rounded bg-black-200 text-black-800"></div>
           <PatientReportIncident
             patientFormModel={patientFormModel}
             containerRef={containerRef}
@@ -55,7 +52,6 @@ const PatientReport = ({
         </div>
       )}
     </div>
-
   );
 };
 

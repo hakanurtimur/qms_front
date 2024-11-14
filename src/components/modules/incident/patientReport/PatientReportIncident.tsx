@@ -1,6 +1,6 @@
 "use client";
 import { IncidentFormPatient, SIncidentForm } from "@/models/incidentForm";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -46,8 +46,9 @@ const PatientReportIncident = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={"flex flex-col w-[900px] h-full gap-4 transition-opacity  duration-500 ease-in-out opacity-100  "}
-
+        className={
+          "flex flex-col w-[900px] h-full gap-4 transition-opacity  duration-500 ease-in-out opacity-100  "
+        }
       >
         <div className="flex flex-col w-full gap-6 ">
           <div className="flex flex-row w-full gap-6 ">
@@ -56,9 +57,7 @@ const PatientReportIncident = ({
               name={"name"}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className={"w-52"}>
-                    Hasta Adı
-                  </FormLabel>
+                  <FormLabel className={"w-52"}>Hasta Adı</FormLabel>
                   <FormControl>
                     <Input {...field} readOnly className="bg-slate-100 w-52" />
                   </FormControl>
@@ -72,12 +71,9 @@ const PatientReportIncident = ({
                 name={"bornDate"}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className={"w-52"}>
-                      Doğum Tarihi
-                    </FormLabel>
+                    <FormLabel className={"w-52"}>Doğum Tarihi</FormLabel>
                     <FormControl>
                       <DatePicker
-
                         {...field}
                         readonly={true}
                         value={patientFormModel?.bornDate}
@@ -95,9 +91,7 @@ const PatientReportIncident = ({
               name={"patientNum"}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className={""}>
-                    Hasta No
-                  </FormLabel>
+                  <FormLabel className={""}>Hasta No</FormLabel>
                   <FormControl>
                     <Input {...field} readOnly className="bg-slate-100 w-52" />
                   </FormControl>
@@ -110,9 +104,7 @@ const PatientReportIncident = ({
               name={"phoneNum"}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className={""}>
-                    Telefon No
-                  </FormLabel>
+                  <FormLabel className={""}>Telefon No</FormLabel>
                   <FormControl>
                     <Input {...field} readOnly className="bg-slate-100 w-52" />
                   </FormControl>
@@ -128,9 +120,7 @@ const PatientReportIncident = ({
                 name={"date"}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className={"w-52"}>
-                      Olay Tarihi
-                    </FormLabel>
+                    <FormLabel className={"w-52"}>Olay Tarihi</FormLabel>
                     <FormControl>
                       <DatePicker
                         {...field}
@@ -148,9 +138,7 @@ const PatientReportIncident = ({
                 name={"incidentPlace"}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className={"w-56"}>
-                      Olay Yeri
-                    </FormLabel>
+                    <FormLabel className={"w-56"}>Olay Yeri</FormLabel>
                     <FormControl>
                       <DynamicCombobox
                         {...field}
@@ -171,9 +159,7 @@ const PatientReportIncident = ({
                 name={"file"}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className={"w-full"}>
-                      Dosya
-                    </FormLabel>
+                    <FormLabel className={"w-full"}>Dosya</FormLabel>
                     <FormControl>
                       <Dropzone
                         className="w-[350px] h-28 justify-center items-center"
@@ -187,7 +173,6 @@ const PatientReportIncident = ({
               />
             </div>
           </div>
-
         </div>
         <div className="flex flex-col w-full ">
           <FormField
@@ -195,9 +180,7 @@ const PatientReportIncident = ({
             name={"incidentDescription"}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className={"w-full"}>
-                  Açıklama
-                </FormLabel>
+                <FormLabel className={"w-full"}>Açıklama</FormLabel>
                 <FormControl>
                   <Textarea className="w-full mr-10 h-32" {...field} />
                 </FormControl>
@@ -222,7 +205,7 @@ const PatientReportIncident = ({
           <Button type={"submit"}>Gönder</Button>
         </div>
       </form>
-    </Form >
+    </Form>
   );
 };
 

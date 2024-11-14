@@ -34,7 +34,6 @@ export function DynamicCombobox({
   placeholder = "Seçiniz",
   onChange,
   width = "",
-
 }: DynamicComboboxProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState<string | number>("");
@@ -71,9 +70,8 @@ export function DynamicCombobox({
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className={"p-0 w-" + width } 
-          >
-            <Command >
+          <PopoverContent className={"p-0 w-" + width}>
+            <Command>
               <CommandInput placeholder="Ara" />
               <CommandList>
                 <CommandEmpty>Bulunamadı</CommandEmpty>

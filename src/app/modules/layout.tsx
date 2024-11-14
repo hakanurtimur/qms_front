@@ -20,10 +20,7 @@ const Layout = ({ children }: Props) => {
     title = "Olay Bildirimi";
   }
 
-
-  return <NonLoginLayout title={title}>
-    {children}
-    </NonLoginLayout>;
+  return <NonLoginLayout title={title}>{children}</NonLoginLayout>;
 };
 
 export default Layout;
