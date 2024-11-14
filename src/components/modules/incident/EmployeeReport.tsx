@@ -127,7 +127,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
                   <FormControl>
                     <Dropzone
                       onChange={(file) => field.onChange(file)}
-                      className="w-full  h-24"
+                      className="w-full  h-28"
                       fileExtension="pdf"
                     />
                   </FormControl>
