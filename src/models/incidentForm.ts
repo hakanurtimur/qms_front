@@ -18,8 +18,6 @@ export type IncidentForm = z.infer<typeof SIncidentForm>;
 export const SIncidentFormEmployee = SIncidentForm.extend({
   employeeName: z.string().min(3, "En az 3 karakter olmalıdır"),
   affectedPerson: z.string().min(3, "En az 3 karakter olmalıdır"),
-  secondaryVictim: z.enum(["yes", "no"]),
-  secondaryVictimName: z.string().min(3, "En az 3 karakter olmalıdır"),
 });
 
 export type IncidentFormEmployee = z.infer<typeof SIncidentFormEmployee>;

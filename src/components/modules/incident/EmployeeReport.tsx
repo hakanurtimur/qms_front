@@ -35,8 +35,6 @@ const EmployeeReport = ({ onSubmit }: Props) => {
       incidentPlace: "",
       incidentDescription: "",
       affectedPerson: "",
-      secondaryVictim: "no",
-      secondaryVictimName: "",
       file: null,
     },
   });
@@ -61,7 +59,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
                       options={nameSurnamePairs}
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
-                      width="[300px]"
+                      width="[240px]"
                     />
                   </FormControl>
                   <FormMessage className="absolute" />
@@ -106,12 +104,12 @@ const EmployeeReport = ({ onSubmit }: Props) => {
               )}
             />
           </div>
-          <div className="w-full flex flex-col md:flex-col gap-6">
+          <div className="w-56 flex flex-col  md:flex-col gap-6">
             <FormField
               control={form.control}
               name="affectedPerson"
               render={({ field }) => (
-                <FormItem className="w-full ">
+                <FormItem className="w-56 ">
                   <FormLabel>Olaydan Etkilenen</FormLabel>
                   <FormControl>
                     <Input className="w-full" {...field} />
@@ -120,40 +118,23 @@ const EmployeeReport = ({ onSubmit }: Props) => {
                 </FormItem>
               )}
             />
-            <FormField
+            <Controller
               control={form.control}
-              name="secondaryVictim"
+              name="file"
               render={({ field }) => (
-                <FormItem className="w-56">
-                  <FormLabel>İkincil Mağdur Var mı?</FormLabel>
+                <FormItem className="w-full  mt-4 ">
+                  <FormLabel>Dosya Yükleme</FormLabel>
                   <FormControl>
-                    <DynamicCombobox
-                      {...field}
-                      options={{ yes: "Evet", no: "Hayır" }}
-                      onChange={(value) => field.onChange(value)}
-                      placeholder="Seçiniz"
-                      width="[350px]"
+                    <Dropzone
+                      onChange={(file) => field.onChange(file)}
+                      className="w-full  h-24"
+                      fileExtension="pdf"
                     />
                   </FormControl>
                   <FormMessage className="absolute" />
                 </FormItem>
               )}
             />
-            {form.watch("secondaryVictim") === "yes" && (
-              <FormField
-                control={form.control}
-                name="secondaryVictimName"
-                render={({ field }) => (
-                  <FormItem className="w-56">
-                    <FormLabel>Ad Soyad</FormLabel>
-                    <FormControl>
-                      <Input className="w-full" {...field} />
-                    </FormControl>
-                    <FormMessage className="absolute" />
-                  </FormItem>
-                )}
-              />
-            )}
           </div>
         </div>
         <div className="w-full flex flex-col md:flex-row gap-4 ">
@@ -165,23 +146,6 @@ const EmployeeReport = ({ onSubmit }: Props) => {
                 <FormLabel>Açıklama</FormLabel>
                 <FormControl>
                   <Textarea className="w-full min-h-24" {...field} />
-                </FormControl>
-                <FormMessage className="absolute" />
-              </FormItem>
-            )}
-          />
-          <Controller
-            control={form.control}
-            name="file"
-            render={({ field }) => (
-              <FormItem className="flex-1 ">
-                <FormLabel>Dosya Yükleme</FormLabel>
-                <FormControl>
-                  <Dropzone
-                    onChange={(file) => field.onChange(file)}
-                    className="w-full h-24"
-                    fileExtension="pdf"
-                  />
                 </FormControl>
                 <FormMessage className="absolute" />
               </FormItem>
