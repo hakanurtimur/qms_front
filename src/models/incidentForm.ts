@@ -29,6 +29,8 @@ export const SIncidentFormPatient = SIncidentForm.extend({
   bornDate: z.string(),
   patientNum: z.string(),
   phoneNum: z.string(),
+  isSecondaryVictim: z.enum(["true", "false"]),
+  secondaryVictimName: z.string().min(3, "En az 3 karakter olmalıdır"),
 });
 
 export type IncidentFormPatient = z.infer<typeof SIncidentFormPatient>;

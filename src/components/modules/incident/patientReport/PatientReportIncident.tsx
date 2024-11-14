@@ -113,8 +113,8 @@ const PatientReportIncident = ({
               )}
             />
           </div>
-          <div className="flex flex-row w-full gap-8  ">
-            <div className="flex flex-col gap-4 w-52">
+          <div className="flex flex-row w-full justify-start gap-4  ">
+            <div className="flex flex-col gap-4 w-52 ">
               <FormField
                 control={form.control}
                 name={"date"}
@@ -138,7 +138,7 @@ const PatientReportIncident = ({
                 name={"incidentPlace"}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className={"w-56"}>Olay Yeri</FormLabel>
+                    <FormLabel className={"w-52"}>Olay Yeri</FormLabel>
                     <FormControl>
                       <DynamicCombobox
                         {...field}
@@ -153,24 +153,67 @@ const PatientReportIncident = ({
                 )}
               />
             </div>
-            <div className="flex flex-col md:w-[660px] w-full  justify-center items-center">
-              <FormField
-                control={form.control}
-                name={"file"}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className={"w-full"}>Dosya</FormLabel>
-                    <FormControl>
-                      <Dropzone
-                        className="w-[350px] h-28 justify-center items-center"
-                        {...field}
-                        onChange={(value) => field.onChange(value)}
-                      />
-                    </FormControl>
-                    <FormMessage className="absolute" />
-                  </FormItem>
+            <div className="flex flex-row w-[600px] justify-between  gap-4">
+              <div className="flex flex-col min-w-52 gap-4">
+                <FormField
+                  control={form.control}
+                  name={"isSecondaryVictim"}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={"w-full"}>İkincil Mağdur</FormLabel>
+                      <FormControl>
+                        <DynamicCombobox
+                          {...field}
+                          options={{
+                            true: "Evet",
+                            false: "Hayır",
+                          }}
+                          onChange={(value) => field.onChange(value)}
+                          placeholder="Seçiniz"
+                          width="[230px]"
+                        />
+                      </FormControl>
+                      <FormMessage className="absolute" />
+                    </FormItem>
+                  )}
+                />
+                {form.watch("isSecondaryVictim") === "true" && (
+                  <FormField
+                    control={form.control}
+                    name={"secondaryVictimName"}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className={"w-full"}>
+                          İkincil Mağdur Adı
+                        </FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage className="absolute" />
+                      </FormItem>
+                    )}
+                  />
                 )}
-              />
+              </div>
+              <div className="flex flex-col justify-center ml-8 items-center w-full gap-4">
+                <FormField
+                  control={form.control}
+                  name={"file"}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className={"w-full"}>Dosya</FormLabel>
+                      <FormControl>
+                        <Dropzone
+                          className="w-[400px]  h-28 justify-center items-center"
+                          {...field}
+                          onChange={(value) => field.onChange(value)}
+                        />
+                      </FormControl>
+                      <FormMessage className="absolute" />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
           </div>
         </div>

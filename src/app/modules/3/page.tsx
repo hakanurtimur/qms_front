@@ -21,6 +21,8 @@ const DUMMY_PATIENT: IncidentFormPatient = {
   incidentPlace: "",
   incidentDescription: "",
   file: undefined,
+  isSecondaryVictim: "false",
+  secondaryVictimName: "",
 };
 
 const Page = () => {
