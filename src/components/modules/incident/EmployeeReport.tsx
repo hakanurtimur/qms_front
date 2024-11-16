@@ -104,7 +104,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
               )}
             />
           </div>
-          <div className="w-56 flex flex-col  md:flex-col gap-6">
+          <div className="w-56 flex flex-col md:flex-col gap-6">
             <FormField
               control={form.control}
               name="affectedPerson"

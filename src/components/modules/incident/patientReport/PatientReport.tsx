@@ -27,7 +27,6 @@ const PatientReport = ({
           behavior: "smooth",
         });
       }, 300);
-
       return () => clearTimeout(timeoutId);
     }
   }, [patientFormModel]);
