@@ -31,6 +31,7 @@ import { ChangePasswordModel } from "@/models/auth";
 import ChangePassowordForm from "@/components/ui/reusable-forms/change-passoword-form";
 
 interface Props {
+  variant: "admin" | "user";
   navItems: {
     icon: React.ElementType;
     label: string;
@@ -46,7 +47,13 @@ interface Props {
   children: React.ReactNode;
 }
 
-const DashboardLayout = ({ navItems, open, onSetOpen, children }: Props) => {
+const DashboardLayout = ({
+  navItems,
+  open,
+  onSetOpen,
+  children,
+  variant,
+}: Props) => {
   const router = useRouter();
   const { onSetAuthenticated, user } = useAuth();
 
@@ -144,7 +151,7 @@ const DashboardLayout = ({ navItems, open, onSetOpen, children }: Props) => {
               <PopoverContent className="w-48 flex flex-col gap-2">
                 <div className="font-bold px-2.5">{user?.username}</div>
                 <Link
-                  href={"/profile"}
+                  href={`/${variant}/profile`}
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   Profil

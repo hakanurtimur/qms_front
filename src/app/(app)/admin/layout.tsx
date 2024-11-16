@@ -18,6 +18,7 @@ export default function Layout({ children }: Props) {
         <LoadingScreen />
       ) : (
         <DashboardLayout
+          variant={"admin"}
           open={open}
           onSetOpen={setOpen}
           navItems={adminNavItems}
