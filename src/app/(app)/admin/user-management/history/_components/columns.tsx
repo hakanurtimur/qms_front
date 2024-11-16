@@ -53,7 +53,11 @@ export const columns: ColumnDef<ActionHistoryModel>[] = [
       );
     },
     cell: ({ cell }) => {
-      return formatDate(cell.getValue() as string);
+      return (
+        <div className="flex items-center justify-end">
+          {formatDate(cell.getValue() as string)}
+        </div>
+      );
     },
   },
 ];

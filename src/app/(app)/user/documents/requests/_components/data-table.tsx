@@ -93,8 +93,8 @@ export function DataTable<TData, TValue>({
 
   return (
     <TooltipProvider>
-      <div className="w-full overflow-scroll flex items-center justify-center no-scrollbar">
-        <div className="rounded-md border no-scrollbar">
+      <div className="min-w-full overflow-scroll flex items-center justify-center no-scrollbar">
+        <div className="min-w-full rounded-md border no-scrollbar">
           <div className="flex items-center py-4 px-4 gap-10">
             <div className="flex flex-1 flex-shrink-0 items-center gap-10">
               <div className="flex-1">

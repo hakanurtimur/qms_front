@@ -23,13 +23,18 @@ import {
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
+import NonFormCombobox from "@/components/ui/nonform-combobox";
 
 interface DataTableProps<TData, TValue> {
+  nameOpts: { [key: string]: string };
+  updateTableOpts: { [key: string]: string };
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
 export function DataTable<TData, TValue>({
+  nameOpts,
+  updateTableOpts,
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -64,39 +69,37 @@ export function DataTable<TData, TValue>({
         <div className="flex items-center py-4 px-4 gap-10 w-full justify-between no-scrollbar">
           <div className="flex items-center gap-10">
             <div className="w-64">
-              <Input
-                name="nameSurname"
+              <NonFormCombobox
+                width={"max-w-sm"}
                 placeholder="Ad Soyad"
                 value={
-                  table.getColumn("nameSurname")?.getFilterValue() as string
+                  (table
+                    .getColumn("nameSurname")
+                    ?.getFilterValue() as string) || ""
                 }
-                onChange={(event) =>
+                onChange={(value) =>
                   table
                     .getColumn("nameSurname")
-                    ?.setFilterValue(
-                      event.target.value
-                        ? event.target.value.toLocaleUpperCase("tr")
-                        : "",
-                    )
+                    ?.setFilterValue(value ? value : "")
                 }
+                options={nameOpts}
               />
             </div>
             <div className={"w-64"}>
-              <Input
-                name="updateTable"
+              <NonFormCombobox
+                width={"max-w-sm"}
                 placeholder="İşlem Yeri"
                 value={
-                  table.getColumn("updateTable")?.getFilterValue() as string
+                  (table
+                    .getColumn("updateTable")
+                    ?.getFilterValue() as string) || ""
                 }
-                onChange={(event) =>
+                onChange={(value) =>
                   table
                     .getColumn("updateTable")
-                    ?.setFilterValue(
-                      event.target.value
-                        ? event.target.value.toLocaleUpperCase("tr")
-                        : "",
-                    )
+                    ?.setFilterValue(value ? value : "")
                 }
+                options={updateTableOpts}
               />
             </div>
           </div>

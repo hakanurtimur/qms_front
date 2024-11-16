@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { SheetClose } from "@/components/ui/sheet";
 
 interface Props {
   onSubmit: (data: ChangePasswordModel) => void;
@@ -32,19 +33,19 @@ const ChangePassowordForm = ({
   error,
   variant = "screen",
 }: Props) => {
+  const [showOldPassword, setShowOldPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const router = useRouter();
 
   const form = useForm<ChangePasswordModel>({
     resolver: zodResolver(SChangePasswordModel),
     defaultValues: {
-      email: "",
+      oldPassword: "",
       password: "",
       passwordConfirm: "",
     },
   });
-
-  console.log(form.formState.errors);
 
   return (
     <FormContainerCard
@@ -55,13 +56,30 @@ const ChangePassowordForm = ({
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
-            name="email"
+            name="oldPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>E-Mail Adresi</FormLabel>
-                <FormControl>
-                  <Input placeholder="" {...field} />
-                </FormControl>
+                <FormLabel>Eski Şifre</FormLabel>
+                <div className="relative">
+                  <FormControl>
+                    <Input
+                      type={showOldPassword ? "text" : "password"}
+                      placeholder=""
+                      {...field}
+                    />
+                  </FormControl>
+                  {!showOldPassword ? (
+                    <EyeIcon
+                      className="h-5 w-5 absolute right-2 top-2 cursor-pointer"
+                      onClick={() => setShowOldPassword(true)}
+                    />
+                  ) : (
+                    <EyeSlashIcon
+                      className="h-5 w-5 absolute right-2 top-2 cursor-pointer"
+                      onClick={() => setShowOldPassword(false)}
+                    />
+                  )}
+                </div>
                 <FormMessage />
               </FormItem>
             )}
@@ -109,20 +127,20 @@ const ChangePassowordForm = ({
                 <div className="relative">
                   <FormControl className="relative">
                     <Input
-                      type={showPassword ? "text" : "password"}
+                      type={showPasswordConfirm ? "text" : "password"}
                       placeholder=""
                       {...field}
                     />
                   </FormControl>
-                  {!showPassword ? (
+                  {!showPasswordConfirm ? (
                     <EyeIcon
                       className="h-5 w-5 absolute right-2 top-2 cursor-pointer"
-                      onClick={() => setShowPassword(true)}
+                      onClick={() => setShowPasswordConfirm(true)}
                     />
                   ) : (
                     <EyeSlashIcon
                       className="h-5 w-5 absolute right-2 top-2 cursor-pointer"
-                      onClick={() => setShowPassword(false)}
+                      onClick={() => setShowPasswordConfirm(false)}
                     />
                   )}
                 </div>
@@ -132,32 +150,52 @@ const ChangePassowordForm = ({
           />
           <div className="flex justify-between items-center">
             {variant === "screen" && (
-              <Button
-                disabled={formLoading}
-                variant="outline"
-                type="button"
-                onClick={() => {
-                  router.back();
-                }}
-              >
-                {formLoading ? (
-                  <div className="w-full flex items-center justify-center">
-                    <LoadingSpinner />
-                  </div>
-                ) : (
-                  <p>Geri</p>
-                )}
-              </Button>
+              <>
+                <Button
+                  disabled={formLoading}
+                  variant="outline"
+                  type="button"
+                  onClick={() => {
+                    router.back();
+                  }}
+                >
+                  {formLoading ? (
+                    <div className="w-full flex items-center justify-center">
+                      <LoadingSpinner />
+                    </div>
+                  ) : (
+                    <p>Geri</p>
+                  )}
+                </Button>
+                <Button disabled={formLoading} variant="primary" type="submit">
+                  {formLoading ? (
+                    <div className="w-full flex items-center justify-center">
+                      <LoadingSpinner />
+                    </div>
+                  ) : (
+                    <p>Sıfırla</p>
+                  )}
+                </Button>
+              </>
             )}
-            <Button disabled={formLoading} variant="primary" type="submit">
-              {formLoading ? (
-                <div className="w-full flex items-center justify-center">
-                  <LoadingSpinner />
-                </div>
-              ) : (
-                <p>Sıfırla</p>
-              )}
-            </Button>
+            {variant === "sheet" && (
+              <>
+                <SheetClose>
+                  <Button type="button" variant={"outline"}>
+                    İptal Et
+                  </Button>
+                </SheetClose>
+                <Button disabled={formLoading} variant="primary" type="submit">
+                  {formLoading ? (
+                    <div className="w-full flex items-center justify-center">
+                      <LoadingSpinner />
+                    </div>
+                  ) : (
+                    <p>Sıfırla</p>
+                  )}
+                </Button>{" "}
+              </>
+            )}
           </div>
           <p className="text-danger-500">{error && error}</p>
         </form>

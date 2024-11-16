@@ -4,7 +4,6 @@ import { userNavItems } from "@/constants/userNavItems";
 import NavItem from "@/components/layout/NavItem";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -159,12 +158,12 @@ const DashboardLayout = ({
                 <Sheet>
                   <SheetTrigger asChild>
                     <button className="flex cursor-pointer items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                      Şifremi Unuttum
+                      Şifre Değiştir
                     </button>
                   </SheetTrigger>
                   <SheetContent side="right">
                     <SheetHeader>
-                      <SheetTitle>Şifremi Unuttum</SheetTitle>
+                      <SheetTitle>Şifre Değiştir</SheetTitle>
                     </SheetHeader>
                     <ChangePassowordForm
                       onSubmit={(data: ChangePasswordModel) => {
@@ -174,11 +173,6 @@ const DashboardLayout = ({
                       formLoading={false}
                       variant={"sheet"}
                     />
-                    <SheetClose>
-                      <Button className="mt-5" variant={"outline"}>
-                        Kapat
-                      </Button>
-                    </SheetClose>
                   </SheetContent>
                 </Sheet>
 

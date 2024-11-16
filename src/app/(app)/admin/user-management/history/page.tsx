@@ -7,6 +7,7 @@ import PageHeader from "@/components/ui/pageHeader";
 import actionHistory from "@/services/admin/ActionHistory";
 import { DataTable } from "@/app/(app)/admin/user-management/history/_components/data-table";
 import { columns } from "@/app/(app)/admin/user-management/history/_components/columns";
+import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
 
 const Page = () => {
   const query = useQuery({
@@ -14,7 +15,15 @@ const Page = () => {
     queryFn: () => actionHistory.list(),
   });
 
-  console.log(query.data);
+  const queryNames = query.data?.data.map((item) => item.nameSurname);
+
+  const nameOpts = queryNames ? convertStringArrayToOptions(queryNames) : null;
+
+  const updateTables = query.data?.data.map((item) => item.updateTable);
+
+  const updateTableOpts = updateTables
+    ? convertStringArrayToOptions(updateTables)
+    : null;
 
   return (
     <div className="w-full flex flex-col space-y-10">
@@ -26,8 +35,13 @@ const Page = () => {
       <div className="flex justify-between">
         <Button>Listele</Button>
       </div>
-      {query.data && !query.isPending ? (
-        <DataTable data={query.data.data} columns={columns} />
+      {query.data && nameOpts && updateTableOpts && !query.isPending ? (
+        <DataTable
+          nameOpts={nameOpts}
+          updateTableOpts={updateTableOpts}
+          data={query.data.data}
+          columns={columns}
+        />
       ) : (
         <div className="w-screen h-screen absolute top-0 left-0">
           <LoadingScreen />

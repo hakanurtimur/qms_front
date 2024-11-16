@@ -24,9 +24,9 @@ export type ForgotPasswordModel = z.infer<typeof SForgotPasswordModel>;
 
 export const SChangePasswordModel = z
   .object({
-    password: z.string().min(6, "Şifre en az 8 karakter olmalıdır"),
-    passwordConfirm: z.string().min(6, "Şifre en az 8 karakter olmalıdır"),
-    email: z.string().email("Geçerli bir email adresi giriniz"),
+    oldPassword: z.string().min(6, "Şifre en az 6 karakter olmalıdır"),
+    password: z.string().min(6, "Şifre en az 6 karakter olmalıdır"),
+    passwordConfirm: z.string().min(6, "Şifre en az 6 karakter olmalıdır"),
   })
   .refine((data) => data.password === data.passwordConfirm, {
     path: ["passwordConfirm"],
