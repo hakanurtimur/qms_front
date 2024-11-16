@@ -20,7 +20,13 @@ import { Input } from "@/components/ui/input";
 import Combobox from "@/components/ui/combobox";
 import { Textarea } from "@/components/ui/textarea";
 import { DatePicker } from "@/components/ui/date-picker";
-import { FolderIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import { FolderIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Props {
   onSubmit: (data: UserRequestModelUpdate) => void;
@@ -65,7 +71,7 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="mt-10 grid grid-cols-2 gap-8"
+        className="mt-10 grid grid-cols-2 gap-x-8 gap-y-8"
       >
         <div className="space-y-5">
           <FormField
@@ -114,39 +120,6 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
                     className="w-full bg-primary-100"
                     {...field}
                   />
-                </FormControl>
-                <FormMessage className="absolute" />
-              </FormItem>
-            )}
-          />
-          <Combobox<UserRequestModelUpdate>
-            control={form.control}
-            variant={"in-column"}
-            name={"DocumentTypeId"}
-            label={"Doküman Tipi"}
-            options={documentTypes}
-          />
-          <FormField
-            control={form.control}
-            name="DescriptionUser"
-            render={({ field }) => (
-              <FormItem className="w-64 ">
-                <FormLabel>Talep Eden ${model?.UserName} Açıklaması</FormLabel>
-                <FormControl>
-                  <Textarea className="w-full" {...field} />
-                </FormControl>
-                <FormMessage className="absolute" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="DescriptionManager"
-            render={({ field }) => (
-              <FormItem className="w-64 ">
-                <FormLabel>${model?.UserName} - Admin Açıklaması</FormLabel>
-                <FormControl>
-                  <Textarea className="w-full" {...field} />
                 </FormControl>
                 <FormMessage className="absolute" />
               </FormItem>
@@ -209,6 +182,31 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
               </FormItem>
             )}
           />
+        </div>
+        <div className="col-span-2 min-h-0.5 max-h-0.5 w-full bg-primary-900"></div>
+        <div className="space-y-5">
+          <Combobox<UserRequestModelUpdate>
+            control={form.control}
+            variant={"in-column"}
+            name={"DocumentTypeId"}
+            label={"Doküman Tipi"}
+            options={documentTypes}
+          />
+          <FormField
+            control={form.control}
+            name="DescriptionUser"
+            render={({ field }) => (
+              <FormItem className="w-64 ">
+                <FormLabel>Talep Eden ${model?.UserName} Açıklaması</FormLabel>
+                <FormControl>
+                  <Textarea rows={5} className="w-full" {...field} />
+                </FormControl>
+                <FormMessage className="absolute" />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="space-y-5">
           <Combobox<UserRequestModelUpdate>
             control={form.control}
             variant={"in-column"}
@@ -216,6 +214,22 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
             label={"Durum"}
             options={actionIds}
           />
+          <FormField
+            control={form.control}
+            name="DescriptionManager"
+            render={({ field }) => (
+              <FormItem className="w-64 ">
+                <FormLabel>${model?.UserName} - Admin Açıklaması</FormLabel>
+                <FormControl>
+                  <Textarea rows={5} className="w-full" {...field} />
+                </FormControl>
+                <FormMessage className="absolute" />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="col-span-2 min-h-0.5 max-h-0.5 w-full bg-primary-900"></div>
+        <div className="space-y-5">
           <FormField
             control={form.control}
             name="ManagerActionName"
@@ -244,12 +258,15 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
                     readOnly
                     className="w-full bg-primary-100"
                     {...field}
+                    rows={5}
                   />
                 </FormControl>
                 <FormMessage className="absolute" />
               </FormItem>
             )}
           />
+        </div>
+        <div className="space-y-16">
           <FormField
             control={form.control}
             name="AdminAboutName"
@@ -267,29 +284,43 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
               </FormItem>
             )}
           />
-          <div className="flex items-center justify-center gap-4">
-            <Button
-              onClick={() => {
-                console.log(model?.FileId);
-              }}
-              variant="outline"
-              type="button"
-              size={"icon"}
-            >
-              <PencilSquareIcon className="h-4 w-4" />
-            </Button>
-            <Button
-              onClick={() => {
-                console.log(model?.GarbageId);
-              }}
-              variant="outline"
-              type="button"
-              size={"icon"}
-            >
-              <FolderIcon className="h-4 w-4" />
-            </Button>
-          </div>
+
+          <TooltipProvider>
+            <div className="flex items-center justify-center gap-4 ">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={() => {
+                      console.log(model?.FileId);
+                    }}
+                    type="button"
+                    className="pb-3 pt-3 px-3 min-w-20 min-h-12"
+                  >
+                    <PencilSquareIcon className="min-h-8 max-h-8 w-auto" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>TEST FILENAME</TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      onClick={() => {
+                        console.log(model?.GarbageId);
+                      }}
+                      type="button"
+                      className="pb-3 pt-3 px-3 min-w-20 min-h-12"
+                    >
+                      <FolderIcon className="min-h-8 max-h-8 w-auto" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>TEST FILENAME</TooltipContent>
+                </Tooltip>
+              </Tooltip>
+            </div>
+          </TooltipProvider>
         </div>
+
         <div className="col-span-2">
           <SheetFooter>
             <SheetClose asChild>
