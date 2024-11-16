@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useState } from "react";
 
 interface Props {
   item: {
@@ -23,10 +24,11 @@ interface Props {
 }
 
 const NavItem = ({ item }: Props) => {
+  const [open, setOpen] = useState(false);
   return (
     <>
       {item.items.length > 0 ? (
-        <DropdownMenu>
+        <DropdownMenu open={open} onOpenChange={setOpen}>
           <DropdownMenuTrigger asChild>
             <Button
               variant={"darkGhost"}
@@ -40,7 +42,7 @@ const NavItem = ({ item }: Props) => {
             <DropdownMenuLabel>{item.label}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {item.items.map((subItem) => (
-              <DropdownMenuItem key={subItem.label}>
+              <DropdownMenuItem asChild key={subItem.label}>
                 <Link
                   href={subItem.href}
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"

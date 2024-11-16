@@ -28,6 +28,8 @@ import {
 } from "@/components/ui/popover";
 import { ChangePasswordModel } from "@/models/auth";
 import ChangePassowordForm from "@/components/ui/reusable-forms/change-passoword-form";
+import { PopoverClose } from "@radix-ui/react-popover";
+import { useState } from "react";
 
 interface Props {
   variant: "admin" | "user";
@@ -55,6 +57,8 @@ const DashboardLayout = ({
 }: Props) => {
   const router = useRouter();
   const { onSetAuthenticated, user } = useAuth();
+
+  const [popoverOpen, setPopoverOpen] = useState(false);
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-muted/40">
@@ -138,7 +142,7 @@ const DashboardLayout = ({
                 3
               </Badge>
             </Button>
-            <Popover>
+            <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
               <PopoverTrigger asChild>
                 <Button
                   variant={"darkGhost"}
@@ -149,12 +153,14 @@ const DashboardLayout = ({
               </PopoverTrigger>
               <PopoverContent className="w-48 flex flex-col gap-2">
                 <div className="font-bold px-2.5">{user?.username}</div>
-                <Link
-                  href={`/${variant}/profile`}
-                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                >
-                  Profil
-                </Link>
+                <PopoverClose asChild>
+                  <Link
+                    href={`/${variant}/profile`}
+                    className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                  >
+                    Profil
+                  </Link>
+                </PopoverClose>
                 <Sheet>
                   <SheetTrigger asChild>
                     <button className="flex cursor-pointer items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
@@ -175,7 +181,6 @@ const DashboardLayout = ({
                     />
                   </SheetContent>
                 </Sheet>
-
                 <div
                   onClick={async () => {
                     await authService.logout();

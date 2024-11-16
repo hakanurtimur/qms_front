@@ -31,6 +31,7 @@ interface FormSelectFieldProps<T extends FieldValues> {
   options: { [key: string]: string } | { [key: number]: string };
   placeholder?: string;
   width?: string;
+  variant?: "in-column" | "default";
 }
 
 function Combobox<T extends FieldValues>({
@@ -40,6 +41,7 @@ function Combobox<T extends FieldValues>({
   options,
   placeholder = "Seçiniz",
   width = "",
+  variant = "default",
 }: FormSelectFieldProps<T>) {
   const [open, setOpen] = React.useState(false);
 
@@ -49,8 +51,12 @@ function Combobox<T extends FieldValues>({
       name={name}
       render={({ field }) => (
         <div className={width}>
-          <FormItem className="space-y-0 pt-0 flex items-start  flex-col gap-2">
-            <FormLabel className="mt-0">{label}</FormLabel>
+          <FormItem className="space-y-0 pt-0 flex items-start  flex-col">
+            <FormLabel
+              className={`${variant === "in-column" ? "mb-2.5 flex items-center py-1" : "mt-0"}`}
+            >
+              {label}
+            </FormLabel>
             <FormControl>
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>

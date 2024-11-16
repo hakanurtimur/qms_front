@@ -26,6 +26,11 @@ export const userNavItems = [
         label: "Talepler",
         href: "/user/documents/requests",
       },
+      {
+        icon: DocumentTextIcon,
+        label: "Bekleyen Talepler",
+        href: "/user/documents/waiting-requests",
+      },
     ],
   },
   {

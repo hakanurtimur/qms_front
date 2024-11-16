@@ -33,11 +33,12 @@ function NonFormCombobox({
   placeholder = "",
   width = "",
 }: FormSelectFieldProps) {
+  const [open, setOpen] = React.useState(false);
   return (
     <div className={width}>
       <div className="space-y-0 pt-0 flex items-start  flex-col gap-2">
         {label && <label className="mt-0">{label}</label>}
-        <Popover>
+        <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
@@ -60,7 +61,14 @@ function NonFormCombobox({
                 <CommandEmpty>Bulunamadı</CommandEmpty>
                 <CommandGroup>
                   {Object.entries(options).map(([key, name]) => (
-                    <CommandItem value={name} key={key} onSelect={onChange}>
+                    <CommandItem
+                      value={name}
+                      key={key}
+                      onSelect={(key) => {
+                        setOpen(false);
+                        onChange(key);
+                      }}
+                    >
                       <Check
                         className={cn(
                           "mr-2 h-4 w-4",

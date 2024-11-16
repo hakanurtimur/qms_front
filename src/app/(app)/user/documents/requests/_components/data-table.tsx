@@ -20,12 +20,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { EyeIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
-import { DocumentModel } from "@/models/document";
 import {
   Tooltip,
   TooltipContent,
@@ -33,6 +30,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import NonFormCombobox from "@/components/ui/nonform-combobox";
+import { UserRequestModelUpdate } from "@/models/user/userRequests/userRequestModel";
+import RequestSheet from "@/app/(app)/user/documents/requests/_components/request-sheet/request-sheet";
 
 interface DataTableProps<TData, TValue> {
   departmentOps: { [key: string]: string };
@@ -68,6 +67,34 @@ export function DataTable<TData, TValue>({
   //     }
   //   },
   // });
+
+  const queryData: UserRequestModelUpdate = {
+    RequestNumber: 123,
+    ActionId: 102,
+    ManagerActionName: "Approve Request",
+    AdministratorActionName: "Verify Document",
+    OpenDate: "2024-11-16T12:00:00Z",
+    UserName: "john_doe",
+    DepartmentName: "Finance",
+    DocumentTypeId: 3,
+    RequestTypeName: "Expense Approval",
+    DescriptionUser: "Requesting approval for Q4 budget.",
+    DescriptionManager: "Reviewed and approved for further processing.",
+    AdminName: "admin_jane",
+    SuperAdminName: "superadmin_mark",
+    AdminAboutName: "Jane's Admin Actions",
+    DescriptionAdmin: "All documents verified.",
+    AdministratorName: "jane_admin",
+    UpdateDate: "2024-11-16T15:30:00Z",
+    FileId: 456,
+    FieName: "budget_q4.pdf",
+    GarbageId: 789,
+    AuthRequestId: 321,
+  };
+
+  const mutationFn = (data: UserRequestModelUpdate) => {
+    console.log(data);
+  };
 
   const table = useReactTable({
     data,
@@ -198,17 +225,10 @@ export function DataTable<TData, TValue>({
                         <div className="flex items-center gap-4">
                           <Tooltip>
                             <TooltipTrigger asChild>
-                              <Button
-                                onClick={() => {
-                                  const selected =
-                                    row.original as DocumentModel;
-                                  // mutation.mutate(selected.fileId.toString());
-                                  console.log(selected.fileId.toString());
-                                }}
-                                size="icon"
-                              >
-                                <EyeIcon className="w-4 h-4" />
-                              </Button>
+                              <RequestSheet
+                                model={queryData}
+                                onSubmit={mutationFn}
+                              />
                             </TooltipTrigger>
                             <TooltipContent>TEST</TooltipContent>
                           </Tooltip>
