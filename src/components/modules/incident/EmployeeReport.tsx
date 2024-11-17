@@ -43,10 +43,10 @@ const EmployeeReport = ({ onSubmit }: Props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-2 w-full h-full"
+        className="space-y-2 w-full h-full "
       >
-        <div className="w-full flex md:flex-row gap-16 ">
-          <div className="w-full flex flex-col md:flex-col gap-6">
+        <div className="w-full flex md:flex-row flex-col md:gap-16 gap-6 ">
+          <div className="w-full flex flex-col md:flex-col gap-6 items-center ">
             <FormField
               control={form.control}
               name="employeeName"
@@ -104,7 +104,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
               )}
             />
           </div>
-          <div className="w-56 flex flex-col md:flex-col gap-6">
+          <div className="md:w-56 w-full flex flex-col md:flex-col gap-6 items-center justify-center">
             <FormField
               control={form.control}
               name="affectedPerson"

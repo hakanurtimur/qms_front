@@ -63,29 +63,29 @@ const Page = () => {
   };
 
   return (
-    <div className="relative h-full w-full bg-white">
+    <div className="md:relative h-full w-full bg-white">
       {/* İçerik Katmanı */}
-      <div className="relative z-10 w-full flex justify-between">
-        <div className="w-1/6 p-4">
+      <div className="md:relative z-10 w-full flex md:flex-row flex-col justify-between">
+        <div className="md:w-1/6 w-4/5 p-4">
           <DynamicCombobox
             name="incidentType"
             options={options}
             label="Olaydan etkilenen"
             onChange={handleTabChange}
-            width="[240px]"
+            width="[300px] md:w-full"
           />
         </div>
-        <div className="w-5/6 p-4 flex items-center justify-center">
+        <div className="md:w-5/6 w-full h-full p-4 flex items-center justify-center">
           {selectedTab === "general" && (
-            <div className="w-[500px] border-4 p-10 border-black-900 rounded-lg shadow-2xl mr-52 bg-white">
+            <div className="md:w-[500px] w-full border-4 p-10 border-black-900 rounded-lg shadow-2xl md:mr-52 bg-white">
               <IncidentReport onSubmit={handleIncidentReportSubmit} />
             </div>
           )}
           {selectedTab === "patient" && (
             <div
               className={
-                "w-fit min-h-[500px] border-4 p-10 border-black-900 rounded-lg shadow-2xl bg-white" +
-                (patient ? "" : " mr-52")
+                "md:w-fit md:min-h-[500px] w-full h-full  border-4 p-10 border-black-900 rounded-lg shadow-2xl bg-white" +
+                (patient ? "" : " md:mr-52")
               }
             >
               <PatientReport
@@ -97,7 +97,7 @@ const Page = () => {
             </div>
           )}
           {selectedTab === "employee" && (
-            <div className="w-fit h-fit border-4 p-10 border-black-900 rounded-lg shadow-2xl mr-52 bg-white">
+            <div className="md:w-fit md:h-fit w-full h-full border-4 p-10 border-black-900 rounded-lg shadow-2xl md:mr-52 bg-white">
               <EmployeeReport onSubmit={handleEmployeeReportSubmit} />
             </div>
           )}

@@ -48,13 +48,8 @@ const PatientReportFilter = ({
                 <FormControl>
                   <Input
                     {...field}
-                    type={"text"}
-                    //sadece rakam girilmesi için
-                    onKeyDown={(event) => {
-                      if (!/[0-9]/.test(event.key)) {
-                        event.preventDefault();
-                      }
-                    }}
+                    type={"number"}
+                    className="appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                   />
                 </FormControl>
                 <FormMessage />

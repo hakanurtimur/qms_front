@@ -47,11 +47,11 @@ const PatientReportIncident = ({
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className={
-          "flex flex-col w-[900px] h-full gap-4 transition-opacity  duration-500 ease-in-out opacity-100  "
+          "flex md:flex-col flex-col md:w-[900px] w-full md:h-full h-fit gap-4 transition-opacity  duration-500 ease-in-out opacity-100  "
         }
       >
         <div className="flex flex-col w-full gap-6 ">
-          <div className="flex flex-row w-full gap-6 ">
+          <div className="flex md:flex-row flex-col w-full gap-6 ">
             <FormField
               control={form.control}
               name={"name"}
@@ -113,7 +113,7 @@ const PatientReportIncident = ({
               )}
             />
           </div>
-          <div className="flex flex-row w-full justify-start gap-4  ">
+          <div className="flex md:flex-row flex-col w-full justify-start gap-4  ">
             <div className="flex flex-col gap-4 w-52 ">
               <FormField
                 control={form.control}
@@ -153,8 +153,8 @@ const PatientReportIncident = ({
                 )}
               />
             </div>
-            <div className="flex flex-row w-[600px] justify-between  gap-4">
-              <div className="flex flex-col min-w-52 gap-4">
+            <div className="flex md:flex-row flex-col md:w-[600px] w-full justify-between  gap-4">
+              <div className="flex flex-col md:min-w-52 w-full gap-4">
                 <FormField
                   control={form.control}
                   name={"isSecondaryVictim"}
@@ -195,7 +195,7 @@ const PatientReportIncident = ({
                   />
                 )}
               </div>
-              <div className="flex flex-col justify-center ml-8 items-center w-full gap-4">
+              <div className="flex flex-col justify-center md:ml-8 items-center w-full gap-4">
                 <FormField
                   control={form.control}
                   name={"file"}
@@ -204,7 +204,7 @@ const PatientReportIncident = ({
                       <FormLabel className={"w-full"}>Dosya</FormLabel>
                       <FormControl>
                         <Dropzone
-                          className="w-[400px]  h-28 justify-center items-center"
+                          className="md:w-[400px] w-full  h-28 justify-center items-center"
                           {...field}
                           onChange={(value) => field.onChange(value)}
                         />
@@ -225,7 +225,10 @@ const PatientReportIncident = ({
               <FormItem>
                 <FormLabel className={"w-full"}>Açıklama</FormLabel>
                 <FormControl>
-                  <Textarea className="w-full mr-10 h-32" {...field} />
+                  <Textarea
+                    className="w-full md:mr-10 md:h-32 h-32"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage className="absolute" />
               </FormItem>

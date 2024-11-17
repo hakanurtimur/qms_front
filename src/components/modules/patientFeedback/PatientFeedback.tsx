@@ -36,11 +36,15 @@ const PatientFeedback = ({
   }, [patientModel]);
 
   return (
-    <div className={"w-full flex flex-row items-center justify-center "}>
-      <div className="md:w-fit w-full flex flex-row  ">
+    <div
+      className={
+        "w-full flex md:flex-row flex-col items-center justify-center "
+      }
+    >
+      <div className="md:w-fit w-full flex md:flex-row flex-col ">
         <div className="w-full flex flex-row pt-12 border-4 border-black-800 shadow-2xl p-10 px-14 rounded-md">
-          <div className="w-full flex flex-row justify-center gap-8 ">
-            <div className="w-56 h-[475px] ">
+          <div className="w-full flex md:flex-row flex-col justify-center gap-8 ">
+            <div className="md:w-56 w-52 md:h-[475px] h-full ">
               <PatientFiltering
                 onSubmitFilter={(data) => {
                   onSubmitFilter(data);
@@ -51,8 +55,8 @@ const PatientFeedback = ({
 
             {patientModel && (
               <>
-                <div className="w-full flex-row flex gap-10">
-                  <div className="w-1 h-92  bg-gray-200 flex flex-row items-center justify-center"></div>
+                <div className="w-full md:flex-row flex-col flex gap-10">
+                  <div className="md:w-1 md:h-full w-full h-1 rounded bg-black-200 text-black-800"></div>
                   <PatientDetailsForm
                     containerRef={containerRef}
                     onSubmitPatient={onSubmitPatient}

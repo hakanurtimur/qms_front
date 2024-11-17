@@ -32,7 +32,7 @@ const PatientReport = ({
   }, [patientFormModel]);
 
   return (
-    <div className="flex flex-row w-full gap-8 items-start ">
+    <div className="flex md:flex-row flex-col w-full gap-8 items-start ">
       <div className="w-full ">
         <PatientReportFilter
           onSubmitFilter={onSubmitFilter}
@@ -41,8 +41,11 @@ const PatientReport = ({
       </div>
 
       {patientFormModel && (
-        <div className="w-full flex gap-4">
-          <div className="w-1 h-[450px] rounded bg-black-200 text-black-800"></div>
+        <div className="w-full flex md:flex-row flex-col gap-4">
+          <div
+            className="md:w-1 md:h-[450px] w-full h-1
+            rounded bg-black-200 text-black-800"
+          ></div>
           <PatientReportIncident
             patientFormModel={patientFormModel}
             containerRef={containerRef}

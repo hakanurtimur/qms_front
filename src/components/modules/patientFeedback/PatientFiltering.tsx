@@ -16,8 +16,8 @@ import {
   SPatientFeedbackFilterForm,
 } from "@/models/patientFeedbackForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Combobox from "@/components/ui/combobox";
 import { nameSurnamePairs } from "@/constants/dummy_combobox_items";
+import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 
 interface Props {
   onSubmitFilter: (data: PatientFeedbackFilterForm) => void;
@@ -41,11 +41,28 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
         className={"flex flex-col w-full h-full"}
       >
         <div className="flex flex-col h-full w-full gap-8  justify-between mb-5  ">
-          <Combobox<PatientFeedbackFilterForm>
+          <FormField
             control={form.control}
             name={"interviewer"}
-            label={"Görüşü Yapan"}
-            options={nameSurnamePairs}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className={"flex items-center justify-between"}>
+                  Görüşen
+                </FormLabel>
+                <FormControl>
+                  <DynamicCombobox
+                    {...field}
+                    options={nameSurnamePairs}
+                    width="full"
+                    onChange={(value) => {
+                      field.onChange(value);
+                    }}
+                    placeholder={"Seçiniz"}
+                  />
+                </FormControl>
+                <FormMessage className="absolute" />
+              </FormItem>
+            )}
           />
           <FormField
             control={form.control}
@@ -58,12 +75,8 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
                 <FormControl>
                   <Input
                     {...field}
-                    type={"text"}
-                    onKeyDown={(event) => {
-                      if (!/[0-9]/.test(event.key)) {
-                        event.preventDefault();
-                      }
-                    }}
+                    type={"number"}
+                    className="appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                   />
                 </FormControl>
                 <FormMessage className="absolute" />
@@ -81,12 +94,8 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
                 <FormControl>
                   <Input
                     {...field}
-                    type={"text"}
-                    onKeyDown={(event) => {
-                      if (!/[0-9]/.test(event.key)) {
-                        event.preventDefault();
-                      }
-                    }}
+                    type={"number"}
+                    className="appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                   />
                 </FormControl>
                 <FormMessage className="absolute" />

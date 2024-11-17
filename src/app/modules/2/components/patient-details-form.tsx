@@ -12,12 +12,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { PatientFeedbackForm } from "@/models/patientFeedbackForm";
 import { Textarea } from "@/components/ui/textarea";
-import Combobox from "@/components/ui/combobox";
 import { Button } from "@/components/ui/button";
 import {
   PatientDetailsSchema,
   TPatientDetails,
 } from "../models/patient-details-model";
+import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 
 interface PatientDetailsFormProps {
   containerRef: React.RefObject<HTMLDivElement>;
@@ -57,10 +57,12 @@ const PatientDetailsForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={"space-y-8  animate-slide-in-from-bottom flex w-full"}
+        className={
+          "space-y-8  animate-slide-in-from-bottom flex md:flex-row flex-col w-full"
+        }
       >
         <div className="flex flex-col w-full gap-8 items-start ">
-          <div className="flex flex-row gap-10 w-full">
+          <div className="flex md:flex-row flex-col  gap-10 w-full">
             <FormField
               control={form.control}
               name="name"
@@ -122,17 +124,17 @@ const PatientDetailsForm = ({
               )}
             />
           </div>
-          <div className="flex flex-grow gap-10 w-full">
+          <div className="flex md:flex-grow  flex-col gap-10 md:w-56 w-full">
             <FormField
               control={form.control}
               name="reportType"
               render={({ field }) => (
-                <Combobox
-                  width="w-[217px]"
-                  control={form.control}
-                  {...field}
-                  label="Bildiri Türü"
+                <DynamicCombobox
+                  name="reportType"
                   options={reportTypes}
+                  label="Bildirim Türü"
+                  onChange={field.onChange}
+                  width="-56 md:w-full"
                 />
               )}
             />
@@ -145,7 +147,7 @@ const PatientDetailsForm = ({
                     <div>Açıklama</div>
                   </FormLabel>
                   <FormControl>
-                    <Textarea className="w-[723px]" rows={8} {...field} />
+                    <Textarea className="md:w-[723px] " rows={8} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

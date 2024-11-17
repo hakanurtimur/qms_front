@@ -41,7 +41,7 @@ const IncidentReport = ({ onSubmit }: Props) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className={"space-y-7 w-full justify-center items-center bg-white"}
       >
-        <div className="w-full grid grid-cols-2 gap-4">
+        <div className="w-full grid md:grid-cols-2 grid-cols-1 gap-4">
           <FormField
             control={form.control}
             name={"date"}
@@ -77,6 +77,7 @@ const IncidentReport = ({ onSubmit }: Props) => {
                       gnlcrh: "Genel Cerrahi Polikliniği",
                     }}
                     onChange={(value) => field.onChange(value)}
+                    width="full md:w-full"
                   />
                 </FormControl>
                 <FormMessage />
