@@ -6,11 +6,16 @@ import tokenService from "@/services/TokenService";
 import LoadingScreen from "@/components/commons/LoadingScreen";
 import ForgotPassowordForm from "@/components/ui/reusable-forms/forgot-passoword-form";
 import FormPage from "@/app/(auth)/forgot-password/_components/form-page";
+import { IAlertState, useAlertStore } from "@/services/states/alert.service";
 
 const Page = () => {
   const router = useRouter();
-  // const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [captchaValue, setCaptchaValue] = useState<string | null>(null);
+
+  const { showAlertForDuration } = useAlertStore(
+    (state) => state as IAlertState,
+  );
 
   useEffect(() => {
     const authToken = !tokenService.isAccessTokenExpired();
@@ -20,30 +25,20 @@ const Page = () => {
     setLoading(false);
   }, [router]);
 
-  //TODO: Add forgot password mutation
-
-  // const mutation = useMutation({
-  //   mutationFn: (manager: ManagerLogin) => authService.managerLogin(manager),
-  //   onSuccess: (data) => {
-  //     toast({
-  //       variant: "success",
-  //       description: "Başarıyla giriş yapıldı",
-  //     });
-  //     onSetAuthenticated(true);
-  //     onSetUser(data);
-  //     router.push("/admin");
-  //   },
-  //   onError: (error) => {
-  //     toast({
-  //       variant: "destructive",
-  //       description: error.message,
-  //     });
-  //     setError(error.message);
-  //   },
-  // });
-
   const handleSubmit = (data: ForgotPasswordModel) => {
+    if (!captchaValue) {
+      showAlertForDuration(
+        "Lütfen reCAPTCHA doğrulamasını yapınız",
+        "error",
+        3000,
+      );
+      return;
+    }
     console.log(data);
+  };
+
+  const setCaptchaValueHandler = (value: string | null) => {
+    setCaptchaValue(value);
   };
 
   return (
@@ -53,6 +48,7 @@ const Page = () => {
       ) : (
         <FormPage>
           <ForgotPassowordForm
+            setCaptchaValue={setCaptchaValueHandler}
             onSubmit={handleSubmit}
             error={null}
             formLoading={false}

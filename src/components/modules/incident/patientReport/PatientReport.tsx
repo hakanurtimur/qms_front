@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import PatientReportFilter from "@/components/modules/incident/patientReport/PatientReportFilter";
 import PatientReportIncident from "@/components/modules/incident/patientReport/PatientReportIncident";
 import { IncidentFormFilter, IncidentFormPatient } from "@/models/incidentForm";
@@ -19,17 +19,6 @@ const PatientReport = ({
   onPatientReportSubmit,
 }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (patientFormModel && containerRef.current) {
-      const timeoutId = setTimeout(() => {
-        containerRef.current?.scrollIntoView({
-          behavior: "smooth",
-        });
-      }, 300);
-      return () => clearTimeout(timeoutId);
-    }
-  }, [patientFormModel]);
 
   return (
     <div className="flex md:flex-row flex-col w-full gap-8 items-start ">

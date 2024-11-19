@@ -31,6 +31,11 @@ export const userNavItems = [
         label: "Bekleyen Talepler",
         href: "/user/documents/waiting-requests",
       },
+      {
+        icon: DocumentTextIcon,
+        label: "Doküman İşlem",
+        href: "/user/documents/document-work",
+      },
     ],
   },
   {

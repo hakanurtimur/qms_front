@@ -5,7 +5,7 @@ import {
   PatientFeedbackForm,
 } from "@/models/patientFeedbackForm";
 import PatientFiltering from "@/components/modules/patientFeedback/PatientFiltering";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import PatientDetailsForm from "@/app/modules/2/components/patient-details-form";
 
 interface Props {
@@ -22,18 +22,6 @@ const PatientFeedback = ({
   onReset,
 }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (patientModel && containerRef.current) {
-      const timeoutId = setTimeout(() => {
-        containerRef.current?.scrollIntoView({
-          behavior: "smooth",
-        });
-      }, 300);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [patientModel]);
 
   return (
     <div

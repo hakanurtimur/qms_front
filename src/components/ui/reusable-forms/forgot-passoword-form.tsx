@@ -16,12 +16,14 @@ import {
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import ReCAPTCHA from "react-google-recaptcha";
 
 interface Props {
   onSubmit: (data: ForgotPasswordModel) => void;
   error: string | null;
   formLoading: boolean;
   variant?: "screen" | "sheet";
+  setCaptchaValue: (value: string | null) => void;
 }
 
 const ForgotPassowordForm = ({
@@ -29,6 +31,7 @@ const ForgotPassowordForm = ({
   formLoading,
   error,
   variant = "screen",
+  setCaptchaValue,
 }: Props) => {
   const router = useRouter();
 
@@ -38,6 +41,9 @@ const ForgotPassowordForm = ({
       email: "",
     },
   });
+  const handleCaptchaChange = (value: string | null) => {
+    setCaptchaValue(value);
+  };
 
   return (
     <FormContainerCard
@@ -59,34 +65,40 @@ const ForgotPassowordForm = ({
               </FormItem>
             )}
           />
-          <div className="flex justify-between items-center">
-            {variant === "screen" && (
-              <Button
-                disabled={formLoading}
-                variant="outline"
-                type="button"
-                onClick={() => {
-                  router.back();
-                }}
-              >
+          <div className="flex flex-col justify-between items-center gap-4">
+            <ReCAPTCHA
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+              onChange={handleCaptchaChange}
+            />
+            <div className="flex md:flex-row gap-4">
+              {variant === "screen" && (
+                <Button
+                  disabled={formLoading}
+                  variant="outline"
+                  type="button"
+                  onClick={() => {
+                    router.back();
+                  }}
+                >
+                  {formLoading ? (
+                    <div className="w-full flex items-center justify-center">
+                      <LoadingSpinner />
+                    </div>
+                  ) : (
+                    <p>Geri</p>
+                  )}
+                </Button>
+              )}
+              <Button disabled={formLoading} variant="primary" type="submit">
                 {formLoading ? (
                   <div className="w-full flex items-center justify-center">
                     <LoadingSpinner />
                   </div>
                 ) : (
-                  <p>Geri</p>
+                  <p>Sıfırla</p>
                 )}
               </Button>
-            )}
-            <Button disabled={formLoading} variant="primary" type="submit">
-              {formLoading ? (
-                <div className="w-full flex items-center justify-center">
-                  <LoadingSpinner />
-                </div>
-              ) : (
-                <p>Sıfırla</p>
-              )}
-            </Button>
+            </div>
           </div>
           <p className="text-danger-500">{error && error}</p>
         </form>

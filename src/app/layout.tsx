@@ -8,6 +8,7 @@ import { AuthProvider } from "@/context/authContext";
 import { ILoadingState, loadingState } from "@/services/states/loading.service";
 import { usePathname } from "next/navigation"; // next/router yerine next/navigation kullanın
 import LoadingBar from "@/components/ui/loading-bar";
+import DynamicAlert from "@/components/ui/dynamic-alert";
 
 export default function RootLayout({
   children,
@@ -31,6 +32,7 @@ export default function RootLayout({
           <html lang="en">
             <body>
               {loading && <LoadingBar />}
+              <DynamicAlert />
               {children}
               <Toaster />
             </body>
