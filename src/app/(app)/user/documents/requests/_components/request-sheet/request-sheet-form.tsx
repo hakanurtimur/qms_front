@@ -27,6 +27,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import DocumentUploadForm from "../document-upload-modal";
 
 interface Props {
   onSubmit: (data: UserRequestModelUpdate) => void;
@@ -46,6 +47,7 @@ const actionIds = {
 };
 
 const RequestSheetForm = ({ onSubmit, model }: Props) => {
+  const [open, setOpen] = React.useState(false);
   const form = useForm<UserRequestModelUpdate>({
     resolver: zodResolver(SUserRequestModelUpdate),
     defaultValues: {
@@ -286,37 +288,71 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
           />
 
           <TooltipProvider>
-            <div className="flex items-center justify-center gap-4 ">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    onClick={() => {
-                      console.log(model?.FileId);
-                    }}
-                    type="button"
-                    className="pb-3 pt-3 px-3 min-w-20 min-h-12"
-                  >
-                    <PencilSquareIcon className="min-h-8 max-h-8 w-auto" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>TEST FILENAME</TooltipContent>
-              </Tooltip>
-              <Tooltip>
+            <div className="flex flex-col items-center justify-center gap-4 ">
+              <div className="flex items-center gap-4">
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
                       onClick={() => {
-                        console.log(model?.GarbageId);
+                        console.log(model?.FileId);
                       }}
                       type="button"
-                      className="pb-3 pt-3 px-3 min-w-20 min-h-12"
+                      className="pb-3 pt-3 px-10 min-w-20 min-h-12"
                     >
-                      <FolderIcon className="min-h-8 max-h-8 w-auto" />
+                      <PencilSquareIcon className="min-h-8 max-h-8 w-auto" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>TEST FILENAME</TooltipContent>
                 </Tooltip>
-              </Tooltip>
+                <Tooltip>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        onClick={() => {
+                          console.log(model?.GarbageId);
+                        }}
+                        type="button"
+                        className="pb-3 pt-3 px-10 min-w-20 min-h-12"
+                      >
+                        <FolderIcon className="min-h-8 max-h-8 w-auto" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>TEST FILENAME</TooltipContent>
+                  </Tooltip>
+                </Tooltip>
+              </div>
+              <div className="flex items-center gap-4">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      onClick={() => {
+                        setOpen(true);
+                      }}
+                      type="button"
+                      className="pb-3 pt-3 px-3 min-w-20 min-h-12"
+                    >
+                      Dosya Yükleme
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Dosya Yükleme İşlemi</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        onClick={() => {
+                          console.log(model?.GarbageId);
+                        }}
+                        type="button"
+                        className="pb-3 pt-3 px-3 min-w-20 min-h-12"
+                      >
+                        Dosya Revize
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>Dosya Revize İşlemi</TooltipContent>
+                  </Tooltip>
+                </Tooltip>
+              </div>
             </div>
           </TooltipProvider>
         </div>
@@ -333,6 +369,7 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
           </SheetFooter>
         </div>
       </form>
+      <DocumentUploadForm open={open} setOpen={() => setOpen(!open)} />
     </Form>
   );
 };

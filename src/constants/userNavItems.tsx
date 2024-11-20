@@ -33,7 +33,7 @@ export const userNavItems = [
       },
       {
         icon: DocumentTextIcon,
-        label: "Doküman İşlem",
+        label: "Doküman İşlem ",
         href: "/user/documents/document-work",
       },
     ],
