@@ -21,8 +21,14 @@ const PatientReport = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="flex md:flex-row flex-col w-full gap-8 items-start ">
-      <div className="w-full ">
+    <div
+      className={"flex md:flex-row h-full flex-col w-full gap-8 items-start "}
+    >
+      <div
+        className={
+          "w-full " + (patientFormModel ? "md:h-[465px]" : "md:h-[200px]")
+        }
+      >
         <PatientReportFilter
           onSubmitFilter={onSubmitFilter}
           onResetPatientForm={onResetPatientForm}

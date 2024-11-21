@@ -62,12 +62,12 @@ const PatientDetailsForm = ({
         }
       >
         <div className="flex flex-col w-full gap-8 items-start ">
-          <div className="flex md:flex-row flex-col  gap-10 w-full">
+          <div className="flex md:flex-row flex-col  gap-11 w-full">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-52">
                   <FormLabel className="flex items-center justify-between">
                     <div>Adı Soyadı</div>
                   </FormLabel>
@@ -82,7 +82,7 @@ const PatientDetailsForm = ({
               control={form.control}
               name="bornDate"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-52">
                   <FormLabel className="flex items-center justify-between">
                     <div>Doğum Tarihi</div>
                   </FormLabel>
@@ -97,7 +97,7 @@ const PatientDetailsForm = ({
               control={form.control}
               name="patientNum"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-52">
                   <FormLabel className="flex items-center justify-between">
                     <div>Hasta No</div>
                   </FormLabel>
@@ -112,19 +112,19 @@ const PatientDetailsForm = ({
               control={form.control}
               name="phoneNum"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-52">
                   <FormLabel className="flex items-center justify-between">
                     <div>Telefon No</div>
                   </FormLabel>
                   <FormControl>
-                    <Input className="bg-slate-100 pe-11" {...field} />
+                    <Input className=" pe-11" {...field} />
                   </FormControl>
                   <FormMessage className="absolute" />
                 </FormItem>
               )}
             />
           </div>
-          <div className="flex md:flex-grow  flex-col gap-10 md:w-56 w-full">
+          <div className="flex md:flex-grow  flex-col gap-10 md:w-52 w-full">
             <FormField
               control={form.control}
               name="reportType"
@@ -147,7 +147,7 @@ const PatientDetailsForm = ({
                     <div>Açıklama</div>
                   </FormLabel>
                   <FormControl>
-                    <Textarea className="md:w-[723px] " rows={8} {...field} />
+                    <Textarea className="md:w-[973px] " rows={6} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

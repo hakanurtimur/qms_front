@@ -34,7 +34,7 @@ const PatientReportFilter = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={"flex flex-col w-full h-[200px] gap-10"}
+        className={"flex flex-col w-full h-full gap-10 "}
       >
         <div className="flex flex-col justify-start w-full h-full gap-8 items-start">
           <FormField

@@ -17,6 +17,7 @@ import { Dropzone } from "@/components/ui/dropZone";
 import { DatePicker } from "@/components/ui/date-picker";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 import { incidentPlaces } from "@/constants/incidentPlaces";
+import { nameSurnamePairs } from "@/constants/dummy_combobox_items";
 
 interface Props {
   containerRef: React.RefObject<HTMLDivElement>;
@@ -113,7 +114,7 @@ const PatientReportIncident = ({
               )}
             />
           </div>
-          <div className="flex md:flex-row flex-col w-full justify-start gap-4  ">
+          <div className="flex md:flex-row flex-col w-full justify-start gap-6  ">
             <div className="flex flex-col gap-4 w-52 ">
               <FormField
                 control={form.control}
@@ -187,7 +188,13 @@ const PatientReportIncident = ({
                           İkincil Mağdur Adı
                         </FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <DynamicCombobox
+                            {...field}
+                            options={nameSurnamePairs}
+                            onChange={(value) => field.onChange(value)}
+                            placeholder="Seçiniz"
+                            width="[230px]"
+                          />
                         </FormControl>
                         <FormMessage className="absolute" />
                       </FormItem>

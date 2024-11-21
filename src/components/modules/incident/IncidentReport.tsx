@@ -85,28 +85,12 @@ const IncidentReport = ({ onSubmit }: Props) => {
             )}
           />
         </div>
-        <FormField
-          control={form.control}
-          name={"incidentDescription"}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className={"flex items-center justify-between"}>
-                Açıklama
-              </FormLabel>
-              <FormControl>
-                <Textarea className="w-full" rows={4} {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <div className="w-full  ">
+        <div className="w-full flex items-center justify-center gap-4">
           <Controller
             control={form.control}
             name="file"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-2/3 justify-center items-center">
                 <FormLabel className="flex items-center justify-between">
                   Dosya Yükleme
                 </FormLabel>
@@ -122,8 +106,25 @@ const IncidentReport = ({ onSubmit }: Props) => {
             )}
           />
         </div>
+        <div className="w-full  ">
+          <FormField
+            control={form.control}
+            name={"incidentDescription"}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className={"flex items-center justify-between"}>
+                  Açıklama
+                </FormLabel>
+                <FormControl>
+                  <Textarea className="w-full" rows={4} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
-        <div className={"w-full flex items-center justify-center gap-4"}>
+        <div className={"w-full flex items-center justify-end gap-4"}>
           <Button
             onClick={() => {
               form.reset();

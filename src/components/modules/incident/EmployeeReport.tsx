@@ -14,7 +14,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dropzone } from "@/components/ui/dropZone";
 import { nameSurnamePairs } from "@/constants/dummy_combobox_items";
@@ -43,10 +42,13 @@ const EmployeeReport = ({ onSubmit }: Props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-2 w-full h-full "
+        className="space-y-1 w-full h-full "
       >
-        <div className="w-full flex md:flex-row flex-col md:gap-16 gap-6 ">
-          <div className="w-full flex flex-col md:flex-col gap-6 items-center ">
+        <div
+          className="w-full flex md:flex-row flex-col md:gap-12
+         gap-6 "
+        >
+          <div className="w-full flex flex-col md:flex-col gap-2 items-center ">
             <FormField
               control={form.control}
               name="employeeName"
@@ -84,6 +86,27 @@ const EmployeeReport = ({ onSubmit }: Props) => {
                 </FormItem>
               )}
             />
+          </div>
+          <div className="md:w-56 w-full flex flex-col md:flex-col gap-2 items-center justify-center">
+            <FormField
+              control={form.control}
+              name="affectedPerson"
+              render={({ field }) => (
+                <FormItem className="w-56 ">
+                  <FormLabel>Olaydan Etkilenen</FormLabel>
+                  <FormControl>
+                    <DynamicCombobox
+                      {...field}
+                      options={nameSurnamePairs}
+                      onChange={(value) => field.onChange(value)}
+                      placeholder="Seçiniz"
+                      width="[240px]"
+                    />
+                  </FormControl>
+                  <FormMessage className="absolute" />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="incidentPlace"
@@ -104,30 +127,17 @@ const EmployeeReport = ({ onSubmit }: Props) => {
               )}
             />
           </div>
-          <div className="md:w-56 w-full flex flex-col md:flex-col gap-6 items-center justify-center">
-            <FormField
-              control={form.control}
-              name="affectedPerson"
-              render={({ field }) => (
-                <FormItem className="w-56 ">
-                  <FormLabel>Olaydan Etkilenen</FormLabel>
-                  <FormControl>
-                    <Input className="w-full" {...field} />
-                  </FormControl>
-                  <FormMessage className="absolute" />
-                </FormItem>
-              )}
-            />
+          <div className="w-full md:w-full  flex flex-col md:flex-col gap-2 ">
             <Controller
               control={form.control}
               name="file"
               render={({ field }) => (
-                <FormItem className="w-full  mt-4 ">
+                <FormItem className="md:w-[300px] w-full md:min-h-[110px] justify-center items-center   ">
                   <FormLabel>Dosya Yükleme</FormLabel>
                   <FormControl>
                     <Dropzone
                       onChange={(file) => field.onChange(file)}
-                      className="w-full  h-28"
+                      className="w-full justify-center items-center  h-full"
                       fileExtension="pdf"
                     />
                   </FormControl>
@@ -137,7 +147,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
             />
           </div>
         </div>
-        <div className="w-full flex flex-col md:flex-row gap-4 ">
+        <div className="w-full flex flex-col md:flex-col gap-2 ">
           <FormField
             control={form.control}
             name="incidentDescription"
@@ -145,7 +155,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
               <FormItem className="flex-1">
                 <FormLabel>Açıklama</FormLabel>
                 <FormControl>
-                  <Textarea className="w-full min-h-24" {...field} />
+                  <Textarea className="w-full min-h-32" {...field} />
                 </FormControl>
                 <FormMessage className="absolute" />
               </FormItem>
