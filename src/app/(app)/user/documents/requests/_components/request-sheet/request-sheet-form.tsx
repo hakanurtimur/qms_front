@@ -27,8 +27,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import DocumentUploadForm from "../document-upload-modal";
-import DocumentReviseForm from "../document-revise-modal";
 
 interface Props {
   onSubmit: (data: UserRequestModelUpdate) => void;
@@ -48,10 +46,6 @@ const actionIds = {
 };
 
 const RequestSheetForm = ({ onSubmit, model }: Props) => {
-  const [openDocumentUploadModal, setDocumentUploadModal] =
-    React.useState(false);
-  const [openDocumentReviseModal, setDocumentReviseModal] =
-    React.useState(false);
   const form = useForm<UserRequestModelUpdate>({
     resolver: zodResolver(SUserRequestModelUpdate),
     defaultValues: {
@@ -329,9 +323,6 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
-                      onClick={() => {
-                        setDocumentUploadModal(!openDocumentUploadModal);
-                      }}
                       type="button"
                       className="pb-3 pt-3 px-3 min-w-20 min-h-12"
                     >
@@ -344,9 +335,6 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
-                        onClick={() => {
-                          setDocumentReviseModal(!openDocumentReviseModal);
-                        }}
                         type="button"
                         className="pb-3 pt-3 px-3 min-w-20 min-h-12"
                       >
@@ -373,14 +361,6 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
           </SheetFooter>
         </div>
       </form>
-      <DocumentUploadForm
-        open={openDocumentUploadModal}
-        setOpen={() => setDocumentUploadModal(!openDocumentUploadModal)}
-      />
-      <DocumentReviseForm
-        open={openDocumentReviseModal}
-        setOpen={() => setDocumentReviseModal(!openDocumentReviseModal)}
-      />
     </Form>
   );
 };

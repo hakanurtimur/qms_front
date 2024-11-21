@@ -33,8 +33,8 @@ export const userNavItems = [
       },
       {
         icon: DocumentTextIcon,
-        label: "Doküman İşlem ",
-        href: "/user/documents/document-work",
+        label: "Arşivleme",
+        href: "/user/documents/archive",
       },
     ],
   },

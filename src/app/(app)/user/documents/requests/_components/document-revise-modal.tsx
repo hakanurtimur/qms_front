@@ -66,7 +66,7 @@ export default function DocumentReviseForm({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogOverlay className="fixed inset-0 bg-gray-800 backdrop-blur-sm bg-opacity-60 transition-opacity" />
+      <DialogOverlay className="fixed inset-0 z-10 bg-gray-800 backdrop-blur-sm bg-opacity-60 transition-opacity" />
       <DialogTrigger asChild>
         <Button variant="outline">Döküman Tipi</Button>
       </DialogTrigger>

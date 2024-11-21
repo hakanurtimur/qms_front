@@ -32,6 +32,8 @@ import {
 import NonFormCombobox from "@/components/ui/nonform-combobox";
 import { Button } from "@/components/ui/button";
 import { PencilSquareIcon, PlusIcon } from "@heroicons/react/24/outline";
+import DocumentUploadForm from "../../../requests/_components/document-upload-modal";
+import DocumentReviseForm from "../../../requests/_components/document-revise-modal";
 
 interface DataTableProps<TData, TValue> {
   requestTypeOpts: { [key: string]: string };
@@ -49,6 +51,10 @@ export function ResultedDataTable<TData, TValue>({
     [],
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [openDocumentUploadModal, setDocumentUploadModal] =
+    React.useState(false);
+  const [openDocumentReviseModal, setDocumentReviseModal] =
+    React.useState(false);
 
   // TODO: add related mutation
 
@@ -187,7 +193,14 @@ export function ResultedDataTable<TData, TValue>({
                       <TableCell>
                         <div className="flex items-center gap-4">
                           <Tooltip>
-                            <TooltipTrigger asChild>
+                            <TooltipTrigger
+                              asChild
+                              onClick={() => {
+                                setDocumentUploadModal(
+                                  !openDocumentUploadModal,
+                                );
+                              }}
+                            >
                               {/*<RequestSheet*/}
                               {/*  model={queryData}*/}
                               {/*  onSubmit={mutationFn}*/}
@@ -199,7 +212,14 @@ export function ResultedDataTable<TData, TValue>({
                             <TooltipContent>Yeni Doküman Ekle</TooltipContent>
                           </Tooltip>
                           <Tooltip>
-                            <TooltipTrigger asChild>
+                            <TooltipTrigger
+                              asChild
+                              onClick={() => {
+                                setDocumentReviseModal(
+                                  !openDocumentReviseModal,
+                                );
+                              }}
+                            >
                               {/*<RequestSheet*/}
                               {/*  model={queryData}*/}
                               {/*  onSubmit={mutationFn}*/}
@@ -231,6 +251,14 @@ export function ResultedDataTable<TData, TValue>({
             <DataTablePagination table={table} />
           </div>
         </div>
+        <DocumentUploadForm
+          open={openDocumentUploadModal}
+          setOpen={() => setDocumentUploadModal(!openDocumentUploadModal)}
+        />
+        <DocumentReviseForm
+          open={openDocumentReviseModal}
+          setOpen={() => setDocumentReviseModal(!openDocumentReviseModal)}
+        />
       </div>
     </TooltipProvider>
   );
