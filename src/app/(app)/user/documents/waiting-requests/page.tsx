@@ -7,6 +7,8 @@ import PageHeader from "@/components/ui/pageHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/app/(app)/user/documents/waiting-requests/_components/data-table";
 import { columns } from "@/app/(app)/user/documents/waiting-requests/_components/columns";
+import { ResultedDataTable } from "@/app/(app)/user/documents/waiting-requests/_components/resulted/resulted-data-table";
+import { resultedColumns } from "@/app/(app)/user/documents/waiting-requests/_components/resulted/resulted-columns";
 
 const Page = () => {
   // TODO: add query service
@@ -77,6 +79,18 @@ const Page = () => {
     },
   };
 
+  const resultedRequestsQuery = {
+    data: {
+      data: [
+        {
+          requestNo: 101,
+          managerState: true,
+          requestType: "Initial",
+        },
+      ],
+    },
+  };
+
   const deparments = allRequestsQuery.data?.data.map((doc) => doc.department);
 
   const documentTypes = allRequestsQuery.data?.data.map(
@@ -121,6 +135,14 @@ const Page = () => {
     ? convertStringArrayToOptions(activeRequestTypes)
     : null;
 
+  const resultedRequestTypes = resultedRequestsQuery.data?.data.map(
+    (doc) => doc.requestType,
+  );
+
+  const resultedRequestTypeOpts = resultedRequestTypes
+    ? convertStringArrayToOptions(resultedRequestTypes)
+    : null;
+
   return (
     <div className="w-full flex flex-col space-y-10">
       <PageHeader
@@ -130,9 +152,10 @@ const Page = () => {
       />
       <Tabs defaultValue="all">
         <div className="w-full flex justify-between items-center">
-          <TabsList className="grid grid-cols-2 w-[480px]">
+          <TabsList className="grid grid-cols-3 w-[720px]">
             <TabsTrigger value="all">Tüm Talepler</TabsTrigger>
             <TabsTrigger value="actives">Aktif Talepler</TabsTrigger>
+            <TabsTrigger value="result">Sonuç Bekleyen Talepler</TabsTrigger>
           </TabsList>
         </div>
         <TabsContent value={"all"}>
@@ -162,6 +185,17 @@ const Page = () => {
               requestTypeOpts={activeRequestTypeOpts}
               columns={columns}
               data={activeRequestsQuery.data.data}
+            />
+          ) : (
+            <LoadingScreen />
+          )}
+        </TabsContent>
+        <TabsContent value={"result"}>
+          {resultedRequestsQuery.data && resultedRequestTypeOpts ? (
+            <ResultedDataTable
+              columns={resultedColumns}
+              data={resultedRequestsQuery.data.data}
+              requestTypeOpts={resultedRequestTypeOpts}
             />
           ) : (
             <LoadingScreen />

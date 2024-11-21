@@ -16,6 +16,7 @@ export class RoleManagementService {
   public async update(args: {
     userId: string;
     data: {
+      roleName: string;
       roleId: number;
       state: boolean;
     };

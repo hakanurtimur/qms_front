@@ -37,12 +37,7 @@ const SheetForm = ({ model, onSubmit }: Props) => {
             <FormItem>
               <FormLabel>Role Adı</FormLabel>
               <FormControl>
-                <Input
-                  placeholder=""
-                  {...field}
-                  readOnly
-                  className="bg-primary-100"
-                />
+                <Input placeholder="" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

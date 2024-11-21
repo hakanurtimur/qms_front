@@ -24,6 +24,7 @@ const Page = () => {
     mutationFn: (args: {
       userId: string;
       data: {
+        roleName: string;
         roleId: number;
         state: boolean;
       };
@@ -75,6 +76,7 @@ const Page = () => {
   const handleSheetFormSubmit = (formData: RoleManagementRoleModel) => {
     if (!user) return;
     const data = {
+      roleName: formData.roleName,
       roleId: formData.roleId,
       state: formData.state,
     };
