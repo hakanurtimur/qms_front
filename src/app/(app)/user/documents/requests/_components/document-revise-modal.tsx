@@ -20,43 +20,42 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  DocumentUploadModel,
-  IDocumentUploadSchema,
-} from "../model/document-upload.model";
+  DocumentReviseModel,
+  IDocumentReviseSchema,
+} from "../model/document-revise.model";
 import { DatePicker } from "@/components/ui/date-picker";
 import { DialogOverlay } from "@radix-ui/react-dialog";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
-import { Dropzone } from "@/components/ui/dropZone";
 import { Input } from "@/components/ui/input";
+import { Dropzone } from "@/components/ui/dropZone";
 
-interface DocumentUploadFormProps {
+interface DocumentReviseFormProps {
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-export default function DocumentUploadForm({
+export default function DocumentReviseForm({
   open,
   setOpen,
-}: DocumentUploadFormProps) {
-  const form = useForm<DocumentUploadModel>({
-    resolver: zodResolver(IDocumentUploadSchema),
+}: DocumentReviseFormProps) {
+  const form = useForm<DocumentReviseModel>({
+    resolver: zodResolver(IDocumentReviseSchema),
     defaultValues: {
       Id: 0,
       UserId: 0,
       DocumentTypeId: 0,
-      FolderId: 0,
+      FileId: 0,
+      ReviseNo: "",
       Code: "",
       Name: "",
-      PublishDate: "",
+      ReviseDate: "",
       ArchiveInfo: "",
       IssueTypeId: 0,
-      Hidden: 0,
-      ReviseDate: "",
       Description: "",
     },
   });
 
-  function onSubmit(data: DocumentUploadModel) {
+  function onSubmit(data: DocumentReviseModel) {
     console.log(data);
     setOpen(false);
   }
@@ -71,9 +70,9 @@ export default function DocumentUploadForm({
       <DialogTrigger asChild>
         <Button variant="outline">Döküman Tipi</Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[970px] h-5/7 flex flex-col   ">
+      <DialogContent className="max-w-[970px] h-5/7 flex flex-col">
         <DialogHeader className="px-6 py-4 border-b">
-          <DialogTitle>Döküman Yükle</DialogTitle>
+          <DialogTitle>Döküman Revize</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -91,8 +90,8 @@ export default function DocumentUploadForm({
                       <DynamicCombobox
                         name="DocumentTypeId"
                         options={{
-                          1: "Rıza Belgeleri",
-                          2: "Formlar",
+                          1: "Broşür",
+                          2: "Bilgi Föyleri",
                         }}
                         onChange={(value) => field.onChange(value)}
                       />
@@ -102,56 +101,31 @@ export default function DocumentUploadForm({
                 />
                 <FormField
                   control={form.control}
-                  name="FolderId"
+                  name="ReviseNo"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Klasör</FormLabel>
-                      <DynamicCombobox
-                        name="FolderId"
-                        options={{
-                          1: "Rıza Belgeleri",
-                          2: "Formlar",
-                        }}
-                        onChange={(value) => field.onChange(value)}
-                      />
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="ArchiveInfo"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Arşiv Bilgisi</FormLabel>
+                      <FormLabel>Revize No</FormLabel>
                       <FormControl>
-                        <Input placeholder="Arşiv Bilgisi" {...field} />
+                        <Input placeholder="Revize No" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
-                  name="Hidden"
+                  name="Code"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Görünürlük</FormLabel>
-                      <DynamicCombobox
-                        name="Hidden"
-                        options={{
-                          1: "Genel",
-                          2: "Özel",
-                        }}
-                        onChange={(value) => field.onChange(value)}
-                      />
+                      <FormLabel>Kod</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Kod" {...field} />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
-
               <div className="flex flex-col w-56 gap-2">
                 <FormField
                   control={form.control}
@@ -174,24 +148,6 @@ export default function DocumentUploadForm({
                 />
                 <FormField
                   control={form.control}
-                  name="PublishDate"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Yayın Tarihi</FormLabel>
-                      <FormControl>
-                        <DatePicker
-                          name="PublishDate"
-                          onChange={(date) => field.onChange(date)}
-                          includeTime={false}
-                          value={field.value}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
                   name="ReviseDate"
                   render={({ field }) => (
                     <FormItem>
@@ -208,6 +164,19 @@ export default function DocumentUploadForm({
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="ArchiveInfo"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Arşiv Bilgisi</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Arşiv Bilgisi" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
               <div className="w-1 h-80 rounded-sm bg-black-100 text-black-800"></div>
               <div className="flex flex-col gap-2 w-[350px]">
@@ -219,10 +188,10 @@ export default function DocumentUploadForm({
                       <FormLabel>Dosya İsmi</FormLabel>
                       <FormControl>
                         <Dropzone
-                          onChange={(file) => field.onChange(file)}
-                          className="w-full min-h-28"
-                          key={field.value}
+                          onChange={(value) => field.onChange(value)}
+                          className="w-full h-32"
                           fileExtension="pdf"
+                          key={field.value}
                         />
                       </FormControl>
                       <FormMessage />
@@ -248,7 +217,7 @@ export default function DocumentUploadForm({
                 />
               </div>
             </div>
-            <div className="flex justify-end gap-3">
+            <div className="flex justify-end gap-2">
               <Button
                 onClick={() => {
                   form.reset();

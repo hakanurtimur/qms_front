@@ -224,56 +224,64 @@ export function DatePicker({
                 </button>
               ))}
             </div>
-            {includeTime && (
-              <div className="mt-4 flex space-x-4 ">
-                <div className="flex flex-col">
-                  <label htmlFor="hours" className="text-sm font-medium mb-1">
-                    Saat
-                  </label>
-                  <Select
-                    value={selectedDateTime
-                      .getHours()
-                      .toString()
-                      .padStart(2, "0")}
-                    onValueChange={(value) => handleTimeChange("hours", value)}
-                  >
-                    <SelectTrigger className="w-20">
-                      <SelectValue placeholder="00" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>{generateTimeOptions(24)}</SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="flex flex-col">
-                  <label htmlFor="minutes" className="text-sm font-medium mb-1">
-                    Dakika
-                  </label>
-                  <Select
-                    value={selectedDateTime
-                      .getMinutes()
-                      .toString()
-                      .padStart(2, "0")}
-                    onValueChange={(value) =>
-                      handleTimeChange("minutes", value)
-                    }
-                  >
-                    <SelectTrigger className="w-20">
-                      <SelectValue placeholder="00" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>{generateTimeOptions(60)}</SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="flex flex-row justify-center items-end">
-                  <Check
-                    onClick={() => setOpen(false)}
-                    className="h-9 w-9 p-1 items-center justify-center text-primary-800 cursor-pointer hover:text-primary-900 transition-colors duration-200 ease-in-out transform hover:bg-slate-100 border rounded"
-                  />
-                </div>
+
+            <div className="mt-4 flex space-x-4 ">
+              {includeTime && (
+                <>
+                  <div className="flex flex-col">
+                    <label htmlFor="hours" className="text-sm font-medium mb-1">
+                      Saat
+                    </label>
+                    <Select
+                      value={selectedDateTime
+                        .getHours()
+                        .toString()
+                        .padStart(2, "0")}
+                      onValueChange={(value) =>
+                        handleTimeChange("hours", value)
+                      }
+                    >
+                      <SelectTrigger className="w-20">
+                        <SelectValue placeholder="00" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>{generateTimeOptions(24)}</SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="minutes"
+                      className="text-sm font-medium mb-1"
+                    >
+                      Dakika
+                    </label>
+                    <Select
+                      value={selectedDateTime
+                        .getMinutes()
+                        .toString()
+                        .padStart(2, "0")}
+                      onValueChange={(value) =>
+                        handleTimeChange("minutes", value)
+                      }
+                    >
+                      <SelectTrigger className="w-20">
+                        <SelectValue placeholder="00" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>{generateTimeOptions(60)}</SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </>
+              )}
+              <div className="flex flex-row justify-center items-end">
+                <Check
+                  onClick={() => setOpen(false)}
+                  className="h-9 w-9 p-1 items-center justify-center text-primary-800 cursor-pointer hover:text-primary-900 transition-colors duration-200 ease-in-out transform hover:bg-slate-100 border rounded"
+                />
               </div>
-            )}
+            </div>
           </PopoverContent>
         </Popover>
       </div>
