@@ -20,7 +20,7 @@ export const SPatientFeedbackFilterForm = z
       return !(!data.protocolNum && !data.patientTC);
     },
     {
-      message: "Hasta TC veya Protokol numarasından en az biri girilmelidir",
+      message: "Hasta TC veya Protokol numarasından en az biri girilmelidir.",
       path: ["general"],
     },
   );

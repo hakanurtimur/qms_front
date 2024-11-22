@@ -26,8 +26,7 @@ import {
 import * as React from "react";
 import Image from "next/image";
 import UploadProfileModal from "../../../app/(app)/admin/profile/_components/upload-profile-modal";
-import { RefreshCcw, UploadIcon, X } from "lucide-react";
-import { Badge } from "../badge";
+import { UploadIcon, X } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -186,7 +185,7 @@ const ProfileDashboard = () => {
             </div>
             <div className="relative border bg-black w-36 h-36 mt-3 ml-6 rounded-lg flex">
               <Image
-                src={profileUrl}
+                src={profileUrl || "/icons/profile.jpg"}
                 alt="profile"
                 className="absolute rounded-lg transition-opacity duration-300  inset-0 flex items-center border justify-center opacity-100 hover:opacity-20 hover:backdrop-blur-sm bg-black bg-opacity-50 hover:backdrop-blur-2x"
                 width={144}

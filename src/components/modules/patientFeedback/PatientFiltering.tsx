@@ -47,7 +47,7 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className={"flex items-center justify-between"}>
-                  Görüşen
+                  (*)Bildiri Sahibi
                 </FormLabel>
                 <FormControl>
                   <DynamicCombobox
@@ -70,7 +70,7 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className={"flex items-center justify-between"}>
-                  Protokol No
+                  (*)Protokol No
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -89,7 +89,7 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className={"flex items-center justify-between"}>
-                  Hasta TC
+                  (*)Hasta TC
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -102,9 +102,9 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
               </FormItem>
             )}
           />
-          {form.formState.errors.general && (
+          {true && (
             <p className="text-danger-500 text-sm relative">
-              {form.formState.errors.general.message}
+              Hasta TC veya Protokol numarasından en az biri girilmelidir.
             </p>
           )}
           <div className="w-full h-full flex  items-end justify-start gap-4">

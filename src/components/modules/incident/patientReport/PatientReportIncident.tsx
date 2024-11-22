@@ -121,7 +121,7 @@ const PatientReportIncident = ({
                 name={"date"}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className={"w-52"}>Olay Tarihi</FormLabel>
+                    <FormLabel className={"w-52"}>(*)Olay Tarihi</FormLabel>
                     <FormControl>
                       <DatePicker
                         {...field}
@@ -139,7 +139,7 @@ const PatientReportIncident = ({
                 name={"incidentPlace"}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className={"w-52"}>Olay Yeri</FormLabel>
+                    <FormLabel className={"w-52"}>(*)Olay Yeri</FormLabel>
                     <FormControl>
                       <DynamicCombobox
                         {...field}
@@ -230,7 +230,7 @@ const PatientReportIncident = ({
             name={"incidentDescription"}
             render={({ field }) => (
               <FormItem>
-                <FormLabel className={"w-full"}>Açıklama</FormLabel>
+                <FormLabel className={"w-full"}>(*)Açıklama</FormLabel>
                 <FormControl>
                   <Textarea
                     className="w-full md:mr-10 md:h-32 h-32"

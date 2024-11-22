@@ -9,7 +9,6 @@ import {
   DialogOverlay,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { handleClientScriptLoad } from "next/script";
 
 interface RemoveProfileModalProps {
   open: boolean;
@@ -20,12 +19,10 @@ interface RemoveProfileModalProps {
 export default function RemoveProfileModal({
   open,
   setOpen,
-  onRemove,
 }: RemoveProfileModalProps) {
   if (!open) {
     return null;
   }
-
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
