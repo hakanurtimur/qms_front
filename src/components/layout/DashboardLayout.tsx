@@ -143,12 +143,13 @@ const DashboardLayout = ({
               </Badge>
             </Button>
             <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-              <PopoverTrigger asChild>
+              <PopoverTrigger asChild className="">
                 <Button
                   variant={"darkGhost"}
-                  className="flex w-fit justify-start"
+                  size={"icon"}
+                  className="relative  rounded-full bg-white hover:bg-gray-100"
                 >
-                  <UserIcon className="h-5 w-5" />
+                  <UserIcon className="h-6 w-6 text-black-900 " />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-48 flex flex-col gap-2">
