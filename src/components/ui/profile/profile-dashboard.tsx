@@ -24,9 +24,28 @@ import {
   XAxis,
 } from "recharts";
 import * as React from "react";
+import Image from "next/image";
+import UploadProfileModal from "../../../app/(app)/admin/profile/_components/upload-profile-modal";
+import { RefreshCcw, UploadIcon, X } from "lucide-react";
+import { Badge } from "../badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../tooltip";
+import RemoveProfileModal from "@/app/(app)/admin/profile/_components/remove-profile-modal";
 
 const ProfileDashboard = () => {
   // queries and mutations will be added here
+  const [openProfileUploadModal, setOpenProfileUploadModal] =
+    React.useState(false);
+
+  const [profileUrl, setProfileUrl] = React.useState<string | null>(
+    "/icons/profile.jpg",
+  );
+  const [openProfileRemoveModal, setOpenProfileRemoveModal] =
+    React.useState(false);
 
   const dummyData = {
     sicilNo: "123456",
@@ -119,7 +138,10 @@ const ProfileDashboard = () => {
                 readOnly
               />
             </FormItem>
-            <div></div>
+            <FormItem>
+              <Label>Sistem Rolü</Label>
+              <Input value={dummyData.systemRole} readOnly />
+            </FormItem>
             <FormItem>
               <Label>Kullanıcı Adı</Label>
               <Input value={dummyData.username} readOnly />
@@ -128,6 +150,7 @@ const ProfileDashboard = () => {
               <Label>Mail</Label>
               <Input value={dummyData.email} readOnly />
             </FormItem>
+
             <FormItem>
               <Label>Telefon</Label>
               <Input value={dummyData.phoneNum} readOnly />
@@ -138,28 +161,73 @@ const ProfileDashboard = () => {
           <CardHeader>
             <CardTitle>Şirket Bilgileri</CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-3 gap-4">
-            <FormItem>
-              <Label>Lokasyon</Label>
-              <Input value={dummyData.location} readOnly />
-            </FormItem>
-            <FormItem>
-              <Label>Departman</Label>
-              <Input value={dummyData.department} readOnly />
-            </FormItem>
-            <div></div>
-            <FormItem>
-              <Label>Görev</Label>
-              <Input value={dummyData.job} readOnly />
-            </FormItem>
-            <FormItem>
-              <Label>Ünvan</Label>
-              <Input value={dummyData.title} readOnly />
-            </FormItem>
-            <FormItem>
-              <Label>Sistem Rolü</Label>
-              <Input value={dummyData.systemRole} readOnly />
-            </FormItem>
+          <CardContent className="w-full h-full flex flex-row ">
+            <div className="flex flex-col gap-4 w-2/3">
+              <div className="flex flex-row gap-4">
+                <FormItem>
+                  <Label>Lokasyon</Label>
+                  <Input value={dummyData.location} readOnly />
+                </FormItem>
+                <FormItem>
+                  <Label>Departman</Label>
+                  <Input value={dummyData.department} readOnly />
+                </FormItem>
+              </div>
+              <div className="flex flex-row gap-4">
+                <FormItem>
+                  <Label>Görev</Label>
+                  <Input value={dummyData.job} readOnly />
+                </FormItem>
+                <FormItem>
+                  <Label>Ünvan</Label>
+                  <Input value={dummyData.title} readOnly />
+                </FormItem>
+              </div>
+            </div>
+            <div className="relative border bg-black w-36 h-36 mt-3 ml-6 rounded-lg flex">
+              <Image
+                src={profileUrl}
+                alt="profile"
+                className="absolute rounded-lg transition-opacity duration-300  inset-0 flex items-center border justify-center opacity-100 hover:opacity-20 hover:backdrop-blur-sm bg-black bg-opacity-50 hover:backdrop-blur-2x"
+                width={144}
+                height={144}
+              />
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded-lg hover:backdrop-blur-sm">
+                <div className="flex flex-row gap-1">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <UploadIcon
+                          onClick={() =>
+                            setOpenProfileUploadModal(!openProfileUploadModal)
+                          }
+                          className="w-8 h-8 p-1 bg-gray-50 border rounded cursor-pointer hover:bg-gray-100"
+                        />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Yükle</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <X
+                          onClick={() =>
+                            setOpenProfileRemoveModal(!openProfileRemoveModal)
+                          }
+                          className="w-8 h-8 p-1 bg-gray-50 border rounded cursor-pointer hover:bg-gray-100"
+                        />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Kaldır</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -313,6 +381,17 @@ const ProfileDashboard = () => {
           </CardContent>
         </Card>
       </div>
+      <UploadProfileModal
+        open={openProfileUploadModal}
+        setOpen={() => setOpenProfileUploadModal(!openProfileUploadModal)}
+      />
+      <RemoveProfileModal
+        open={openProfileRemoveModal}
+        setOpen={() => setOpenProfileRemoveModal(!openProfileRemoveModal)}
+        onRemove={() => {
+          setProfileUrl(null);
+        }}
+      />
     </div>
   );
 };
