@@ -23,15 +23,10 @@ import {
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import NonFormCombobox from "@/components/ui/nonform-combobox";
-import { Button } from "@/components/ui/button";
-import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import WaitingRequestSheet from "@/app/(app)/user/documents/waiting-requests/_components/waiting-request-sheet/waiting-request-sheet";
+import { WaitingRequestModelUpdate } from "@/models/user/waitingRequests/waitingRequestModel";
 
 interface DataTableProps<TData, TValue> {
   departmentOps: { [key: string]: string };
@@ -39,6 +34,7 @@ interface DataTableProps<TData, TValue> {
   requestTypeOpts: { [key: string]: string };
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  variant?: "default" | "actives";
 }
 
 export function DataTable<TData, TValue>({
@@ -47,6 +43,7 @@ export function DataTable<TData, TValue>({
   requestTypeOpts,
   columns,
   data,
+  variant = "default",
 }: DataTableProps<TData, TValue>) {
   const [globalFilter, setGlobalFilter] = React.useState<string>("");
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -117,6 +114,43 @@ export function DataTable<TData, TValue>({
       globalFilter,
     },
   });
+
+  const queryData: WaitingRequestModelUpdate = {
+    Id: 1,
+    ActionId: 1001,
+    ActionName: "Create",
+    AdminAboutId: 2001,
+    AdminAboutName: "User Management",
+    AdministratorActionId: 3001,
+    AdministratorActionName: "Approve",
+    AdministratorName: "John Doe",
+    AdminName: "Jane Smith",
+    AuthRequestId: 4001,
+    DepartmentName: "IT Department",
+    DescriptionAdmin: "Admin approved the request.",
+    DescriptionManager: "Manager reviewed the document.",
+    DescriptionUser: "User submitted the request.",
+    DocumentTypeId: 5001,
+    DocumentTypeName: "PDF",
+    FileId: 6001,
+    FieName: "user_manual.pdf",
+    FileUploadState: 1,
+    GarbageId: 7001,
+    Mail: "user@example.com",
+    ManagerActionId: 8001,
+    ManagerActionName: "Review",
+    OpenDate: "2024-11-22T10:00:00Z",
+    PhoneNumber: "+1-555-123-4567",
+    RequestTypeId: 9001,
+    RequestTypeName: "Account Creation",
+    SuperAdminName: "Michael Johnson",
+    UpdateDate: "2024-11-23T12:00:00Z",
+    UserName: "alex123",
+  };
+
+  const mutationFn = (data: WaitingRequestModelUpdate) => {
+    console.log(data);
+  };
 
   return (
     <TooltipProvider>
@@ -223,18 +257,11 @@ export function DataTable<TData, TValue>({
                       ))}
                       <TableCell>
                         <div className="flex items-center gap-4">
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              {/*<RequestSheet*/}
-                              {/*  model={queryData}*/}
-                              {/*  onSubmit={mutationFn}*/}
-                              {/*/>*/}
-                              <Button size={"icon"}>
-                                <PencilSquareIcon className="h-4 w-4" />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>TEST</TooltipContent>
-                          </Tooltip>
+                          <WaitingRequestSheet
+                            model={queryData}
+                            onSubmit={mutationFn}
+                            variant={variant}
+                          />
                         </div>
                       </TableCell>
                     </TableRow>

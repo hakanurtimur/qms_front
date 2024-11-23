@@ -32,6 +32,7 @@ import {
 import NonFormCombobox from "@/components/ui/nonform-combobox";
 import { UserRequestModelUpdate } from "@/models/user/userRequests/userRequestModel";
 import RequestSheet from "@/app/(app)/user/documents/requests/_components/request-sheet/request-sheet";
+import { WaitingRequestModelUpdate } from "@/models/user/waitingRequests/waitingRequestModel";
 
 interface DataTableProps<TData, TValue> {
   departmentOps: { [key: string]: string };
@@ -70,28 +71,37 @@ export function DataTable<TData, TValue>({
   //   },
   // });
 
-  const queryData: UserRequestModelUpdate = {
-    RequestNumber: 123,
-    ActionId: 102,
-    ManagerActionName: "Approve Request",
-    AdministratorActionName: "Verify Document",
-    OpenDate: "2024-11-16T12:00:00Z",
-    UserName: "john_doe",
-    DepartmentName: "Finance",
-    DocumentTypeId: 3,
-    RequestTypeName: "Expense Approval",
-    DescriptionUser: "Requesting approval for Q4 budget.",
-    DescriptionManager: "Reviewed and approved for further processing.",
-    AdminName: "admin_jane",
-    SuperAdminName: "superadmin_mark",
-    AdminAboutName: "Jane's Admin Actions",
-    DescriptionAdmin: "All documents verified.",
-    AdministratorName: "jane_admin",
-    UpdateDate: "2024-11-16T15:30:00Z",
-    FileId: 456,
-    FieName: "budget_q4.pdf",
-    GarbageId: 789,
-    AuthRequestId: 321,
+  const queryData: WaitingRequestModelUpdate = {
+    Id: 1,
+    ActionId: 1001,
+    ActionName: "Create",
+    AdminAboutId: 2001,
+    AdminAboutName: "User Management",
+    AdministratorActionId: 3001,
+    AdministratorActionName: "Approve",
+    AdministratorName: "John Doe",
+    AdminName: "Jane Smith",
+    AuthRequestId: 4001,
+    DepartmentName: "IT Department",
+    DescriptionAdmin: "Admin approved the request.",
+    DescriptionManager: "Manager reviewed the document.",
+    DescriptionUser: "User submitted the request.",
+    DocumentTypeId: 5001,
+    DocumentTypeName: "PDF",
+    FileId: 6001,
+    FieName: "user_manual.pdf",
+    FileUploadState: 1,
+    GarbageId: 7001,
+    Mail: "user@example.com",
+    ManagerActionId: 8001,
+    ManagerActionName: "Review",
+    OpenDate: "2024-11-22T10:00:00Z",
+    PhoneNumber: "+1-555-123-4567",
+    RequestTypeId: 9001,
+    RequestTypeName: "Account Creation",
+    SuperAdminName: "Michael Johnson",
+    UpdateDate: "2024-11-23T12:00:00Z",
+    UserName: "alex123",
   };
 
   const mutationFn = (data: UserRequestModelUpdate) => {

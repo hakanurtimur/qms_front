@@ -185,6 +185,7 @@ const Page = () => {
               requestTypeOpts={activeRequestTypeOpts}
               columns={columns}
               data={activeRequestsQuery.data.data}
+              variant={"actives"}
             />
           ) : (
             <LoadingScreen />

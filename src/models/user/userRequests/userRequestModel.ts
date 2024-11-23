@@ -19,32 +19,43 @@ export const SUserRequestModel = z.object({
 
 export type UserRequestModel = z.infer<typeof SUserRequestModel>;
 
+// reusable as WaitingRequestModelUpdate
+
 export const SUserRequestModelUpdate = z.object({
-  RequestNumber: z.number().int(),
+  Id: z.number().int(),
   ActionId: z.number().int(),
-  ManagerActionName: z.string(),
+  ActionName: z.string(),
+  AdminAboutId: z.number().int(),
+  AdminAboutName: z.string(),
+  AdministratorActionId: z.number().int(),
   AdministratorActionName: z.string(),
+  AdministratorName: z.string(),
+  AdminName: z.string(),
+  AuthRequestId: z.number().int(),
+  DepartmentName: z.string(),
+  DescriptionAdmin: z.string(),
+  DescriptionManager: z.string(),
+  DescriptionUser: z.string(),
+  DocumentTypeId: z.number().int(),
+  DocumentTypeName: z.string(),
+  FileId: z.number().int(),
+  FieName: z.string(),
+  FileUploadState: z.number().int(),
+  GarbageId: z.number().int(),
+  Mail: z.string(),
+  ManagerActionId: z.number().int(),
+  ManagerActionName: z.string(),
   OpenDate: z.string().refine((date) => !isNaN(Date.parse(date)), {
     message: "Geçersiz tarih formatı",
   }),
-  UserName: z.string(),
-  DepartmentName: z.string(),
-  DocumentTypeId: z.number().int(),
+  PhoneNumber: z.string(),
+  RequestTypeId: z.number().int(),
   RequestTypeName: z.string(),
-  DescriptionUser: z.string(),
-  DescriptionManager: z.string(),
-  AdminName: z.string(),
   SuperAdminName: z.string(),
-  AdminAboutName: z.string(),
-  DescriptionAdmin: z.string(),
-  AdministratorName: z.string(),
   UpdateDate: z.string().refine((date) => !isNaN(Date.parse(date)), {
     message: "Geçersiz tarih formatı",
   }),
-  FileId: z.number().int(),
-  FieName: z.string(),
-  GarbageId: z.number().int(),
-  AuthRequestId: z.number().int(),
+  UserName: z.string(),
 });
 
 export type UserRequestModelUpdate = z.infer<typeof SUserRequestModelUpdate>;

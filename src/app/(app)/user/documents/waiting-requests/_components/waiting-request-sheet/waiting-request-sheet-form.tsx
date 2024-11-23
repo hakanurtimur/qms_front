@@ -27,7 +27,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
 interface Props {
   onSubmit: (data: UserRequestModelUpdate) => void;
@@ -47,7 +46,19 @@ const actionIds = {
   103: "Reject Request",
 };
 
-const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
+const managerActionIds = {
+  202: "Submit Request",
+  201: "Approve Request",
+  203: "Reject Request",
+};
+
+const adminAboutIds = {
+  301: "jane_doe",
+  302: "janet_doe",
+  303: "johnson_doe",
+};
+
+const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
   const form = useForm<UserRequestModelUpdate>({
     resolver: zodResolver(SUserRequestModelUpdate),
     defaultValues: {
@@ -61,8 +72,10 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
       OpenDate: model ? (model.OpenDate ?? "") : "",
       UpdateDate: model ? (model.UpdateDate ?? "") : "",
       ActionId: model ? (model.ActionId ?? 0) : 0,
+      ManagerActionId: model ? (model.ManagerActionId ?? 0) : 0,
       ManagerActionName: model ? (model.ManagerActionName ?? "") : "",
       DescriptionAdmin: model ? (model.DescriptionAdmin ?? "") : "",
+      AdminAboutId: model ? (model.AdminAboutId ?? 0) : 0,
       AdminAboutName: model ? (model.AdminAboutName ?? "") : "",
       GarbageId: model ? (model.GarbageId ?? 0) : 0,
       FileId: model ? (model.FileId ?? 0) : 0,
@@ -190,7 +203,7 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
             name={"DocumentTypeId"}
             label={"Doküman Tipi"}
             options={documentTypes}
-            readonly
+            readonly={variant === "default"}
           />
 
           <FormField
@@ -204,7 +217,7 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
                     rows={5}
                     className="w-full pb-3.5"
                     {...field}
-                    readOnly={variant === "default"}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage className="absolute" />
@@ -217,7 +230,7 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
             name={"ActionId"}
             label={"Durum"}
             options={actionIds}
-            readonly={variant === "default"}
+            readonly
           />
           <FormField
             control={form.control}
@@ -230,7 +243,7 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
                     rows={5}
                     className="w-full pb-3.5"
                     {...field}
-                    readOnly={variant === "default"}
+                    readOnly
                   />
                 </FormControl>
                 <FormMessage className="absolute" />
@@ -239,22 +252,13 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
           />
         </div>
         <div className="space-y-5 pr-4">
-          <FormField
+          <Combobox<UserRequestModelUpdate>
             control={form.control}
-            name="ManagerActionName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Kalite Durum</FormLabel>
-                <FormControl>
-                  <Input
-                    readOnly
-                    className="w-full bg-primary-100"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className="absolute" />
-              </FormItem>
-            )}
+            variant={"in-column"}
+            name={"ManagerActionId"}
+            label={"Kalite Durum"}
+            options={managerActionIds}
+            readonly={variant === "default"}
           />
           <FormField
             control={form.control}
@@ -264,8 +268,8 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
                 <FormLabel>KYS Sorumlusu Açıklaması</FormLabel>
                 <FormControl>
                   <Textarea
-                    readOnly
-                    className="w-full bg-primary-100 pb-3.5"
+                    readOnly={variant === "default"}
+                    className="w-full pb-3.5"
                     {...field}
                     rows={5}
                   />
@@ -274,22 +278,13 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
               </FormItem>
             )}
           />
-          <FormField
+          <Combobox<UserRequestModelUpdate>
             control={form.control}
-            name="AdminAboutName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>KYS Sorumlusu Sebebi</FormLabel>
-                <FormControl>
-                  <Input
-                    readOnly
-                    className="w-full bg-primary-100"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className="absolute" />
-              </FormItem>
-            )}
+            name={"AdminAboutId"}
+            variant={"in-column"}
+            label={"KYS Sorumlusu Sebebi"}
+            options={adminAboutIds}
+            readonly={variant === "default"}
           />
           <TooltipProvider>
             <div className="flex flex-col">
@@ -297,23 +292,6 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
                 Döküman
               </div>
               <div className="flex items-center gap-4 mt-4">
-                {variant === "actives" && (
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        onClick={() => {
-                          console.log(model?.FileId);
-                        }}
-                        variant={"outline"}
-                        type="button"
-                        className="pb-3 pt-3 min-w-12 min-h-12"
-                      >
-                        <ArrowPathIcon className="min-h-8 max-h-8 w-auto" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Değiştir</TooltipContent>
-                  </Tooltip>
-                )}
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
@@ -375,4 +353,4 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
   );
 };
 
-export default RequestSheetForm;
+export default WaitingRequestSheetForm;

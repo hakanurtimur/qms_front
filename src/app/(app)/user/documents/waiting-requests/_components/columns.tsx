@@ -86,7 +86,7 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
     header: ({ column }) => {
       return (
         <SortingBtn
-          text={"KYS Sorumlusu"}
+          text={"Admin Adı"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
       );

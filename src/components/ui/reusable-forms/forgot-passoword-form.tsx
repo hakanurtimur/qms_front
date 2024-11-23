@@ -67,7 +67,7 @@ const ForgotPassowordForm = ({
           />
           <div className="flex flex-col justify-between items-center gap-4">
             <ReCAPTCHA
-              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ""}
               onChange={handleCaptchaChange}
             />
             <div className="flex md:flex-row gap-4">

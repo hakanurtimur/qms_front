@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { SUserRequestModelUpdate } from "@/models/user/userRequests/userRequestModel";
 
 export const SWaitingRequestModel = z.object({
   requestNo: z.number(),
@@ -18,3 +19,9 @@ export const SWaitingRequestModel = z.object({
 });
 
 export type WaitingRequestModel = z.infer<typeof SWaitingRequestModel>;
+
+export const SWaitingRequestModelUpdate = SUserRequestModelUpdate;
+
+export type WaitingRequestModelUpdate = z.infer<
+  typeof SWaitingRequestModelUpdate
+>;
