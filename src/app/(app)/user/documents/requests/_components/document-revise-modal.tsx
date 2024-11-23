@@ -8,7 +8,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -67,9 +66,6 @@ export default function DocumentReviseForm({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogOverlay className="fixed inset-0 z-10 bg-gray-800 backdrop-blur-sm bg-opacity-60 transition-opacity" />
-      <DialogTrigger asChild>
-        <Button variant="outline">Döküman Tipi</Button>
-      </DialogTrigger>
       <DialogContent className="max-w-[970px] h-5/7 flex flex-col">
         <DialogHeader className="px-6 py-4 border-b">
           <DialogTitle>Döküman Revize</DialogTitle>

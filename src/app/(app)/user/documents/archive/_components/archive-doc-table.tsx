@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -25,7 +25,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -35,6 +34,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
+import { ArrowUpDownIcon, Edit, InfoIcon } from "lucide-react";
+import ArchiveDocSheet from "./archive-doc-sheet";
 
 interface ArchiveDoc {
   id: number;
@@ -72,7 +73,7 @@ const data: ArchiveDoc[] = [
     category: "Category D",
     folder: "Folder 4",
     status: "Active",
-    name: "Document 4",
+    name: "Document  4  lorem ipsum dolor sit amet consectetur adipisicing elit et consectetur adipisicing sit",
   },
   {
     id: 5,
@@ -81,61 +82,161 @@ const data: ArchiveDoc[] = [
     status: "Archived",
     name: "Document 5",
   },
-];
-
-const columns: ColumnDef<ArchiveDoc>[] = [
   {
-    accessorKey: "category",
-    header: "Kategori Adı",
-    cell: (info) => info.getValue(),
+    id: 6,
+    category: "Random Category",
+    folder: "Random Folder",
+    status: "Active",
+    name: "Random Document",
   },
   {
-    accessorKey: "folder",
-    header: "Klasör Adı",
-    cell: (info) => info.getValue(),
+    id: 7,
+    category: "Other Category",
+    folder: "Other Folder",
+    status: "Archived",
+    name: "Other Document",
   },
   {
-    accessorKey: "status",
-    header: "Durum",
-    cell: (info) => info.getValue(),
+    id: 8,
+    category: "Another Category",
+    folder: "Another Folder",
+    status: "Active",
+    name: "Another Document",
   },
   {
-    accessorKey: "name",
-    header: "Dosya Adı",
-    cell: (info) => info.getValue(),
+    id: 9,
+    category: "Some Category",
+    folder: "Some Folder",
+    status: "Archived",
+    name: "Some Document",
   },
   {
-    id: "actions",
-    header: "İşlem",
-    cell: () => (
-      <div className="flex items-center gap-4">
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="outline">View</Button>
-          </TooltipTrigger>
-          <TooltipContent>View Document</TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="outline">Edit</Button>
-          </TooltipTrigger>
-          <TooltipContent>Edit Document</TooltipContent>
-        </Tooltip>
-      </div>
-    ),
+    id: 10,
+    category: "Any Category",
+    folder: "Any Folder",
+    status: "Active",
+    name: "Any Document",
   },
 ];
 
+// eslint-disable-next-line react-hooks/rules-of-hooks
 export default function ArchiveDocTable() {
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [selectedFolder, setSelectedFolder] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
+  const [searchResults, setSearchResults] = useState<ArchiveDoc[]>(data);
+  const [openArchiveDocSheet, setOpenArchiveDocSheet] = React.useState(false);
+  const columns: ColumnDef<ArchiveDoc>[] = [
+    {
+      accessorKey: "category",
+      header: () => (
+        <div className="w-48 flex items-center">
+          Kategori
+          <ArrowUpDownIcon className="w-4 h-4 ml-1" />
+        </div>
+      ),
+      cell: (info) => <div className="">{String(info.getValue())}</div>,
+    },
+    {
+      accessorKey: "folder",
+      header: () => (
+        <div className="w-48 pl-14 flex items-center">
+          Klasör Adı
+          <ArrowUpDownIcon className="w-4 h-4 ml-1" />
+        </div>
+      ),
+      cell: (info) => (
+        <div className="w-52 pl-14">{String(info.getValue())}</div>
+      ),
+    },
+    {
+      accessorKey: "status",
+      header: () => (
+        <div className="w-48 flex items-center">
+          Durum
+          <ArrowUpDownIcon className="w-4 h-4 ml-1" />
+        </div>
+      ),
+      cell: (info) => info.getValue(),
+    },
+    {
+      accessorKey: "name",
+      header: () => <div className="w-96 flex items-center">Dosya Adı</div>,
+      cell: (info) => (
+        <div
+          className="w-96 
+        overflow-hidden overflow-ellipsis whitespace-nowrap
+      "
+        >
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="truncate">{String(info.getValue())}</div>
+            </TooltipTrigger>
+            <TooltipContent>{String(info.getValue())}</TooltipContent>
+          </Tooltip>
+        </div>
+      ),
+      enableSorting: false,
+    },
+    {
+      id: "actions",
+      header: () => (
+        <div className="text-right w-56  flex justify-end items-end">İşlem</div>
+      ),
+      cell: () => (
+        <div className="flex items-center justify-end gap-4">
+          <Tooltip>
+            <TooltipTrigger
+              asChild
+              onClick={() => setOpenArchiveDocSheet(true)}
+            >
+              <Edit className="w-9 h-9 p-2 rounded-md border text-white bg-black-900 hover:bg-black-800 cursor-pointer" />
+            </TooltipTrigger>
+            <TooltipContent>Dökümanı Gör</TooltipContent>
+          </Tooltip>
+        </div>
+      ),
+      meta: {
+        style: {
+          minWidth: 100,
+          maxWidth: 100,
+        },
+      },
+    },
+  ];
+  const handleSearch = () => {
+    // Klasör ve kategoriye göre arama yap
+    const results = data.filter(
+      (item) =>
+        (selectedCategory ? item.category === selectedCategory : true) &&
+        (selectedFolder ? item.folder === selectedFolder : true),
+    );
+    setSearchResults(results);
+  };
+
+  useEffect(() => {
+    handleSearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCategory, selectedFolder]);
+
+  // Kategori seçimi
+  const handleCategoryChange = (category: string) => {
+    console.log(category);
+    setSelectedCategory(category);
+    handleSearch();
+  };
+
+  // Klasör seçimi
+  const handleFolderChange = (folder: string) => {
+    setSelectedFolder(folder);
+    handleSearch();
+  };
 
   console.log(selectedCategory, selectedFolder);
 
   const table = useReactTable({
-    data,
+    data: searchResults,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -156,43 +257,108 @@ export default function ArchiveDocTable() {
 
   return (
     <TooltipProvider>
-      <div className="w-full overflow-scroll flex flex-col items-center justify-center no-scrollbar">
-        <div className="flex justify-between w-full mb-4">
-          <div className="flex gap-4">
-            <Select onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Kategoriler" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Category A">Category A</SelectItem>
-                <SelectItem value="Category B">Category B</SelectItem>
-                <SelectItem value="Category C">Category C</SelectItem>
-                <SelectItem value="Category D">Category D</SelectItem>
-                <SelectItem value="Category E">Category E</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select onValueChange={setSelectedFolder}>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Klasörler" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Folder 1">Folder 1</SelectItem>
-                <SelectItem value="Folder 2">Folder 2</SelectItem>
-                <SelectItem value="Folder 3">Folder 3</SelectItem>
-                <SelectItem value="Folder 4">Folder 4</SelectItem>
-                <SelectItem value="Folder 5">Folder 5</SelectItem>
-              </SelectContent>
-            </Select>
+      <div className="w-full overflow-scroll flex flex-col items-center justify-center no-scrollbar border  rounded">
+        <div className="flex justify-between gap-10 w-full mb-4  items-center">
+          <div className="flex  items-center justify-center gap-8 pt-3 px-4">
+            <div className="flex items-center gap-2">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <InfoIcon
+                    className="w-6 h-6 text-black-700 cursor-pointer"
+                    aria-label="Açıklama"
+                  />
+                </TooltipTrigger>
+                <TooltipContent
+                  side="bottom"
+                  className="
+                  max-w-[300px]
+                  ml-72
+                "
+                >
+                  Bu bölümde hastanemizde kullanılan rıza belgeleri ve kalite
+                  dokümanları bulunmaktadır. Rıza belgeleri, hasta onaylarını ve
+                  bilgilerini kaydederken, kalite dokümanları hizmet
+                  standartlarını belirleyerek sürekli iyileştirmeyi destekler.
+                </TooltipContent>
+              </Tooltip>
+              <Select onValueChange={handleCategoryChange}>
+                <SelectTrigger className="w-56 h-10">
+                  <SelectValue placeholder="Kategoriler" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Category A">Category A</SelectItem>
+                  <SelectItem value="Category B">Category B</SelectItem>
+                  <SelectItem value="Category C">Category C</SelectItem>
+                  <SelectItem value="Category D">Category D</SelectItem>
+                  <SelectItem value="Category E">Category E</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center gap-2">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <InfoIcon
+                    className="w-6 h-6 text-black-700 cursor-pointer"
+                    aria-label="Açıklama"
+                  />
+                </TooltipTrigger>
+                <TooltipContent
+                  side="bottom"
+                  className="
+                  max-w-[300px]
+                  ml-72
+                "
+                >
+                  Bu klasörde, hastanemizdeki tıbbi hizmetleri yürüten tüm
+                  bölümler ve ilgili rıza belgeleri bulunmaktadır. Her bölüm,
+                  uzmanlık alanına göre ayrılmış olup, tedavi süreçlerinde
+                  gereken belgeleri içerir.
+                </TooltipContent>
+              </Tooltip>
+              <Select onValueChange={handleFolderChange}>
+                <SelectTrigger className="w-56 h-10">
+                  <SelectValue placeholder="Klasörler" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Folder 1">Folder 1</SelectItem>
+                  <SelectItem value="Folder 2">Folder 2</SelectItem>
+                  <SelectItem value="Folder 3">Folder 3</SelectItem>
+                  <SelectItem value="Folder 4">Folder 4</SelectItem>
+                  <SelectItem value="Folder 5">Folder 5</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
-          <Input
-            placeholder="Dosya adı ara..."
-            value={globalFilter ?? ""}
-            onChange={(e) => setGlobalFilter(e.target.value)}
-            className="w-64"
-          />
+          <div className="flex items-center gap-1 justify-center">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <InfoIcon
+                  className="w-6 h-6 mt-3 text-black-700 cursor-pointer"
+                  aria-label="Açıklama"
+                />
+              </TooltipTrigger>
+              <TooltipContent
+                side="bottom"
+                className="
+                max-w-[300px]
+                ml-72
+                "
+              >
+                Bu bölüm, tüm dokümanların isim ve kodlarını içermekte olup,
+                kullanıcıların aradıkları belgelere kolayca ulaşmalarını sağlar.
+              </TooltipContent>
+            </Tooltip>
+            <Input
+              placeholder="Dosya adı ara..."
+              value={globalFilter ?? ""}
+              onChange={(e) => setGlobalFilter(e.target.value)}
+              className="w-[473px] h-10 mx-4 mt-3
+            "
+            />
+          </div>
         </div>
         <div className="rounded-md border w-full min-w-[800px] no-scrollbar">
-          <div className="rounded-md border px-4 py-4 no-scrollbar">
+          <div className="rounded-md  px-4 py-4 no-scrollbar">
             <Table className="table-fixed">
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
@@ -201,7 +367,7 @@ export default function ArchiveDocTable() {
                       return (
                         <TableHead key={header.id + index}>
                           <div
-                            className="flex items-center cursor-pointer"
+                            className="flex items-center cursor-pointer hover:text-black-900"
                             onClick={header.column.getToggleSortingHandler()}
                           >
                             {header.isPlaceholder
@@ -210,10 +376,8 @@ export default function ArchiveDocTable() {
                                   header.column.columnDef.header,
                                   header.getContext(),
                                 )}
-                            {{
-                              asc: " 🔼",
-                              desc: " 🔽",
-                            }[header.column.getIsSorted() as string] ?? null}
+
+                            {{}[header.column.getIsSorted() as string] ?? null}
                           </div>
                         </TableHead>
                       );
@@ -255,6 +419,10 @@ export default function ArchiveDocTable() {
             <DataTablePagination table={table} />
           </div>
         </div>
+        <ArchiveDocSheet
+          isOpen={openArchiveDocSheet}
+          setIsOpen={setOpenArchiveDocSheet}
+        />
       </div>
     </TooltipProvider>
   );

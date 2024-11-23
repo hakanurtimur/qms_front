@@ -114,8 +114,8 @@ export function DataTable<TData, TValue>({
                   <TooltipTrigger>
                     <InformationCircleIcon className="w-5 h-5" />
                   </TooltipTrigger>
-                  <TooltipContent side={"bottom"}>
-                    <p className="max-w-[200px]">
+                  <TooltipContent side={"bottom"} className="ml-52">
+                    <p className="max-w-[200px] ">
                       Bu bölümde hastanemizde kullanılan rıza belgeleri ve
                       kalite dokümanları bulunmaktadır. Rıza belgeleri, hasta
                       onaylarını ve bilgilerini kaydederken, kalite dokümanları
@@ -146,7 +146,7 @@ export function DataTable<TData, TValue>({
                   <TooltipTrigger>
                     <InformationCircleIcon className="w-5 h-5" />
                   </TooltipTrigger>
-                  <TooltipContent side={"bottom"}>
+                  <TooltipContent side={"bottom"} className="ml-52">
                     <p className="max-w-[200px]">
                       Bu klasörde, hastanemizdeki tıbbi hizmetleri yürüten tüm
                       bölümler ve ilgili rıza belgeleri bulunmaktadır. Her
@@ -180,7 +180,7 @@ export function DataTable<TData, TValue>({
                 <TooltipTrigger>
                   <InformationCircleIcon className="w-5 h-5" />
                 </TooltipTrigger>
-                <TooltipContent side={"bottom"}>
+                <TooltipContent side={"bottom"} className="ml-52">
                   <p className="max-w-[200px]">
                     Bu bölüm, tüm dokümanların isim ve kodlarını içermekte olup,
                     kullanıcıların aradıkları belgelere kolayca ulaşmalarını
