@@ -29,20 +29,18 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import NonFormCombobox from "@/components/ui/nonform-combobox";
 import { Button } from "@/components/ui/button";
 import { PencilSquareIcon, PlusIcon } from "@heroicons/react/24/outline";
 import DocumentUploadForm from "../../../requests/_components/document-upload-modal";
 import DocumentReviseForm from "../../../requests/_components/document-revise-modal";
 
 interface DataTableProps<TData, TValue> {
-  requestTypeOpts: { [key: string]: string };
+  // requestTypeOpts: { [key: string]: string };
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
 export function ResultedDataTable<TData, TValue>({
-  requestTypeOpts,
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -127,20 +125,20 @@ export function ResultedDataTable<TData, TValue>({
           <div className="flex items-center py-4 px-4 gap-10">
             <div className="flex flex-1 flex-shrink-0 items-center gap-10">
               <div className="flex-1 max-w-sm">
-                <NonFormCombobox
-                  value={
-                    (table
-                      .getColumn("requestType")
-                      ?.getFilterValue() as string) || ""
-                  }
-                  onChange={(value) =>
-                    table
-                      .getColumn("requestType")
-                      ?.setFilterValue(value ? value : "")
-                  }
-                  placeholder={"Talep Tipi"}
-                  options={requestTypeOpts}
-                />
+                {/*<NonFormCombobox*/}
+                {/*  value={*/}
+                {/*    (table*/}
+                {/*      .getColumn("requestType")*/}
+                {/*      ?.getFilterValue() as string) || ""*/}
+                {/*  }*/}
+                {/*  onChange={(value) =>*/}
+                {/*    table*/}
+                {/*      .getColumn("requestType")*/}
+                {/*      ?.setFilterValue(value ? value : "")*/}
+                {/*  }*/}
+                {/*  placeholder={"Talep Tipi"}*/}
+                {/*  options={requestTypeOpts}*/}
+                {/*/>*/}
               </div>
             </div>
             <div className="flex flex-1 max-w-[420px] flex-shrink-0 col-span-1 justify-stretch gap-2">
@@ -192,44 +190,48 @@ export function ResultedDataTable<TData, TValue>({
                       ))}
                       <TableCell>
                         <div className="flex items-center gap-4">
-                          <Tooltip>
-                            <TooltipTrigger
-                              asChild
-                              onClick={() => {
-                                setDocumentUploadModal(
-                                  !openDocumentUploadModal,
-                                );
-                              }}
-                            >
-                              {/*<RequestSheet*/}
-                              {/*  model={queryData}*/}
-                              {/*  onSubmit={mutationFn}*/}
-                              {/*/>*/}
-                              <Button size={"icon"}>
-                                <PlusIcon className="h-4 w-4" />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>Yeni Doküman Ekle</TooltipContent>
-                          </Tooltip>
-                          <Tooltip>
-                            <TooltipTrigger
-                              asChild
-                              onClick={() => {
-                                setDocumentReviseModal(
-                                  !openDocumentReviseModal,
-                                );
-                              }}
-                            >
-                              {/*<RequestSheet*/}
-                              {/*  model={queryData}*/}
-                              {/*  onSubmit={mutationFn}*/}
-                              {/*/>*/}
-                              <Button size={"icon"}>
-                                <PencilSquareIcon className="h-4 w-4" />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>Revize Et</TooltipContent>
-                          </Tooltip>
+                          {row.getValue("RequestTypeId") === 1 && (
+                            <Tooltip>
+                              <TooltipTrigger
+                                asChild
+                                onClick={() => {
+                                  setDocumentUploadModal(
+                                    !openDocumentUploadModal,
+                                  );
+                                }}
+                              >
+                                {/*<RequestSheet*/}
+                                {/*  model={queryData}*/}
+                                {/*  onSubmit={mutationFn}*/}
+                                {/*/>*/}
+                                <Button size={"icon"}>
+                                  <PlusIcon className="h-4 w-4" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>Yeni Doküman Ekle</TooltipContent>
+                            </Tooltip>
+                          )}
+                          {row.getValue("RequestTypeId") === 2 && (
+                            <Tooltip>
+                              <TooltipTrigger
+                                asChild
+                                onClick={() => {
+                                  setDocumentReviseModal(
+                                    !openDocumentReviseModal,
+                                  );
+                                }}
+                              >
+                                {/*<RequestSheet*/}
+                                {/*  model={queryData}*/}
+                                {/*  onSubmit={mutationFn}*/}
+                                {/*/>*/}
+                                <Button size={"icon"}>
+                                  <PencilSquareIcon className="h-4 w-4" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>Revize Et</TooltipContent>
+                            </Tooltip>
+                          )}
                         </div>
                       </TableCell>
                     </TableRow>

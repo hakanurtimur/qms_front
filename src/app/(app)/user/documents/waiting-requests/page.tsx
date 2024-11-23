@@ -83,9 +83,14 @@ const Page = () => {
     data: {
       data: [
         {
-          requestNo: 101,
-          managerState: true,
-          requestType: "Initial",
+          Id: 101,
+          AdministratorActionId: true,
+          RequestTypeId: 1,
+        },
+        {
+          Id: 102,
+          AdministratorActionId: false,
+          RequestTypeId: 2,
         },
       ],
     },
@@ -136,13 +141,8 @@ const Page = () => {
     : null;
 
   const resultedRequestTypes = resultedRequestsQuery.data?.data.map(
-    (doc) => doc.requestType,
+    (doc) => doc.RequestTypeId,
   );
-
-  const resultedRequestTypeOpts = resultedRequestTypes
-    ? convertStringArrayToOptions(resultedRequestTypes)
-    : null;
-
   return (
     <div className="w-full flex flex-col space-y-10">
       <PageHeader
@@ -192,11 +192,10 @@ const Page = () => {
           )}
         </TabsContent>
         <TabsContent value={"result"}>
-          {resultedRequestsQuery.data && resultedRequestTypeOpts ? (
+          {resultedRequestsQuery.data ? (
             <ResultedDataTable
               columns={resultedColumns}
               data={resultedRequestsQuery.data.data}
-              requestTypeOpts={resultedRequestTypeOpts}
             />
           ) : (
             <LoadingScreen />

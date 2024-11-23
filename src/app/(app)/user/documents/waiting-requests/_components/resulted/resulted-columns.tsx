@@ -6,7 +6,7 @@ import { ResultedRequestsModel } from "@/models/user/waitingRequests/resultedReq
 
 export const resultedColumns: ColumnDef<ResultedRequestsModel>[] = [
   {
-    accessorKey: "requestNo",
+    accessorKey: "Id",
     header: ({ column }) => {
       return (
         <SortingBtn
@@ -17,7 +17,7 @@ export const resultedColumns: ColumnDef<ResultedRequestsModel>[] = [
     },
   },
   {
-    accessorKey: "managerState",
+    accessorKey: "AdministratorActionId",
     header: ({ column }) => {
       return (
         <SortingBtn
@@ -28,7 +28,7 @@ export const resultedColumns: ColumnDef<ResultedRequestsModel>[] = [
     },
   },
   {
-    accessorKey: "requestType",
+    accessorKey: "RequestTypeId",
     header: ({ column }) => {
       return (
         <SortingBtn

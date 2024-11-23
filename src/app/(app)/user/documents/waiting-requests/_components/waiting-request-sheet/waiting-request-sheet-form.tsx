@@ -331,9 +331,7 @@ const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
           <SheetFooter>
             {variant === "default" ? (
               <SheetClose asChild>
-                <Button type="button" variant="outline">
-                  Kapat
-                </Button>
+                <Button type="button">Kapat</Button>
               </SheetClose>
             ) : (
               <>
