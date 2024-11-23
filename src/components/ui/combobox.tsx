@@ -32,6 +32,7 @@ interface FormSelectFieldProps<T extends FieldValues> {
   placeholder?: string;
   width?: string;
   variant?: "in-column" | "default";
+  readonly?: boolean;
 }
 
 function Combobox<T extends FieldValues>({
@@ -42,8 +43,17 @@ function Combobox<T extends FieldValues>({
   placeholder = "Seçiniz",
   width = "",
   variant = "default",
+  readonly = false,
 }: FormSelectFieldProps<T>) {
   const [open, setOpen] = React.useState(false);
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const [popoverWidth, setPopoverWidth] = React.useState<number | undefined>();
+
+  React.useEffect(() => {
+    if (triggerRef.current) {
+      setPopoverWidth(triggerRef.current.offsetWidth);
+    }
+  }, [triggerRef.current, open]);
 
   return (
     <FormField
@@ -51,7 +61,7 @@ function Combobox<T extends FieldValues>({
       name={name}
       render={({ field }) => (
         <div className={width}>
-          <FormItem className="space-y-0 pt-0 flex items-start  flex-col">
+          <FormItem className="space-y-0 pt-0 flex items-start flex-col">
             <FormLabel
               className={`${variant === "in-column" ? "mb-2.5 flex items-center py-1" : "mt-0"}`}
             >
@@ -61,12 +71,14 @@ function Combobox<T extends FieldValues>({
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                   <Button
+                    ref={triggerRef}
                     variant="outline"
                     role="combobox"
                     className={cn(
-                      "flex w-full justify-between font-normal",
+                      "flex w-full justify-between font-normal disabled:bg-primary-100 disabled:opacity-100 disabled:text-slate-950",
                       !field.value && "text-muted-foreground",
                     )}
+                    disabled={readonly}
                   >
                     <span className="grow-0">
                       {field.value ? options[field.value] : placeholder}
@@ -74,7 +86,12 @@ function Combobox<T extends FieldValues>({
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="p-0">
+                <PopoverContent
+                  className="p-0"
+                  style={{
+                    width: popoverWidth || "auto",
+                  }}
+                >
                   <Command>
                     <CommandInput placeholder="Ara" />
                     <CommandList>

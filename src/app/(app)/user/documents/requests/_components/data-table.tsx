@@ -39,6 +39,7 @@ interface DataTableProps<TData, TValue> {
   requestTypeOpts: { [key: string]: string };
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  variant?: "default" | "actives";
 }
 
 export function DataTable<TData, TValue>({
@@ -47,6 +48,7 @@ export function DataTable<TData, TValue>({
   requestTypeOpts,
   columns,
   data,
+  variant = "default",
 }: DataTableProps<TData, TValue>) {
   const [globalFilter, setGlobalFilter] = React.useState<string>("");
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -228,6 +230,7 @@ export function DataTable<TData, TValue>({
                               <RequestSheet
                                 model={queryData}
                                 onSubmit={mutationFn}
+                                variant={variant}
                               />
                             </TooltipTrigger>
                             <TooltipContent>TEST</TooltipContent>

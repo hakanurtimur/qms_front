@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ArchiveDocTable from "./_components/archive-doc-table";
 
 export default function Page() {
@@ -22,13 +22,12 @@ export default function Page() {
               ))}
             </TabsList>
           </div>
-
         </Tabs>
         {/*  */}
       </div>
       <div className="w-full flex flex-col space-y-10">
-          <ArchiveDocTable />
-        </div>
+        <ArchiveDocTable />
+      </div>
     </div>
   );
 }

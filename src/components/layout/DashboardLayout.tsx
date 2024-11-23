@@ -14,6 +14,7 @@ import {
   ArrowLeftStartOnRectangleIcon,
   Bars3Icon,
   BellIcon,
+  BriefcaseIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
 import { Badge } from "@/components/ui/badge";
@@ -30,6 +31,7 @@ import { ChangePasswordModel } from "@/models/auth";
 import ChangePassowordForm from "@/components/ui/reusable-forms/change-passoword-form";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { useState } from "react";
+import { PersonIcon } from "@radix-ui/react-icons";
 
 interface Props {
   variant: "admin" | "user";
@@ -58,6 +60,8 @@ const DashboardLayout = ({
   const router = useRouter();
   const { onSetAuthenticated, user } = useAuth();
 
+  console.log(user && user.roleId);
+
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   return (
@@ -74,19 +78,50 @@ const DashboardLayout = ({
               <NavItem key={item.label} item={item} />
             ))}
           </nav>
-          <div className="flex flex-grow items-end px-2 py-5">
-            <Button
-              variant="darkGhost"
-              className="flex gap-2 w-full justify-start"
-              onClick={async () => {
-                await authService.logout();
-                onSetAuthenticated(false);
-                router.push("/login");
-              }}
-            >
-              <ArrowLeftStartOnRectangleIcon className={"h-5 w-5"} />
-              <span>Çıkış Yap</span>
-            </Button>
+
+          <div className="flex flex-col gap-0">
+            {variant === "user" && user?.userId && user.roleId === "4" && (
+              <div className="flex flex-grow justify-end px-2 py-2">
+                <Button
+                  variant="darkGhost"
+                  className="flex gap-2 w-full justify-start"
+                  asChild
+                >
+                  <Link href={"/admin"}>
+                    <BriefcaseIcon className={"h-5 w-5"} />
+                    <span>Admin Paneline Geç</span>
+                  </Link>
+                </Button>
+              </div>
+            )}
+            {variant === "admin" && user?.userId && user.roleId === "4" && (
+              <div className="flex flex-grow justify-end px-2 py-2">
+                <Button
+                  variant="darkGhost"
+                  className="flex gap-2 w-full justify-start"
+                  asChild
+                >
+                  <Link href={"/user"}>
+                    <PersonIcon className={"h-5 w-5"} />
+                    <span>Kullanıcı Paneline Geç</span>
+                  </Link>
+                </Button>
+              </div>
+            )}
+            <div className="flex flex-grow items-end px-2 py-2">
+              <Button
+                variant="darkGhost"
+                className="flex gap-2 w-full justify-start"
+                onClick={async () => {
+                  await authService.logout();
+                  onSetAuthenticated(false);
+                  router.push("/login");
+                }}
+              >
+                <ArrowLeftStartOnRectangleIcon className={"h-5 w-5"} />
+                <span>Çıkış Yap</span>
+              </Button>
+            </div>
           </div>
         </aside>
       )}
@@ -111,6 +146,30 @@ const DashboardLayout = ({
                 {userNavItems.map((item) => (
                   <NavItem item={item} key={item.label} />
                 ))}
+                {variant === "user" && user?.userId && user.roleId === "4" && (
+                  <div className="flex flex-grow justify-end">
+                    <Button className="flex gap-2 w-full justify-start" asChild>
+                      <Link href={"/admin"}>
+                        <BriefcaseIcon className={"h-5 w-5"} />
+                        <span>Admin Paneline Geç</span>
+                      </Link>
+                    </Button>
+                  </div>
+                )}
+                {variant === "admin" && user?.userId && user.roleId === "4" && (
+                  <div className="flex flex-grow justify-end px-2 py-2">
+                    <Button
+                      variant="darkGhost"
+                      className="flex gap-2 w-full justify-start"
+                      asChild
+                    >
+                      <Link href={"/user"}>
+                        <PersonIcon className={"h-5 w-5"} />
+                        <span>Kullanıcı Paneline Geç</span>
+                      </Link>
+                    </Button>
+                  </div>
+                )}
                 <div className="flex flex-grow justify-end">
                   <Button
                     variant="darkGhost"

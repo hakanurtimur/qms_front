@@ -15,9 +15,10 @@ import RequestSheetForm from "@/app/(app)/user/documents/requests/_components/re
 interface Props {
   model: UserRequestModelUpdate;
   onSubmit: (data: UserRequestModelUpdate) => void;
+  variant: "default" | "actives";
 }
 
-const RequestSheet = ({ model, onSubmit }: Props) => {
+const RequestSheet = ({ model, onSubmit, variant }: Props) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -25,14 +26,14 @@ const RequestSheet = ({ model, onSubmit }: Props) => {
           <PencilSquareIcon className="w-4 h-4" />
         </Button>
       </SheetTrigger>
-      <SheetContent className="min-w-fit">
+      <SheetContent className="min-w-[1100px]">
         <SheetHeader>
           <SheetTitle>Talep Bilgileri</SheetTitle>
           <SheetDescription>
             Buradan taleplteri düzenleyebilirsiniz.
           </SheetDescription>
         </SheetHeader>
-        <RequestSheetForm model={model} onSubmit={onSubmit} />
+        <RequestSheetForm variant={variant} model={model} onSubmit={onSubmit} />
       </SheetContent>
     </Sheet>
   );

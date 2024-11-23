@@ -27,10 +27,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
 interface Props {
   onSubmit: (data: UserRequestModelUpdate) => void;
   model?: UserRequestModelUpdate;
+  variant: "default" | "actives";
 }
 
 const documentTypes = {
@@ -45,7 +47,7 @@ const actionIds = {
   103: "Reject Request",
 };
 
-const RequestSheetForm = ({ onSubmit, model }: Props) => {
+const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
   const form = useForm<UserRequestModelUpdate>({
     resolver: zodResolver(SUserRequestModelUpdate),
     defaultValues: {
@@ -71,14 +73,31 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="mt-10 grid grid-cols-2 gap-x-8 gap-y-8"
+        className="mt-10 grid grid-cols-3 gap-x-4 gap-y-8"
       >
-        <div className="space-y-5">
+        <div className="space-y-5 border-r-2 border-primary-900 border-primary-600 pr-4">
+          <FormField
+            control={form.control}
+            name="RequestNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Talep No</FormLabel>
+                <FormControl>
+                  <Input
+                    readOnly
+                    className="w-full bg-primary-100"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage className="absolute" />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="UserName"
             render={({ field }) => (
-              <FormItem className="w-64 ">
+              <FormItem>
                 <FormLabel>Talep Eden</FormLabel>
                 <FormControl>
                   <Input
@@ -95,7 +114,7 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
             control={form.control}
             name="DepartmentName"
             render={({ field }) => (
-              <FormItem className="w-64 ">
+              <FormItem>
                 <FormLabel>Bölüm</FormLabel>
                 <FormControl>
                   <Input
@@ -112,27 +131,8 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
             control={form.control}
             name="RequestTypeName"
             render={({ field }) => (
-              <FormItem className="w-64 ">
+              <FormItem>
                 <FormLabel>Talep Tipi</FormLabel>
-                <FormControl>
-                  <Input
-                    readOnly
-                    className="w-full bg-primary-100"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className="absolute" />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="space-y-5">
-          <FormField
-            control={form.control}
-            name="RequestNumber"
-            render={({ field }) => (
-              <FormItem className="w-64 ">
-                <FormLabel>Talep No</FormLabel>
                 <FormControl>
                   <Input
                     readOnly
@@ -148,7 +148,7 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
             control={form.control}
             name="OpenDate"
             render={({ field }) => (
-              <FormItem className="w-64">
+              <FormItem>
                 <FormLabel>Talep Tarihi</FormLabel>
                 <FormControl>
                   <DatePicker
@@ -167,7 +167,7 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
             control={form.control}
             name="UpdateDate"
             render={({ field }) => (
-              <FormItem className="w-64">
+              <FormItem>
                 <FormLabel>Son İşlem Tarihi</FormLabel>
                 <FormControl>
                   <DatePicker
@@ -183,58 +183,67 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
             )}
           />
         </div>
-        <div className="col-span-2 min-h-0.5 max-h-0.5 w-full bg-primary-900"></div>
-        <div className="space-y-5">
+        <div className="space-y-5 border-r-2 border-primary-900 border-primary-600 pr-4">
           <Combobox<UserRequestModelUpdate>
             control={form.control}
             variant={"in-column"}
             name={"DocumentTypeId"}
             label={"Doküman Tipi"}
             options={documentTypes}
+            readonly
           />
+
           <FormField
             control={form.control}
             name="DescriptionUser"
             render={({ field }) => (
-              <FormItem className="w-64 ">
+              <FormItem>
                 <FormLabel>Talep Eden ${model?.UserName} Açıklaması</FormLabel>
                 <FormControl>
-                  <Textarea rows={5} className="w-full" {...field} />
+                  <Textarea
+                    rows={5}
+                    className="w-full pb-3.5"
+                    {...field}
+                    readOnly={variant === "default"}
+                  />
                 </FormControl>
                 <FormMessage className="absolute" />
               </FormItem>
             )}
           />
-        </div>
-        <div className="space-y-5">
           <Combobox<UserRequestModelUpdate>
             control={form.control}
             variant={"in-column"}
             name={"ActionId"}
             label={"Durum"}
             options={actionIds}
+            readonly={variant === "default"}
           />
           <FormField
             control={form.control}
             name="DescriptionManager"
             render={({ field }) => (
-              <FormItem className="w-64 ">
+              <FormItem>
                 <FormLabel>${model?.UserName} - Admin Açıklaması</FormLabel>
                 <FormControl>
-                  <Textarea rows={5} className="w-full" {...field} />
+                  <Textarea
+                    rows={5}
+                    className="w-full pb-3.5"
+                    {...field}
+                    readOnly={variant === "default"}
+                  />
                 </FormControl>
                 <FormMessage className="absolute" />
               </FormItem>
             )}
           />
         </div>
-        <div className="col-span-2 min-h-0.5 max-h-0.5 w-full bg-primary-900"></div>
-        <div className="space-y-5">
+        <div className="space-y-5 pr-4">
           <FormField
             control={form.control}
             name="ManagerActionName"
             render={({ field }) => (
-              <FormItem className="w-64 ">
+              <FormItem>
                 <FormLabel>Kalite Durum</FormLabel>
                 <FormControl>
                   <Input
@@ -251,12 +260,12 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
             control={form.control}
             name="DescriptionAdmin"
             render={({ field }) => (
-              <FormItem className="w-64 ">
+              <FormItem>
                 <FormLabel>KYS Sorumlusu Açıklaması</FormLabel>
                 <FormControl>
                   <Textarea
                     readOnly
-                    className="w-full bg-primary-100"
+                    className="w-full bg-primary-100 pb-3.5"
                     {...field}
                     rows={5}
                   />
@@ -265,13 +274,11 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
               </FormItem>
             )}
           />
-        </div>
-        <div className="space-y-16">
           <FormField
             control={form.control}
             name="AdminAboutName"
             render={({ field }) => (
-              <FormItem className="w-64 ">
+              <FormItem>
                 <FormLabel>KYS Sorumlusu Sebebi</FormLabel>
                 <FormControl>
                   <Input
@@ -284,10 +291,29 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
               </FormItem>
             )}
           />
-
           <TooltipProvider>
-            <div className="flex flex-col items-center justify-center gap-4 ">
-              <div className="flex items-center gap-4">
+            <div className="flex flex-col">
+              <div className="text-sm font-medium leading-none h-[16.5px] flex items-end">
+                Döküman
+              </div>
+              <div className="flex items-center gap-4 mt-4">
+                {variant === "actives" && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        onClick={() => {
+                          console.log(model?.FileId);
+                        }}
+                        variant={"outline"}
+                        type="button"
+                        className="pb-3 pt-3 min-w-12 min-h-12"
+                      >
+                        <ArrowPathIcon className="min-h-8 max-h-8 w-auto" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>Değiştir</TooltipContent>
+                  </Tooltip>
+                )}
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
@@ -295,12 +321,12 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
                         console.log(model?.FileId);
                       }}
                       type="button"
-                      className="pb-3 pt-3 px-10 min-w-20 min-h-12"
+                      className="pb-3 pt-3 min-w-24 min-h-12"
                     >
                       <PencilSquareIcon className="min-h-8 max-h-8 w-auto" />
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>TEST FILENAME</TooltipContent>
+                  <TooltipContent>Talep Edilen Doküman</TooltipContent>
                 </Tooltip>
                 <Tooltip>
                   <Tooltip>
@@ -310,38 +336,12 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
                           console.log(model?.GarbageId);
                         }}
                         type="button"
-                        className="pb-3 pt-3 px-10 min-w-20 min-h-12"
+                        className="pb-3 pt-3 min-w-24 min-h-12"
                       >
                         <FolderIcon className="min-h-8 max-h-8 w-auto" />
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent>TEST FILENAME</TooltipContent>
-                  </Tooltip>
-                </Tooltip>
-              </div>
-              <div className="flex items-center gap-4">
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      type="button"
-                      className="pb-3 pt-3 px-3 min-w-20 min-h-12"
-                    >
-                      Dosya Yükleme
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Dosya Yükleme İşlemi</TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        type="button"
-                        className="pb-3 pt-3 px-3 min-w-20 min-h-12"
-                      >
-                        Dosya Revize
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Dosya Revize İşlemi</TooltipContent>
+                    <TooltipContent>Mevcut Doküman</TooltipContent>
                   </Tooltip>
                 </Tooltip>
               </div>
@@ -349,15 +349,25 @@ const RequestSheetForm = ({ onSubmit, model }: Props) => {
           </TooltipProvider>
         </div>
 
-        <div className="col-span-2">
+        <div className="col-span-3 pr-4">
           <SheetFooter>
-            <SheetClose asChild>
-              <Button type="button" variant="outline">
-                İptal Et
-              </Button>
-            </SheetClose>
+            {variant === "default" ? (
+              <SheetClose asChild>
+                <Button type="button" variant="outline">
+                  Kapat
+                </Button>
+              </SheetClose>
+            ) : (
+              <>
+                <SheetClose asChild>
+                  <Button type="button" variant="outline">
+                    İptal Et
+                  </Button>
+                </SheetClose>
 
-            <Button type="submit">Kaydet</Button>
+                <Button type="submit">Kaydet</Button>
+              </>
+            )}
           </SheetFooter>
         </div>
       </form>

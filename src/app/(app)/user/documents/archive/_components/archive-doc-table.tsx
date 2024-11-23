@@ -45,11 +45,42 @@ interface ArchiveDoc {
 }
 
 const data: ArchiveDoc[] = [
-  { id: 1, category: "Category A", folder: "Folder 1", status: "Archived", name: "Document 1" },
-  { id: 2, category: "Category B", folder: "Folder 2", status: "Active", name: "Document 2" },
-  { id: 3, category: "Category C", folder: "Folder 3", status: "Archived", name: "Document 3" },
-  { id: 4, category: "Category D", folder: "Folder 4", status: "Active", name: "Document 4" },
-  { id: 5, category: "Category E", folder: "Folder 5", status: "Archived", name: "Document 5" },
+  {
+    id: 1,
+    category: "Category A",
+    folder: "Folder 1",
+    status: "Archived",
+    name: "Document 1",
+  },
+  {
+    id: 2,
+    category: "Category B",
+    folder: "Folder 2",
+    status: "Active",
+    name: "Document 2",
+  },
+  {
+    id: 3,
+    category: "Category C",
+
+    folder: "Folder 3",
+    status: "Archived",
+    name: "Document 3",
+  },
+  {
+    id: 4,
+    category: "Category D",
+    folder: "Folder 4",
+    status: "Active",
+    name: "Document 4",
+  },
+  {
+    id: 5,
+    category: "Category E",
+    folder: "Folder 5",
+    status: "Archived",
+    name: "Document 5",
+  },
 ];
 
 const columns: ColumnDef<ArchiveDoc>[] = [
@@ -76,7 +107,7 @@ const columns: ColumnDef<ArchiveDoc>[] = [
   {
     id: "actions",
     header: "İşlem",
-    cell: ({ row }) => (
+    cell: () => (
       <div className="flex items-center gap-4">
         <Tooltip>
           <TooltipTrigger asChild>
@@ -100,6 +131,8 @@ export default function ArchiveDocTable() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedFolder, setSelectedFolder] = useState<string>("");
+
+  console.log(selectedCategory, selectedFolder);
 
   const table = useReactTable({
     data,
