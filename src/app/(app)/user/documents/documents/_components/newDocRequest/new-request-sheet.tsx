@@ -31,7 +31,7 @@ const NewRequestSheet = ({ onSubmit }: Props) => {
             Buradan yeni dokuman talebi oluşturabilirsiniz.
           </SheetDescription>
         </SheetHeader>
-        <RequestForm onSubmit={onSubmit} />
+        <RequestForm variant={"default"} onSubmit={onSubmit} />
       </SheetContent>
     </Sheet>
   );

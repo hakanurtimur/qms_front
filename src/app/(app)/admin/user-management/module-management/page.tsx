@@ -2,7 +2,6 @@
 import React from "react";
 
 import LoadingScreen from "@/components/commons/LoadingScreen";
-import PageHeader from "@/components/ui/pageHeader";
 import { ModuleDataTable } from "@/app/(app)/admin/user-management/module-management/_components/module/module-data-table";
 import { moduleColumns } from "@/app/(app)/admin/user-management/module-management/_components/module/module-columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -95,11 +94,6 @@ const Page = () => {
 
   return (
     <div className="w-full flex flex-col space-y-10">
-      <PageHeader
-        variant={"dark"}
-        title={"Modül İşlem"}
-        description={"Modüllerinizi buradan yönetebilirsiniz."}
-      />
       <Tabs defaultValue="modules">
         <div className="w-full flex justify-between items-center">
           <TabsList className="grid grid-cols-2 w-[480px]">

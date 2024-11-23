@@ -4,10 +4,8 @@ import React from "react";
 import LoadingScreen from "@/components/commons/LoadingScreen";
 import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DataTable } from "@/app/(app)/user/documents/waiting-requests/_components/data-table";
-import { columns } from "@/app/(app)/user/documents/waiting-requests/_components/columns";
-import { ResultedDataTable } from "@/app/(app)/user/documents/waiting-requests/_components/resulted/resulted-data-table";
-import { resultedColumns } from "@/app/(app)/user/documents/waiting-requests/_components/resulted/resulted-columns";
+import { DataTable } from "@/app/(app)/user/documents/director-rejection/_components/data-table";
+import { columns } from "@/app/(app)/user/documents/director-rejection/_components/columns";
 
 const Page = () => {
   // TODO: add query service
@@ -22,36 +20,39 @@ const Page = () => {
       data: [
         {
           requestNo: 101,
+          adminName: "John Doe",
+          state: true,
           qualityState: false,
           managerState: true,
           requestDate: "2024-01-15",
           requester: "Dr. Ayşe Yılmaz",
           department: "Oncology",
-          admin: "John Doe",
           documentType: "Patient Consent Form",
           requestType: "Initial",
           updateDate: "2024-01-20",
         },
         {
           requestNo: 102,
+          adminName: "Janet Doe",
+          state: false,
           qualityState: true,
           managerState: false,
           requestDate: "2024-02-10",
           requester: "Dr. Mehmet Kaya",
           department: "Cardiology",
-          admin: "John Doe",
           documentType: "Medical Report",
           requestType: "Follow-up",
           updateDate: "2024-02-15",
         },
         {
           requestNo: 103,
+          adminName: "Johnson Doe",
+          state: true,
           qualityState: true,
           managerState: true,
           requestDate: "2024-03-05",
           requester: "Nurse Emine Demir",
           department: "Pediatrics",
-          admin: "John Doe",
           documentType: "Treatment Plan",
           requestType: "Update",
           updateDate: "2024-03-10",
@@ -64,32 +65,16 @@ const Page = () => {
       data: [
         {
           requestNo: 101,
+          adminName: "John Doe",
+          state: true,
           qualityState: false,
           managerState: true,
           requestDate: "2024-01-15",
           requester: "Dr. Ayşe Yılmaz",
           department: "Oncology",
-          admin: "John Doe",
           documentType: "Patient Consent Form",
           requestType: "Initial",
           updateDate: "2024-01-20",
-        },
-      ],
-    },
-  };
-
-  const resultedRequestsQuery = {
-    data: {
-      data: [
-        {
-          Id: 101,
-          AdministratorActionId: true,
-          RequestTypeId: 1,
-        },
-        {
-          Id: 102,
-          AdministratorActionId: false,
-          RequestTypeId: 2,
         },
       ],
     },
@@ -139,17 +124,13 @@ const Page = () => {
     ? convertStringArrayToOptions(activeRequestTypes)
     : null;
 
-  const resultedRequestTypes = resultedRequestsQuery.data?.data.map(
-    (doc) => doc.RequestTypeId,
-  );
   return (
     <div className="w-full flex flex-col space-y-10">
       <Tabs defaultValue="all">
         <div className="w-full flex justify-between items-center">
-          <TabsList className="grid grid-cols-3 w-[720px]">
+          <TabsList className="grid grid-cols-2 w-[480px]">
             <TabsTrigger value="all">Tüm Talepler</TabsTrigger>
             <TabsTrigger value="actives">Aktif Talepler</TabsTrigger>
-            <TabsTrigger value="result">Sonuç Bekleyen Talepler</TabsTrigger>
           </TabsList>
         </div>
         <TabsContent value={"all"}>
@@ -180,16 +161,6 @@ const Page = () => {
               columns={columns}
               data={activeRequestsQuery.data.data}
               variant={"actives"}
-            />
-          ) : (
-            <LoadingScreen />
-          )}
-        </TabsContent>
-        <TabsContent value={"result"}>
-          {resultedRequestsQuery.data ? (
-            <ResultedDataTable
-              columns={resultedColumns}
-              data={resultedRequestsQuery.data.data}
             />
           ) : (
             <LoadingScreen />

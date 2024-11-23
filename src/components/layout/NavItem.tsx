@@ -9,25 +9,17 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
+import { NavItemModel } from "@/components/ui/breadcrumb-with-dropdown";
 
 interface Props {
-  item: {
-    icon: React.ElementType;
-    label: string;
-    href: string;
-    items: {
-      icon: React.ElementType;
-      label: string;
-      href: string;
-    }[];
-  };
+  item: NavItemModel;
 }
 
 const NavItem = ({ item }: Props) => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      {item.items.length > 0 ? (
+      {item.items && item.items.length > 0 ? (
         <DropdownMenu open={open} onOpenChange={setOpen}>
           <DropdownMenuTrigger asChild>
             <Button

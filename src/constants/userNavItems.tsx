@@ -9,8 +9,9 @@ import {
   UserGroupIcon,
   WrenchIcon,
 } from "@heroicons/react/24/outline";
+import { NavItemModel } from "@/components/ui/breadcrumb-with-dropdown";
 
-export const userNavItems = [
+export const userNavItems: NavItemModel[] = [
   {
     icon: DocumentTextIcon,
     label: "Dokümanlar",
@@ -20,21 +21,31 @@ export const userNavItems = [
         icon: DocumentTextIcon,
         label: "Dokümanlar",
         href: "/user/documents/documents",
+        items: [],
       },
       {
         icon: DocumentTextIcon,
         label: "Talepler",
         href: "/user/documents/requests",
+        items: [],
       },
       {
         icon: DocumentTextIcon,
         label: "Bekleyen Talepler",
         href: "/user/documents/waiting-requests",
+        items: [],
       },
       {
         icon: DocumentTextIcon,
         label: "Arşivleme",
         href: "/user/documents/archive",
+        items: [],
+      },
+      {
+        icon: DocumentTextIcon,
+        label: "Yönetici Onay Red",
+        href: "/user/documents/director-rejection",
+        items: [],
       },
     ],
   },

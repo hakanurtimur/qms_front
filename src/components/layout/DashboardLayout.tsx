@@ -32,19 +32,13 @@ import ChangePassowordForm from "@/components/ui/reusable-forms/change-passoword
 import { PopoverClose } from "@radix-ui/react-popover";
 import { useState } from "react";
 import { PersonIcon } from "@radix-ui/react-icons";
+import BreadcrumbWithDropdown, {
+  NavItemModel,
+} from "@/components/ui/breadcrumb-with-dropdown";
 
 interface Props {
   variant: "admin" | "user";
-  navItems: {
-    icon: React.ElementType;
-    label: string;
-    href: string;
-    items: {
-      icon: React.ElementType;
-      label: string;
-      href: string;
-    }[];
-  }[];
+  navItems: NavItemModel[];
   open: boolean;
   onSetOpen: (open: boolean) => void;
   children: React.ReactNode;
@@ -263,7 +257,12 @@ const DashboardLayout = ({
             <Bars3Icon className="h-5 w-5" />
           </Button>
         </header>
-        <main className="flex-1 p-4 sm:px-6 sm:py-0 md:gap-8">{children}</main>
+        <main className="flex-1 p-4 sm:px-6 sm:py-0 md:gap-8">
+          <div className="mb-4">
+            <BreadcrumbWithDropdown navItems={navItems} />
+          </div>
+          {children}
+        </main>
       </div>
     </div>
   );

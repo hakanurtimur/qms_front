@@ -31,7 +31,7 @@ const RevisionRequestSheet = ({ onSubmit }: Props) => {
             Buradan yeni revizyon talebi oluşturabilirsiniz.
           </SheetDescription>
         </SheetHeader>
-        <RequestForm onSubmit={onSubmit} />
+        <RequestForm variant={"revision"} onSubmit={onSubmit} />
       </SheetContent>
     </Sheet>
   );

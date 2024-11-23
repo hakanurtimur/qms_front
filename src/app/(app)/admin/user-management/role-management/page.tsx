@@ -4,7 +4,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import LoadingScreen from "@/components/commons/LoadingScreen";
 import { DataTable } from "@/app/(app)/admin/user-management/role-management/_components/data-table";
 import { Button } from "@/components/ui/button";
-import PageHeader from "@/components/ui/pageHeader";
 import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/authContext";
 import { columns } from "@/app/(app)/admin/user-management/role-management/_components/columns";
@@ -93,11 +92,6 @@ const Page = () => {
 
   return (
     <div className="w-full flex flex-col space-y-10">
-      <PageHeader
-        variant={"dark"}
-        title={"Rol İşlemleri"}
-        description={"Buradan rolleri yönetebilirsiniz."}
-      />
       <div className={"w-full flex flex-col space-y-10"}>
         <div className="flex justify-between">
           <Button>Listele</Button>

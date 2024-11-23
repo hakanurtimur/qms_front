@@ -21,8 +21,9 @@ import React from "react";
 
 interface Props {
   onSubmit: (data: RequestDocumentModel) => void;
+  variant: "default" | "revision";
 }
-const RequestForm = ({ onSubmit }: Props) => {
+const RequestForm = ({ onSubmit, variant }: Props) => {
   const form = useForm<RequestDocumentModel>({
     resolver: zodResolver(SRequestDocumentModel),
     defaultValues: {
@@ -41,6 +42,8 @@ const RequestForm = ({ onSubmit }: Props) => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 mt-5">
         <Combobox<RequestDocumentModel>
           control={form.control}
+          variant={"in-column"}
+          readonly={variant === "revision"}
           name={"documentType"}
           label={"Doküman Tipi"}
           options={DUMMY_OPTIONS}

@@ -7,7 +7,6 @@ import LoadingScreen from "@/components/commons/LoadingScreen";
 import { columns } from "@/app/(app)/admin/user-management/location/_components/columns";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import PageHeader from "@/components/ui/pageHeader";
 import { ManagerLocationModel } from "@/models/admin/location";
 import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/authContext";
@@ -48,11 +47,6 @@ const Page = () => {
 
   return (
     <div className="w-full flex flex-col space-y-10">
-      <PageHeader
-        variant={"dark"}
-        title={"Lokasyon"}
-        description={"Buradan lokasyonları yönetebilirsiniz."}
-      />
       <div className="flex justify-between">
         <Button>Listele</Button>
         <Button size={"icon"}>

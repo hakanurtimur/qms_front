@@ -3,7 +3,6 @@ import React from "react";
 
 import LoadingScreen from "@/components/commons/LoadingScreen";
 import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
-import PageHeader from "@/components/ui/pageHeader";
 import { columns } from "@/app/(app)/user/documents/requests/_components/columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/app/(app)/user/documents/requests/_components/data-table";
@@ -123,11 +122,6 @@ const Page = () => {
 
   return (
     <div className="w-full flex flex-col space-y-10">
-      <PageHeader
-        variant={"dark"}
-        title={"Talepler"}
-        description={"Taleplerinizi buradan yönetebilirsiniz."}
-      />
       <Tabs defaultValue="all">
         <div className="w-full flex justify-between items-center">
           <TabsList className="grid grid-cols-2 w-[480px]">

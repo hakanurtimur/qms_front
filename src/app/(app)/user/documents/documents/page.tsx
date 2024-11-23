@@ -3,7 +3,6 @@ import React from "react";
 
 import LoadingScreen from "@/components/commons/LoadingScreen";
 import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
-import PageHeader from "@/components/ui/pageHeader";
 import { DataTable } from "@/app/(app)/user/documents/documents/_components/data-table";
 import { columns } from "@/app/(app)/user/documents/documents/_components/columns";
 import { Button } from "@/components/ui/button";
@@ -49,11 +48,6 @@ const Page = () => {
 
   return (
     <div className="w-full flex flex-col space-y-10">
-      <PageHeader
-        variant={"dark"}
-        title={"Dökümanlar"}
-        description={"Dökümanlarınızı buradan yönetebilirsiniz."}
-      />
       <div className="flex items-center justify-between">
         <Button>Listele</Button>
         <NewRequestSheet

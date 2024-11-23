@@ -1,7 +1,6 @@
 "use client";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
-import PageHeader from "@/components/ui/pageHeader";
 
 import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/authContext";
@@ -208,11 +207,6 @@ const Page = () => {
 
   return (
     <div className="w-full flex flex-col space-y-10">
-      <PageHeader
-        variant={"dark"}
-        title={"Personel İşlemleri"}
-        description={"Buradan personel işlemlerini yönetebilirsiniz."}
-      />
       <Tabs defaultValue="employee">
         <div className="w-full flex justify-between items-center">
           <TabsList className="grid grid-cols-2 w-[480px]">
