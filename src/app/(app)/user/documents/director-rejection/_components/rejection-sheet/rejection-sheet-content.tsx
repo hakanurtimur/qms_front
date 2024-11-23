@@ -32,13 +32,13 @@ const RejectionSheetContent = ({ model, variant }: Props) => {
     DocumentTypeId: model ? (model.DocumentTypeId ?? 0) : 0,
     DocumentTypeName: model ? (model.DocumentTypeName ?? "") : "",
     DescriptionUser: model ? (model.DescriptionUser ?? "") : "",
-    DescriptionManager: model ? (model.DescriptionManager ?? "") : "",
+    DescriptionAdmin: model ? (model.DescriptionAdmin ?? "") : "",
     OpenDate: model ? (model.OpenDate ?? "") : "",
     UpdateDate: model ? (model.UpdateDate ?? "") : "",
     ActionId: model ? (model.ActionId ?? 0) : 0,
-    ManagerActionName: model ? (model.ManagerActionName ?? "") : "",
-    DescriptionAdmin: model ? (model.DescriptionAdmin ?? "") : "",
-    AdminAboutName: model ? (model.AdminAboutName ?? "") : "",
+    SuperAdminActionName: model ? (model.SuperAdminActionName ?? "") : "",
+    DescriptionSuperAdmin: model ? (model.DescriptionSuperAdmin ?? "") : "",
+    SuperAdminAboutName: model ? (model.SuperAdminAboutName ?? "") : "",
     GarbageId: model ? (model.GarbageId ?? 0) : 0,
     FileId: model ? (model.FileId ?? 0) : 0,
   };
@@ -129,7 +129,7 @@ const RejectionSheetContent = ({ model, variant }: Props) => {
           <Textarea
             rows={5}
             className="w-full pb-3.5"
-            value={defaultValues.DescriptionManager}
+            value={defaultValues.DescriptionAdmin}
             readOnly
           />
         </FormItem>
@@ -137,20 +137,20 @@ const RejectionSheetContent = ({ model, variant }: Props) => {
       <div className="space-y-5 pr-4">
         <FormItem>
           <Label>Kalite Durum</Label>
-          <Input readOnly value={defaultValues.ManagerActionName} />
+          <Input readOnly value={defaultValues.SuperAdminActionName} />
         </FormItem>
         <FormItem>
           <Label>KYS Sorumlusu Açıklaması</Label>
           <Textarea
             readOnly
             className="w-full bg-primary-100 pb-3.5"
-            value={defaultValues.DescriptionAdmin}
+            value={defaultValues.DescriptionSuperAdmin}
             rows={5}
           />
         </FormItem>
         <FormItem>
           <Label>KYS Sorumlusu Sebebi</Label>
-          <Input readOnly value={defaultValues.AdminAboutName} />
+          <Input readOnly value={defaultValues.SuperAdminAboutName} />
         </FormItem>
         <TooltipProvider>
           <div className="flex flex-col">

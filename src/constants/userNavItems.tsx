@@ -87,7 +87,7 @@ export const userNavItems: NavItemModel[] = [
   },
 ];
 
-export const adminNavItems = [
+export const adminNavItems: NavItemModel[] = [
   {
     icon: DocumentTextIcon,
     label: "Dokümanlar",
@@ -97,16 +97,19 @@ export const adminNavItems = [
         icon: DocumentTextIcon,
         label: "Politikalar",
         href: "/dokumanlar/politikalar",
+        items: [],
       },
       {
         icon: DocumentTextIcon,
         label: "Prosedürler",
         href: "/dokumanlar/prosedurler",
+        items: [],
       },
       {
         icon: DocumentTextIcon,
         label: "Formlar",
         href: "/dokumanlar/formlar",
+        items: [],
       },
     ],
   },
@@ -161,31 +164,37 @@ export const adminNavItems = [
         icon: DocumentTextIcon,
         label: "Lokasyon",
         href: "/admin/user-management/location",
+        items: [],
       },
       {
         icon: DocumentTextIcon,
         label: "Personel İşlem",
         href: "/admin/user-management/employee-management",
+        items: [],
       },
       {
         icon: DocumentTextIcon,
         label: "Rol İşlem",
         href: "/admin/user-management/role-management",
+        items: [],
       },
       {
         icon: DocumentTextIcon,
         label: "Modül İşlem",
         href: "/admin/user-management/module-management",
+        items: [],
       },
       {
         icon: DocumentTextIcon,
         label: "Yetkilendirme",
         href: "/kullanici-yonetimi/yetkilendirme",
+        items: [],
       },
       {
         icon: DocumentTextIcon,
         label: "Tarihçe",
         href: "/admin/user-management/history",
+        items: [],
       },
     ],
   },

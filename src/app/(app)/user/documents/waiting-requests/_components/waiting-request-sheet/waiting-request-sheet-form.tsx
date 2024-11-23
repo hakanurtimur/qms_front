@@ -46,13 +46,13 @@ const actionIds = {
   103: "Reject Request",
 };
 
-const managerActionIds = {
+const SuperAdminActionIds = {
   202: "Submit Request",
   201: "Approve Request",
   203: "Reject Request",
 };
 
-const adminAboutIds = {
+const SuperAdminAboutIds = {
   301: "jane_doe",
   302: "janet_doe",
   303: "johnson_doe",
@@ -68,15 +68,15 @@ const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
       RequestTypeName: model ? (model.RequestTypeName ?? "") : "",
       DocumentTypeId: model ? (model.DocumentTypeId ?? 0) : 0,
       DescriptionUser: model ? (model.DescriptionUser ?? "") : "",
-      DescriptionManager: model ? (model.DescriptionManager ?? "") : "",
+      DescriptionAdmin: model ? (model.DescriptionAdmin ?? "") : "",
       OpenDate: model ? (model.OpenDate ?? "") : "",
       UpdateDate: model ? (model.UpdateDate ?? "") : "",
       ActionId: model ? (model.ActionId ?? 0) : 0,
-      ManagerActionId: model ? (model.ManagerActionId ?? 0) : 0,
-      ManagerActionName: model ? (model.ManagerActionName ?? "") : "",
-      DescriptionAdmin: model ? (model.DescriptionAdmin ?? "") : "",
-      AdminAboutId: model ? (model.AdminAboutId ?? 0) : 0,
-      AdminAboutName: model ? (model.AdminAboutName ?? "") : "",
+      SuperAdminActionId: model ? (model.SuperAdminActionId ?? 0) : 0,
+      SuperAdminActionName: model ? (model.SuperAdminActionName ?? "") : "",
+      DescriptionSuperAdmin: model ? (model.DescriptionSuperAdmin ?? "") : "",
+      SuperAdminAboutId: model ? (model.SuperAdminAboutId ?? 0) : 0,
+      SuperAdminAboutName: model ? (model.SuperAdminAboutName ?? "") : "",
       GarbageId: model ? (model.GarbageId ?? 0) : 0,
       FileId: model ? (model.FileId ?? 0) : 0,
     },
@@ -234,7 +234,7 @@ const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
           />
           <FormField
             control={form.control}
-            name="DescriptionManager"
+            name="DescriptionAdmin"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>${model?.UserName} - Admin Açıklaması</FormLabel>
@@ -255,14 +255,14 @@ const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
           <Combobox<UserRequestModelUpdate>
             control={form.control}
             variant={"in-column"}
-            name={"ManagerActionId"}
+            name={"SuperAdminActionId"}
             label={"Kalite Durum"}
-            options={managerActionIds}
+            options={SuperAdminActionIds}
             readonly={variant === "default"}
           />
           <FormField
             control={form.control}
-            name="DescriptionAdmin"
+            name="DescriptionSuperAdmin"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>KYS Sorumlusu Açıklaması</FormLabel>
@@ -280,10 +280,10 @@ const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
           />
           <Combobox<UserRequestModelUpdate>
             control={form.control}
-            name={"AdminAboutId"}
+            name={"SuperAdminAboutId"}
             variant={"in-column"}
             label={"KYS Sorumlusu Sebebi"}
-            options={adminAboutIds}
+            options={SuperAdminAboutIds}
             readonly={variant === "default"}
           />
           <TooltipProvider>

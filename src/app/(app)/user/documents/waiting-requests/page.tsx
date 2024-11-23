@@ -139,9 +139,9 @@ const Page = () => {
     ? convertStringArrayToOptions(activeRequestTypes)
     : null;
 
-  const resultedRequestTypes = resultedRequestsQuery.data?.data.map(
-    (doc) => doc.RequestTypeId,
-  );
+  // const resultedRequestTypes = resultedRequestsQuery.data?.data.map(
+  //   (doc) => doc.RequestTypeId,
+  // );
   return (
     <div className="w-full flex flex-col space-y-10">
       <Tabs defaultValue="all">

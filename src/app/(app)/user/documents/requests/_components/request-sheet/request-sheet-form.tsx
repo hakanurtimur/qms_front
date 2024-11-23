@@ -58,13 +58,13 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
       RequestTypeName: model ? (model.RequestTypeName ?? "") : "",
       DocumentTypeId: model ? (model.DocumentTypeId ?? 0) : 0,
       DescriptionUser: model ? (model.DescriptionUser ?? "") : "",
-      DescriptionManager: model ? (model.DescriptionManager ?? "") : "",
+      DescriptionAdmin: model ? (model.DescriptionAdmin ?? "") : "",
       OpenDate: model ? (model.OpenDate ?? "") : "",
       UpdateDate: model ? (model.UpdateDate ?? "") : "",
       ActionId: model ? (model.ActionId ?? 0) : 0,
-      ManagerActionName: model ? (model.ManagerActionName ?? "") : "",
-      DescriptionAdmin: model ? (model.DescriptionAdmin ?? "") : "",
-      AdminAboutName: model ? (model.AdminAboutName ?? "") : "",
+      SuperAdminActionName: model ? (model.SuperAdminActionName ?? "") : "",
+      DescriptionSuperAdmin: model ? (model.DescriptionSuperAdmin ?? "") : "",
+      SuperAdminAboutName: model ? (model.SuperAdminAboutName ?? "") : "",
       GarbageId: model ? (model.GarbageId ?? 0) : 0,
       FileId: model ? (model.FileId ?? 0) : 0,
     },
@@ -224,7 +224,7 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
           />
           <FormField
             control={form.control}
-            name="DescriptionManager"
+            name="DescriptionAdmin"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>${model?.UserName} - Admin Açıklaması</FormLabel>
@@ -246,7 +246,7 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
         <div className="space-y-5 pr-4">
           <FormField
             control={form.control}
-            name="ManagerActionName"
+            name="SuperAdminActionName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Kalite Durum</FormLabel>
@@ -263,7 +263,7 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
           />
           <FormField
             control={form.control}
-            name="DescriptionAdmin"
+            name="DescriptionSuperAdmin"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>KYS Sorumlusu Açıklaması</FormLabel>
@@ -281,7 +281,7 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
           />
           <FormField
             control={form.control}
-            name="AdminAboutName"
+            name="SuperAdminAboutName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>KYS Sorumlusu Sebebi</FormLabel>
