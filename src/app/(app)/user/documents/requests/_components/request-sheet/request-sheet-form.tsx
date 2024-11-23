@@ -52,6 +52,7 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
     resolver: zodResolver(SUserRequestModelUpdate),
     defaultValues: {
       Id: model ? (model.Id ?? 0) : 0,
+      AuthRequestId: model ? (model.AuthRequestId ?? 0) : 0,
       UserName: model ? (model.UserName ?? "") : "",
       DepartmentName: model ? (model.DepartmentName ?? "") : "",
       RequestTypeName: model ? (model.RequestTypeName ?? "") : "",
@@ -204,7 +205,9 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
                     rows={5}
                     className="w-full pb-3.5"
                     {...field}
-                    readOnly={variant === "default"}
+                    readOnly={
+                      variant === "default" || model?.AuthRequestId !== 0
+                    }
                   />
                 </FormControl>
                 <FormMessage className="absolute" />
@@ -230,7 +233,9 @@ const RequestSheetForm = ({ onSubmit, model, variant }: Props) => {
                     rows={5}
                     className="w-full pb-3.5"
                     {...field}
-                    readOnly={variant === "default"}
+                    readOnly={
+                      variant === "default" || model?.AuthRequestId !== 1
+                    }
                   />
                 </FormControl>
                 <FormMessage className="absolute" />

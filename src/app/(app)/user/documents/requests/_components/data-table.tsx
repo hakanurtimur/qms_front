@@ -81,7 +81,7 @@ export function DataTable<TData, TValue>({
     AdministratorActionName: "Approve",
     AdministratorName: "John Doe",
     AdminName: "Jane Smith",
-    AuthRequestId: 4001,
+    AuthRequestId: 1,
     DepartmentName: "IT Department",
     DescriptionAdmin: "Admin approved the request.",
     DescriptionManager: "Manager reviewed the document.",
