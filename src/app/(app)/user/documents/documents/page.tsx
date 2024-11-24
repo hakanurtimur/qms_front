@@ -7,11 +7,12 @@ import { DataTable } from "@/app/(app)/user/documents/documents/_components/data
 import { columns } from "@/app/(app)/user/documents/documents/_components/columns";
 import { Button } from "@/components/ui/button";
 import NewRequestSheet from "@/app/(app)/user/documents/documents/_components/newDocRequest/new-request-sheet";
-import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import requestDocumentService from "@/services/user/documents/RequestDocuments";
 import { useAuth } from "@/context/authContext";
 import PdfViewer from "@/app/(app)/user/documents/documents/_components/pdf-viewer";
+import { RequestDocumentCreate } from "@/models/user/documents/documents/requestDocumentCreate";
+import { toast } from "@/hooks/use-toast";
 
 const Page = () => {
   // TODO: add query service
@@ -71,6 +72,40 @@ const Page = () => {
     },
   });
 
+  const createDocumentMutation = useMutation({
+    mutationKey: ["createDocument"],
+    mutationFn: (data: { userId: string; formData: RequestDocumentCreate }) =>
+      requestDocumentService.createDocument(data),
+    onSuccess: async (data) => {
+      await query.refetch();
+      toast({
+        title: "Başarılı",
+        description: "Doküman başarıyla eklendi",
+        variant: "success",
+      });
+      const { guid } = data.data;
+      const { pathName } = data.data;
+      console.log(pathName + guid);
+    },
+  });
+
+  const reviseDocumentMutation = useMutation({
+    mutationKey: ["reviseDocument"],
+    mutationFn: (data: { userId: string; formData: RequestDocumentCreate }) =>
+      requestDocumentService.reviseDocument(data),
+    onSuccess: async (data) => {
+      await query.refetch();
+      toast({
+        title: "Başarılı",
+        description: "Doküman revize talebi başarıyla oluşturuldu",
+        variant: "success",
+      });
+      const { guid } = data.data;
+      const { pathName } = data.data;
+      console.log(pathName + guid);
+    },
+  });
+
   const handleGetDocument = (fileId: string) => {
     getMutation.mutate(fileId);
   };
@@ -79,13 +114,31 @@ const Page = () => {
     printMutation.mutate(fileId);
   };
 
+  const handleCreateDocument = (data: {
+    userId: string;
+    formData: RequestDocumentCreate;
+  }) => {
+    createDocumentMutation.mutate(data);
+  };
+
+  const handleReviseDocument = (data: {
+    userId: string;
+    formData: RequestDocumentCreate;
+  }) => {
+    console.log(data);
+    reviseDocumentMutation.mutate(data);
+  };
+
   return (
     <div className="w-full flex flex-col space-y-10">
       <div className="flex items-center justify-between">
         <Button>Listele</Button>
         <NewRequestSheet
-          onSubmit={(data: RequestDocumentListModel) => {
-            console.log(data);
+          onSubmit={(data: {
+            userId: string;
+            formData: RequestDocumentCreate;
+          }) => {
+            handleCreateDocument(data);
           }}
         />
       </div>
@@ -98,6 +151,7 @@ const Page = () => {
           onGetDocument={handleGetDocument}
           onPrintibleDocument={handlePrintibleDocument}
           getDocumentLoading={getMutation.isPending || printMutation.isPending}
+          onReviseDocument={handleReviseDocument}
         />
       ) : (
         <LoadingScreen />

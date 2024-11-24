@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Sheet,
   SheetContent,
@@ -10,13 +12,30 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import RequestForm from "@/app/(app)/user/documents/documents/_components/request-form";
-import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
+import { useQuery } from "@tanstack/react-query";
+import requestDocuments from "@/services/user/documents/RequestDocuments";
+import { RequestDocumentCreate } from "@/models/user/documents/documents/requestDocumentCreate";
 
 interface Props {
-  onSubmit: (data: RequestDocumentListModel) => void;
+  onSubmit: (data: { userId: string; formData: RequestDocumentCreate }) => void;
 }
 
 const NewRequestSheet = ({ onSubmit }: Props) => {
+  const optionsQuery = useQuery({
+    queryKey: ["documentTypes"],
+    queryFn: async () => requestDocuments.getDocumentTypes(),
+  });
+
+  const documentTypeOpts: { [key: number]: string } = optionsQuery.data
+    ? optionsQuery.data.data.reduce(
+        (acc, item) => {
+          acc[item.documentTypeId] = item.documentTypeName;
+          return acc;
+        },
+        {} as { [key: number]: string },
+      )
+    : {};
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -31,7 +50,11 @@ const NewRequestSheet = ({ onSubmit }: Props) => {
             Buradan yeni dokuman talebi oluşturabilirsiniz.
           </SheetDescription>
         </SheetHeader>
-        <RequestForm variant={"default"} onSubmit={onSubmit} />
+        <RequestForm
+          documentTypeOpts={documentTypeOpts}
+          variant={"default"}
+          onSubmit={onSubmit}
+        />
       </SheetContent>
     </Sheet>
   );

@@ -3,6 +3,11 @@ import {
   RequestDocumentGetModelResponse,
   RequestDocumentListModelResponse,
 } from "@/models/user/documents/documents/requestDocument";
+import { RequestDocumentTypeResponse } from "@/models/user/documents/documents/requestDocumentType";
+import {
+  RequestDocumentCreate,
+  RequestDocumentCreatedModelResponse,
+} from "@/models/user/documents/documents/requestDocumentCreate";
 
 export class RequestDocumentService {
   public async list(
@@ -10,8 +15,33 @@ export class RequestDocumentService {
   ): Promise<RequestDocumentListModelResponse> {
     return await api.get(`/Document/get-document-list/${role_id}`);
   }
+
   public async get(file_id: string): Promise<RequestDocumentGetModelResponse> {
     return await api.get(`/Document/get-document-by-id/${file_id}`);
+  }
+
+  public async getDocumentTypes(): Promise<RequestDocumentTypeResponse> {
+    return await api.get(`/Document/get-document-type-list`);
+  }
+
+  public async createDocument(data: {
+    userId: string;
+    formData: RequestDocumentCreate;
+  }): Promise<RequestDocumentCreatedModelResponse> {
+    return await api.post(
+      `/documentdemand/create-document-request/${data.userId}`,
+      data.formData,
+    );
+  }
+
+  public async reviseDocument(data: {
+    userId: string;
+    formData: RequestDocumentCreate;
+  }): Promise<RequestDocumentCreatedModelResponse> {
+    return await api.post(
+      `/documentdemand/revise-document-request/${data.userId}`,
+      data.formData,
+    );
   }
 }
 

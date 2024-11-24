@@ -38,6 +38,7 @@ import {
 import NonFormCombobox from "@/components/ui/nonform-combobox";
 import RevisionRequestSheet from "@/app/(app)/user/documents/documents/_components/revisionDocRequest/revision-request-sheet";
 import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
+import { RequestDocumentCreate } from "@/models/user/documents/documents/requestDocumentCreate";
 
 interface DataTableProps<TData, TValue> {
   categoryOpts: { [key: string]: string };
@@ -47,6 +48,10 @@ interface DataTableProps<TData, TValue> {
   onGetDocument: (fileId: string) => void;
   onPrintibleDocument: (fileId: string) => void;
   getDocumentLoading: boolean;
+  onReviseDocument: (data: {
+    userId: string;
+    formData: RequestDocumentCreate;
+  }) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -57,6 +62,7 @@ export function DataTable<TData, TValue>({
   onGetDocument,
   onPrintibleDocument,
   getDocumentLoading,
+  onReviseDocument,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
     {
@@ -291,11 +297,15 @@ export function DataTable<TData, TValue>({
                             <Tooltip>
                               <TooltipTrigger asChild>
                                 <RevisionRequestSheet
-                                  onSubmit={(
-                                    data: RequestDocumentListModel,
-                                  ) => {
-                                    console.log(data);
+                                  onSubmit={(data: {
+                                    userId: string;
+                                    formData: RequestDocumentCreate;
+                                  }) => {
+                                    onReviseDocument(data);
                                   }}
+                                  model={
+                                    row.original as RequestDocumentListModel
+                                  }
                                 />
                               </TooltipTrigger>
                               <TooltipContent>Revizyon Talebi</TooltipContent>
