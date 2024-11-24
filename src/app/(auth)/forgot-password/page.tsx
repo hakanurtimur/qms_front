@@ -11,6 +11,7 @@ import {
   IForgetPasswordState,
   useForgetPasswordStore,
 } from "./store/forget-password.store";
+import { ResponseModel } from "@/models/api/response";
 
 const Page = () => {
   const router = useRouter();
@@ -40,13 +41,16 @@ const Page = () => {
       );
       return;
     }
-    const res:any = await forgetPassword(data.email);
+    const res: unknown = await forgetPassword(data.email);
+    const resWithTyped = res as ResponseModel;
     console.log("res", res);
-    if (res.isSuccessful) {
+    if (resWithTyped.isSuccessful) {
       showAlertForDuration("Şifre sıfırlama maili gönderildi", "success", 3000);
-      
+      console.log("success");
+
       router.push("/login");
     } else {
+      console.log("error");
       showAlertForDuration("Bir hata oluştu", "error", 3000);
     }
 

@@ -1,13 +1,19 @@
+import { ResponseModel } from "@/models/api/response";
 import { ChangePasswordModel } from "@/models/auth";
 import api from "@/services/Api";
 import { create } from "zustand";
 
 export interface IChangePasswordStore {
-  changePassword: (data: ChangePasswordModel,userId: number) => Promise<void>;
+  changePassword: (
+    data: ChangePasswordModel,
+    userId: number,
+  ) => Promise<unknown>;
 }
 
 export const ChangePasswordStore: IChangePasswordStore = {
-  changePassword: async () => {},
+  changePassword: async (data: ChangePasswordModel, userId: number) => {
+    return await changePassword(data, userId);
+  },
 };
 
 async function changePassword(data: ChangePasswordModel, userId: number) {
@@ -18,9 +24,11 @@ async function changePassword(data: ChangePasswordModel, userId: number) {
       DuplicateNewPassword: data.passwordConfirm,
       UserId: userId,
     });
-    return response;
-  } catch (error: any) {
-    return error.response.data;
+    console.log("response", response);
+    return response as unknown as ResponseModel;
+  } catch (error: unknown) {
+    console.log("error", error);
+    return error as ResponseModel;
   }
 }
 

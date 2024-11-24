@@ -41,6 +41,7 @@ import {
 import { IAlertState, useAlertStore } from "@/services/states/alert.service";
 import DynamicAlert from "../ui/dynamic-alert";
 import { useRouter } from "next/navigation";
+import { ResponseModel } from "@/models/api/response";
 
 interface Props {
   variant: "admin" | "user";
@@ -62,30 +63,31 @@ const DashboardLayout = ({
     (state) => state as IChangePasswordStore,
   );
   const router = useRouter();
-  const {showAlertForDuration} = useAlertStore((state) => state as IAlertState);
+  const { showAlertForDuration } = useAlertStore(
+    (state) => state as IAlertState,
+  );
 
   console.log(user && user.roleId);
 
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   const handlePasswordChange = async (data: ChangePasswordModel) => {
-   const res:any = await changePassword(data, Number(user?.userId));
-   if(res.isSuccessful){
+    const res: unknown = await changePassword(data, Number(user?.userId));
+    console.log("res", res);
+    const resWithTyped = res as ResponseModel;
+    if (resWithTyped.isSuccessful) {
       showAlertForDuration("Şifre Değiştirme Başarılı", "success", 3000);
       await authService.logout();
       //if path is in /user redirect to login page, else redirect to admin login page
       const currentPath = window.location.pathname;
-      if(currentPath.includes("/user")){
-         router.push("/login");
-
-      }else{
-          router.push("/admin-login");
-        }
-      
-   }else{
-      console.log("Password Change Failed" , res?.errorMessage);
-      showAlertForDuration(res?.errorMessage, "error", 3000);
-   }
+      if (currentPath.includes("/user")) {
+        router.push("/login");
+      } else {
+        router.push("/admin-login");
+      }
+    } else {
+      showAlertForDuration("Başarısız İşlem!", "error", 3000);
+    }
   };
 
   return (
@@ -261,8 +263,7 @@ const DashboardLayout = ({
                       formLoading={false}
                       variant={"sheet"}
                     />
-                   <DynamicAlert />
-
+                    <DynamicAlert />
                   </SheetContent>
                 </Sheet>
                 <div
@@ -276,7 +277,6 @@ const DashboardLayout = ({
                   Çıkış Yap
                 </div>
               </PopoverContent>
-
             </Popover>
           </div>
           <Button

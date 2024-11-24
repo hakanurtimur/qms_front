@@ -27,7 +27,7 @@ export default function DynamicAlert() {
           | "destructive"
           | undefined
       }
-      className="absolute bottom-2 right-2 bg-gray-800 text-white shadow-lg z-100 mx-auto 
+      className="absolute bottom-2 right-2 bg-gray-800 text-white shadow-lg z-50 mx-auto 
        mt-9 max-w-sm gap-4"
     >
       {(() => {

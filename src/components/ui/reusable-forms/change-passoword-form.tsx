@@ -38,7 +38,8 @@ const ChangePassowordForm = ({
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const router = useRouter();
-  const {user} = useAuth();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { user } = useAuth();
   const form = useForm<ChangePasswordModel>({
     resolver: zodResolver(SChangePasswordModel),
     defaultValues: {

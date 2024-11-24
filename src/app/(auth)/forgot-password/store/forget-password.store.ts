@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
 import api from "@/services/Api";
+import { ResponseModel } from "@/models/api/response";
 
 export interface IForgetPasswordState {
   mail: string;
@@ -30,10 +31,9 @@ export async function forgetPassword(email: string) {
       `/user/forget-password/${email}`,
     );
     console.log("response", response);
-    return response;
-  } catch (error: any) {
-    console.log("error", error.response.data);
-    return error.response.data;
+    return response as ResponseModel | unknown;
+  } catch (error: unknown) {
+    return error as ResponseModel | unknown;
   }
 }
 
@@ -51,7 +51,8 @@ export const useForgetPasswordStore = create((set) => ({
       } else {
         set({ error: response.data.error });
       }
-    } catch (error : any) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       set({ error: error.message });
     } finally {
       set({ loading: false });
