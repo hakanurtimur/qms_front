@@ -10,10 +10,10 @@ import { Button } from "@/components/ui/button";
 import { ClipboardDocumentListIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import RequestForm from "@/app/(app)/user/documents/documents/_components/request-form";
-import { RequestDocumentModel } from "@/models/user/documents/documents/requestDocument";
+import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
 
 interface Props {
-  onSubmit: (data: RequestDocumentModel) => void;
+  onSubmit: (data: RequestDocumentListModel) => void;
 }
 
 const RevisionRequestSheet = ({ onSubmit }: Props) => {

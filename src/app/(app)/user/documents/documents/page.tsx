@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
 import LoadingScreen from "@/components/commons/LoadingScreen";
 import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
@@ -7,33 +7,24 @@ import { DataTable } from "@/app/(app)/user/documents/documents/_components/data
 import { columns } from "@/app/(app)/user/documents/documents/_components/columns";
 import { Button } from "@/components/ui/button";
 import NewRequestSheet from "@/app/(app)/user/documents/documents/_components/newDocRequest/new-request-sheet";
-import { RequestDocumentModel } from "@/models/user/documents/documents/requestDocument";
+import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import requestDocumentService from "@/services/user/documents/RequestDocuments";
+import { useAuth } from "@/context/authContext";
+import PdfViewer from "@/app/(app)/user/documents/documents/_components/pdf-viewer";
 
 const Page = () => {
   // TODO: add query service
 
-  // const query = useQuery({
-  //   queryKey: ["documents"],
-  //   queryFn: () => documentService.getDocuments(moduleId),
-  // });
+  const [show, setShow] = useState(false);
+  const [showPrint, setShowPrint] = useState(false);
 
-  const query = {
-    data: {
-      data: [
-        {
-          fileId: 616,
-          categoryName: "RIZA BELGELERİ",
-          subCategoryName: null,
-          folderName: "ACİL SERVİS",
-          fileName:
-            "ONM-1093-03 KAS İÇİ (İNTRAMÜSKÜLER) ENJEKSİYON İŞLEMİ İÇİN BİLGİLENDİRME ONAM FORMU.PDF",
-          printing: 1,
-          reading: 1,
-          url: null,
-        },
-      ],
-    },
-  };
+  const { user } = useAuth();
+
+  const query = useQuery({
+    queryKey: ["user-documents"],
+    queryFn: () => requestDocumentService.list(user?.roleId ?? ""),
+  });
 
   const categories = query.data?.data.map((doc) => doc.categoryName);
 
@@ -46,12 +37,54 @@ const Page = () => {
     ? convertStringArrayToOptions(folderNames)
     : null;
 
+  const getMutation = useMutation({
+    mutationKey: ["goDocUrl"],
+    mutationFn: (fileId: string) => requestDocumentService.get(fileId),
+    onSuccess: (data) => {
+      console.log(data);
+      const regex = /\.(xls|xlsx|csv)$/i;
+      const fileUrl = data.data.url;
+      if (fileUrl && regex.test(fileUrl)) {
+        console.log("WORKS1");
+        window.open(fileUrl);
+        return;
+      }
+      setShow(true);
+    },
+  });
+
+  const printMutation = useMutation({
+    mutationKey: ["printDocUrl"],
+    mutationFn: (fileId: string) => requestDocumentService.get(fileId),
+    onSuccess: (data) => {
+      console.log(data);
+      const fileUrl = data.data.url;
+
+      const regex = /\.(xls|xlsx|csv)$/i;
+
+      if (fileUrl && regex.test(fileUrl)) {
+        console.log("WORKS1");
+        window.open(fileUrl);
+        return;
+      }
+      setShowPrint(true);
+    },
+  });
+
+  const handleGetDocument = (fileId: string) => {
+    getMutation.mutate(fileId);
+  };
+
+  const handlePrintibleDocument = (fileId: string) => {
+    printMutation.mutate(fileId);
+  };
+
   return (
     <div className="w-full flex flex-col space-y-10">
       <div className="flex items-center justify-between">
         <Button>Listele</Button>
         <NewRequestSheet
-          onSubmit={(data: RequestDocumentModel) => {
+          onSubmit={(data: RequestDocumentListModel) => {
             console.log(data);
           }}
         />
@@ -62,10 +95,26 @@ const Page = () => {
           folderOpts={folderOpts}
           columns={columns}
           data={query.data.data}
+          onGetDocument={handleGetDocument}
+          onPrintibleDocument={handlePrintibleDocument}
+          getDocumentLoading={getMutation.isPending || printMutation.isPending}
         />
       ) : (
         <LoadingScreen />
       )}
+      <PdfViewer
+        open={show}
+        onOpenChange={() => setShow(false)}
+        fileName={getMutation.data?.data.fileName ?? null}
+        src={getMutation.data?.data.url ?? ""}
+      />
+      <PdfViewer
+        variant={"printible"}
+        open={showPrint}
+        onOpenChange={() => setShowPrint(false)}
+        fileName={printMutation.data?.data.fileName ?? null}
+        src={printMutation.data?.data.url ?? ""}
+      />
     </div>
   );
 };

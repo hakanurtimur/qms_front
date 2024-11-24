@@ -1,11 +1,11 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { DocumentModel } from "@/models/document";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
+import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
 
-export const columns: ColumnDef<DocumentModel>[] = [
+export const columns: ColumnDef<RequestDocumentListModel>[] = [
   {
     accessorKey: "categoryName",
     header: ({ column }) => {

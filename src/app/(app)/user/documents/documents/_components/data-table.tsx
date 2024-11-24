@@ -29,7 +29,6 @@ import {
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
-import { DocumentModel } from "@/models/document";
 import {
   Tooltip,
   TooltipContent,
@@ -38,13 +37,16 @@ import {
 } from "@/components/ui/tooltip";
 import NonFormCombobox from "@/components/ui/nonform-combobox";
 import RevisionRequestSheet from "@/app/(app)/user/documents/documents/_components/revisionDocRequest/revision-request-sheet";
-import { RequestDocumentModel } from "@/models/user/documents/documents/requestDocument";
+import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
 
 interface DataTableProps<TData, TValue> {
   categoryOpts: { [key: string]: string };
   folderOpts: { [key: string]: string };
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  onGetDocument: (fileId: string) => void;
+  onPrintibleDocument: (fileId: string) => void;
+  getDocumentLoading: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -52,6 +54,9 @@ export function DataTable<TData, TValue>({
   folderOpts,
   columns,
   data,
+  onGetDocument,
+  onPrintibleDocument,
+  getDocumentLoading,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
     {
@@ -241,49 +246,67 @@ export function DataTable<TData, TValue>({
                       ))}
                       <TableCell>
                         <div className="flex items-center gap-4">
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button
-                                onClick={() => {
-                                  const selected =
-                                    row.original as DocumentModel;
-                                  // mutation.mutate(selected.fileId.toString());
-
-                                  console.log(selected.fileId.toString());
-                                }}
-                                size="icon"
-                              >
-                                <PrinterIcon className="w-4 h-4" />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>Yazdır</TooltipContent>
-                          </Tooltip>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button
-                                onClick={() => {
-                                  const selected =
-                                    row.original as DocumentModel;
-                                  // mutation.mutate(selected.fileId.toString());
-                                  console.log(selected.fileId.toString());
-                                }}
-                                size="icon"
-                              >
-                                <EyeIcon className="w-4 h-4" />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>Görüntüle</TooltipContent>
-                          </Tooltip>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <RevisionRequestSheet
-                                onSubmit={(data: RequestDocumentModel) => {
-                                  console.log(data);
-                                }}
-                              />
-                            </TooltipTrigger>
-                            <TooltipContent>Revizyon Talebi</TooltipContent>
-                          </Tooltip>
+                          {(row.original as RequestDocumentListModel)
+                            .printing === 1 && (
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  disabled={getDocumentLoading}
+                                  onClick={() => {
+                                    // const selected =
+                                    //   row.original as RequestDocumentListModel;
+                                    // mutation.mutate(selected.fileId.toString());
+                                    // handleGetDocument(
+                                    //   selected.fileId.toString(),
+                                    // );
+                                    onPrintibleDocument("1636");
+                                  }}
+                                  size="icon"
+                                >
+                                  <PrinterIcon className="w-4 h-4" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>Yazdır</TooltipContent>
+                            </Tooltip>
+                          )}
+                          {(row.original as RequestDocumentListModel)
+                            .reading === 1 && (
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  onClick={() => {
+                                    // const selected =
+                                    //   row.original as RequestDocumentListModel;
+                                    // mutation.mutate(selected.fileId.toString());
+                                    // handleGetDocument(
+                                    //   selected.fileId.toString(),
+                                    // );
+                                    onGetDocument("1636");
+                                  }}
+                                  size="icon"
+                                  disabled={getDocumentLoading}
+                                >
+                                  <EyeIcon className="w-4 h-4" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>Görüntüle</TooltipContent>
+                            </Tooltip>
+                          )}
+                          {(row.original as RequestDocumentListModel)
+                            .changeRequest === 1 && (
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <RevisionRequestSheet
+                                  onSubmit={(
+                                    data: RequestDocumentListModel,
+                                  ) => {
+                                    console.log(data);
+                                  }}
+                                />
+                              </TooltipTrigger>
+                              <TooltipContent>Revizyon Talebi</TooltipContent>
+                            </Tooltip>
+                          )}
                         </div>
                       </TableCell>
                     </TableRow>
