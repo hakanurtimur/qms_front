@@ -253,13 +253,11 @@ export function DataTable<TData, TValue>({
                                 <Button
                                   disabled={getDocumentLoading}
                                   onClick={() => {
-                                    // const selected =
-                                    //   row.original as RequestDocumentListModel;
-                                    // mutation.mutate(selected.fileId.toString());
-                                    // handleGetDocument(
-                                    //   selected.fileId.toString(),
-                                    // );
-                                    onPrintibleDocument("1636");
+                                    const selected =
+                                      row.original as RequestDocumentListModel;
+                                    onPrintibleDocument(
+                                      selected.fileId.toString(),
+                                    );
                                   }}
                                   size="icon"
                                 >
@@ -275,13 +273,9 @@ export function DataTable<TData, TValue>({
                               <TooltipTrigger asChild>
                                 <Button
                                   onClick={() => {
-                                    // const selected =
-                                    //   row.original as RequestDocumentListModel;
-                                    // mutation.mutate(selected.fileId.toString());
-                                    // handleGetDocument(
-                                    //   selected.fileId.toString(),
-                                    // );
-                                    onGetDocument("1636");
+                                    const selected =
+                                      row.original as RequestDocumentListModel;
+                                    onGetDocument(selected.fileId.toString());
                                   }}
                                   size="icon"
                                   disabled={getDocumentLoading}
