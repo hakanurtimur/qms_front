@@ -15,7 +15,7 @@ import React from "react";
 import {
   SUserRequestModelUpdate,
   UserRequestModelUpdate,
-} from "@/models/user/userRequests/userRequestModel";
+} from "@/models/user/documents/userRequests/userRequestModel";
 import { Input } from "@/components/ui/input";
 import Combobox from "@/components/ui/combobox";
 import { Textarea } from "@/components/ui/textarea";

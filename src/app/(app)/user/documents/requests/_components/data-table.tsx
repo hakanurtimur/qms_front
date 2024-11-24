@@ -30,9 +30,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import NonFormCombobox from "@/components/ui/nonform-combobox";
-import { UserRequestModelUpdate } from "@/models/user/userRequests/userRequestModel";
+import { UserRequestModelUpdate } from "@/models/user/documents/userRequests/userRequestModel";
 import RequestSheet from "@/app/(app)/user/documents/requests/_components/request-sheet/request-sheet";
-import { WaitingRequestModelUpdate } from "@/models/user/waitingRequests/waitingRequestModel";
+import { WaitingRequestModelUpdate } from "@/models/user/documents/waitingRequests/waitingRequestModel";
 
 interface DataTableProps<TData, TValue> {
   departmentOps: { [key: string]: string };

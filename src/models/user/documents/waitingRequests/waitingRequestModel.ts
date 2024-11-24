@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SUserRequestModelUpdate } from "@/models/user/userRequests/userRequestModel";
+import { SUserRequestModelUpdate } from "@/models/user/documents/userRequests/userRequestModel";
 
 export const SWaitingRequestModel = z.object({
   requestNo: z.number(),

@@ -3,7 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import SortingBtn from "@/components/ui/sorting-btn";
 import { formatDateWithoutTime } from "@/utils/dateUtils";
-import { DirectorRejectionModel } from "@/models/user/director-rejection/director-rejection";
+import { DirectorRejectionModel } from "@/models/user/documents/director-rejection/director-rejection";
 
 export const columns: ColumnDef<DirectorRejectionModel>[] = [
   {

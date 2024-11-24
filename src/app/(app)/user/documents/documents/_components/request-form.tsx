@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   RequestDocumentModel,
   SRequestDocumentModel,
-} from "@/models/user/documents/requestDocument";
+} from "@/models/user/documents/documents/requestDocument";
 import Combobox from "@/components/ui/combobox";
 import {
   Form,

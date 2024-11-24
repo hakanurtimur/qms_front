@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import SortingBtn from "@/components/ui/sorting-btn";
-import { ResultedRequestsModel } from "@/models/user/waitingRequests/resultedRequestsModel";
+import { ResultedRequestsModel } from "@/models/user/documents/waitingRequests/resultedRequestsModel";
 
 export const resultedColumns: ColumnDef<ResultedRequestsModel>[] = [
   {

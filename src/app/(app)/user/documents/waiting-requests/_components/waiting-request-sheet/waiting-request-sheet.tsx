@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import WaitingRequestSheetForm from "@/app/(app)/user/documents/waiting-requests/_components/waiting-request-sheet/waiting-request-sheet-form";
-import { WaitingRequestModelUpdate } from "@/models/user/waitingRequests/waitingRequestModel";
+import { WaitingRequestModelUpdate } from "@/models/user/documents/waitingRequests/waitingRequestModel";
 
 interface Props {
   model: WaitingRequestModelUpdate;

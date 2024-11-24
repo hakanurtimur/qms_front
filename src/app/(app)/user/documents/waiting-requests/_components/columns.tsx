@@ -3,7 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import SortingBtn from "@/components/ui/sorting-btn";
 import { formatDateWithoutTime } from "@/utils/dateUtils";
-import { WaitingRequestModel } from "@/models/user/waitingRequests/waitingRequestModel";
+import { WaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
 
 export const columns: ColumnDef<WaitingRequestModel>[] = [
   {

@@ -7,7 +7,7 @@ import { DataTable } from "@/app/(app)/user/documents/documents/_components/data
 import { columns } from "@/app/(app)/user/documents/documents/_components/columns";
 import { Button } from "@/components/ui/button";
 import NewRequestSheet from "@/app/(app)/user/documents/documents/_components/newDocRequest/new-request-sheet";
-import { RequestDocumentModel } from "@/models/user/documents/requestDocument";
+import { RequestDocumentModel } from "@/models/user/documents/documents/requestDocument";
 
 const Page = () => {
   // TODO: add query service

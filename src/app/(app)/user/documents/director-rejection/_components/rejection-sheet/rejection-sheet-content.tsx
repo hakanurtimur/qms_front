@@ -3,7 +3,7 @@ import { SheetClose, SheetFooter } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
 import React from "react";
-import { UserRequestModelUpdate } from "@/models/user/userRequests/userRequestModel";
+import { UserRequestModelUpdate } from "@/models/user/documents/userRequests/userRequestModel";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { DatePicker } from "@/components/ui/date-picker";

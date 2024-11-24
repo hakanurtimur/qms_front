@@ -26,7 +26,7 @@ import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NonFormCombobox from "@/components/ui/nonform-combobox";
 import WaitingRequestSheet from "@/app/(app)/user/documents/waiting-requests/_components/waiting-request-sheet/waiting-request-sheet";
-import { WaitingRequestModelUpdate } from "@/models/user/waitingRequests/waitingRequestModel";
+import { WaitingRequestModelUpdate } from "@/models/user/documents/waitingRequests/waitingRequestModel";
 
 interface DataTableProps<TData, TValue> {
   departmentOps: { [key: string]: string };

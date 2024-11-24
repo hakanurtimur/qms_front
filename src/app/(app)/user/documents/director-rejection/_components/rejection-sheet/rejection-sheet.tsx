@@ -8,7 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import React from "react";
-import { UserRequestModelUpdate } from "@/models/user/userRequests/userRequestModel";
+import { UserRequestModelUpdate } from "@/models/user/documents/userRequests/userRequestModel";
 import RejectionSheetContent from "@/app/(app)/user/documents/director-rejection/_components/rejection-sheet/rejection-sheet-content";
 
 interface Props {

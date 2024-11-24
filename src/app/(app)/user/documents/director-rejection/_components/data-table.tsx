@@ -30,7 +30,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import NonFormCombobox from "@/components/ui/nonform-combobox";
-import { WaitingRequestModelUpdate } from "@/models/user/waitingRequests/waitingRequestModel";
+import { WaitingRequestModelUpdate } from "@/models/user/documents/waitingRequests/waitingRequestModel";
 import RejectionSheet from "@/app/(app)/user/documents/director-rejection/_components/rejection-sheet/rejection-sheet";
 
 interface DataTableProps<TData, TValue> {

@@ -38,7 +38,7 @@ import {
 } from "@/components/ui/tooltip";
 import NonFormCombobox from "@/components/ui/nonform-combobox";
 import RevisionRequestSheet from "@/app/(app)/user/documents/documents/_components/revisionDocRequest/revision-request-sheet";
-import { RequestDocumentModel } from "@/models/user/documents/requestDocument";
+import { RequestDocumentModel } from "@/models/user/documents/documents/requestDocument";
 
 interface DataTableProps<TData, TValue> {
   categoryOpts: { [key: string]: string };

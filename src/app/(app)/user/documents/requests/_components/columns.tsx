@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { UserRequestModel } from "@/models/user/userRequests/userRequestModel";
+import { UserRequestModel } from "@/models/user/documents/userRequests/userRequestModel";
 import SortingBtn from "@/components/ui/sorting-btn";
 import { formatDateWithoutTime } from "@/utils/dateUtils";
 
