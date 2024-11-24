@@ -7,12 +7,18 @@ import LoadingScreen from "@/components/commons/LoadingScreen";
 import ForgotPassowordForm from "@/components/ui/reusable-forms/forgot-passoword-form";
 import FormPage from "@/app/(auth)/forgot-password/_components/form-page";
 import { IAlertState, useAlertStore } from "@/services/states/alert.service";
+import {
+  IForgetPasswordState,
+  useForgetPasswordStore,
+} from "./store/forget-password.store";
 
 const Page = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [captchaValue, setCaptchaValue] = useState<string | null>(null);
-
+  const { forgetPassword } = useForgetPasswordStore(
+    (state) => state as IForgetPasswordState,
+  );
   const { showAlertForDuration } = useAlertStore(
     (state) => state as IAlertState,
   );
@@ -25,7 +31,7 @@ const Page = () => {
     setLoading(false);
   }, [router]);
 
-  const handleSubmit = (data: ForgotPasswordModel) => {
+  const handleSubmit = async (data: ForgotPasswordModel) => {
     if (!captchaValue) {
       showAlertForDuration(
         "Lütfen reCAPTCHA doğrulamasını yapınız",
@@ -34,6 +40,16 @@ const Page = () => {
       );
       return;
     }
+    const res:any = await forgetPassword(data.email);
+    console.log("res", res);
+    if (res.isSuccessful) {
+      showAlertForDuration("Şifre sıfırlama maili gönderildi", "success", 3000);
+      
+      router.push("/login");
+    } else {
+      showAlertForDuration("Bir hata oluştu", "error", 3000);
+    }
+
     console.log(data);
   };
 

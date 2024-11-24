@@ -13,7 +13,7 @@ export default function DynamicAlert() {
   }
 
   const alertTypeToVariant = {
-    success: "default",
+    success: "default", // "primary" yerine "default" kullanıldı
     error: "destructive",
     info: "default",
     warning: "default",
@@ -27,15 +27,13 @@ export default function DynamicAlert() {
           | "destructive"
           | undefined
       }
-      className="absolute bottom-2 right-2  bg-gray-800 text-white shadow-lg z-50 mx-auto 
+      className="absolute bottom-2 right-2 bg-gray-800 text-white shadow-lg z-100 mx-auto 
        mt-9 max-w-sm gap-4"
     >
       {(() => {
         switch (type) {
           case "success":
-            return (
-              <Check className="h-6 w-6 text-green-500 dark:text-green-500" />
-            );
+            return <Check className="h-6 w-6 text-green" />;
           case "error":
             return <Ban className="h-6 w-6 text-red-500 dark:text-red-500" />;
           case "info":

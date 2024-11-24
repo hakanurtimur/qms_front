@@ -75,6 +75,16 @@ class ApiService {
     return response.data;
   }
 
+  // POST
+  public async postWithoutData<T, R = AxiosResponse<T>>(
+    path: string,
+    data?: T,
+  ): Promise<R> {
+    const url = `/api/${path}`;
+    const response = await this.api.post<R>(url, data);
+    return response.data;
+  }
+
   // PUT
   public async put<T, R = AxiosResponse<T>>(
     path: string,

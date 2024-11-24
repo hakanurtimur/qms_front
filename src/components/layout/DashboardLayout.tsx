@@ -19,7 +19,6 @@ import {
 } from "@heroicons/react/24/outline";
 import { Badge } from "@/components/ui/badge";
 import authService from "@/services/AuthService";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/authContext";
 import Link from "next/link";
 import {
@@ -35,6 +34,13 @@ import { PersonIcon } from "@radix-ui/react-icons";
 import BreadcrumbWithDropdown, {
   NavItemModel,
 } from "@/components/ui/breadcrumb-with-dropdown";
+import {
+  IChangePasswordStore,
+  useChangePasswordStore,
+} from "@/app/(app)/user/service/change-password.store";
+import { IAlertState, useAlertStore } from "@/services/states/alert.service";
+import DynamicAlert from "../ui/dynamic-alert";
+import { useRouter } from "next/navigation";
 
 interface Props {
   variant: "admin" | "user";
@@ -51,12 +57,36 @@ const DashboardLayout = ({
   children,
   variant,
 }: Props) => {
-  const router = useRouter();
   const { onSetAuthenticated, user } = useAuth();
+  const { changePassword } = useChangePasswordStore(
+    (state) => state as IChangePasswordStore,
+  );
+  const router = useRouter();
+  const {showAlertForDuration} = useAlertStore((state) => state as IAlertState);
 
   console.log(user && user.roleId);
 
   const [popoverOpen, setPopoverOpen] = useState(false);
+
+  const handlePasswordChange = async (data: ChangePasswordModel) => {
+   const res:any = await changePassword(data, Number(user?.userId));
+   if(res.isSuccessful){
+      showAlertForDuration("Şifre Değiştirme Başarılı", "success", 3000);
+      await authService.logout();
+      //if path is in /user redirect to login page, else redirect to admin login page
+      const currentPath = window.location.pathname;
+      if(currentPath.includes("/user")){
+         router.push("/login");
+
+      }else{
+          router.push("/admin-login");
+        }
+      
+   }else{
+      console.log("Password Change Failed" , res?.errorMessage);
+      showAlertForDuration(res?.errorMessage, "error", 3000);
+   }
+  };
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-muted/40">
@@ -131,7 +161,7 @@ const DashboardLayout = ({
             </SheetTrigger>
             <SheetContent
               side="left"
-              className="sm:max-w-xs bg-primary-900 text-primary-50"
+              className="sm:max-w-xs  bg-primary-900  text-primary-50"
             >
               <nav className="flex flex-col gap-4 px-2 sm:py-5">
                 <div className="p-5">
@@ -226,13 +256,13 @@ const DashboardLayout = ({
                       <SheetTitle>Şifre Değiştir</SheetTitle>
                     </SheetHeader>
                     <ChangePassowordForm
-                      onSubmit={(data: ChangePasswordModel) => {
-                        console.log(data);
-                      }}
+                      onSubmit={handlePasswordChange}
                       error={null}
                       formLoading={false}
                       variant={"sheet"}
                     />
+                   <DynamicAlert />
+
                   </SheetContent>
                 </Sheet>
                 <div
@@ -246,6 +276,7 @@ const DashboardLayout = ({
                   Çıkış Yap
                 </div>
               </PopoverContent>
+
             </Popover>
           </div>
           <Button

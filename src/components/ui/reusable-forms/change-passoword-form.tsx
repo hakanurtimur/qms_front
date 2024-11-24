@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { SheetClose } from "@/components/ui/sheet";
+import { useAuth } from "@/context/authContext";
 
 interface Props {
   onSubmit: (data: ChangePasswordModel) => void;
@@ -37,7 +38,7 @@ const ChangePassowordForm = ({
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const router = useRouter();
-
+  const {user} = useAuth();
   const form = useForm<ChangePasswordModel>({
     resolver: zodResolver(SChangePasswordModel),
     defaultValues: {
