@@ -23,29 +23,43 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {
-  ArchiveDocSheetModel,
-  SArchiveDocSheetModel,
-} from "@/models/user/documents/archive/archive-document";
+  SRequestDocumentListModel,
+  RequestDocumentListModel,
+} from "@/models/user/documents/documents/requestDocument";
+import { useEffect } from "react";
 
-export const ArchiveDocSheetProps = {
-  isOpen: false,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setIsOpen: (open: boolean) => {},
-};
+export interface ArchiveDocSheetProps {
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+  handleSubmit: (state: boolean, fileId: number) => void;
+  data: RequestDocumentListModel;
+}
 
 export default function ArchiveDocSheet({
   isOpen,
   setIsOpen,
-}: typeof ArchiveDocSheetProps) {
-  const form = useForm<ArchiveDocSheetModel>({
-    resolver: zodResolver(SArchiveDocSheetModel),
+  data,
+  handleSubmit,
+}: ArchiveDocSheetProps) {
+  const form = useForm<RequestDocumentListModel>({
+    resolver: zodResolver(SRequestDocumentListModel),
     defaultValues: {
-      categoryName: "Category A",
-      folderName: "Folder A",
-      fileName: "File A",
-      isActive: false,
+      categoryName: data?.categoryName,
+      folderName: data?.folderName,
+      fileName: data?.fileName,
+      state: data?.state,
     },
   });
+  useEffect(() => {
+    if (data) {
+      form.reset({
+        categoryName: data?.categoryName,
+        folderName: data?.folderName,
+        fileName: data?.fileName,
+        state: data?.state,
+      });
+    }
+  }, [data, form]);
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -58,8 +72,10 @@ export default function ArchiveDocSheet({
         </SheetHeader>
         <Form {...form}>
           <form
-            onSubmit={() => {
+            onSubmit={(e) => {
               setIsOpen(false);
+              handleSubmit(form.getValues().state, data.fileId);
+              e.preventDefault(); // Sayfanın yenilenmesini engelle
             }}
             className="space-y-4 mt-4"
           >
@@ -116,14 +132,16 @@ export default function ArchiveDocSheet({
             />
             <FormField
               control={form.control}
-              name="isActive"
+              name="state"
               render={({ field }) => (
                 <FormItem className="items-center gap-2 flex space-y-0 pt-3 ">
                   <FormLabel>Pasif</FormLabel>
                   <FormControl>
                     <Switch
                       checked={field.value}
-                      onCheckedChange={field.onChange}
+                      onCheckedChange={(value) => {
+                        field.onChange(value);
+                      }}
                     />
                   </FormControl>
                   <FormLabel>Aktif</FormLabel>

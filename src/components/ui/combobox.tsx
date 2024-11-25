@@ -53,6 +53,7 @@ function Combobox<T extends FieldValues>({
     if (triggerRef.current) {
       setPopoverWidth(triggerRef.current.offsetWidth);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [triggerRef.current, open]);
 
   return (

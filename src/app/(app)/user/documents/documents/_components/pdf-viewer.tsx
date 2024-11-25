@@ -28,7 +28,7 @@ interface Props {
   onOpenChange: () => void;
   fileName: string | null;
   src: string;
-  variant?: "default" | "printible";
+  variant?: "default" | "printible" | "view";
 }
 
 const PdfViewer = ({
@@ -52,7 +52,7 @@ const PdfViewer = ({
   };
 
   const adjustedSrc =
-    variant === "default"
+    variant === "default" || variant === "view"
       ? src.replace("https://www.osmanoguzsensoy.com", "")
       : src;
 
@@ -78,7 +78,7 @@ const PdfViewer = ({
             </FormItem>
           </div>
         )}
-        {variant === "default" && (
+        {(variant === "default" || variant == "view") && (
           <div className="mx-h-[600px]">
             <Document
               className="max-h-[500px] min-h-[500px] overflow-y-scroll text-center"

@@ -116,6 +116,7 @@ const ProfileDashboard = () => {
 
   const totalVisitors = React.useMemo(() => {
     return chartData2.reduce((acc, curr) => acc + curr.visitors, 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

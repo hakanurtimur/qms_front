@@ -34,184 +34,149 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
-import { ArrowUpDownIcon, Edit, InfoIcon } from "lucide-react";
-import ArchiveDocSheet from "./archive-doc-sheet";
+import { ArrowUpDownIcon, Edit, Eye, InfoIcon } from "lucide-react";
+import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
 
-interface ArchiveDoc {
-  id: number;
-  category: string;
-  folder: string;
-  status: string;
-  name: string;
+export interface ArchiveDocTableProps {
+  data: RequestDocumentListModel[];
+  handleViewDocument: (fileId: string) => void;
+  handleEditDocument: (fileId: string) => void;
 }
-
-const data: ArchiveDoc[] = [
-  {
-    id: 1,
-    category: "Category A",
-    folder: "Folder 1",
-    status: "Archived",
-    name: "Document 1",
-  },
-  {
-    id: 2,
-    category: "Category B",
-    folder: "Folder 2",
-    status: "Active",
-    name: "Document 2",
-  },
-  {
-    id: 3,
-    category: "Category C",
-
-    folder: "Folder 3",
-    status: "Archived",
-    name: "Document 3",
-  },
-  {
-    id: 4,
-    category: "Category D",
-    folder: "Folder 4",
-    status: "Active",
-    name: "Document  4  lorem ipsum dolor sit amet consectetur adipisicing elit et consectetur adipisicing sit",
-  },
-  {
-    id: 5,
-    category: "Category E",
-    folder: "Folder 5",
-    status: "Archived",
-    name: "Document 5",
-  },
-  {
-    id: 6,
-    category: "Random Category",
-    folder: "Random Folder",
-    status: "Active",
-    name: "Random Document",
-  },
-  {
-    id: 7,
-    category: "Other Category",
-    folder: "Other Folder",
-    status: "Archived",
-    name: "Other Document",
-  },
-  {
-    id: 8,
-    category: "Another Category",
-    folder: "Another Folder",
-    status: "Active",
-    name: "Another Document",
-  },
-  {
-    id: 9,
-    category: "Some Category",
-    folder: "Some Folder",
-    status: "Archived",
-    name: "Some Document",
-  },
-  {
-    id: 10,
-    category: "Any Category",
-    folder: "Any Folder",
-    status: "Active",
-    name: "Any Document",
-  },
-];
-
-// eslint-disable-next-line react-hooks/rules-of-hooks
-export default function ArchiveDocTable() {
+export default function ArchiveDocTable({
+  data,
+  handleViewDocument,
+  handleEditDocument,
+}: ArchiveDocTableProps) {
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [categoryType, setCategoryType] = useState<string[] | null>();
+  const [folderType, setFolderType] = useState<string[] | null>();
+  const [selectedCategory, setSelectedCategory] = useState<string | null>();
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
-  const [searchResults, setSearchResults] = useState<ArchiveDoc[]>(data);
-  const [openArchiveDocSheet, setOpenArchiveDocSheet] = React.useState(false);
-  const columns: ColumnDef<ArchiveDoc>[] = [
+  const [searchResults, setSearchResults] =
+    useState<RequestDocumentListModel[]>(data);
+
+  const getCategoryTypes = () => {
+    const categoryTypes = data.map((item) => item.categoryName);
+    const uniqueCategoryTypes = Array.from(new Set(categoryTypes));
+    setCategoryType(uniqueCategoryTypes);
+  };
+
+  const getFolderTypes = () => {
+    const folderTypes = data.map((item) => item.folderName);
+    const uniqueFolderTypes = Array.from(new Set(folderTypes));
+    setFolderType(uniqueFolderTypes);
+  };
+
+  useEffect(() => {
+    getCategoryTypes();
+    getFolderTypes();
+    handleSearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  const columns: ColumnDef<RequestDocumentListModel>[] = [
     {
-      accessorKey: "category",
+      accessorKey: "categoryName",
       header: () => (
-        <div className="w-48 flex items-center">
+        <div className="flex items-center">
           Kategori
           <ArrowUpDownIcon className="w-4 h-4 ml-1" />
         </div>
       ),
       cell: (info) => <div className="">{String(info.getValue())}</div>,
+      size: 180,
     },
     {
-      accessorKey: "folder",
+      accessorKey: "folderName",
       header: () => (
-        <div className="w-48 pl-14 flex items-center">
+        <div className="flex items-center">
           Klasör Adı
           <ArrowUpDownIcon className="w-4 h-4 ml-1" />
         </div>
       ),
-      cell: (info) => (
-        <div className="w-52 pl-14">{String(info.getValue())}</div>
-      ),
+      cell: (info) => <div className="">{String(info.getValue())}</div>,
+      size: 150,
     },
     {
-      accessorKey: "status",
+      accessorKey: "state",
       header: () => (
-        <div className="w-48 flex items-center">
+        <div className="   flex items-center">
           Durum
           <ArrowUpDownIcon className="w-4 h-4 ml-1" />
         </div>
       ),
-      cell: (info) => info.getValue(),
+      cell: (info) => (
+        <div className="">{info.getValue() ? "AKTIF" : "PASİF"}</div>
+      ),
+      size: 60,
     },
     {
-      accessorKey: "name",
-      header: () => <div className="w-96 flex items-center">Dosya Adı</div>,
+      accessorKey: "fileName",
+      header: () => <div className=" flex items-center">Dosya Adı</div>,
       cell: (info) => (
         <div
-          className="w-96 
+          className="
         overflow-hidden overflow-ellipsis whitespace-nowrap
       "
         >
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="truncate">{String(info.getValue())}</div>
+              <div className="truncate">
+                {String(info.getValue()).toUpperCase()}
+              </div>
             </TooltipTrigger>
-            <TooltipContent>{String(info.getValue())}</TooltipContent>
+            <TooltipContent>
+              {String(info.getValue()).toUpperCase()}
+            </TooltipContent>
           </Tooltip>
         </div>
       ),
       enableSorting: false,
+      size: 200,
     },
     {
       id: "actions",
       header: () => (
-        <div className="text-right w-56  flex justify-end items-end">İşlem</div>
+        <div className="text-right w-16  flex justify-end items-end">İşlem</div>
       ),
-      cell: () => (
+      cell: (e) => (
         <div className="flex items-center justify-end gap-4">
           <Tooltip>
             <TooltipTrigger
               asChild
-              onClick={() => setOpenArchiveDocSheet(true)}
+              onClick={() => {
+                handleViewDocument(String(e.row.original.fileId));
+              }}
             >
-              <Edit className="w-9 h-9 p-2 rounded-md border text-white bg-black-900 hover:bg-black-800 cursor-pointer" />
+              <Eye className="w-9 h-9 p-2 rounded-md border text-white bg-black-900 hover:bg-black-800 cursor-pointer" />
             </TooltipTrigger>
             <TooltipContent>Dökümanı Gör</TooltipContent>
           </Tooltip>
+          <Tooltip>
+            <TooltipTrigger
+              asChild
+              onClick={() => {
+                handleEditDocument(String(e.row.original.fileId));
+              }}
+            >
+              <Edit className="w-9 h-9 p-2 rounded-md border text-white bg-black-900 hover:bg-black-800 cursor-pointer" />
+            </TooltipTrigger>
+            <TooltipContent>Dökümanı Düzenle</TooltipContent>
+          </Tooltip>
         </div>
       ),
-      meta: {
-        style: {
-          minWidth: 100,
-          maxWidth: 100,
-        },
-      },
+      size: 60,
     },
   ];
   const handleSearch = () => {
     // Klasör ve kategoriye göre arama yap
     const results = data.filter(
       (item) =>
-        (selectedCategory ? item.category === selectedCategory : true) &&
-        (selectedFolder ? item.folder === selectedFolder : true),
+        (selectedCategory ? item.categoryName === selectedCategory : true) &&
+        (selectedFolder ? item.folderName === selectedFolder : true),
     );
+
     setSearchResults(results);
   };
 
@@ -222,7 +187,6 @@ export default function ArchiveDocTable() {
 
   // Kategori seçimi
   const handleCategoryChange = (category: string) => {
-    console.log(category);
     setSelectedCategory(category);
     handleSearch();
   };
@@ -232,8 +196,6 @@ export default function ArchiveDocTable() {
     setSelectedFolder(folder);
     handleSearch();
   };
-
-  console.log(selectedCategory, selectedFolder);
 
   const table = useReactTable({
     data: searchResults,
@@ -282,15 +244,15 @@ export default function ArchiveDocTable() {
                 </TooltipContent>
               </Tooltip>
               <Select onValueChange={handleCategoryChange}>
-                <SelectTrigger className="w-56 h-10">
+                <SelectTrigger className="w-64 h-10">
                   <SelectValue placeholder="Kategoriler" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Category A">Category A</SelectItem>
-                  <SelectItem value="Category B">Category B</SelectItem>
-                  <SelectItem value="Category C">Category C</SelectItem>
-                  <SelectItem value="Category D">Category D</SelectItem>
-                  <SelectItem value="Category E">Category E</SelectItem>
+                <SelectContent className="w-64">
+                  {categoryType?.map((item) => (
+                    <SelectItem key={item} value={item}>
+                      {item}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -316,15 +278,15 @@ export default function ArchiveDocTable() {
                 </TooltipContent>
               </Tooltip>
               <Select onValueChange={handleFolderChange}>
-                <SelectTrigger className="w-56 h-10">
+                <SelectTrigger className="w-64 h-10">
                   <SelectValue placeholder="Klasörler" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Folder 1">Folder 1</SelectItem>
-                  <SelectItem value="Folder 2">Folder 2</SelectItem>
-                  <SelectItem value="Folder 3">Folder 3</SelectItem>
-                  <SelectItem value="Folder 4">Folder 4</SelectItem>
-                  <SelectItem value="Folder 5">Folder 5</SelectItem>
+                <SelectContent className="w-64">
+                  {folderType?.map((item) => (
+                    <SelectItem key={item} value={item}>
+                      {item}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -351,7 +313,11 @@ export default function ArchiveDocTable() {
             <Input
               placeholder="Dosya adı ara..."
               value={globalFilter ?? ""}
-              onChange={(e) => setGlobalFilter(e.target.value)}
+              onChange={(e) => {
+                // hep büyük harfe çevir
+                const upperCaseValue = e.target.value.toUpperCase();
+                setGlobalFilter(upperCaseValue);
+              }}
               className="w-[473px] h-10 mx-4 mt-3
             "
             />
@@ -365,7 +331,12 @@ export default function ArchiveDocTable() {
                   <TableRow key={headerGroup.id}>
                     {headerGroup.headers.map((header, index) => {
                       return (
-                        <TableHead key={header.id + index}>
+                        <TableHead
+                          key={header.id + index}
+                          style={{
+                            width: header.column.columnDef.size,
+                          }}
+                        >
                           <div
                             className="flex items-center cursor-pointer hover:text-black-900"
                             onClick={header.column.getToggleSortingHandler()}
@@ -419,10 +390,6 @@ export default function ArchiveDocTable() {
             <DataTablePagination table={table} />
           </div>
         </div>
-        <ArchiveDocSheet
-          isOpen={openArchiveDocSheet}
-          setIsOpen={setOpenArchiveDocSheet}
-        />
       </div>
     </TooltipProvider>
   );
