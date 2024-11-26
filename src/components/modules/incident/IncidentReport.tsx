@@ -98,7 +98,7 @@ const IncidentReport = ({ onSubmit }: Props) => {
                   <Dropzone
                     onChange={(file) => field.onChange(file)}
                     className="min-h-36"
-                    fileExtension="pdf"
+                    fileExtensions={["pdf"]}
                   />
                 </FormControl>
                 <FormMessage />

@@ -125,7 +125,6 @@ const Page = () => {
     userId: string;
     formData: RequestDocumentCreate;
   }) => {
-    console.log(data);
     reviseDocumentMutation.mutate(data);
   };
 

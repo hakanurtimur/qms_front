@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
 class ApiService {
   private api: AxiosInstance;
@@ -69,9 +69,10 @@ class ApiService {
   public async post<T, R = AxiosResponse<T>>(
     path: string,
     data: T,
+    config?: AxiosRequestConfig,
   ): Promise<R> {
     const url = `/api/${path}`;
-    const response = await this.api.post<R>(url, data);
+    const response = await this.api.post<R>(url, data, config);
     return response.data;
   }
 

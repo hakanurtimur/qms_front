@@ -8,9 +8,24 @@ export const SRequestDocumentCreate = z.object({
   Description: z.string(),
   GarbageFileName: z.string(),
   FileId: z.number().int().optional().nullable(),
+  formFile: z
+    .instanceof(File)
+    .nullable()
+    .optional()
+    .refine((file) => !file || file.size > 0, {
+      message: "Boş bir dosya yükleyemezsiniz.",
+    }),
 });
 
 export type RequestDocumentCreate = z.infer<typeof SRequestDocumentCreate>;
+
+export const SRequestDocumentCreateBody = z.object({
+  "form-data": SRequestDocumentCreate,
+});
+
+export type RequestDocumentCreateBody = z.infer<
+  typeof SRequestDocumentCreateBody
+>;
 
 const SRequestDocumentCreatedModel = z.object({
   id: z.number(),

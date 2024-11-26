@@ -6,11 +6,11 @@ import { XMarkIcon } from "@heroicons/react/24/solid"; // Import an "×" icon
 interface DropzoneProps {
   onChange: (file: File | null) => void;
   className?: string;
-  fileExtension?: string;
+  fileExtensions?: string[];
 }
 
 export const Dropzone = forwardRef<HTMLInputElement, DropzoneProps>(
-  ({ onChange, className, fileExtension, ...props }, ref) => {
+  ({ onChange, className, fileExtensions, ...props }, ref) => {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [fileInfo, setFileInfo] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -38,12 +38,16 @@ export const Dropzone = forwardRef<HTMLInputElement, DropzoneProps>(
       const uploadedFile = files[0];
 
       if (
-        fileExtension &&
-        !uploadedFile.name
-          .toLowerCase()
-          .endsWith(`.${fileExtension.toLowerCase()}`)
+        fileExtensions &&
+        !fileExtensions.some((ext) =>
+          uploadedFile.name.toLowerCase().endsWith(`.${ext.toLowerCase()}`),
+        )
       ) {
-        setError(`Geçersiz dosya türü. Beklenen: .${fileExtension}`);
+        setError(
+          `Geçersiz dosya türü. Beklenen: ${fileExtensions
+            .map((ext) => `.${ext}`)
+            .join(", ")}`,
+        );
         onChange(null); // Clear the value in the form
         return;
       }
@@ -62,15 +66,13 @@ export const Dropzone = forwardRef<HTMLInputElement, DropzoneProps>(
       }
     };
 
-    // **New function to handle clearing the file**
     const handleClearFile = () => {
-      // Clear the input value
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
       setFileInfo(null);
       setError(null);
-      onChange(null); // Notify the parent form that the file has been cleared
+      onChange(null);
     };
 
     return (
@@ -106,7 +108,7 @@ export const Dropzone = forwardRef<HTMLInputElement, DropzoneProps>(
                 }
               }}
               type="file"
-              accept={`.${fileExtension}`} // Set accepted file type
+              accept={fileExtensions?.map((ext) => `.${ext}`).join(", ")} // Accept multiple file types
               onChange={handleFileInputChange}
               className="hidden"
               multiple={false}

@@ -218,7 +218,7 @@ export default function DocumentUploadForm({
                           onChange={(file) => field.onChange(file)}
                           className="w-full min-h-28"
                           key={field.value}
-                          fileExtension="pdf"
+                          fileExtensions={["pdf"]}
                         />
                       </FormControl>
                       <FormMessage />

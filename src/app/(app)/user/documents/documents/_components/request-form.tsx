@@ -54,6 +54,7 @@ const RequestForm = ({
       Description: "",
       GarbageFileName: "",
       FileId: model ? model.fileId : undefined,
+      formFile: undefined,
     },
   });
 
@@ -87,11 +88,25 @@ const RequestForm = ({
                 <FormControl>
                   <Dropzone
                     onChange={(file) => {
-                      console.log(file);
                       field.onChange(file?.name);
+                      if (file) {
+                        console.log(file);
+                        form.setValue("formFile", file);
+                      }
                     }}
                     className="min-h-36"
-                    fileExtension="pdf"
+                    fileExtensions={[
+                      "doc",
+                      "docx",
+                      "png",
+                      "jpeg",
+                      "jpg",
+                      "pdf",
+                      "xls",
+                      "xlsx",
+                      "ppt",
+                      "pptx",
+                    ]}
                   />
                 </FormControl>
                 <FormMessage />

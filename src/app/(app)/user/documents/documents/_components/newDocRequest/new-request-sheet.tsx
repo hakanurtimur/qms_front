@@ -53,7 +53,12 @@ const NewRequestSheet = ({ onSubmit }: Props) => {
         <RequestForm
           documentTypeOpts={documentTypeOpts}
           variant={"default"}
-          onSubmit={onSubmit}
+          onSubmit={(data: {
+            userId: string;
+            formData: RequestDocumentCreate;
+          }) => {
+            onSubmit(data);
+          }}
         />
       </SheetContent>
     </Sheet>

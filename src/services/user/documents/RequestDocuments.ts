@@ -28,9 +28,22 @@ export class RequestDocumentService {
     userId: string;
     formData: RequestDocumentCreate;
   }): Promise<RequestDocumentCreatedModelResponse> {
+    const formData = new FormData();
+
+    Object.entries(data.formData).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, value instanceof File ? value : String(value));
+      }
+    });
+
     return await api.post(
       `/documentdemand/create-document-request/${data.userId}`,
-      data.formData,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
     );
   }
 
@@ -38,9 +51,22 @@ export class RequestDocumentService {
     userId: string;
     formData: RequestDocumentCreate;
   }): Promise<RequestDocumentCreatedModelResponse> {
+    const formData = new FormData();
+
+    Object.entries(data.formData).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, value instanceof File ? value : String(value));
+      }
+    });
+
     return await api.post(
       `/documentdemand/revise-document-request/${data.userId}`,
-      data.formData,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
     );
   }
 }
