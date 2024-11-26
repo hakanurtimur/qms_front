@@ -19,6 +19,7 @@ interface RemoveProfileModalProps {
 export default function RemoveProfileModal({
   open,
   setOpen,
+  onRemove,
 }: RemoveProfileModalProps) {
   if (!open) {
     return null;
@@ -45,6 +46,7 @@ export default function RemoveProfileModal({
               type="button"
               variant="primary"
               onClick={() => {
+                onRemove();
                 setOpen(false);
               }}
             >

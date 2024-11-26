@@ -9,30 +9,25 @@ import {
   DialogOverlay,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Dropzone } from "@/components/ui/dropZone";
 
 interface UploadProfileModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
+  onUpload: (file: File) => void;
 }
 
 export default function UploadProfileModal({
   open,
   setOpen,
+  onUpload,
 }: UploadProfileModalProps) {
   const [file, setFile] = useState<File | null>(null);
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      setFile(event.target.files[0]);
-    }
-  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (file) {
-      // Dosya yükleme işlemi burada yapılabilir
-      console.log("Yüklenecek dosya:", file);
+      onUpload(file);
       setOpen(false);
     }
   };
@@ -50,14 +45,17 @@ export default function UploadProfileModal({
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Input type="file" accept="image/*" onChange={handleFileChange} />
+            <Dropzone
+              onChange={(file) => {
+                if (file) {
+                  setFile(file);
+                }
+              }}
+              fileExtensions={["png"]}
+            />
           </div>
           <div className="flex justify-end space-x-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setOpen(false)}
-            >
+            <Button type="button" variant="outline" onClick={handleSubmit}>
               Vazgeç
             </Button>
             <Button type="submit">Kaydet</Button>

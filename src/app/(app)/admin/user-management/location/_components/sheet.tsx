@@ -35,6 +35,8 @@ const FormSheet = ({ model, onSubmit }: Props) => {
     defaultValues: {
       locationId: 1,
       locationName: model.locationName,
+      countryName: model.countryName,
+      cityName: model.cityName,
       state: model.state,
     },
   });
@@ -56,14 +58,21 @@ const FormSheet = ({ model, onSubmit }: Props) => {
         <div className="flex gap-5 flex-col my-5 mt-20">
           <div className="flex flex-col space-y-2">
             <Label>Ülke</Label>
-            <Input readOnly value="Türkiye" className="bg-primary-100" />
+            <Input
+              readOnly
+              value={form.getValues("countryName") as string}
+              className="bg-primary-100"
+            />
           </div>
           <div className="flex flex-col space-y-2">
             <Label>Şehir</Label>
-            <Input readOnly value="İzmir" className="bg-primary-100" />
+            <Input
+              readOnly
+              value={form.getValues("cityName") as string}
+              className="bg-primary-100"
+            />
           </div>
         </div>
-
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
             <FormField

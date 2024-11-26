@@ -24,7 +24,6 @@ import {
   XAxis,
 } from "recharts";
 import * as React from "react";
-import Image from "next/image";
 import UploadProfileModal from "../../../app/(app)/admin/profile/_components/upload-profile-modal";
 import { UploadIcon, X } from "lucide-react";
 import {
@@ -34,6 +33,9 @@ import {
   TooltipTrigger,
 } from "../tooltip";
 import RemoveProfileModal from "@/app/(app)/admin/profile/_components/remove-profile-modal";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import profileService from "@/services/user/profile/ProfileService";
+import { useAuth } from "@/context/authContext";
 
 const ProfileDashboard = () => {
   // queries and mutations will be added here
@@ -45,19 +47,58 @@ const ProfileDashboard = () => {
   );
   const [openProfileRemoveModal, setOpenProfileRemoveModal] =
     React.useState(false);
+  const auth = useAuth();
+
+  const { data, isSuccess, refetch } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => profileService.getProfile(Number(auth.user?.userId)),
+    enabled: !!auth.user?.userId,
+  });
+
+  const deleteProfileImgMutation = useMutation({
+    mutationKey: ["delete-profile-img"],
+    mutationFn: () =>
+      profileService.deleteProfileImg(Number(auth.user?.userId)),
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
+  const uploadProfileImgMutation = useMutation({
+    mutationKey: ["upload-profile-img"],
+    mutationFn: (file: File) =>
+      profileService.changeProfileImg(Number(auth.user?.userId), file),
+    onSuccess: () => {
+      console.log("success");
+      refetch();
+    },
+  });
+
+  React.useEffect(() => {
+    if (isSuccess && data?.data?.pathProfileImg) {
+      console.log(data.data?.pathProfileImg);
+      setProfileUrl(data.data?.pathProfileImg);
+    }
+  }, [isSuccess, data]);
+
+  console.log(isSuccess ? data : "Loading...");
 
   const dummyData = {
-    sicilNo: "123456",
-    name: "John",
-    surname: "Doe",
-    username: "johndoe",
-    email: "john@doe.com",
-    phoneNum: "1234567890",
-    location: "Company",
-    department: "IT",
-    job: "Developer",
-    title: "Software Developer",
-    systemRole: "Admin",
+    registeryNo: data?.data?.registeryNo,
+    name: data?.data?.nameSurname
+      ? data?.data?.nameSurname.split(" ")[0]
+      : "John",
+    surname: data?.data?.nameSurname
+      ? data?.data?.nameSurname.split(" ")[1]
+      : "Doe",
+    username: data?.data?.username,
+    email: data?.data?.mail,
+    phoneNum: data?.data?.phoneNumber,
+    location: data?.data?.locationName,
+    department: data?.data?.departmentName,
+    job: data?.data?.jobName,
+    title: data?.data?.titleName,
+    systemRole: data?.data?.roleName,
   };
 
   const chartData2 = [
@@ -119,6 +160,16 @@ const ProfileDashboard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleRemoveProfileImg = () => {
+    console.log("remove profile img");
+    deleteProfileImgMutation.mutate();
+  };
+
+  const handleUploadProfileImg = (file: File) => {
+    console.log("upload profile img");
+    uploadProfileImgMutation.mutate(file);
+  };
+
   return (
     <div className="flex flex-col gap-12">
       <div className="grid md:grid-cols-2 grid-cols-1 gap-8">
@@ -129,7 +180,7 @@ const ProfileDashboard = () => {
           <CardContent className="grid grid-cols-3 gap-4">
             <FormItem>
               <Label>Sicil No</Label>
-              <Input value={dummyData.sicilNo} readOnly />
+              <Input value={dummyData.registeryNo} readOnly />
             </FormItem>
             <FormItem>
               <Label>Ad-Soyad</Label>
@@ -185,10 +236,15 @@ const ProfileDashboard = () => {
               </div>
             </div>
             <div className="relative border bg-black w-36 h-36 mt-3 ml-6 rounded-lg flex">
-              <Image
-                src={profileUrl || "/icons/profile.jpg"}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={
+                  data?.data?.profileImg == null
+                    ? "/icons/profile.jpg"
+                    : (profileUrl ?? "/icons/profile.jpg")
+                }
                 alt="profile"
-                className="absolute rounded-lg transition-opacity duration-300  inset-0 flex items-center border justify-center opacity-100 hover:opacity-20 hover:backdrop-blur-sm bg-black bg-opacity-50 hover:backdrop-blur-2x"
+                className="absolute w-full h-full object-cover rounded-lg transition-opacity duration-300  inset-0 flex items-center border justify-center opacity-100 hover:opacity-20 hover:backdrop-blur-sm bg-black bg-opacity-50 hover:backdrop-blur-2x"
                 width={144}
                 height={144}
               />
@@ -384,13 +440,12 @@ const ProfileDashboard = () => {
       <UploadProfileModal
         open={openProfileUploadModal}
         setOpen={() => setOpenProfileUploadModal(!openProfileUploadModal)}
+        onUpload={handleUploadProfileImg}
       />
       <RemoveProfileModal
         open={openProfileRemoveModal}
         setOpen={() => setOpenProfileRemoveModal(!openProfileRemoveModal)}
-        onRemove={() => {
-          setProfileUrl(null);
-        }}
+        onRemove={handleRemoveProfileImg}
       />
     </div>
   );

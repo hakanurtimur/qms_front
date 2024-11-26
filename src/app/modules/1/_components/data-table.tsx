@@ -109,8 +109,8 @@ export function DataTable<TData, TValue>({
                   <TooltipTrigger>
                     <InformationCircleIcon className="w-5 h-5" />
                   </TooltipTrigger>
-                  <TooltipContent side={"bottom"}>
-                    <p className="max-w-[200px]">
+                  <TooltipContent side={"bottom"} className="ml-52 mt-3">
+                    <p className="max-w-[200px] ">
                       Bu bölümde hastanemizde kullanılan rıza belgeleri ve
                       kalite dokümanları bulunmaktadır. Rıza belgeleri, hasta
                       onaylarını ve bilgilerini kaydederken, kalite dokümanları
@@ -141,7 +141,7 @@ export function DataTable<TData, TValue>({
                   <TooltipTrigger>
                     <InformationCircleIcon className="w-5 h-5" />
                   </TooltipTrigger>
-                  <TooltipContent side={"bottom"}>
+                  <TooltipContent className="ml-52 mt-3" side={"bottom"}>
                     <p className="max-w-[200px]">
                       Bu klasörde, hastanemizdeki tıbbi hizmetleri yürüten tüm
                       bölümler ve ilgili rıza belgeleri bulunmaktadır. Her
@@ -173,7 +173,7 @@ export function DataTable<TData, TValue>({
                 <TooltipTrigger>
                   <InformationCircleIcon className="w-5 h-5" />
                 </TooltipTrigger>
-                <TooltipContent side={"bottom"}>
+                <TooltipContent side={"bottom"} className="ml-52 mt-3">
                   <p className="max-w-[200px]">
                     Bu bölüm, tüm dokümanların isim ve kodlarını içermekte olup,
                     kullanıcıların aradıkları belgelere kolayca ulaşmalarını
@@ -198,7 +198,7 @@ export function DataTable<TData, TValue>({
             </div>
           </div>
           <div className="rounded-md border px-4 py-4">
-            <Table className="table-fixed">
+            <Table className="table-fixed ">
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
@@ -218,7 +218,7 @@ export function DataTable<TData, TValue>({
                   </TableRow>
                 ))}
               </TableHeader>
-              <TableBody>
+              <TableBody className="max-w-[600px]">
                 {table.getRowModel().rows?.length ? (
                   table.getRowModel().rows.map((row, index) => (
                     <TableRow
