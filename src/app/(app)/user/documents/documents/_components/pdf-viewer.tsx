@@ -20,6 +20,7 @@ import {
 import { FormItem } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -29,6 +30,7 @@ interface Props {
   fileName: string | null;
   src: string;
   variant?: "default" | "printible" | "view";
+  data?: RequestDocumentListModel;
 }
 
 const PdfViewer = ({
@@ -37,6 +39,7 @@ const PdfViewer = ({
   fileName,
   src,
   variant = "default",
+  data,
 }: Props) => {
   const [numPages, setNumPages] = useState<number>();
   const [pageNumber, setPageNumber] = useState<number>(1);
@@ -50,7 +53,6 @@ const PdfViewer = ({
     if (page < 1 || page > numPages) return;
     setPageNumber(page);
   };
-
   const adjustedSrc =
     variant === "default" || variant === "view"
       ? src.replace("https://www.osmanoguzsensoy.com", "")
@@ -65,20 +67,23 @@ const PdfViewer = ({
         {variant === "default" && (
           <div className="flex flex-row gap-4 items-center justify-center">
             <FormItem>
-              <Label>Düzenleyen</Label>
-              <Input readOnly value={"Admin"} />
+              <Label>Hazırlayan</Label>
+              <Input readOnly value={data?.qualityUserName || ""} />
+            </FormItem>
+            <FormItem>
+              <Label>Kontrol Eden</Label>
+              <Input readOnly value={data?.qualityManagerUserName || ""} />
             </FormItem>
             <FormItem>
               <Label>Onaylayan</Label>
-              <Input readOnly value={"Admin"} />
-            </FormItem>
-            <FormItem>
-              <Label>Kalite Sorumlusu</Label>
-              <Input readOnly value={"Admin"} />
+              <Input
+                readOnly
+                value={data?.qualityAdministratorUserName || ""}
+              />
             </FormItem>
           </div>
         )}
-        {(variant === "default" || variant == "view") && (
+        {(variant === "default" || variant === "view") && (
           <div className="mx-h-[600px]">
             <Document
               className="max-h-[500px] min-h-[500px] overflow-y-scroll text-center"
@@ -129,7 +134,6 @@ const PdfViewer = ({
         {variant === "printible" && (
           <iframe src={src} className="w-full h-[600px]" />
         )}
-
         <DialogFooter>
           <DialogClose asChild>
             <Button>Kapat</Button>

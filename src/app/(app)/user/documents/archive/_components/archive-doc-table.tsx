@@ -10,6 +10,7 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
+  VisibilityState,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -34,7 +35,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
-import { ArrowUpDownIcon, Edit, Eye, InfoIcon } from "lucide-react";
+import { ArrowUpDownIcon, Edit, Eye, EyeIcon, InfoIcon } from "lucide-react";
 import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
 
 export interface ArchiveDocTableProps {
@@ -55,6 +56,13 @@ export default function ArchiveDocTable({
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
   const [searchResults, setSearchResults] =
     useState<RequestDocumentListModel[]>(data);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    categoryName: true,
+    folderName: true,
+    state: true,
+    fileName: true,
+    actions: true,
+  });
 
   const getCategoryTypes = () => {
     const categoryTypes = data.map((item) => item.categoryName);
@@ -79,9 +87,15 @@ export default function ArchiveDocTable({
     {
       accessorKey: "categoryName",
       header: () => (
-        <div className="flex items-center">
+        <div className="flex items-center gap-1 ">
+          <EyeIcon
+            className="w-6 h-6 cursor-pointer hover:text-black-900 hover:scale-125 "
+            onClick={() => {
+              toggleColumn("categoryName");
+            }}
+          />
           Kategori
-          <ArrowUpDownIcon className="w-4 h-4 ml-1" />
+          <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
         </div>
       ),
       cell: (info) => <div className="">{String(info.getValue())}</div>,
@@ -90,30 +104,53 @@ export default function ArchiveDocTable({
     {
       accessorKey: "folderName",
       header: () => (
-        <div className="flex items-center">
+        <div className="flex items-center gap-1">
+          <EyeIcon
+            className="w-6 h-6 cursor-pointer hover:text-black-900 hover:scale-125 "
+            onClick={() => {
+              toggleColumn("folderName");
+            }}
+          />
           Klasör Adı
-          <ArrowUpDownIcon className="w-4 h-4 ml-1" />
+          <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
         </div>
       ),
       cell: (info) => <div className="">{String(info.getValue())}</div>,
-      size: 150,
+      size: 140,
     },
     {
       accessorKey: "state",
       header: () => (
-        <div className="   flex items-center">
+        <div className="flex items-center justify-between gap-1">
+          <EyeIcon
+            className="w-6 h-6 cursor-pointer hover:text-black-900 hover:scale-125"
+            onClick={() => {
+              toggleColumn("state");
+            }}
+          />
           Durum
-          <ArrowUpDownIcon className="w-4 h-4 ml-1" />
+          <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
         </div>
       ),
       cell: (info) => (
         <div className="">{info.getValue() ? "AKTIF" : "PASİF"}</div>
       ),
-      size: 60,
+      size: 65,
     },
     {
       accessorKey: "fileName",
-      header: () => <div className=" flex items-center">Dosya Adı</div>,
+      header: () => (
+        <div className=" flex items-center gap-1">
+          <EyeIcon
+            className="w-6 h-6 cursor-pointer hover:text-black-900 hover:scale-125"
+            onClick={() => {
+              toggleColumn("fileName");
+            }}
+          />
+          Dosya Adı
+          <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
+        </div>
+      ),
       cell: (info) => (
         <div
           className="
@@ -132,7 +169,6 @@ export default function ArchiveDocTable({
           </Tooltip>
         </div>
       ),
-      enableSorting: false,
       size: 200,
     },
     {
@@ -151,7 +187,7 @@ export default function ArchiveDocTable({
             >
               <Eye className="w-9 h-9 p-2 rounded-md border text-white bg-black-900 hover:bg-black-800 cursor-pointer" />
             </TooltipTrigger>
-            <TooltipContent>Dökümanı Gör</TooltipContent>
+            <TooltipContent>Görüntüle</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger
@@ -162,7 +198,7 @@ export default function ArchiveDocTable({
             >
               <Edit className="w-9 h-9 p-2 rounded-md border text-white bg-black-900 hover:bg-black-800 cursor-pointer" />
             </TooltipTrigger>
-            <TooltipContent>Dökümanı Düzenle</TooltipContent>
+            <TooltipContent>Düzenle</TooltipContent>
           </Tooltip>
         </div>
       ),
@@ -214,8 +250,17 @@ export default function ArchiveDocTable({
     state: {
       sorting,
       globalFilter,
+      columnVisibility,
     },
+    onColumnVisibilityChange: setColumnVisibility,
   });
+
+  const toggleColumn = (columnId: string) => {
+    setColumnVisibility((prev) => ({
+      ...prev,
+      [columnId]: !prev[columnId],
+    }));
+  };
 
   return (
     <TooltipProvider>
@@ -336,6 +381,7 @@ export default function ArchiveDocTable({
                           style={{
                             width: header.column.columnDef.size,
                           }}
+                          hidden={header.column.columnDef.enableHiding}
                         >
                           <div
                             className="flex items-center cursor-pointer hover:text-black-900"
@@ -362,9 +408,15 @@ export default function ArchiveDocTable({
                     <TableRow
                       key={row.id + index}
                       data-state={row.getIsSelected() && "selected"}
+                      onClick={() => {}}
                     >
                       {row.getVisibleCells().map((cell, index) => (
-                        <TableCell key={cell.id + index}>
+                        <TableCell
+                          onClick={() => {
+                            console.log("cell", cell.id);
+                          }}
+                          key={cell.id + index}
+                        >
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext(),

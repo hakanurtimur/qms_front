@@ -308,7 +308,7 @@ export function DataTable<TData, TValue>({
                                   }
                                 />
                               </TooltipTrigger>
-                              <TooltipContent>Revizyon Talebi</TooltipContent>
+                              <TooltipContent>Revize Talebi</TooltipContent>
                             </Tooltip>
                           )}
                         </div>

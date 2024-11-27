@@ -51,7 +51,7 @@ export default function UploadProfileModal({
                   setFile(file);
                 }
               }}
-              fileExtensions={["png"]}
+              fileExtensions={["png", "jpg", "jpeg"]}
             />
           </div>
           <div className="flex justify-end space-x-2">

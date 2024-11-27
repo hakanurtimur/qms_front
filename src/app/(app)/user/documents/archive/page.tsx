@@ -81,7 +81,7 @@ const ArchivePage = () => {
   return (
     <div className="w-full flex flex-col space-y-10">
       <div className="w-fit flex flex-col space-y-10">
-        <Button variant="primary" onClick={() => refetch()}>
+        <Button variant="primary" onClick={() => window.location.reload()}>
           Listele
         </Button>
       </div>

@@ -12,6 +12,9 @@ export const SRequestDocumentListModel = z.object({
   reading: z.number().int(),
   url: z.string().nullable(),
   changeRequest: z.number().int(),
+  qualityUserName: z.string().nullable(),
+  qualityManagerUserName: z.string().nullable(),
+  qualityAdministratorUserName: z.string().nullable(),
   state: z.boolean(),
 });
 
