@@ -2,6 +2,7 @@ import {
   ArrowPathRoundedSquareIcon,
   ArrowTopRightOnSquareIcon,
   ArrowTrendingUpIcon,
+  CursorArrowRippleIcon,
   DocumentTextIcon,
   FlagIcon,
   PaperClipIcon,
@@ -63,8 +64,14 @@ export const userNavItems: NavItemModel[] = [
   },
   {
     icon: FlagIcon,
-    label: "Olay Bildirim",
-    href: "/olay-bildirim",
+    label: "Hasta Güvenliği",
+    href: "/hasta-guvenligi",
+    items: [],
+  },
+  {
+    icon: CursorArrowRippleIcon,
+    label: "Çalışan Güvenliği",
+    href: "/calisan-guvenligi",
     items: [],
   },
   {

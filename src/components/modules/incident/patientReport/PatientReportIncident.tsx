@@ -100,19 +100,6 @@ const PatientReportIncident = ({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name={"phoneNum"}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className={""}>Telefon No</FormLabel>
-                  <FormControl>
-                    <Input {...field} readOnly className="bg-slate-100 w-52" />
-                  </FormControl>
-                  <FormMessage className="absolute " />
-                </FormItem>
-              )}
-            />
           </div>
           <div className="flex md:flex-row flex-col w-full justify-start gap-6  ">
             <div className="flex flex-col gap-4 w-52 ">

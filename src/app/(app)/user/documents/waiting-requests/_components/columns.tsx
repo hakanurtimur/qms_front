@@ -125,10 +125,20 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
     accessorKey: "department",
     header: ({ column }) => {
       return (
-        <SortingBtn
-          text={"Bölüm"}
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        />
+        <div className="flex items-center gap-1">
+          <EyeIcon
+            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
+            onClick={() =>
+              column.toggleVisibility(
+                column.getIsVisible() === true ? false : true,
+              )
+            }
+          />
+          <SortingBtn
+            text={"Bölüm"}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          />
+        </div>
       );
     },
   },
@@ -136,10 +146,20 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
     accessorKey: "admin",
     header: ({ column }) => {
       return (
-        <SortingBtn
-          text={"Admin Adı"}
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        />
+        <div className="flex items-center gap-1">
+          <EyeIcon
+            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
+            onClick={() =>
+              column.toggleVisibility(
+                column.getIsVisible() === true ? false : true,
+              )
+            }
+          />
+          <SortingBtn
+            text={"Admin Adı"}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          />
+        </div>
       );
     },
   },
@@ -147,10 +167,20 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
     accessorKey: "documentType",
     header: ({ column }) => {
       return (
-        <SortingBtn
-          text={"Doküman Tipi"}
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        />
+        <div className="flex items-center gap-1">
+          <EyeIcon
+            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
+            onClick={() =>
+              column.toggleVisibility(
+                column.getIsVisible() === true ? false : true,
+              )
+            }
+          />
+          <SortingBtn
+            text={"Doküman Tipi"}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          />
+        </div>
       );
     },
   },
@@ -158,10 +188,20 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
     accessorKey: "requestType",
     header: ({ column }) => {
       return (
-        <SortingBtn
-          text={"Talep Tipi"}
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        />
+        <div className="flex items-center gap-1">
+          <EyeIcon
+            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
+            onClick={() =>
+              column.toggleVisibility(
+                column.getIsVisible() === true ? false : true,
+              )
+            }
+          />
+          <SortingBtn
+            text={"Talep Tipi"}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          />
+        </div>
       );
     },
   },
@@ -169,10 +209,20 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
     accessorKey: "updateDate",
     header: ({ column }) => {
       return (
-        <SortingBtn
-          text={"Güncelleme Tarihi"}
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        />
+        <div className="flex items-center gap-1">
+          <EyeIcon
+            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
+            onClick={() =>
+              column.toggleVisibility(
+                column.getIsVisible() === true ? false : true,
+              )
+            }
+          />
+          <SortingBtn
+            text={"Güncelleme Tarihi"}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          />
+        </div>
       );
     },
     cell: ({ cell }) => {

@@ -22,7 +22,7 @@ export default function RootLayout({
   const pathname = usePathname();
 
   useEffect(() => {
-    setLoadingWithDelay(true, 1500);
+    setLoadingWithDelay(true, 1000);
   }, [pathname, setLoadingWithDelay]);
 
   return (

@@ -26,7 +26,6 @@ import {
 import * as React from "react";
 import UploadProfileModal from "../../../app/(app)/admin/profile/_components/upload-profile-modal";
 import { UploadIcon, X } from "lucide-react";
-import Image from "next/image";
 import {
   Tooltip,
   TooltipContent,
@@ -233,7 +232,8 @@ const ProfileDashboard = () => {
               </div>
             </div>
             <div className="relative border bg-black w-36 h-36 mt-3 ml-6 rounded-lg flex">
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element*/}
+              <img
                 src={
                   data?.data?.profileImg == null
                     ? "/icons/profile.jpg"
