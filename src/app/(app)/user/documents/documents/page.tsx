@@ -155,19 +155,25 @@ const Page = () => {
       ) : (
         <LoadingScreen />
       )}
-      <PdfViewer
-        open={show}
-        onOpenChange={() => setShow(false)}
-        fileName={getMutation.data?.data.fileName ?? null}
-        src={getMutation.data?.data.url ?? ""}
-      />
-      <PdfViewer
-        variant={"printible"}
-        open={showPrint}
-        onOpenChange={() => setShowPrint(false)}
-        fileName={printMutation.data?.data.fileName ?? null}
-        src={printMutation.data?.data.url ?? ""}
-      />
+      {getMutation.data && (
+        <PdfViewer
+          data={getMutation.data.data}
+          open={show}
+          onOpenChange={() => setShow(false)}
+          fileName={getMutation.data.data.fileName ?? null}
+          src={getMutation.data.data.url ?? ""}
+        />
+      )}
+      {printMutation.data && (
+        <PdfViewer
+          data={printMutation.data.data}
+          variant={"printible"}
+          open={showPrint}
+          onOpenChange={() => setShowPrint(false)}
+          fileName={printMutation.data?.data.fileName ?? null}
+          src={printMutation.data?.data.url ?? ""}
+        />
+      )}
     </div>
   );
 };

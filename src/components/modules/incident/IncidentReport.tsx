@@ -32,9 +32,6 @@ const IncidentReport = ({ onSubmit }: Props) => {
     },
   });
 
-  //console log the form values
-  console.log(form.getValues());
-
   return (
     <Form {...form}>
       <form

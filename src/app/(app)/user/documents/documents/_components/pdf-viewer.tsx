@@ -54,9 +54,11 @@ const PdfViewer = ({
     setPageNumber(page);
   };
   const adjustedSrc =
-    variant === "default" || variant === "view"
-      ? src.replace("https://www.osmanoguzsensoy.com", "")
-      : src;
+    process.env.NEXT_PUBLIC_REGULAR_PROXY_URL === undefined
+      ? "test"
+      : variant === "default" || variant === "view"
+        ? src.replace(process.env.NEXT_PUBLIC_REGULAR_PROXY_URL, "")
+        : src;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
