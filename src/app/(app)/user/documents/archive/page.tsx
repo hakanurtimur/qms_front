@@ -8,9 +8,10 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import archiveDocumentService from "@/services/user/documents/archive/ArchiveDocumentService";
 import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
 import requestDocumentService from "@/services/user/documents/RequestDocuments";
-import PdfViewer from "../documents/_components/pdf-viewer";
+
 import ArchiveDocSheet from "./_components/archive-doc-sheet";
 import { useAuth } from "@/context/authContext";
+import PdfViewer from "@/components/ui/pdf-viewer";
 
 const ArchivePage = () => {
   const [documents, setDocuments] = useState<RequestDocumentListModel[]>([]);

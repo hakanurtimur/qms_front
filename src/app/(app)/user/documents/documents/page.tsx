@@ -10,9 +10,10 @@ import NewRequestSheet from "@/app/(app)/user/documents/documents/_components/ne
 import { useMutation, useQuery } from "@tanstack/react-query";
 import requestDocumentService from "@/services/user/documents/RequestDocuments";
 import { useAuth } from "@/context/authContext";
-import PdfViewer from "@/app/(app)/user/documents/documents/_components/pdf-viewer";
+
 import { RequestDocumentCreate } from "@/models/user/documents/documents/requestDocumentCreate";
 import { toast } from "@/hooks/use-toast";
+import PdfViewer from "@/components/ui/pdf-viewer";
 
 const Page = () => {
   // TODO: add query service
