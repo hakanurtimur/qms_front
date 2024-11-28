@@ -11,6 +11,7 @@ import requestDocumentService from "@/services/user/documents/RequestDocuments";
 import PdfViewer from "../documents/_components/pdf-viewer";
 import ArchiveDocSheet from "./_components/archive-doc-sheet";
 import { useAuth } from "@/context/authContext";
+import { columns } from "./_components/columns";
 
 const ArchivePage = () => {
   const [documents, setDocuments] = useState<RequestDocumentListModel[]>([]);
@@ -88,9 +89,10 @@ const ArchivePage = () => {
       <div className="w-full flex flex-col space-y-10">
         {isSuccess && (
           <ArchiveDocTable
-            data={documents}
-            handleViewDocument={handleViewDocument}
             handleEditDocument={handleEditDocument}
+            data={documents}
+            columns={columns}
+            handleViewDocument={handleViewDocument}
           />
         )}
       </div>

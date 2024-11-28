@@ -131,7 +131,13 @@ const Page = () => {
   return (
     <div className="w-full flex flex-col space-y-10">
       <div className="flex items-center justify-between">
-        <Button>Listele</Button>
+        <Button
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
+          Listele
+        </Button>
         <NewRequestSheet
           onSubmit={(data: {
             userId: string;

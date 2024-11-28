@@ -35,19 +35,21 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
-import { ArrowUpDownIcon, Edit, Eye, EyeIcon, InfoIcon } from "lucide-react";
 import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
+import { Edit, Eye, InfoIcon } from "lucide-react";
 
-export interface ArchiveDocTableProps {
+export interface ArchiveDocTableProps<TData, TValue> {
   data: RequestDocumentListModel[];
+  columns: ColumnDef<TData, TValue>[];
   handleViewDocument: (fileId: string) => void;
   handleEditDocument: (fileId: string) => void;
 }
 export default function ArchiveDocTable({
   data,
+  columns,
   handleViewDocument,
   handleEditDocument,
-}: ArchiveDocTableProps) {
+}: ArchiveDocTableProps<RequestDocumentListModel, unknown>) {
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>([]);
   const [categoryType, setCategoryType] = useState<string[] | null>();
@@ -65,15 +67,19 @@ export default function ArchiveDocTable({
   });
 
   const getCategoryTypes = () => {
-    const categoryTypes = data.map((item) => item.categoryName);
+    const categoryTypes = data.map(
+      (item: { categoryName: string }) => item.categoryName,
+    );
     const uniqueCategoryTypes = Array.from(new Set(categoryTypes));
-    setCategoryType(uniqueCategoryTypes);
+    setCategoryType(uniqueCategoryTypes as string[]);
   };
 
   const getFolderTypes = () => {
-    const folderTypes = data.map((item) => item.folderName);
+    const folderTypes = data.map(
+      (item: { folderName: string }) => item.folderName,
+    );
     const uniqueFolderTypes = Array.from(new Set(folderTypes));
-    setFolderType(uniqueFolderTypes);
+    setFolderType(uniqueFolderTypes as string[]);
   };
 
   useEffect(() => {
@@ -83,132 +89,10 @@ export default function ArchiveDocTable({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  const columns: ColumnDef<RequestDocumentListModel>[] = [
-    {
-      accessorKey: "categoryName",
-      header: () => (
-        <div className="flex items-center gap-1 ">
-          <EyeIcon
-            className="w-6 h-6 cursor-pointer hover:text-black-900 hover:scale-125 "
-            onClick={() => {
-              toggleColumn("categoryName");
-            }}
-          />
-          Kategori
-          <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
-        </div>
-      ),
-      cell: (info) => <div className="">{String(info.getValue())}</div>,
-      size: 180,
-    },
-    {
-      accessorKey: "folderName",
-      header: () => (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="w-6 h-6 cursor-pointer hover:text-black-900 hover:scale-125 "
-            onClick={() => {
-              toggleColumn("folderName");
-            }}
-          />
-          Klasör Adı
-          <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
-        </div>
-      ),
-      cell: (info) => <div className="">{String(info.getValue())}</div>,
-      size: 140,
-    },
-    {
-      accessorKey: "state",
-      header: () => (
-        <div className="flex items-center justify-between gap-1">
-          <EyeIcon
-            className="w-6 h-6 cursor-pointer hover:text-black-900 hover:scale-125"
-            onClick={() => {
-              toggleColumn("state");
-            }}
-          />
-          Durum
-          <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
-        </div>
-      ),
-      cell: (info) => (
-        <div className="">{info.getValue() ? "AKTIF" : "PASİF"}</div>
-      ),
-      size: 65,
-    },
-    {
-      accessorKey: "fileName",
-      header: () => (
-        <div className=" flex items-center gap-1">
-          <EyeIcon
-            className="w-6 h-6 cursor-pointer hover:text-black-900 hover:scale-125"
-            onClick={() => {
-              toggleColumn("fileName");
-            }}
-          />
-          Dosya Adı
-          <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
-        </div>
-      ),
-      cell: (info) => (
-        <div
-          className="
-        overflow-hidden overflow-ellipsis whitespace-nowrap
-      "
-        >
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="truncate">
-                {String(info.getValue()).toUpperCase()}
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              {String(info.getValue()).toUpperCase()}
-            </TooltipContent>
-          </Tooltip>
-        </div>
-      ),
-      size: 200,
-    },
-    {
-      id: "actions",
-      header: () => (
-        <div className="text-right w-16  flex justify-end items-end">İşlem</div>
-      ),
-      cell: (e) => (
-        <div className="flex items-center justify-end gap-4">
-          <Tooltip>
-            <TooltipTrigger
-              asChild
-              onClick={() => {
-                handleViewDocument(String(e.row.original.fileId));
-              }}
-            >
-              <Eye className="w-9 h-9 p-2 rounded-md border text-white bg-black-900 hover:bg-black-800 cursor-pointer" />
-            </TooltipTrigger>
-            <TooltipContent>Görüntüle</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger
-              asChild
-              onClick={() => {
-                handleEditDocument(String(e.row.original.fileId));
-              }}
-            >
-              <Edit className="w-9 h-9 p-2 rounded-md border text-white bg-black-900 hover:bg-black-800 cursor-pointer" />
-            </TooltipTrigger>
-            <TooltipContent>Düzenle</TooltipContent>
-          </Tooltip>
-        </div>
-      ),
-      size: 60,
-    },
-  ];
   const handleSearch = () => {
     // Klasör ve kategoriye göre arama yap
     const results = data.filter(
-      (item) =>
+      (item: { categoryName: string; folderName: string }) =>
         (selectedCategory ? item.categoryName === selectedCategory : true) &&
         (selectedFolder ? item.folderName === selectedFolder : true),
     );
@@ -254,13 +138,6 @@ export default function ArchiveDocTable({
     },
     onColumnVisibilityChange: setColumnVisibility,
   });
-
-  const toggleColumn = (columnId: string) => {
-    setColumnVisibility((prev) => ({
-      ...prev,
-      [columnId]: !prev[columnId],
-    }));
-  };
 
   return (
     <TooltipProvider>
@@ -399,6 +276,7 @@ export default function ArchiveDocTable({
                         </TableHead>
                       );
                     })}
+                    <TableHead className="w-20">İşlem</TableHead>
                   </TableRow>
                 ))}
               </TableHeader>
@@ -423,6 +301,32 @@ export default function ArchiveDocTable({
                           )}
                         </TableCell>
                       ))}
+                      <TableCell>
+                        <div className="flex items-center justify-end gap-4">
+                          <Tooltip>
+                            <TooltipTrigger
+                              asChild
+                              onClick={() => {
+                                handleViewDocument(String(row.original.fileId));
+                              }}
+                            >
+                              <Eye className="w-9 h-9 p-2 rounded-md border text-white bg-black-900 hover:bg-black-800 cursor-pointer" />
+                            </TooltipTrigger>
+                            <TooltipContent>Görüntüle</TooltipContent>
+                          </Tooltip>
+                          <Tooltip>
+                            <TooltipTrigger
+                              asChild
+                              onClick={() => {
+                                handleEditDocument(String(row.original.fileId));
+                              }}
+                            >
+                              <Edit className="w-9 h-9 p-2 rounded-md border text-white bg-black-900 hover:bg-black-800 cursor-pointer" />
+                            </TooltipTrigger>
+                            <TooltipContent>Düzenle</TooltipContent>
+                          </Tooltip>
+                        </div>
+                      </TableCell>
                     </TableRow>
                   ))
                 ) : (

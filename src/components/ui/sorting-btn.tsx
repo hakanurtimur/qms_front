@@ -13,7 +13,7 @@ const SortingBtn = ({ text, onClick }: Props) => {
       onClick={onClick}
     >
       {text}
-      <ArrowUpDown className="ml-2 h-4 w-4" />
+      <ArrowUpDown className="ml-2 h-4 text-gray-400 hover:text-black-950 w-4 hover:scale-125" />
     </Button>
   );
 };

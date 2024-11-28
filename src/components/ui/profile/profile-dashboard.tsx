@@ -26,6 +26,7 @@ import {
 import * as React from "react";
 import UploadProfileModal from "../../../app/(app)/admin/profile/_components/upload-profile-modal";
 import { UploadIcon, X } from "lucide-react";
+import Image from "next/image";
 import {
   Tooltip,
   TooltipContent,
@@ -42,9 +43,6 @@ const ProfileDashboard = () => {
   const [openProfileUploadModal, setOpenProfileUploadModal] =
     React.useState(false);
 
-  const [profileUrl, setProfileUrl] = React.useState<string | null>(
-    "/icons/profile.jpg",
-  );
   const [openProfileRemoveModal, setOpenProfileRemoveModal] =
     React.useState(false);
   const auth = useAuth();
@@ -76,8 +74,7 @@ const ProfileDashboard = () => {
 
   React.useEffect(() => {
     if (isSuccess && data?.data?.pathProfileImg) {
-      console.log(data.data?.pathProfileImg);
-      setProfileUrl(data.data?.pathProfileImg);
+      console.log("Url:" + data.data?.pathProfileImg);
     }
   }, [isSuccess, data]);
 
@@ -236,15 +233,14 @@ const ProfileDashboard = () => {
               </div>
             </div>
             <div className="relative border bg-black w-36 h-36 mt-3 ml-6 rounded-lg flex">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={
                   data?.data?.profileImg == null
                     ? "/icons/profile.jpg"
-                    : (profileUrl ?? "/icons/profile.jpg")
+                    : data?.data?.pathProfileImg
                 }
                 alt="profile"
-                className="absolute w-full h-full object-cover rounded-lg transition-opacity duration-300  inset-0 flex items-center border justify-center opacity-100 hover:opacity-20 hover:backdrop-blur-sm bg-black bg-opacity-50 hover:backdrop-blur-2x"
+                className="absolute w-full h-full object-cover rounded-lg transition-opacity duration-300 inset-0 flex items-center border justify-center opacity-100 hover:opacity-20 hover:backdrop-blur-sm bg-black bg-opacity-50 hover:backdrop-blur-2x"
                 width={144}
                 height={144}
               />

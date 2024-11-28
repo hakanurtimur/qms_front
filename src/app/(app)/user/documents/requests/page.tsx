@@ -6,6 +6,7 @@ import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
 import { columns } from "@/app/(app)/user/documents/requests/_components/columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/app/(app)/user/documents/requests/_components/data-table";
+import { Button } from "@/components/ui/button";
 
 const Page = () => {
   // TODO: add query service
@@ -122,6 +123,14 @@ const Page = () => {
 
   return (
     <div className="w-full flex flex-col space-y-10">
+      <Button
+        className="w-fit px-7"
+        onClick={() => {
+          window.location.reload();
+        }}
+      >
+        Listele
+      </Button>
       <Tabs defaultValue="all">
         <div className="w-full flex justify-between items-center">
           <TabsList className="grid grid-cols-2 w-[480px]">

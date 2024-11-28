@@ -10,6 +10,7 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
+  VisibilityState,
 } from "@tanstack/react-table";
 
 import {
@@ -26,7 +27,7 @@ import {
   InformationCircleIcon,
   PrinterIcon,
 } from "@heroicons/react/24/outline";
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import {
@@ -79,6 +80,12 @@ export function DataTable<TData, TValue>({
     },
   ]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+    columnFilters.reduce((acc, columnFilter) => {
+      acc[columnFilter.id] = true;
+      return acc;
+    }, {} as VisibilityState),
+  );
 
   // TODO: add related mutation
 
@@ -103,6 +110,7 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
     initialState: {
       pagination: {
         pageSize: 5,
@@ -111,6 +119,7 @@ export function DataTable<TData, TValue>({
     state: {
       sorting,
       columnFilters,
+      columnVisibility,
     },
   });
 

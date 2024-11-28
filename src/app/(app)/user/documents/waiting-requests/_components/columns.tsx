@@ -4,16 +4,27 @@ import { ColumnDef } from "@tanstack/react-table";
 import SortingBtn from "@/components/ui/sorting-btn";
 import { formatDateWithoutTime } from "@/utils/dateUtils";
 import { WaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
+import { EyeIcon } from "lucide-react";
 
 export const columns: ColumnDef<WaitingRequestModel>[] = [
   {
     accessorKey: "requestNo",
     header: ({ column }) => {
       return (
-        <SortingBtn
-          text={"Talep No"}
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        />
+        <div className="flex items-center gap-1">
+          <EyeIcon
+            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
+            onClick={() =>
+              column.toggleVisibility(
+                column.getIsVisible() === true ? false : true,
+              )
+            }
+          />
+          <SortingBtn
+            text={"Talep No"}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          />
+        </div>
       );
     },
   },
@@ -21,10 +32,20 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
     accessorKey: "qualityState",
     header: ({ column }) => {
       return (
-        <SortingBtn
-          text={"Kalite Durum"}
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        />
+        <div className="flex items-center gap-1">
+          <EyeIcon
+            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
+            onClick={() =>
+              column.toggleVisibility(
+                column.getIsVisible() === true ? false : true,
+              )
+            }
+          />
+          <SortingBtn
+            text={"Kalite Durum"}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          />
+        </div>
       );
     },
     cell: ({ cell }) => {
@@ -35,10 +56,20 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
     accessorKey: "managerState",
     header: ({ column }) => {
       return (
-        <SortingBtn
-          text={"Yönetici Durum"}
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        />
+        <div className="flex items-center gap-1">
+          <EyeIcon
+            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
+            onClick={() =>
+              column.toggleVisibility(
+                column.getIsVisible() === true ? false : true,
+              )
+            }
+          />
+          <SortingBtn
+            text={"Yönetici Durum"}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          />
+        </div>
       );
     },
     cell: ({ cell }) => {
@@ -49,10 +80,20 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
     accessorKey: "requestDate",
     header: ({ column }) => {
       return (
-        <SortingBtn
-          text={"Talep Tarihi"}
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        />
+        <div className="flex items-center gap-1">
+          <EyeIcon
+            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
+            onClick={() =>
+              column.toggleVisibility(
+                column.getIsVisible() === true ? false : true,
+              )
+            }
+          />
+          <SortingBtn
+            text={"Talep Tarihi"}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          />
+        </div>
       );
     },
     cell: ({ cell }) => {
@@ -63,10 +104,20 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
     accessorKey: "requester",
     header: ({ column }) => {
       return (
-        <SortingBtn
-          text={"Talep Eden"}
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        />
+        <div className="flex items-center gap-1">
+          <EyeIcon
+            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
+            onClick={() =>
+              column.toggleVisibility(
+                column.getIsVisible() === true ? false : true,
+              )
+            }
+          />
+          <SortingBtn
+            text={"Talep Eden"}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          />
+        </div>
       );
     },
   },
