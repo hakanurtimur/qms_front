@@ -36,6 +36,7 @@ import RemoveProfileModal from "@/app/(app)/admin/profile/_components/remove-pro
 import { useMutation, useQuery } from "@tanstack/react-query";
 import profileService from "@/services/user/profile/ProfileService";
 import { useAuth } from "@/context/authContext";
+import Image from "next/image";
 
 const ProfileDashboard = () => {
   // queries and mutations will be added here
@@ -232,8 +233,7 @@ const ProfileDashboard = () => {
               </div>
             </div>
             <div className="relative border bg-black w-36 h-36 mt-3 ml-6 rounded-lg flex">
-              {/* eslint-disable-next-line @next/next/no-img-element*/}
-              <img
+              <Image
                 src={
                   data?.data?.profileImg == null
                     ? "/icons/profile.jpg"
