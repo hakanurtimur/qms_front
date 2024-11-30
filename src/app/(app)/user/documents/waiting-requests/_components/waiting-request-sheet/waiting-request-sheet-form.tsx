@@ -12,10 +12,7 @@ import { SheetClose, SheetFooter } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
 import React from "react";
-import {
-  SUserRequestModelUpdate,
-  UserRequestModelUpdate,
-} from "@/models/user/documents/userRequests/userRequestModel";
+import { SUserRequestModelUpdate } from "@/models/user/documents/userRequests/userRequestModel";
 import { Input } from "@/components/ui/input";
 import Combobox from "@/components/ui/combobox";
 import { Textarea } from "@/components/ui/textarea";
@@ -27,58 +24,47 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { WaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
 
 interface Props {
-  onSubmit: (data: UserRequestModelUpdate) => void;
-  model?: UserRequestModelUpdate;
+  onSubmit: (data: WaitingRequestModel) => void;
+  model?: WaitingRequestModel;
   variant: "default" | "actives";
+  superAdminActionOpts: { [key: number]: string };
+  superAdminAboutOpts: { [key: number]: string };
+  handleGetGarbage: (fileId: string) => void;
+  handleGetFile: (fileId: string) => void;
+  documentTypeListQpts?: { [key: number]: string };
 }
 
-const documentTypes = {
-  1: "Invoice",
-  2: "Purchase Order",
-  3: "Travel Request",
-};
-
-const actionIds = {
-  101: "Submit Request",
-  102: "Approve Request",
-  103: "Reject Request",
-};
-
-const SuperAdminActionIds = {
-  202: "Submit Request",
-  201: "Approve Request",
-  203: "Reject Request",
-};
-
-const SuperAdminAboutIds = {
-  301: "jane_doe",
-  302: "janet_doe",
-  303: "johnson_doe",
-};
-
-const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
-  const form = useForm<UserRequestModelUpdate>({
+const WaitingRequestSheetForm = ({
+  onSubmit,
+  model,
+  variant,
+  superAdminActionOpts,
+  superAdminAboutOpts,
+  handleGetGarbage,
+  handleGetFile,
+  documentTypeListQpts,
+}: Props) => {
+  const form = useForm<WaitingRequestModel>({
     resolver: zodResolver(SUserRequestModelUpdate),
     defaultValues: {
-      Id: model ? (model.Id ?? 0) : 0,
-      UserName: model ? (model.UserName ?? "") : "",
-      DepartmentName: model ? (model.DepartmentName ?? "") : "",
-      RequestTypeName: model ? (model.RequestTypeName ?? "") : "",
-      DocumentTypeId: model ? (model.DocumentTypeId ?? 0) : 0,
-      DescriptionUser: model ? (model.DescriptionUser ?? "") : "",
-      DescriptionAdmin: model ? (model.DescriptionAdmin ?? "") : "",
-      OpenDate: model ? (model.OpenDate ?? "") : "",
-      UpdateDate: model ? (model.UpdateDate ?? "") : "",
-      ActionId: model ? (model.ActionId ?? 0) : 0,
-      SuperAdminActionId: model ? (model.SuperAdminActionId ?? 0) : 0,
-      SuperAdminActionName: model ? (model.SuperAdminActionName ?? "") : "",
-      DescriptionSuperAdmin: model ? (model.DescriptionSuperAdmin ?? "") : "",
-      SuperAdminAboutId: model ? (model.SuperAdminAboutId ?? 0) : 0,
-      SuperAdminAboutName: model ? (model.SuperAdminAboutName ?? "") : "",
-      GarbageId: model ? (model.GarbageId ?? 0) : 0,
-      FileId: model ? (model.FileId ?? 0) : 0,
+      id: model?.id ?? 0,
+      actionName: model?.actionName ?? "",
+      userName: model?.userName ?? "",
+      departmentName: model?.departmentName ?? "",
+      requestTypeName: model?.requestTypeName ?? "",
+      openDate: model?.openDate ?? "",
+      updateDate: model?.updateDate ?? "",
+      superAdminActionId: model?.superAdminActionId ?? 0,
+      superAdminAboutId: model?.superAdminAboutId ?? 0,
+      documentTypeId: model?.documentTypeId ?? 0,
+      documentTypeName: model?.documentTypeName ?? "",
+      descriptionUser: model?.descriptionUser ?? "",
+      descriptionAdmin: model?.descriptionAdmin ?? "",
+      descriptionSuperAdmin: model?.descriptionSuperAdmin ?? "",
+      actionId: model?.actionId ?? 0,
     },
   });
 
@@ -88,10 +74,10 @@ const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="mt-10 grid grid-cols-3 gap-x-4 gap-y-8"
       >
-        <div className="space-y-5 border-r-2 border-primary-900 border-primary-600 pr-4">
+        <div className="space-y-5 border-r-2 border-primary-600 pr-4">
           <FormField
             control={form.control}
-            name="Id"
+            name="id"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Talep No</FormLabel>
@@ -108,7 +94,7 @@ const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
           />
           <FormField
             control={form.control}
-            name="UserName"
+            name="userName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Talep Eden</FormLabel>
@@ -125,7 +111,7 @@ const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
           />
           <FormField
             control={form.control}
-            name="DepartmentName"
+            name="departmentName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Bölüm</FormLabel>
@@ -142,7 +128,7 @@ const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
           />
           <FormField
             control={form.control}
-            name="RequestTypeName"
+            name="requestTypeName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Talep Tipi</FormLabel>
@@ -159,7 +145,7 @@ const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
           />
           <FormField
             control={form.control}
-            name="OpenDate"
+            name="openDate"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Talep Tarihi</FormLabel>
@@ -178,7 +164,7 @@ const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
           />
           <FormField
             control={form.control}
-            name="UpdateDate"
+            name="updateDate"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Son İşlem Tarihi</FormLabel>
@@ -196,27 +182,42 @@ const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
             )}
           />
         </div>
-        <div className="space-y-5 border-r-2 border-primary-900 border-primary-600 pr-4">
-          <Combobox<UserRequestModelUpdate>
-            control={form.control}
-            variant={"in-column"}
-            name={"DocumentTypeId"}
-            label={"Doküman Tipi"}
-            options={documentTypes}
-            readonly={variant === "default"}
-          />
-
+        <div className="space-y-5 border-r-2 border-primary-600 pr-4">
+          {variant === "actives" && documentTypeListQpts ? (
+            <Combobox<WaitingRequestModel>
+              control={form.control}
+              variant={"in-column"}
+              name={"documentTypeId"}
+              label={"Doküman Tipi"}
+              options={documentTypeListQpts}
+            />
+          ) : (
+            <FormField
+              control={form.control}
+              name="documentTypeName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Döküman Tipi</FormLabel>
+                  <FormControl>
+                    <Input {...field} readOnly />
+                  </FormControl>
+                  <FormMessage className="absolute" />
+                </FormItem>
+              )}
+            />
+          )}
           <FormField
             control={form.control}
-            name="DescriptionUser"
+            name="descriptionUser"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Talep Eden ${model?.UserName} Açıklaması</FormLabel>
+                <FormLabel>Talep Eden ${model?.userName} Açıklaması</FormLabel>
                 <FormControl>
                   <Textarea
+                    {...field}
+                    value={model?.descriptionUser ?? ""}
                     rows={5}
                     className="w-full pb-3.5"
-                    {...field}
                     readOnly
                   />
                 </FormControl>
@@ -224,25 +225,32 @@ const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
               </FormItem>
             )}
           />
-          <Combobox<UserRequestModelUpdate>
-            control={form.control}
-            variant={"in-column"}
-            name={"ActionId"}
-            label={"Durum"}
-            options={actionIds}
-            readonly
-          />
           <FormField
             control={form.control}
-            name="DescriptionAdmin"
+            name="actionName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>${model?.UserName} - Admin Açıklaması</FormLabel>
+                <FormLabel>Durum</FormLabel>
+                <FormControl>
+                  <Input {...field} value={model?.actionName ?? ""} readOnly />
+                </FormControl>
+                <FormMessage className="absolute" />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="descriptionAdmin"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>${model?.userName} - Admin Açıklaması</FormLabel>
                 <FormControl>
                   <Textarea
+                    {...field}
+                    value={model?.descriptionAdmin ?? ""}
                     rows={5}
                     className="w-full pb-3.5"
-                    {...field}
                     readOnly
                   />
                 </FormControl>
@@ -252,25 +260,26 @@ const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
           />
         </div>
         <div className="space-y-5 pr-4">
-          <Combobox<UserRequestModelUpdate>
+          <Combobox<WaitingRequestModel>
             control={form.control}
             variant={"in-column"}
-            name={"SuperAdminActionId"}
+            name={"superAdminActionId"}
             label={"Kalite Durum"}
-            options={SuperAdminActionIds}
+            options={superAdminActionOpts}
             readonly={variant === "default"}
           />
           <FormField
             control={form.control}
-            name="DescriptionSuperAdmin"
+            name="descriptionSuperAdmin"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>KYS Sorumlusu Açıklaması</FormLabel>
                 <FormControl>
                   <Textarea
+                    {...field}
+                    value={model?.descriptionSuperAdmin ?? ""}
                     readOnly={variant === "default"}
                     className="w-full pb-3.5"
-                    {...field}
                     rows={5}
                   />
                 </FormControl>
@@ -278,12 +287,12 @@ const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
               </FormItem>
             )}
           />
-          <Combobox<UserRequestModelUpdate>
+          <Combobox<WaitingRequestModel>
             control={form.control}
-            name={"SuperAdminAboutId"}
+            name={"superAdminAboutId"}
             variant={"in-column"}
             label={"KYS Sorumlusu Sebebi"}
-            options={SuperAdminAboutIds}
+            options={superAdminAboutOpts}
             readonly={variant === "default"}
           />
           <TooltipProvider>
@@ -292,36 +301,40 @@ const WaitingRequestSheetForm = ({ onSubmit, model, variant }: Props) => {
                 Döküman
               </div>
               <div className="flex items-center gap-4 mt-4">
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      onClick={() => {
-                        console.log(model?.FileId);
-                      }}
-                      type="button"
-                      className="pb-3 pt-3 min-w-24 min-h-12"
-                    >
-                      <PencilSquareIcon className="min-h-8 max-h-8 w-auto" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Talep Edilen Doküman</TooltipContent>
-                </Tooltip>
-                <Tooltip>
+                {model && model.garbageId && (
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
                         onClick={() => {
-                          console.log(model?.GarbageId);
+                          handleGetGarbage(model.garbageId.toString());
                         }}
                         type="button"
                         className="pb-3 pt-3 min-w-24 min-h-12"
                       >
-                        <FolderIcon className="min-h-8 max-h-8 w-auto" />
+                        <PencilSquareIcon className="min-h-8 max-h-8 w-auto" />
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent>Mevcut Doküman</TooltipContent>
+                    <TooltipContent>Talep Edilen Doküman</TooltipContent>
                   </Tooltip>
-                </Tooltip>
+                )}
+                {model && model.fileId && (
+                  <Tooltip>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          onClick={() => {
+                            handleGetFile(model.fileId.toString());
+                          }}
+                          type="button"
+                          className="pb-3 pt-3 min-w-24 min-h-12"
+                        >
+                          <FolderIcon className="min-h-8 max-h-8 w-auto" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>Mevcut Doküman</TooltipContent>
+                    </Tooltip>
+                  </Tooltip>
+                )}
               </div>
             </div>
           </TooltipProvider>

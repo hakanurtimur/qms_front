@@ -4,229 +4,142 @@ import { ColumnDef } from "@tanstack/react-table";
 import SortingBtn from "@/components/ui/sorting-btn";
 import { formatDateWithoutTime } from "@/utils/dateUtils";
 import { WaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
-import { EyeIcon } from "lucide-react";
 
 export const columns: ColumnDef<WaitingRequestModel>[] = [
   {
-    accessorKey: "requestNo",
+    accessorKey: "id",
     header: ({ column }) => {
       return (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
-            onClick={() =>
-              column.toggleVisibility(
-                column.getIsVisible() === true ? false : true,
-              )
-            }
-          />
-          <SortingBtn
-            text={"Talep No"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </div>
+        <SortingBtn
+          text={"Talep No"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
       );
     },
+    enableHiding: true,
+    footer: "Talep No",
   },
   {
-    accessorKey: "qualityState",
+    accessorKey: "superAdminActionName",
     header: ({ column }) => {
       return (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
-            onClick={() =>
-              column.toggleVisibility(
-                column.getIsVisible() === true ? false : true,
-              )
-            }
-          />
-          <SortingBtn
-            text={"Kalite Durum"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </div>
+        <SortingBtn
+          text={"Kalite Durum"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
       );
     },
-    cell: ({ cell }) => {
-      return cell.getValue() ? "AKTİF" : "PASİF";
-    },
+    enableHiding: true,
+    footer: "Kalite Durum",
   },
   {
-    accessorKey: "managerState",
+    accessorKey: "administratorActionName",
     header: ({ column }) => {
       return (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
-            onClick={() =>
-              column.toggleVisibility(
-                column.getIsVisible() === true ? false : true,
-              )
-            }
-          />
-          <SortingBtn
-            text={"Yönetici Durum"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </div>
+        <SortingBtn
+          text={"Yönetici Durum"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
       );
     },
-    cell: ({ cell }) => {
-      return cell.getValue() ? "AKTİF" : "PASİF";
-    },
+    enableHiding: true,
+    footer: "Yönetici Durum",
   },
   {
-    accessorKey: "requestDate",
+    accessorKey: "openDate",
     header: ({ column }) => {
       return (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
-            onClick={() =>
-              column.toggleVisibility(
-                column.getIsVisible() === true ? false : true,
-              )
-            }
-          />
-          <SortingBtn
-            text={"Talep Tarihi"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </div>
+        <SortingBtn
+          text={"Talep Tarihi"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
       );
     },
     cell: ({ cell }) => {
       return formatDateWithoutTime(cell.getValue() as string);
     },
+    enableHiding: true,
+    footer: "Talep Tarihi",
   },
   {
-    accessorKey: "requester",
+    accessorKey: "userName",
     header: ({ column }) => {
       return (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
-            onClick={() =>
-              column.toggleVisibility(
-                column.getIsVisible() === true ? false : true,
-              )
-            }
-          />
-          <SortingBtn
-            text={"Talep Eden"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </div>
+        <SortingBtn
+          text={"Talep Eden"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
       );
     },
+    enableHiding: true,
+    footer: "Talep Eden",
   },
   {
-    accessorKey: "department",
+    accessorKey: "departmentName",
     header: ({ column }) => {
       return (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
-            onClick={() =>
-              column.toggleVisibility(
-                column.getIsVisible() === true ? false : true,
-              )
-            }
-          />
-          <SortingBtn
-            text={"Bölüm"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </div>
+        <SortingBtn
+          text={"Bölüm"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
       );
     },
+    enableHiding: true,
+    footer: "Bölüm",
   },
   {
-    accessorKey: "admin",
+    accessorKey: "adminName",
     header: ({ column }) => {
       return (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
-            onClick={() =>
-              column.toggleVisibility(
-                column.getIsVisible() === true ? false : true,
-              )
-            }
-          />
-          <SortingBtn
-            text={"Admin Adı"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </div>
+        <SortingBtn
+          text={"Admin Adı"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
       );
     },
+    enableHiding: true,
+    footer: "Admin Adı",
   },
   {
-    accessorKey: "documentType",
+    accessorKey: "documentTypeName",
     header: ({ column }) => {
       return (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
-            onClick={() =>
-              column.toggleVisibility(
-                column.getIsVisible() === true ? false : true,
-              )
-            }
-          />
-          <SortingBtn
-            text={"Doküman Tipi"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </div>
+        <SortingBtn
+          text={"Doküman Tipi"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
       );
     },
+    enableHiding: true,
+    footer: "Doküman Tipi",
   },
   {
-    accessorKey: "requestType",
+    accessorKey: "requestTypeName",
     header: ({ column }) => {
       return (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
-            onClick={() =>
-              column.toggleVisibility(
-                column.getIsVisible() === true ? false : true,
-              )
-            }
-          />
-          <SortingBtn
-            text={"Talep Tipi"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </div>
+        <SortingBtn
+          text={"Talep Tipi"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
       );
     },
+    enableHiding: true,
+    footer: "Talep Tipi",
   },
   {
     accessorKey: "updateDate",
     header: ({ column }) => {
       return (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
-            onClick={() =>
-              column.toggleVisibility(
-                column.getIsVisible() === true ? false : true,
-              )
-            }
-          />
-          <SortingBtn
-            text={"Güncelleme Tarihi"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </div>
+        <SortingBtn
+          text={"Güncelleme Tarihi"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
       );
     },
     cell: ({ cell }) => {
       return formatDateWithoutTime(cell.getValue() as string);
     },
+    enableHiding: true,
+    footer: "Güncelleme Tarihi",
   },
 ];

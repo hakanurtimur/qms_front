@@ -8,6 +8,7 @@ import {
   RequestDocumentCreate,
   RequestDocumentCreatedModelResponse,
 } from "@/models/user/documents/documents/requestDocumentCreate";
+import { WaitingRequestResponseDetailsModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
 
 export class RequestDocumentService {
   public async list(
@@ -18,6 +19,15 @@ export class RequestDocumentService {
 
   public async get(file_id: string): Promise<RequestDocumentGetModelResponse> {
     return await api.get(`/Document/get-document-by-id/${file_id}`);
+  }
+
+  public async getGarbage(
+    garbage_id: string,
+    user_id: string,
+  ): Promise<WaitingRequestResponseDetailsModel> {
+    return await api.get(
+      `/documentdemand/get-garbage-document-by-id/${garbage_id}/${user_id}`,
+    );
   }
 
   public async getDocumentTypes(): Promise<RequestDocumentTypeResponse> {

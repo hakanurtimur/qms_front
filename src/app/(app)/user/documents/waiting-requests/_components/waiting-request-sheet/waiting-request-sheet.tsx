@@ -9,16 +9,39 @@ import {
 import { Button } from "@/components/ui/button";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import React from "react";
+import { WaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
+import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/context/authContext";
+import waitingRequestsService from "@/services/user/documents/waiting-requests/WaitingRequestsService";
 import WaitingRequestSheetForm from "@/app/(app)/user/documents/waiting-requests/_components/waiting-request-sheet/waiting-request-sheet-form";
-import { WaitingRequestModelUpdate } from "@/models/user/documents/waitingRequests/waitingRequestModel";
 
 interface Props {
-  model: WaitingRequestModelUpdate;
-  onSubmit: (data: WaitingRequestModelUpdate) => void;
+  id: string;
+  onSubmit: (data: WaitingRequestModel) => void;
   variant: "default" | "actives";
+  superAdminActionOpts: { [key: number]: string };
+  superAdminAboutOpts: { [key: number]: string };
+  handleGetGarbage: (fileId: string) => void;
+  handleGetFile: (fileId: string) => void;
+  documentTypeListQpts?: { [key: number]: string };
 }
 
-const WaitingRequestSheet = ({ model, onSubmit, variant }: Props) => {
+const WaitingRequestSheet = ({
+  id,
+  onSubmit,
+  variant,
+  superAdminActionOpts,
+  superAdminAboutOpts,
+  handleGetGarbage,
+  handleGetFile,
+  documentTypeListQpts,
+}: Props) => {
+  const { user } = useAuth();
+  const requestDetailsQuery = useQuery({
+    queryKey: ["requestDetails", id],
+    queryFn: async () => waitingRequestsService.get(id, user?.roleId ?? ""),
+  });
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -33,11 +56,18 @@ const WaitingRequestSheet = ({ model, onSubmit, variant }: Props) => {
             Buradan talepleri düzenleyebilirsiniz.
           </SheetDescription>
         </SheetHeader>
-        <WaitingRequestSheetForm
-          variant={variant}
-          model={model}
-          onSubmit={onSubmit}
-        />
+        {requestDetailsQuery.data && (
+          <WaitingRequestSheetForm
+            variant={variant}
+            model={requestDetailsQuery.data.data}
+            onSubmit={onSubmit}
+            superAdminActionOpts={superAdminActionOpts}
+            superAdminAboutOpts={superAdminAboutOpts}
+            handleGetGarbage={handleGetGarbage}
+            handleGetFile={handleGetFile}
+            documentTypeListQpts={documentTypeListQpts}
+          />
+        )}
       </SheetContent>
     </Sheet>
   );

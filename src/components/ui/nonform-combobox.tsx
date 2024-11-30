@@ -30,10 +30,19 @@ function NonFormCombobox({
   onChange,
   label,
   options,
-  placeholder = "",
+  placeholder = "Seçiniz",
   width = "",
 }: FormSelectFieldProps) {
   const [open, setOpen] = React.useState(false);
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const [popoverWidth, setPopoverWidth] = React.useState<number | undefined>();
+
+  React.useEffect(() => {
+    if (triggerRef.current) {
+      setPopoverWidth(triggerRef.current.offsetWidth);
+    }
+  }, [triggerRef.current, open]);
+
   return (
     <div className={width}>
       <div className="space-y-0 pt-0 flex items-start  flex-col gap-2">
@@ -41,6 +50,7 @@ function NonFormCombobox({
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
+              ref={triggerRef}
               variant="outline"
               role="combobox"
               className={cn(
@@ -54,7 +64,12 @@ function NonFormCombobox({
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="p-0">
+          <PopoverContent
+            className="p-0"
+            style={{
+              width: popoverWidth || "auto",
+            }}
+          >
             <Command>
               <CommandInput placeholder="Ara" />
               <CommandList>

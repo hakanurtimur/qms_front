@@ -15,13 +15,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import React from "react";
+import ColumnHiderDropdown from "@/components/ui/column-hider-dropdown";
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
+  isColumnHiderDropdownVisible?: boolean;
 }
 
 export function DataTablePagination<TData>({
   table,
+  isColumnHiderDropdownVisible = false,
 }: DataTablePaginationProps<TData>) {
   return (
     <div className="w-full px-4 py-4">
@@ -46,6 +49,7 @@ export function DataTablePagination<TData>({
             </SelectContent>
           </Select>
         </div>
+        {isColumnHiderDropdownVisible && <ColumnHiderDropdown table={table} />}
         <div className="flex gap-2 items-center">
           <div className="flex w-[100px] items-center justify-center text-sm font-medium">
             Sayfa {table.getState().pagination.pageIndex + 1}/
