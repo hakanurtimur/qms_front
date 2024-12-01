@@ -30,29 +30,27 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
-import { PencilSquareIcon, PlusIcon } from "@heroicons/react/24/outline";
-import DocumentUploadForm from "../../../requests/_components/document-upload-modal";
-import DocumentReviseForm from "../../../requests/_components/document-revise-modal";
+import { ArrowPathIcon, PlusIcon } from "@heroicons/react/24/outline";
 
 interface DataTableProps<TData, TValue> {
   // requestTypeOpts: { [key: string]: string };
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  handleDocumentUploadModal: () => void;
+  handleDocumentReviseModal: () => void;
 }
 
 export function ResultedDataTable<TData, TValue>({
   columns,
   data,
+  handleDocumentUploadModal,
+  handleDocumentReviseModal,
 }: DataTableProps<TData, TValue>) {
   const [globalFilter, setGlobalFilter] = React.useState<string>("");
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [openDocumentUploadModal, setDocumentUploadModal] =
-    React.useState(false);
-  const [openDocumentReviseModal, setDocumentReviseModal] =
-    React.useState(false);
 
   // TODO: add related mutation
 
@@ -190,14 +188,12 @@ export function ResultedDataTable<TData, TValue>({
                       ))}
                       <TableCell>
                         <div className="flex items-center gap-4">
-                          {row.getValue("RequestTypeId") === 1 && (
+                          {row.getValue("requestTypeId") === 1 && (
                             <Tooltip>
                               <TooltipTrigger
                                 asChild
                                 onClick={() => {
-                                  setDocumentUploadModal(
-                                    !openDocumentUploadModal,
-                                  );
+                                  handleDocumentUploadModal();
                                 }}
                               >
                                 {/*<RequestSheet*/}
@@ -211,14 +207,12 @@ export function ResultedDataTable<TData, TValue>({
                               <TooltipContent>Yeni Doküman Ekle</TooltipContent>
                             </Tooltip>
                           )}
-                          {row.getValue("RequestTypeId") === 2 && (
+                          {row.getValue("requestTypeId") === 2 && (
                             <Tooltip>
                               <TooltipTrigger
                                 asChild
                                 onClick={() => {
-                                  setDocumentReviseModal(
-                                    !openDocumentReviseModal,
-                                  );
+                                  handleDocumentReviseModal();
                                 }}
                               >
                                 {/*<RequestSheet*/}
@@ -226,7 +220,7 @@ export function ResultedDataTable<TData, TValue>({
                                 {/*  onSubmit={mutationFn}*/}
                                 {/*/>*/}
                                 <Button size={"icon"}>
-                                  <PencilSquareIcon className="h-4 w-4" />
+                                  <ArrowPathIcon className="h-4 w-4" />
                                 </Button>
                               </TooltipTrigger>
                               <TooltipContent>Revize Et</TooltipContent>
@@ -250,17 +244,12 @@ export function ResultedDataTable<TData, TValue>({
             </Table>
           </div>
           <div>
-            <DataTablePagination table={table} />
+            <DataTablePagination
+              isColumnHiderDropdownVisible={true}
+              table={table}
+            />
           </div>
         </div>
-        <DocumentUploadForm
-          open={openDocumentUploadModal}
-          setOpen={() => setDocumentUploadModal(!openDocumentUploadModal)}
-        />
-        <DocumentReviseForm
-          open={openDocumentReviseModal}
-          setOpen={() => setDocumentReviseModal(!openDocumentReviseModal)}
-        />
       </div>
     </TooltipProvider>
   );

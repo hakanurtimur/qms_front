@@ -15,6 +15,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
+import { Label } from "@/components/ui/label";
 
 interface FormSelectFieldProps {
   value: string;
@@ -23,6 +24,8 @@ interface FormSelectFieldProps {
   options: { [key: string]: string };
   placeholder?: string;
   width?: string;
+  variant?: "in-column" | "default";
+  readonly?: boolean;
 }
 
 function NonFormCombobox({
@@ -32,6 +35,8 @@ function NonFormCombobox({
   options,
   placeholder = "Seçiniz",
   width = "",
+  variant = "default",
+  readonly = false,
 }: FormSelectFieldProps) {
   const [open, setOpen] = React.useState(false);
   const triggerRef = React.useRef<HTMLButtonElement>(null);
@@ -46,7 +51,13 @@ function NonFormCombobox({
   return (
     <div className={width}>
       <div className="space-y-0 pt-0 flex items-start  flex-col gap-2">
-        {label && <label className="mt-0">{label}</label>}
+        {label && (
+          <Label
+            className={`${variant === "in-column" ? "mb-2.5 flex items-center py-1" : "mt-0"}`}
+          >
+            {label}
+          </Label>
+        )}
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -57,11 +68,14 @@ function NonFormCombobox({
                 "flex w-full justify-between font-normal",
                 !value && "text-muted-foreground",
               )}
+              disabled={readonly}
             >
               <span className="grow-0">
                 {value ? options[value] : placeholder}
               </span>
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              {!readonly && (
+                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              )}
             </Button>
           </PopoverTrigger>
           <PopoverContent

@@ -12,7 +12,6 @@ import { SheetClose, SheetFooter } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
 import React from "react";
-import { SUserRequestModelUpdate } from "@/models/user/documents/userRequests/userRequestModel";
 import { Input } from "@/components/ui/input";
 import Combobox from "@/components/ui/combobox";
 import { Textarea } from "@/components/ui/textarea";
@@ -24,10 +23,16 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { WaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
+import {
+  SUpdateWaitingRequestModel,
+  UpdateWaitingRequestModel,
+  WaitingRequestModel,
+} from "@/models/user/documents/waitingRequests/waitingRequestModel";
+import { Label } from "@/components/ui/label";
+import { useAuth } from "@/context/authContext";
 
 interface Props {
-  onSubmit: (data: WaitingRequestModel) => void;
+  onSubmit: (data: UpdateWaitingRequestModel) => void;
   model?: WaitingRequestModel;
   variant: "default" | "actives";
   superAdminActionOpts: { [key: number]: string };
@@ -47,24 +52,17 @@ const WaitingRequestSheetForm = ({
   handleGetFile,
   documentTypeListQpts,
 }: Props) => {
-  const form = useForm<WaitingRequestModel>({
-    resolver: zodResolver(SUserRequestModelUpdate),
+  const { user } = useAuth();
+  const form = useForm<UpdateWaitingRequestModel>({
+    resolver: zodResolver(SUpdateWaitingRequestModel),
     defaultValues: {
       id: model?.id ?? 0,
-      actionName: model?.actionName ?? "",
-      userName: model?.userName ?? "",
-      departmentName: model?.departmentName ?? "",
-      requestTypeName: model?.requestTypeName ?? "",
-      openDate: model?.openDate ?? "",
-      updateDate: model?.updateDate ?? "",
-      superAdminActionId: model?.superAdminActionId ?? 0,
-      superAdminAboutId: model?.superAdminAboutId ?? 0,
+      userId: user && user.userId ? +user.userId : 0,
+      superAdminActionId: model?.actionId ?? 0,
       documentTypeId: model?.documentTypeId ?? 0,
-      documentTypeName: model?.documentTypeName ?? "",
-      descriptionUser: model?.descriptionUser ?? "",
-      descriptionAdmin: model?.descriptionAdmin ?? "",
+      superAdminAboutId: model?.superAdminAboutId ?? 0,
       descriptionSuperAdmin: model?.descriptionSuperAdmin ?? "",
-      actionId: model?.actionId ?? 0,
+      //,
     },
   });
 
@@ -92,99 +90,61 @@ const WaitingRequestSheetForm = ({
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="userName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Talep Eden</FormLabel>
-                <FormControl>
-                  <Input
-                    readOnly
-                    className="w-full bg-primary-100"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className="absolute" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="departmentName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Bölüm</FormLabel>
-                <FormControl>
-                  <Input
-                    readOnly
-                    className="w-full bg-primary-100"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className="absolute" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="requestTypeName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Talep Tipi</FormLabel>
-                <FormControl>
-                  <Input
-                    readOnly
-                    className="w-full bg-primary-100"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className="absolute" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="openDate"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Talep Tarihi</FormLabel>
-                <FormControl>
-                  <DatePicker
-                    {...field}
-                    onChange={(value) => field.onChange(value)}
-                    placeholder="Seçiniz"
-                    readonly={true}
-                    includeTime={true}
-                  />
-                </FormControl>
-                <FormMessage className="absolute" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="updateDate"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Son İşlem Tarihi</FormLabel>
-                <FormControl>
-                  <DatePicker
-                    {...field}
-                    onChange={(value) => field.onChange(value)}
-                    placeholder="Seçiniz"
-                    readonly={true}
-                    includeTime={true}
-                  />
-                </FormControl>
-                <FormMessage className="absolute" />
-              </FormItem>
-            )}
-          />
+          <FormItem>
+            <Label>Talep Eden</Label>
+            <Input
+              value={model?.userName ?? ""}
+              readOnly
+              className="w-full bg-primary-100"
+            />
+          </FormItem>
+          <FormItem>
+            <Label>Bölüm</Label>
+            <Input
+              value={model?.departmentName ?? ""}
+              readOnly
+              className="w-full bg-primary-100"
+            />
+            <FormMessage className="absolute" />
+          </FormItem>
+          <FormItem>
+            <FormLabel>Talep Tipi</FormLabel>
+            <Input
+              value={model?.requestTypeName ?? ""}
+              readOnly
+              className="w-full bg-primary-100"
+            />
+          </FormItem>
+          <FormItem>
+            <Label>Talep Tarihi</Label>
+            <DatePicker
+              name={"openDate"}
+              value={model?.openDate ?? ""}
+              onChange={(value) => {
+                console.log(value);
+              }}
+              placeholder="Seçiniz"
+              readonly={true}
+              includeTime={true}
+            />
+          </FormItem>
+          <FormItem>
+            <Label>Son İşlem Tarihi</Label>
+            <DatePicker
+              name={"updateDate"}
+              value={model?.updateDate ?? ""}
+              onChange={(value) => {
+                console.log(value);
+              }}
+              placeholder="Seçiniz"
+              readonly={true}
+              includeTime={true}
+            />
+          </FormItem>
         </div>
         <div className="space-y-5 border-r-2 border-primary-600 pr-4">
           {variant === "actives" && documentTypeListQpts ? (
-            <Combobox<WaitingRequestModel>
+            <Combobox<UpdateWaitingRequestModel>
               control={form.control}
               variant={"in-column"}
               name={"documentTypeId"}
@@ -192,78 +152,45 @@ const WaitingRequestSheetForm = ({
               options={documentTypeListQpts}
             />
           ) : (
-            <FormField
-              control={form.control}
-              name="documentTypeName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Döküman Tipi</FormLabel>
-                  <FormControl>
-                    <Input {...field} readOnly />
-                  </FormControl>
-                  <FormMessage className="absolute" />
-                </FormItem>
-              )}
-            />
+            <FormItem>
+              <Label>Döküman Tipi</Label>
+              <FormControl>
+                <Input value={model?.documentTypeName} readOnly />
+              </FormControl>
+            </FormItem>
           )}
-          <FormField
-            control={form.control}
-            name="descriptionUser"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Talep Eden ${model?.userName} Açıklaması</FormLabel>
-                <FormControl>
-                  <Textarea
-                    {...field}
-                    value={model?.descriptionUser ?? ""}
-                    rows={5}
-                    className="w-full pb-3.5"
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage className="absolute" />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="actionName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Durum</FormLabel>
-                <FormControl>
-                  <Input {...field} value={model?.actionName ?? ""} readOnly />
-                </FormControl>
-                <FormMessage className="absolute" />
-              </FormItem>
-            )}
-          />
 
-          <FormField
-            control={form.control}
-            name="descriptionAdmin"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>${model?.userName} - Admin Açıklaması</FormLabel>
-                <FormControl>
-                  <Textarea
-                    {...field}
-                    value={model?.descriptionAdmin ?? ""}
-                    rows={5}
-                    className="w-full pb-3.5"
-                    readOnly
-                  />
-                </FormControl>
-                <FormMessage className="absolute" />
-              </FormItem>
-            )}
-          />
+          <FormItem>
+            <Label>Talep Eden ${model?.userName} Açıklaması</Label>
+            <Textarea
+              value={model?.descriptionUser ?? ""}
+              rows={5}
+              className="w-full pb-3.5"
+              readOnly
+            />
+          </FormItem>
+
+          <FormItem>
+            <Label>Durum</Label>
+            <Input value={model?.actionName ?? ""} readOnly />
+          </FormItem>
+
+          <FormItem>
+            <Label>${model?.userName} - Admin Açıklaması</Label>
+            <Textarea
+              value={model?.descriptionAdmin ?? ""}
+              rows={5}
+              className="w-full pb-3.5"
+              readOnly
+            />
+            <FormMessage className="absolute" />
+          </FormItem>
         </div>
         <div className="space-y-5 pr-4">
-          <Combobox<WaitingRequestModel>
+          <Combobox<UpdateWaitingRequestModel>
             control={form.control}
-            variant={"in-column"}
             name={"superAdminActionId"}
+            variant={"in-column"}
             label={"Kalite Durum"}
             options={superAdminActionOpts}
             readonly={variant === "default"}
@@ -277,7 +204,7 @@ const WaitingRequestSheetForm = ({
                 <FormControl>
                   <Textarea
                     {...field}
-                    value={model?.descriptionSuperAdmin ?? ""}
+                    value={field.value ?? ""}
                     readOnly={variant === "default"}
                     className="w-full pb-3.5"
                     rows={5}
@@ -287,7 +214,7 @@ const WaitingRequestSheetForm = ({
               </FormItem>
             )}
           />
-          <Combobox<WaitingRequestModel>
+          <Combobox<UpdateWaitingRequestModel>
             control={form.control}
             name={"superAdminAboutId"}
             variant={"in-column"}
@@ -301,7 +228,7 @@ const WaitingRequestSheetForm = ({
                 Döküman
               </div>
               <div className="flex items-center gap-4 mt-4">
-                {model && model.garbageId && (
+                {model && model.garbageId ? (
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
@@ -316,8 +243,8 @@ const WaitingRequestSheetForm = ({
                     </TooltipTrigger>
                     <TooltipContent>Talep Edilen Doküman</TooltipContent>
                   </Tooltip>
-                )}
-                {model && model.fileId && (
+                ) : null}
+                {model && model.fileId ? (
                   <Tooltip>
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -334,7 +261,7 @@ const WaitingRequestSheetForm = ({
                       <TooltipContent>Mevcut Doküman</TooltipContent>
                     </Tooltip>
                   </Tooltip>
-                )}
+                ) : null}
               </div>
             </div>
           </TooltipProvider>

@@ -48,12 +48,12 @@ export const userNavItems: NavItemModel[] = [
         href: "/user/documents/director-rejection",
         items: [],
       },
-      {
-        icon: DocumentTextIcon,
-        label: "Döküman Ana Liste",
-        href: "/user/documents/document-master",
-        items: [],
-      },
+      // {
+      //   icon: DocumentTextIcon,
+      //   label: "Döküman Ana Liste",
+      //   href: "/user/documents/document-master",
+      //   items: [],
+      // },
     ],
   },
   {

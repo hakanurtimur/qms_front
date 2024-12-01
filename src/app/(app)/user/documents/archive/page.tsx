@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import archiveDocumentService from "@/services/user/documents/archive/ArchiveDocumentService";
 import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
-import requestDocumentService from "@/services/user/documents/RequestDocuments";
+import requestDocumentService from "@/services/user/documents/request-document/RequestDocumentsService";
 import { columns } from "./_components/columns";
 import ArchiveDocSheet from "./_components/archive-doc-sheet";
 import { useAuth } from "@/context/authContext";

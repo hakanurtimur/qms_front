@@ -26,14 +26,16 @@ const ColumnHiderDropdown = <TData,>({ table }: Props<TData>) => {
           .filter((column) => column.getCanHide())
           .map((column) => {
             return (
-              <DropdownMenuCheckboxItem
-                key={column.id}
-                className="capitalize"
-                checked={column.getIsVisible()}
-                onCheckedChange={(value) => column.toggleVisibility(!!value)}
-              >
-                {column.columnDef.footer as string}
-              </DropdownMenuCheckboxItem>
+              column.columnDef.footer && (
+                <DropdownMenuCheckboxItem
+                  key={column.id}
+                  className="capitalize"
+                  checked={column.getIsVisible()}
+                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                >
+                  {column.columnDef.footer as string}
+                </DropdownMenuCheckboxItem>
+              )
             );
           })}
       </DropdownMenuContent>

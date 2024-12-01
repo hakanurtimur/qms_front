@@ -2,71 +2,41 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import SortingBtn from "@/components/ui/sorting-btn";
-import { ResultedRequestsModel } from "@/models/user/documents/waitingRequests/resultedRequestsModel";
-import { EyeIcon } from "lucide-react";
+import { WaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
 
-export const resultedColumns: ColumnDef<ResultedRequestsModel>[] = [
+export const resultedColumns: ColumnDef<WaitingRequestModel>[] = [
   {
-    accessorKey: "Id",
+    accessorKey: "id",
     header: ({ column }) => {
       return (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
-            onClick={() =>
-              column.toggleVisibility(
-                column.getIsVisible() === true ? false : true,
-              )
-            }
-          />
-          <SortingBtn
-            text={"Talep No"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </div>
+        <SortingBtn
+          text={"Talep No"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
       );
     },
+    footer: "Talep No",
   },
   {
-    accessorKey: "AdministratorActionId",
+    accessorKey: "administratorActionName",
     header: ({ column }) => {
       return (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
-            onClick={() =>
-              column.toggleVisibility(
-                column.getIsVisible() === true ? false : true,
-              )
-            }
-          />
-          <SortingBtn
-            text={"Yönetici Durumu"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </div>
+        <SortingBtn
+          text={"Yönetici Durumu"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
       );
     },
+    footer: "Yönetici Durumu",
   },
   {
-    accessorKey: "RequestTypeId",
-    header: ({ column }) => {
-      return (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
-            onClick={() =>
-              column.toggleVisibility(
-                column.getIsVisible() === true ? false : true,
-              )
-            }
-          />
-          <SortingBtn
-            text={"Talep Tipi"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </div>
-      );
+    accessorKey: "requestTypeId",
+    header: () => {
+      return null;
     },
+    cell: () => {
+      return null;
+    },
+    footer: "",
   },
 ];

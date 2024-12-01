@@ -89,10 +89,11 @@ class ApiService {
   // PUT
   public async put<T, R = AxiosResponse<T>>(
     path: string,
-    data: Record<string, unknown>,
+    data: T,
+    config?: AxiosRequestConfig,
   ): Promise<R> {
     const url = `/api/${path}`;
-    const response = await this.api.put<R>(url, data);
+    const response = await this.api.put<R>(url, data, config);
     return response.data;
   }
 

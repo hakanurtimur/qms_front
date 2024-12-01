@@ -26,7 +26,10 @@ import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NonFormCombobox from "@/components/ui/nonform-combobox";
 import WaitingRequestSheet from "@/app/(app)/user/documents/waiting-requests/_components/waiting-request-sheet/waiting-request-sheet";
-import { WaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
+import {
+  UpdateWaitingRequestModel,
+  WaitingRequestModel,
+} from "@/models/user/documents/waitingRequests/waitingRequestModel";
 
 interface DataTableProps<TData, TValue> {
   departmentOps: { [key: string]: string };
@@ -40,6 +43,7 @@ interface DataTableProps<TData, TValue> {
   handleGetGarbage: (fileId: string) => void;
   handleGetFile: (fileId: string) => void;
   documentTypeListQpts?: { [key: number]: string };
+  handleUpdateWaitingRequest: (data: UpdateWaitingRequestModel) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -54,54 +58,13 @@ export function DataTable<TData, TValue>({
   handleGetGarbage,
   handleGetFile,
   documentTypeListQpts,
+  handleUpdateWaitingRequest,
 }: DataTableProps<TData, TValue>) {
   const [globalFilter, setGlobalFilter] = React.useState<string>("");
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
-
-  // TODO: add related mutation
-
-  // const mutation = useMutation({
-  //   mutationKey: ["goDoc"],
-  //   mutationFn: (fileId: string) => documentService.goDoc(fileId),
-  //   onSuccess: (data) => {
-  //     console.log(data);
-  //     console.log(data.data.url);
-  //     if (data.data.url) {
-  //       window.open(data.data.url, "_blank");
-  //     }
-  //   },
-  // });
-
-  // const queryData: UserRequestModelUpdate = {
-  //   RequestNumber: 123,
-  //   ActionId: 102,
-  //   SuperAdminActionName: "Approve Request",
-  //   AdministratorActionName: "Verify Document",
-  //   OpenDate: "2024-11-16T12:00:00Z",
-  //   UserName: "john_doe",
-  //   DepartmentName: "Finance",
-  //   DocumentTypeId: 3,
-  //   RequestTypeName: "Expense Approval",
-  //   DescriptionUser: "Requesting approval for Q4 budget.",
-  //   DescriptionAdmin: "Reviewed and approved for further processing.",
-  //   AdminName: "admin_jane",
-  //   SuperAdminName: "superadmin_mark",
-  //   SuperAdminAboutName: "Jane's Admin Actions",
-  //   DescriptionSuperAdmin: "All documents verified.",
-  //   AdministratorName: "jane_admin",
-  //   UpdateDate: "2024-11-16T15:30:00Z",
-  //   FileId: 456,
-  //   FieName: "budget_q4.pdf",
-  //   GarbageId: 789,
-  //   AuthRequestId: 321,
-  // };
-
-  // const mutationFn = (data: UserRequestModelUpdate) => {
-  //   console.log(data);
-  // };
 
   const table = useReactTable({
     data,
@@ -124,10 +87,6 @@ export function DataTable<TData, TValue>({
       globalFilter,
     },
   });
-
-  const mutationFn = (data: WaitingRequestModel) => {
-    console.log(data);
-  };
 
   return (
     <TooltipProvider>
@@ -238,7 +197,7 @@ export function DataTable<TData, TValue>({
                             id={(
                               row.original as WaitingRequestModel
                             ).id.toString()}
-                            onSubmit={mutationFn}
+                            onSubmit={handleUpdateWaitingRequest}
                             variant={variant}
                             superAdminActionOpts={superAdminActionOpts}
                             superAdminAboutOpts={superAdminAboutOpts}

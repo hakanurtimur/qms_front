@@ -53,6 +53,7 @@ interface DataTableProps<TData, TValue> {
     userId: string;
     formData: RequestDocumentCreate;
   }) => void;
+  documentTypeOpts: { [key: number]: string };
 }
 
 export function DataTable<TData, TValue>({
@@ -64,6 +65,7 @@ export function DataTable<TData, TValue>({
   onPrintibleDocument,
   getDocumentLoading,
   onReviseDocument,
+  documentTypeOpts,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
     {
@@ -315,6 +317,7 @@ export function DataTable<TData, TValue>({
                                   model={
                                     row.original as RequestDocumentListModel
                                   }
+                                  documentTypeOpts={documentTypeOpts}
                                 />
                               </TooltipTrigger>
                               <TooltipContent>Revize Talebi</TooltipContent>

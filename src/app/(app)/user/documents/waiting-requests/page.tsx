@@ -11,52 +11,44 @@ import { resultedColumns } from "@/app/(app)/user/documents/waiting-requests/_co
 import { useMutation, useQuery } from "@tanstack/react-query";
 import waitingRequestsService from "@/services/user/documents/waiting-requests/WaitingRequestsService";
 import { useAuth } from "@/context/authContext";
-import requestDocumentService from "@/services/user/documents/RequestDocuments";
 import PdfViewer from "@/components/ui/pdf-viewer";
+import DocumentReviseForm from "@/app/(app)/user/documents/waiting-requests/_components/document-revise-modal";
+import DocumentUploadForm from "@/app/(app)/user/documents/waiting-requests/_components/document-upload-modal";
+import useDocumentTypes from "@/app/(app)/user/documents/hooks/useDocumentTypes";
+import useSuperAdminActionTypes from "@/app/(app)/user/documents/hooks/useSuperAdminActionTypes";
+import useSuperAdminAboutTypes from "@/app/(app)/user/documents/hooks/useSuperAdminAboutTypes";
+import useGetGarbage from "@/app/(app)/user/documents/hooks/useGetGarbage";
+import useGetFile from "@/app/(app)/user/documents/hooks/useGetFile";
+import { UpdateWaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
+import { toast } from "@/hooks/use-toast";
 
 const Page = () => {
-  // TODO: add query service
-
   const { user } = useAuth();
-
+  const { documentTypeOpts: documentTypeListQpts } = useDocumentTypes();
+  const { superAdminActionOpts } = useSuperAdminActionTypes();
+  const { superAdminAboutOpts } = useSuperAdminAboutTypes();
   const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+  const { garbageSrc, garbageFileName, getGarbageMutation } = useGetGarbage({
+    handleShow,
+    userId: user?.userId ?? "",
+  });
+
   const [showFile, setShowFile] = useState(false);
+  const [openDocumentUploadModal, setDocumentUploadModal] =
+    React.useState(false);
+  const [openDocumentReviseModal, setDocumentReviseModal] =
+    React.useState(false);
+  const { fileUrl, fileName, getFileMutation } = useGetFile({
+    handleShow: () => setShowFile(true),
+    key: ["getDocUrl"],
+  });
 
   const allRequestsQuery = useQuery({
     queryKey: ["waiting-requests"],
     queryFn: () =>
       waitingRequestsService.list(user?.userId ?? "", user?.roleId ?? ""),
   });
-
-  const superAdminActionListQuery = useQuery({
-    queryKey: ["superAdminActionList"],
-    queryFn: async () => waitingRequestsService.getSuperAdminActionList(),
-  });
-
-  const superAdminActionOpts = superAdminActionListQuery.data
-    ? superAdminActionListQuery.data?.data.reduce(
-        (acc, item) => {
-          acc[item.superAdminActionId] = item.superAdminActionName;
-          return acc;
-        },
-        {} as { [key: number]: string },
-      )
-    : ({} as { [key: number]: string });
-
-  const superAdminAboutListQuery = useQuery({
-    queryKey: ["superAdminAboutList"],
-    queryFn: async () => waitingRequestsService.getSuperAdminAboutList(),
-  });
-
-  const superAdminAboutOpts = superAdminAboutListQuery.data
-    ? superAdminAboutListQuery.data?.data.reduce(
-        (acc, item) => {
-          acc[item.superAdminAboutId] = item.superAdminAboutName;
-          return acc;
-        },
-        {} as { [key: number]: string },
-      )
-    : ({} as { [key: number]: string });
 
   const activeRequestsQuery = useQuery({
     queryKey: ["active-waiting-requests"],
@@ -67,37 +59,36 @@ const Page = () => {
       ),
   });
 
-  const documentTypeListQuery = useQuery({
-    queryKey: ["documentTypeList"],
-    queryFn: async () => requestDocumentService.getDocumentTypes(),
+  const resultedRequestsQuery = useQuery({
+    queryKey: ["resulted-requests"],
+    queryFn: () =>
+      waitingRequestsService.getResultedRequests(
+        user?.userId ?? "",
+        user?.roleId ?? "",
+      ),
   });
 
-  const documentTypeListQpts = documentTypeListQuery.data
-    ? documentTypeListQuery.data?.data.reduce(
-        (acc, item) => {
-          acc[item.documentTypeId] = item.documentTypeName;
-          return acc;
-        },
-        {} as { [key: number]: string },
-      )
-    : ({} as { [key: number]: string });
-
-  const resultedRequestsQuery = {
-    data: {
-      data: [
-        {
-          Id: 101,
-          AdministratorActionId: true,
-          RequestTypeId: 1,
-        },
-        {
-          Id: 102,
-          AdministratorActionId: false,
-          RequestTypeId: 2,
-        },
-      ],
+  const updateWaitingRequestMutation = useMutation({
+    mutationKey: ["update-waiting-request"],
+    mutationFn: (data: UpdateWaitingRequestModel) =>
+      waitingRequestsService.update(user?.userId ?? "", data),
+    onSuccess: () => {
+      allRequestsQuery.refetch();
+      activeRequestsQuery.refetch();
+      toast({
+        title: "Başarılı",
+        description: "Talep başarıyla güncellendi",
+        variant: "success",
+      });
     },
-  };
+    onError: () => {
+      toast({
+        title: "Hata",
+        description: "Talep güncellenirken bir hata oluştu",
+        variant: "destructive",
+      });
+    },
+  });
 
   const deparments = allRequestsQuery.data?.data.map(
     (doc) => doc.departmentName,
@@ -122,44 +113,12 @@ const Page = () => {
     ? convertStringArrayToOptions(requestTypes)
     : null;
 
-  const getGarbage = useMutation({
-    mutationKey: ["get-garbage"],
-    mutationFn: (garbageId: string) =>
-      requestDocumentService.getGarbage(garbageId, user?.userId ?? ""),
-    onSuccess: (data) => {
-      console.log(data);
-      const regex = /\.(xls|xlsx|csv)$/i;
-      const fileUrl = data.data.garbageURL;
-      console.log(fileUrl);
-      if (fileUrl && regex.test(fileUrl)) {
-        window.open(fileUrl);
-        return;
-      }
-      setShow(true);
-    },
-  });
-  const getFile = useMutation({
-    mutationKey: ["get-file"],
-    mutationFn: (fileId: string) => requestDocumentService.get(fileId),
-    onSuccess: (data) => {
-      console.log(data);
-      const regex = /\.(xls|xlsx|csv)$/i;
-      const fileUrl = data.data.url;
-      console.log(fileUrl);
-      if (fileUrl && regex.test(fileUrl)) {
-        window.open(fileUrl);
-        return;
-      }
-      setShowFile(true);
-    },
-  });
-
   const handleGetGarbage = (fileId: string) => {
-    getGarbage.mutate(fileId);
+    getGarbageMutation.mutate(fileId);
   };
 
   const handleGetFile = (fileId: string) => {
-    getFile.mutate(fileId);
+    getFileMutation.mutate(fileId);
   };
 
   const activeDeparments = activeRequestsQuery.data?.data.map(
@@ -185,9 +144,22 @@ const Page = () => {
     ? convertStringArrayToOptions(activeRequestTypes)
     : null;
 
+  const handleOpenDocumentUploadModal = () => {
+    setDocumentUploadModal(true);
+  };
+
+  const handleOpenDocumentReviseModal = () => {
+    setDocumentReviseModal(true);
+  };
+
   // const resultedRequestTypes = resultedRequestsQuery.data?.data.map(
   //   (doc) => doc.RequestTypeId,
   // );
+
+  const handleUpdateWaitingRequest = (data: UpdateWaitingRequestModel) => {
+    updateWaitingRequestMutation.mutate(data);
+  };
+
   return (
     <div className="w-full flex flex-col space-y-10">
       <Tabs defaultValue="all">
@@ -202,8 +174,8 @@ const Page = () => {
           {allRequestsQuery.data &&
           departmentOps &&
           documentTypeOpts &&
-          superAdminActionListQuery &&
-          superAdminAboutListQuery &&
+          superAdminActionOpts &&
+          superAdminAboutOpts &&
           requestTypeOpts ? (
             <DataTable
               departmentOps={departmentOps}
@@ -215,6 +187,7 @@ const Page = () => {
               superAdminAboutOpts={superAdminAboutOpts}
               handleGetGarbage={handleGetGarbage}
               handleGetFile={handleGetFile}
+              handleUpdateWaitingRequest={handleUpdateWaitingRequest}
             />
           ) : (
             <LoadingScreen />
@@ -224,7 +197,9 @@ const Page = () => {
           {activeRequestsQuery.data &&
           activeDepartmentOps &&
           activeDocumentTypeOpts &&
-          documentTypeListQuery.data &&
+          superAdminActionOpts &&
+          documentTypeOpts &&
+          superAdminAboutOpts &&
           activeRequestTypeOpts ? (
             <DataTable
               departmentOps={activeDepartmentOps}
@@ -238,6 +213,7 @@ const Page = () => {
               handleGetGarbage={handleGetGarbage}
               handleGetFile={handleGetFile}
               documentTypeListQpts={documentTypeListQpts}
+              handleUpdateWaitingRequest={handleUpdateWaitingRequest}
             />
           ) : (
             <LoadingScreen />
@@ -248,29 +224,45 @@ const Page = () => {
             <ResultedDataTable
               columns={resultedColumns}
               data={resultedRequestsQuery.data.data}
+              handleDocumentUploadModal={handleOpenDocumentUploadModal}
+              handleDocumentReviseModal={handleOpenDocumentReviseModal}
             />
           ) : (
             <LoadingScreen />
           )}
         </TabsContent>
       </Tabs>
-      {getGarbage.data && (
+      {getGarbageMutation.data && (
         <PdfViewer
           variant={"view"}
           open={show}
           onOpenChange={() => setShow(false)}
-          fileName={getGarbage.data.data.fileName ?? null}
-          src={getGarbage.data.data.garbageURL ?? ""}
+          fileName={garbageFileName ?? null}
+          src={garbageSrc ?? ""}
         />
       )}
-      {getFile.data && (
+      {getFileMutation.data && (
         <PdfViewer
           variant={"view"}
           open={showFile}
           onOpenChange={() => setShowFile(false)}
-          fileName={getFile.data.data.fileName ?? null}
-          src={getFile.data.data.url ?? ""}
+          fileName={fileName ?? null}
+          src={fileUrl ?? ""}
         />
+      )}
+      {documentTypeListQpts && (
+        <>
+          <DocumentUploadForm
+            open={openDocumentUploadModal}
+            setOpen={() => setDocumentUploadModal(!openDocumentUploadModal)}
+            documentTypeListQpts={documentTypeListQpts}
+          />
+          <DocumentReviseForm
+            open={openDocumentReviseModal}
+            setOpen={() => setDocumentReviseModal(!openDocumentReviseModal)}
+            documentTypeListQpts={documentTypeListQpts}
+          />
+        </>
       )}
     </div>
   );

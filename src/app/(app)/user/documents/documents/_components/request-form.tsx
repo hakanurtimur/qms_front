@@ -58,13 +58,11 @@ const RequestForm = ({
     },
   });
 
-  console.log(form.formState.errors);
-
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit((formData: RequestDocumentCreate) => {
-          onSubmit({ userId: "1", formData });
+          onSubmit({ userId: user?.userId ?? "", formData });
         })}
         className="space-y-5 mt-5"
       >

@@ -8,18 +8,33 @@ import { columns } from "@/app/(app)/user/documents/documents/_components/column
 import { Button } from "@/components/ui/button";
 import NewRequestSheet from "@/app/(app)/user/documents/documents/_components/newDocRequest/new-request-sheet";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import requestDocumentService from "@/services/user/documents/RequestDocuments";
+import requestDocumentService from "@/services/user/documents/request-document/RequestDocumentsService";
 import { useAuth } from "@/context/authContext";
 
 import { RequestDocumentCreate } from "@/models/user/documents/documents/requestDocumentCreate";
 import { toast } from "@/hooks/use-toast";
 import PdfViewer from "@/components/ui/pdf-viewer";
+import useDocumentTypes from "@/app/(app)/user/documents/hooks/useDocumentTypes";
+import useGetFile from "@/app/(app)/user/documents/hooks/useGetFile";
 
 const Page = () => {
   // TODO: add query service
 
   const [show, setShow] = useState(false);
   const [showPrint, setShowPrint] = useState(false);
+  const { documentTypeOpts } = useDocumentTypes();
+  const { fileUrl, fileName, getFileMutation } = useGetFile({
+    handleShow: () => setShow(true),
+    key: ["getDocUrl"],
+  });
+  const {
+    fileUrl: printFileUrl,
+    fileName: printFileName,
+    getFileMutation: printFileMutation,
+  } = useGetFile({
+    handleShow: () => setShowPrint(true),
+    key: ["getDocUrl", "print"],
+  });
 
   const { user } = useAuth();
 
@@ -38,40 +53,6 @@ const Page = () => {
   const folderOpts = folderNames
     ? convertStringArrayToOptions(folderNames)
     : null;
-
-  const getMutation = useMutation({
-    mutationKey: ["goDocUrl"],
-    mutationFn: (fileId: string) => requestDocumentService.get(fileId),
-    onSuccess: (data) => {
-      console.log(data);
-      const regex = /\.(xls|xlsx|csv)$/i;
-      const fileUrl = data.data.url;
-      if (fileUrl && regex.test(fileUrl)) {
-        console.log("WORKS1");
-        window.open(fileUrl);
-        return;
-      }
-      setShow(true);
-    },
-  });
-
-  const printMutation = useMutation({
-    mutationKey: ["printDocUrl"],
-    mutationFn: (fileId: string) => requestDocumentService.get(fileId),
-    onSuccess: (data) => {
-      console.log(data);
-      const fileUrl = data.data.url;
-
-      const regex = /\.(xls|xlsx|csv)$/i;
-
-      if (fileUrl && regex.test(fileUrl)) {
-        console.log("WORKS1");
-        window.open(fileUrl);
-        return;
-      }
-      setShowPrint(true);
-    },
-  });
 
   const createDocumentMutation = useMutation({
     mutationKey: ["createDocument"],
@@ -108,11 +89,11 @@ const Page = () => {
   });
 
   const handleGetDocument = (fileId: string) => {
-    getMutation.mutate(fileId);
+    getFileMutation.mutate(fileId);
   };
 
   const handlePrintibleDocument = (fileId: string) => {
-    printMutation.mutate(fileId);
+    printFileMutation.mutate(fileId);
   };
 
   const handleCreateDocument = (data: {
@@ -139,16 +120,19 @@ const Page = () => {
         >
           Listele
         </Button>
-        <NewRequestSheet
-          onSubmit={(data: {
-            userId: string;
-            formData: RequestDocumentCreate;
-          }) => {
-            handleCreateDocument(data);
-          }}
-        />
+        {documentTypeOpts && (
+          <NewRequestSheet
+            onSubmit={(data: {
+              userId: string;
+              formData: RequestDocumentCreate;
+            }) => {
+              handleCreateDocument(data);
+            }}
+            documentTypeOpts={documentTypeOpts}
+          />
+        )}
       </div>
-      {query.data && categroyOpts && folderOpts ? (
+      {query.data && categroyOpts && folderOpts && documentTypeOpts ? (
         <DataTable
           categoryOpts={categroyOpts}
           folderOpts={folderOpts}
@@ -156,29 +140,32 @@ const Page = () => {
           data={query.data.data}
           onGetDocument={handleGetDocument}
           onPrintibleDocument={handlePrintibleDocument}
-          getDocumentLoading={getMutation.isPending || printMutation.isPending}
+          getDocumentLoading={
+            getFileMutation.isPending || printFileMutation.isPending
+          }
           onReviseDocument={handleReviseDocument}
+          documentTypeOpts={documentTypeOpts}
         />
       ) : (
         <LoadingScreen />
       )}
-      {getMutation.data && (
+      {getFileMutation.data && (
         <PdfViewer
-          data={getMutation.data.data}
+          data={getFileMutation.data.data}
           open={show}
           onOpenChange={() => setShow(false)}
-          fileName={getMutation.data.data.fileName ?? null}
-          src={getMutation.data.data.url ?? ""}
+          fileName={fileName ?? null}
+          src={fileUrl ?? ""}
         />
       )}
-      {printMutation.data && (
+      {printFileMutation.data && (
         <PdfViewer
-          data={printMutation.data.data}
+          data={printFileMutation.data.data}
           variant={"printible"}
           open={showPrint}
           onOpenChange={() => setShowPrint(false)}
-          fileName={printMutation.data?.data.fileName ?? null}
-          src={printMutation.data?.data.url ?? ""}
+          fileName={printFileName ?? null}
+          src={printFileUrl ?? ""}
         />
       )}
     </div>

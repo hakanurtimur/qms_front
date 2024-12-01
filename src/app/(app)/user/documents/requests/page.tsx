@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
 import LoadingScreen from "@/components/commons/LoadingScreen";
 import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
@@ -7,83 +7,97 @@ import { columns } from "@/app/(app)/user/documents/requests/_components/columns
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/app/(app)/user/documents/requests/_components/data-table";
 import { Button } from "@/components/ui/button";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import requestDocumentService from "@/services/user/documents/request-document/RequestDocumentsService";
+import { useAuth } from "@/context/authContext";
+import useDocumentTypes from "@/app/(app)/user/documents/hooks/useDocumentTypes";
+import useActionTypes from "@/app/(app)/user/documents/hooks/useActionTypes";
+import PdfViewer from "@/components/ui/pdf-viewer";
+import useGetGarbage from "@/app/(app)/user/documents/hooks/useGetGarbage";
+import useGetFile from "@/app/(app)/user/documents/hooks/useGetFile";
+import { UpdateDocumentDemandModel } from "@/models/user/documents/userRequests/userRequestModel";
+import { toast } from "@/hooks/use-toast";
 
 const Page = () => {
-  // TODO: add query service
+  const { user } = useAuth();
+  const { documentTypeOpts: documentTypeListOpts } = useDocumentTypes();
+  const { actionTypeOpts: actionTypeListOpts } = useActionTypes(
+    user?.roleId ?? "",
+  );
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+  const { garbageSrc, garbageFileName, getGarbageMutation } = useGetGarbage({
+    handleShow,
+    userId: user?.userId ?? "",
+  });
+  const [showFile, setShowFile] = useState(false);
+  const handleShowFile = () => setShowFile(true);
+  const { fileUrl, fileName, getFileMutation } = useGetFile({
+    handleShow: handleShowFile,
+    key: ["getDocUrl"],
+  });
 
-  // const query = useQuery({
-  //   queryKey: ["documents"],
-  //   queryFn: () => documentService.getDocuments(moduleId),
-  // });
+  const allRequestsQuery = useQuery({
+    queryKey: ["documents", "all"],
+    queryFn: () =>
+      requestDocumentService.getDocumentDemandList(
+        user?.userId ?? "",
+        user?.roleId ?? "",
+        user?.departmentId ?? "",
+      ),
+  });
 
-  const allRequestsQuery = {
-    data: {
-      data: [
-        {
-          requestNo: 101,
-          state: true,
-          qualityState: false,
-          managerState: true,
-          requestDate: "2024-01-15",
-          requester: "Dr. Ayşe Yılmaz",
-          department: "Oncology",
-          documentType: "Patient Consent Form",
-          requestType: "Initial",
-          updateDate: "2024-01-20",
-        },
-        {
-          requestNo: 102,
-          state: false,
-          qualityState: true,
-          managerState: false,
-          requestDate: "2024-02-10",
-          requester: "Dr. Mehmet Kaya",
-          department: "Cardiology",
-          documentType: "Medical Report",
-          requestType: "Follow-up",
-          updateDate: "2024-02-15",
-        },
-        {
-          requestNo: 103,
-          state: true,
-          qualityState: true,
-          managerState: true,
-          requestDate: "2024-03-05",
-          requester: "Nurse Emine Demir",
-          department: "Pediatrics",
-          documentType: "Treatment Plan",
-          requestType: "Update",
-          updateDate: "2024-03-10",
-        },
-      ],
+  const activeRequestsQuery = useQuery({
+    queryKey: ["documents", "actives"],
+    queryFn: () =>
+      requestDocumentService.getDocumentDemandActiveList(
+        user?.userId ?? "",
+        user?.roleId ?? "",
+        user?.departmentId ?? "",
+      ),
+  });
+
+  const updateDocumentDemandMutation = useMutation({
+    mutationKey: ["documents", "update"],
+    mutationFn: (data: UpdateDocumentDemandModel) =>
+      requestDocumentService.updateDocumentDemand(
+        user?.userId ?? "",
+        user?.roleId ?? "",
+        data,
+      ),
+    onSuccess: async () => {
+      await activeRequestsQuery.refetch();
+      toast({
+        title: "Başarılı",
+        description: "Talep başarıyla güncellendi",
+        variant: "success",
+      });
     },
-  };
-  const activeRequestsQuery = {
-    data: {
-      data: [
-        {
-          requestNo: 101,
-          state: true,
-          qualityState: false,
-          managerState: true,
-          requestDate: "2024-01-15",
-          requester: "Dr. Ayşe Yılmaz",
-          department: "Oncology",
-          documentType: "Patient Consent Form",
-          requestType: "Initial",
-          updateDate: "2024-01-20",
-        },
-      ],
+    onError: () => {
+      toast({
+        title: "Hata",
+        description: "İlgili işlemin süreci devam etmektedir.",
+        variant: "destructive",
+      });
     },
+  });
+
+  const handleGetGarbage = (fileId: string) => {
+    getGarbageMutation.mutate(fileId);
+  };
+  const handleGetFile = (fileId: string) => {
+    getFileMutation.mutate(fileId);
   };
 
-  const deparments = allRequestsQuery.data?.data.map((doc) => doc.department);
+  const deparments = allRequestsQuery.data?.data.map(
+    (doc) => doc.departmentName ?? "",
+  );
 
   const documentTypes = allRequestsQuery.data?.data.map(
-    (doc) => doc.documentType,
+    (doc) => doc.documentTypeName ?? "",
   );
   const requestTypes = allRequestsQuery.data?.data.map(
-    (doc) => doc.requestType,
+    (doc) => doc.requestTypeName ?? "",
   );
 
   const departmentOps = deparments
@@ -99,14 +113,14 @@ const Page = () => {
     : null;
 
   const activeDeparments = activeRequestsQuery.data?.data.map(
-    (doc) => doc.department,
+    (doc) => doc.departmentName ?? "",
   );
 
   const activeDocumentTypes = activeRequestsQuery.data?.data.map(
-    (doc) => doc.documentType,
+    (doc) => doc.documentTypeName ?? "",
   );
   const activeRequestTypes = activeRequestsQuery.data?.data.map(
-    (doc) => doc.requestType,
+    (doc) => doc.requestTypeName ?? "",
   );
 
   const activeDepartmentOps = activeDeparments
@@ -120,6 +134,13 @@ const Page = () => {
   const activeRequestTypeOpts = activeRequestTypes
     ? convertStringArrayToOptions(activeRequestTypes)
     : null;
+
+  const handleUpdateDocumentDemand = async (
+    data: UpdateDocumentDemandModel,
+  ) => {
+    updateDocumentDemandMutation.mutate(data);
+    await activeRequestsQuery.refetch();
+  };
 
   return (
     <div className="w-full flex flex-col space-y-10">
@@ -142,13 +163,20 @@ const Page = () => {
           {allRequestsQuery.data &&
           departmentOps &&
           documentTypeOpts &&
+          documentTypeListOpts &&
+          actionTypeListOpts &&
           requestTypeOpts ? (
             <DataTable
               departmentOps={departmentOps}
               documentTypeOpts={documentTypeOpts}
               requestTypeOpts={requestTypeOpts}
+              documentTypeListOpts={documentTypeListOpts}
+              actionTypeListOpts={actionTypeListOpts}
               columns={columns}
               data={allRequestsQuery.data.data}
+              handleGetGarbage={handleGetGarbage}
+              handleGetFile={handleGetFile}
+              updateDocumentDemandMutation={handleUpdateDocumentDemand}
             />
           ) : (
             <LoadingScreen />
@@ -158,20 +186,45 @@ const Page = () => {
           {activeRequestsQuery.data &&
           activeDepartmentOps &&
           activeDocumentTypeOpts &&
+          documentTypeListOpts &&
+          actionTypeListOpts &&
           activeRequestTypeOpts ? (
             <DataTable
               departmentOps={activeDepartmentOps}
               documentTypeOpts={activeDocumentTypeOpts}
               requestTypeOpts={activeRequestTypeOpts}
+              documentTypeListOpts={documentTypeListOpts}
+              actionTypeListOpts={actionTypeListOpts}
               columns={columns}
               data={activeRequestsQuery.data.data}
               variant={"actives"}
+              handleGetGarbage={handleGetGarbage}
+              handleGetFile={handleGetFile}
+              updateDocumentDemandMutation={handleUpdateDocumentDemand}
             />
           ) : (
             <LoadingScreen />
           )}
         </TabsContent>
       </Tabs>
+      {getGarbageMutation.data && (
+        <PdfViewer
+          variant={"view"}
+          open={show}
+          onOpenChange={() => setShow(false)}
+          fileName={garbageFileName ?? null}
+          src={garbageSrc ?? ""}
+        />
+      )}
+      {getFileMutation.data && (
+        <PdfViewer
+          variant={"view"}
+          open={showFile}
+          onOpenChange={() => setShowFile(false)}
+          fileName={fileName ?? null}
+          src={fileUrl ?? ""}
+        />
+      )}
     </div>
   );
 };

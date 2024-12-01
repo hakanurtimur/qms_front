@@ -13,31 +13,15 @@ import { ClipboardDocumentListIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
 import { RequestDocumentCreate } from "@/models/user/documents/documents/requestDocumentCreate";
-import { useQuery } from "@tanstack/react-query";
-import requestDocuments from "@/services/user/documents/RequestDocuments";
 import RequestForm from "@/app/(app)/user/documents/documents/_components/request-form";
 
 interface Props {
   onSubmit: (data: { userId: string; formData: RequestDocumentCreate }) => void;
   model: RequestDocumentListModel;
+  documentTypeOpts: { [key: number]: string };
 }
 
-const RevisionRequestSheet = ({ onSubmit, model }: Props) => {
-  const optionsQuery = useQuery({
-    queryKey: ["documentTypes2"],
-    queryFn: async () => requestDocuments.getDocumentTypes(),
-  });
-
-  const documentTypeOpts: { [key: number]: string } = optionsQuery.data
-    ? optionsQuery.data.data.reduce(
-        (acc, item) => {
-          acc[item.documentTypeId] = item.documentTypeName;
-          return acc;
-        },
-        {} as { [key: number]: string },
-      )
-    : {};
-
+const RevisionRequestSheet = ({ onSubmit, model, documentTypeOpts }: Props) => {
   return (
     <Sheet>
       <SheetTrigger asChild>

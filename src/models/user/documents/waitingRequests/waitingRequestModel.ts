@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { SUserRequestModelUpdate } from "@/models/user/documents/userRequests/userRequestModel";
 import { SResponseModel } from "@/models/api/response";
 
 export const SWaitingRequestModel = z.object({
@@ -35,8 +34,8 @@ export const SWaitingRequestModel = z.object({
   descriptionAdmin: z.string().nullable(),
   descriptionSuperAdmin: z.string().nullable(),
   fileUploadState: z.boolean(),
-  updateDate: z.string().datetime(),
-  openDate: z.string().datetime(),
+  updateDate: z.string(),
+  openDate: z.string(),
   garbageId: z.number(),
   garbageFileName: z.string().nullable(),
   garbageURL: z.string().nullable(),
@@ -77,10 +76,58 @@ export type WaitingRequestResponseDetailsModel = z.infer<
   typeof SWaitingRequestResponseDetailsModel
 >;
 
-export const SWaitingRequestModelUpdate = SUserRequestModelUpdate;
+export const SWaitingRequestModelUpdate = z.object({
+  Id: z.number().int(),
+  ActionId: z.number().int(),
+  ActionName: z.string(),
+  SuperAdminAboutId: z.number().int(),
+  SuperAdminAboutName: z.string(),
+  AdministratorActionId: z.number().int(),
+  AdministratorActionName: z.string(),
+  AdministratorName: z.string(),
+  AdminName: z.string(),
+  AuthRequestId: z.number().int(),
+  DepartmentName: z.string(),
+  DescriptionSuperAdmin: z.string(),
+  DescriptionAdmin: z.string(),
+  DescriptionUser: z.string(),
+  DocumentTypeId: z.number().int(),
+  DocumentTypeName: z.string(),
+  FileId: z.number().int(),
+  FieName: z.string(),
+  FileUploadState: z.number().int(),
+  GarbageId: z.number().int(),
+  Mail: z.string(),
+  SuperAdminActionId: z.number().int(),
+  SuperAdminActionName: z.string(),
+  OpenDate: z.string().refine((date) => !isNaN(Date.parse(date)), {
+    message: "Geçersiz tarih formatı",
+  }),
+  PhoneNumber: z.string(),
+  RequestTypeId: z.number().int(),
+  RequestTypeName: z.string(),
+  SuperAdminName: z.string(),
+  UpdateDate: z.string().refine((date) => !isNaN(Date.parse(date)), {
+    message: "Geçersiz tarih formatı",
+  }),
+  UserName: z.string(),
+});
 
 export type WaitingRequestModelUpdate = z.infer<
   typeof SWaitingRequestModelUpdate
+>;
+
+export const SUpdateWaitingRequestModel = z.object({
+  id: z.number().int().nonnegative(), // id: Integer, non-negative
+  userId: z.number().int().nonnegative(), // userId: Integer, non-negative
+  superAdminActionId: z.number().int().nonnegative(), // actionId: Integer, non-negative
+  documentTypeId: z.number().int().nonnegative(), // documentTypeId: Integer, non-negative
+  superAdminAboutId: z.number().int().nonnegative(), // superAdminAboutId: Integer, non-negative
+  descriptionSuperAdmin: z.string().nullable(), // descriptionSuperAdmin: String, nullable
+});
+
+export type UpdateWaitingRequestModel = z.infer<
+  typeof SUpdateWaitingRequestModel
 >;
 
 export const SSuperAdminActionOptionListModel = z.object({

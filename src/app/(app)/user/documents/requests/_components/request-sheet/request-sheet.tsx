@@ -9,20 +9,53 @@ import {
 import { Button } from "@/components/ui/button";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import React from "react";
-import { UserRequestModelUpdate } from "@/models/user/documents/userRequests/userRequestModel";
+import { useAuth } from "@/context/authContext";
 import RequestSheetForm from "@/app/(app)/user/documents/requests/_components/request-sheet/request-sheet-form";
+import { UpdateDocumentDemandModel } from "@/models/user/documents/userRequests/userRequestModel";
+import { useQuery } from "@tanstack/react-query";
+import requestDocumentService from "@/services/user/documents/request-document/RequestDocumentsService";
 
 interface Props {
-  model: UserRequestModelUpdate;
-  onSubmit: (data: UserRequestModelUpdate) => void;
+  id: string;
+  onSubmit: (data: UpdateDocumentDemandModel) => void;
   variant: "default" | "actives";
+  documentTypeListOpts: { [key: string]: string };
+  actionTypeListOpts: { [key: string]: string };
+  handleGetGarbage: (fileId: string) => void;
+  handleGetFile: (fileId: string) => void;
 }
 
-const RequestSheet = ({ model, onSubmit, variant }: Props) => {
+const RequestSheet = ({
+  id,
+  onSubmit,
+  variant,
+  documentTypeListOpts,
+  actionTypeListOpts,
+  handleGetGarbage,
+  handleGetFile,
+}: Props) => {
+  const { user } = useAuth();
+
+  const query = useQuery({
+    queryKey: ["documents", "get", id],
+    queryFn: () =>
+      requestDocumentService.getDocumentDemandDetails(id, user?.roleId ?? ""),
+  });
+
+  const handleRefresh = async () => {
+    await query.refetch();
+  };
+
   return (
-    <Sheet>
+    <Sheet
+      onOpenChange={async (isOpen) => {
+        if (!isOpen) {
+          await handleRefresh();
+        }
+      }}
+    >
       <SheetTrigger asChild>
-        <Button size={"icon"}>
+        <Button disabled={query.isPending} size={"icon"}>
           <PencilSquareIcon className="w-4 h-4" />
         </Button>
       </SheetTrigger>
@@ -33,7 +66,20 @@ const RequestSheet = ({ model, onSubmit, variant }: Props) => {
             Buradan taleplteri düzenleyebilirsiniz.
           </SheetDescription>
         </SheetHeader>
-        <RequestSheetForm variant={variant} model={model} onSubmit={onSubmit} />
+        {query.data && (
+          <>
+            <RequestSheetForm
+              variant={variant}
+              model={query.data.data}
+              onSubmit={onSubmit}
+              documentTypeListOpts={documentTypeListOpts}
+              actionTypeListOpts={actionTypeListOpts}
+              handleGetGarbage={handleGetGarbage}
+              handleGetFile={handleGetFile}
+              handleRefresh={handleRefresh}
+            />
+          </>
+        )}
       </SheetContent>
     </Sheet>
   );

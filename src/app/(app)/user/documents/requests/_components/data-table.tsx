@@ -30,82 +30,46 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import NonFormCombobox from "@/components/ui/nonform-combobox";
-import { UserRequestModelUpdate } from "@/models/user/documents/userRequests/userRequestModel";
+import {
+  UpdateDocumentDemandModel,
+  UserRequestModel,
+} from "@/models/user/documents/userRequests/userRequestModel";
 import RequestSheet from "@/app/(app)/user/documents/requests/_components/request-sheet/request-sheet";
-import { WaitingRequestModelUpdate } from "@/models/user/documents/waitingRequests/waitingRequestModel";
 
 interface DataTableProps<TData, TValue> {
   departmentOps: { [key: string]: string };
   documentTypeOpts: { [key: string]: string };
   requestTypeOpts: { [key: string]: string };
+  documentTypeListOpts: { [key: string]: string };
+  actionTypeListOpts: { [key: string]: string };
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   variant?: "default" | "actives";
+  handleGetGarbage: (garbageId: string) => void;
+  handleGetFile: (fileId: string) => void;
+  updateDocumentDemandMutation: (data: UpdateDocumentDemandModel) => void;
 }
 
 export function DataTable<TData, TValue>({
   departmentOps,
   documentTypeOpts,
   requestTypeOpts,
+  documentTypeListOpts,
+  actionTypeListOpts,
   columns,
   data,
   variant = "default",
+  handleGetGarbage,
+  handleGetFile,
+  updateDocumentDemandMutation,
 }: DataTableProps<TData, TValue>) {
   const [globalFilter, setGlobalFilter] = React.useState<string>("");
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
-
-  // TODO: add related mutation
-
-  // const mutation = useMutation({
-  //   mutationKey: ["goDoc"],
-  //   mutationFn: (fileId: string) => documentService.goDoc(fileId),
-  //   onSuccess: (data) => {
-  //     console.log(data);
-  //     console.log(data.data.url);
-  //     if (data.data.url) {
-  //       window.open(data.data.url, "_blank");
-  //     }
-  //   },
-  // });
-
-  const queryData: WaitingRequestModelUpdate = {
-    Id: 1,
-    ActionId: 1001,
-    ActionName: "Create",
-    SuperAdminAboutId: 2001,
-    SuperAdminAboutName: "User Management",
-    AdministratorActionId: 3001,
-    AdministratorActionName: "Approve",
-    AdministratorName: "John Doe",
-    AdminName: "Jane Smith",
-    AuthRequestId: 1,
-    DepartmentName: "IT Department",
-    DescriptionSuperAdmin: "Admin approved the request.",
-    DescriptionAdmin: "Manager reviewed the document.",
-    DescriptionUser: "User submitted the request.",
-    DocumentTypeId: 5001,
-    DocumentTypeName: "PDF",
-    FileId: 6001,
-    FieName: "user_manual.pdf",
-    FileUploadState: 1,
-    GarbageId: 7001,
-    Mail: "user@example.com",
-    SuperAdminActionId: 8001,
-    SuperAdminActionName: "Review",
-    OpenDate: "2024-11-22T10:00:00Z",
-    PhoneNumber: "+1-555-123-4567",
-    RequestTypeId: 9001,
-    RequestTypeName: "Account Creation",
-    SuperAdminName: "Michael Johnson",
-    UpdateDate: "2024-11-23T12:00:00Z",
-    UserName: "alex123",
-  };
-
-  const mutationFn = (data: UserRequestModelUpdate) => {
-    console.log(data);
+  const updateDocumentDemand = (data: UpdateDocumentDemandModel) => {
+    updateDocumentDemandMutation(data);
   };
 
   const table = useReactTable({
@@ -140,12 +104,12 @@ export function DataTable<TData, TValue>({
                 <NonFormCombobox
                   value={
                     (table
-                      .getColumn("department")
+                      .getColumn("departmentName")
                       ?.getFilterValue() as string) || ""
                   }
                   onChange={(value) =>
                     table
-                      .getColumn("department")
+                      .getColumn("departmentName")
                       ?.setFilterValue(value ? value : "")
                   }
                   placeholder={"Bölüm Adı"}
@@ -157,12 +121,12 @@ export function DataTable<TData, TValue>({
                 <NonFormCombobox
                   value={
                     (table
-                      .getColumn("documentType")
+                      .getColumn("documentTypeName")
                       ?.getFilterValue() as string) || ""
                   }
                   onChange={(value) =>
                     table
-                      .getColumn("documentType")
+                      .getColumn("documentTypeName")
                       ?.setFilterValue(value ? value : "")
                   }
                   placeholder={"Doküman Tipi"}
@@ -173,12 +137,12 @@ export function DataTable<TData, TValue>({
                 <NonFormCombobox
                   value={
                     (table
-                      .getColumn("requestType")
+                      .getColumn("requestTypeName")
                       ?.getFilterValue() as string) || ""
                   }
                   onChange={(value) =>
                     table
-                      .getColumn("requestType")
+                      .getColumn("requestTypeName")
                       ?.setFilterValue(value ? value : "")
                   }
                   placeholder={"Talep Tipi"}
@@ -238,9 +202,17 @@ export function DataTable<TData, TValue>({
                           <Tooltip>
                             <TooltipTrigger asChild>
                               <RequestSheet
-                                model={queryData}
-                                onSubmit={mutationFn}
+                                id={
+                                  (
+                                    row.original as UserRequestModel
+                                  ).id?.toString() ?? ""
+                                }
+                                onSubmit={updateDocumentDemand}
                                 variant={variant}
+                                documentTypeListOpts={documentTypeListOpts}
+                                actionTypeListOpts={actionTypeListOpts}
+                                handleGetGarbage={handleGetGarbage}
+                                handleGetFile={handleGetFile}
                               />
                             </TooltipTrigger>
                             <TooltipContent>TEST</TooltipContent>
@@ -263,7 +235,7 @@ export function DataTable<TData, TValue>({
             </Table>
           </div>
           <div>
-            <DataTablePagination table={table} />
+            <DataTablePagination isColumnHiderDropdownVisible table={table} />
           </div>
         </div>
       </div>

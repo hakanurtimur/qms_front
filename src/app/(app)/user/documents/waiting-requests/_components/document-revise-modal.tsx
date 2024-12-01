@@ -18,27 +18,30 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  DocumentReviseModel,
-  IDocumentReviseSchema,
-} from "../model/document-revise.model";
+
 import { DatePicker } from "@/components/ui/date-picker";
-import { DialogOverlay } from "@radix-ui/react-dialog";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 import { Input } from "@/components/ui/input";
 import { Dropzone } from "@/components/ui/dropZone";
+import {
+  ResultedRequestsFormModel,
+  SResultedRequestsFormModel,
+} from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
+import Combobox from "@/components/ui/combobox";
 
 interface DocumentReviseFormProps {
   open: boolean;
   setOpen: (open: boolean) => void;
+  documentTypeListQpts: { [key: string]: string };
 }
 
 export default function DocumentReviseForm({
   open,
   setOpen,
+  documentTypeListQpts,
 }: DocumentReviseFormProps) {
-  const form = useForm<DocumentReviseModel>({
-    resolver: zodResolver(IDocumentReviseSchema),
+  const form = useForm<ResultedRequestsFormModel>({
+    resolver: zodResolver(SResultedRequestsFormModel),
     defaultValues: {
       Id: 0,
       UserId: 0,
@@ -46,7 +49,7 @@ export default function DocumentReviseForm({
       FileId: 0,
       ReviseNo: "",
       Code: "",
-      Name: "",
+      NewFileName: "",
       ReviseDate: "",
       ArchiveInfo: "",
       IssueTypeId: 0,
@@ -54,7 +57,7 @@ export default function DocumentReviseForm({
     },
   });
 
-  function onSubmit(data: DocumentReviseModel) {
+  function onSubmit(data: ResultedRequestsFormModel) {
     console.log(data);
     setOpen(false);
   }
@@ -65,7 +68,6 @@ export default function DocumentReviseForm({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogOverlay className="fixed inset-0 z-10 bg-gray-800 backdrop-blur-sm bg-opacity-60 transition-opacity" />
       <DialogContent className="max-w-[970px] h-5/7 flex flex-col">
         <DialogHeader className="px-6 py-4 border-b">
           <DialogTitle>Döküman Revize</DialogTitle>
@@ -77,23 +79,12 @@ export default function DocumentReviseForm({
           >
             <div className="flex flex-row gap-6">
               <div className="flex flex-col w-56 gap-2">
-                <FormField
+                <Combobox
                   control={form.control}
-                  name="DocumentTypeId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Belge Türü</FormLabel>
-                      <DynamicCombobox
-                        name="DocumentTypeId"
-                        options={{
-                          1: "Broşür",
-                          2: "Bilgi Föyleri",
-                        }}
-                        onChange={(value) => field.onChange(value)}
-                      />
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  name={"DocumentTypeId"}
+                  label={"Doküman Tİpi"}
+                  options={documentTypeListQpts}
+                  variant={"in-column"}
                 />
                 <FormField
                   control={form.control}
@@ -178,7 +169,7 @@ export default function DocumentReviseForm({
               <div className="flex flex-col gap-2 w-[350px]">
                 <FormField
                   control={form.control}
-                  name="Name"
+                  name="NewFileName"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Dosya İsmi</FormLabel>

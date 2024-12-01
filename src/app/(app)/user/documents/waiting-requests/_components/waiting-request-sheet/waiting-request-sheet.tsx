@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import React from "react";
-import { WaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
+import { UpdateWaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/context/authContext";
 import waitingRequestsService from "@/services/user/documents/waiting-requests/WaitingRequestsService";
@@ -17,7 +17,7 @@ import WaitingRequestSheetForm from "@/app/(app)/user/documents/waiting-requests
 
 interface Props {
   id: string;
-  onSubmit: (data: WaitingRequestModel) => void;
+  onSubmit: (data: UpdateWaitingRequestModel) => void;
   variant: "default" | "actives";
   superAdminActionOpts: { [key: number]: string };
   superAdminAboutOpts: { [key: number]: string };

@@ -1,7 +1,6 @@
 import api from "@/services/Api";
 import {
-  SuperAdminAboutOptionListResponseModel,
-  SuperAdminActionOptionListResponseModel,
+  UpdateWaitingRequestModel,
   WaitingRequestResponseDetailsModel,
   WaitingRequestResponseModel,
 } from "@/models/user/documents/waitingRequests/waitingRequestModel";
@@ -33,12 +32,23 @@ export class WaitingRequestsService {
     );
   }
 
-  public async getSuperAdminActionList(): Promise<SuperAdminActionOptionListResponseModel> {
-    return await api.get(`/documentdemand/get-demand-superadmin-action-list`);
+  public async update(
+    user_id: string,
+    data: UpdateWaitingRequestModel,
+  ): Promise<unknown> {
+    return await api.put(
+      `/documentdemand/update-superadmin-document-demand/${user_id}`,
+      data,
+    );
   }
 
-  public async getSuperAdminAboutList(): Promise<SuperAdminAboutOptionListResponseModel> {
-    return await api.get(`/documentdemand/get-demand-superadmin-about-list`);
+  public async getResultedRequests(
+    user_id: string,
+    role_id: string,
+  ): Promise<WaitingRequestResponseModel> {
+    return await api.get(
+      `/documentdemand/get-superadmin-document-demand-resulted-list/${user_id}/${role_id}`,
+    );
   }
 }
 
