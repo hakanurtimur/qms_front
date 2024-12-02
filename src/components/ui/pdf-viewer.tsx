@@ -14,13 +14,16 @@ import {
   PaginationContent,
   PaginationItem,
   PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
 } from "@/components/ui/pagination";
 import { FormItem } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
+import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+import {
+  ArrowsPointingInIcon,
+  ArrowsPointingOutIcon,
+} from "@heroicons/react/24/outline";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -44,6 +47,8 @@ const PdfViewer = ({
   const [numPages, setNumPages] = useState<number>();
   const [pageNumber, setPageNumber] = useState<number>(1);
 
+  const [isZoomed, setIsZoomed] = useState(true);
+
   function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
     setNumPages(numPages);
   }
@@ -62,7 +67,9 @@ const PdfViewer = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="md:max-w-7xl w-full">
+      <DialogContent
+        className={`${isZoomed ? "min-w-screen-90 max-w-screen-90" : "max-w-3xl min-h-screen-90 max-h-screen-90"} w-full flex gap-8 flex-col items-center justify-center`}
+      >
         <DialogHeader>
           <DialogTitle>{fileName}</DialogTitle>
         </DialogHeader>
@@ -88,26 +95,31 @@ const PdfViewer = ({
         {(variant === "default" || variant === "view") && (
           <div className="mx-h-[600px]">
             <Document
-              className="max-h-[500px] min-h-[500px] overflow-y-scroll text-center"
+              className={`${isZoomed ? "max-w-screen-70 max-h-screen-70 min-h-screen-70" : "max-h-[600px] min-h-[600px] p-0"} overflow-y-scroll text-center flex items-center justify-center`}
               file={adjustedSrc}
               onLoadSuccess={onDocumentLoadSuccess}
             >
               <Page
-                className="flex justify-center items-center flex-col"
+                className="flex justify-center items-center flex-col w-full"
                 pageNumber={pageNumber}
                 renderTextLayer={false}
                 renderAnnotationLayer={false}
+                width={isZoomed ? 1200 : 600}
               />
             </Document>
             <div className="flex gap-2 items-center justify-center mt-4">
               <Pagination>
                 <PaginationContent>
                   <PaginationItem>
-                    <PaginationPrevious
+                    <Button
                       onClick={() => {
                         handlePageChange(pageNumber - 1);
                       }}
-                    />
+                      variant={"ghost"}
+                      className="flex gap-2"
+                    >
+                      <ChevronLeftIcon className="w-4 h-4" /> Önceki
+                    </Button>
                   </PaginationItem>
 
                   {Array.from({ length: numPages || 0 }, (_, index) => (
@@ -122,11 +134,15 @@ const PdfViewer = ({
                     </PaginationItem>
                   ))}
                   <PaginationItem>
-                    <PaginationNext
+                    <Button
                       onClick={() => {
                         handlePageChange(pageNumber + 1);
                       }}
-                    />
+                      variant={"ghost"}
+                      className="flex gap-2"
+                    >
+                      Sonraki <ChevronRightIcon className="w-4 h-4" />
+                    </Button>
                   </PaginationItem>
                 </PaginationContent>
               </Pagination>
@@ -136,7 +152,21 @@ const PdfViewer = ({
         {variant === "printible" && (
           <iframe src={src} className="w-full h-[600px]" />
         )}
-        <DialogFooter>
+        <DialogFooter className="w-full flex items-center gap-5 justify-end">
+          <Button
+            onClick={() => {
+              setIsZoomed(!isZoomed);
+            }}
+            variant="outline"
+            size={"icon"}
+            disabled
+          >
+            {isZoomed ? (
+              <ArrowsPointingInIcon className="w-4 h-4" />
+            ) : (
+              <ArrowsPointingOutIcon className="w-4 h-4" />
+            )}
+          </Button>
           <DialogClose asChild>
             <Button>Kapat</Button>
           </DialogClose>

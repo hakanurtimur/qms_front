@@ -167,9 +167,7 @@ const RequestSheetForm = ({
               name="descriptionUser"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
-                    Talep Eden ${model?.userName} Açıklaması
-                  </FormLabel>
+                  <FormLabel>Talep Eden {model?.userName} Açıklaması</FormLabel>
                   <FormControl>
                     <Textarea
                       rows={5}
@@ -213,7 +211,7 @@ const RequestSheetForm = ({
               name="descriptionAdmin"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>${model?.userName} - Admin Açıklaması</FormLabel>
+                  <FormLabel>{model?.userName} - Admin Açıklaması</FormLabel>
                   <FormControl>
                     <Textarea
                       rows={5}

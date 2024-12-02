@@ -1,6 +1,5 @@
 "use client";
 import Logo from "@/components/ui/Logo";
-import { userNavItems } from "@/constants/userNavItems";
 import NavItem from "@/components/layout/NavItem";
 import {
   Sheet,
@@ -66,8 +65,6 @@ const DashboardLayout = ({
   const { showAlertForDuration } = useAlertStore(
     (state) => state as IAlertState,
   );
-
-  console.log(user && user.roleId);
 
   const [popoverOpen, setPopoverOpen] = useState(false);
 
@@ -169,7 +166,7 @@ const DashboardLayout = ({
                 <div className="p-5">
                   <Logo className={"text-primary-50"} />
                 </div>
-                {userNavItems.map((item) => (
+                {navItems.map((item) => (
                   <NavItem item={item} key={item.label} />
                 ))}
                 {variant === "user" && user?.userId && user.roleId === "4" && (

@@ -43,7 +43,11 @@ const WaitingRequestSheet = ({
   });
 
   return (
-    <Sheet>
+    <Sheet
+      onOpenChange={async () => {
+        await requestDetailsQuery.refetch();
+      }}
+    >
       <SheetTrigger asChild>
         <Button size={"icon"}>
           <PencilSquareIcon className="w-4 h-4" />

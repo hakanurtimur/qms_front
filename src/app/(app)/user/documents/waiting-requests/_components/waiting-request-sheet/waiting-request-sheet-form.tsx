@@ -58,7 +58,7 @@ const WaitingRequestSheetForm = ({
     defaultValues: {
       id: model?.id ?? 0,
       userId: user && user.userId ? +user.userId : 0,
-      superAdminActionId: model?.actionId ?? 0,
+      superAdminActionId: model?.superAdminActionId ?? 0,
       documentTypeId: model?.documentTypeId ?? 0,
       superAdminAboutId: model?.superAdminAboutId ?? 0,
       descriptionSuperAdmin: model?.descriptionSuperAdmin ?? "",
@@ -161,7 +161,7 @@ const WaitingRequestSheetForm = ({
           )}
 
           <FormItem>
-            <Label>Talep Eden ${model?.userName} Açıklaması</Label>
+            <Label>Talep Eden {model?.userName} Açıklaması</Label>
             <Textarea
               value={model?.descriptionUser ?? ""}
               rows={5}
@@ -176,7 +176,7 @@ const WaitingRequestSheetForm = ({
           </FormItem>
 
           <FormItem>
-            <Label>${model?.userName} - Admin Açıklaması</Label>
+            <Label>{model?.userName} - Admin Açıklaması</Label>
             <Textarea
               value={model?.descriptionAdmin ?? ""}
               rows={5}
@@ -280,8 +280,9 @@ const WaitingRequestSheetForm = ({
                     İptal Et
                   </Button>
                 </SheetClose>
-
-                <Button type="submit">Kaydet</Button>
+                <SheetClose asChild>
+                  <Button type="submit">Kaydet</Button>
+                </SheetClose>
               </>
             )}
           </SheetFooter>

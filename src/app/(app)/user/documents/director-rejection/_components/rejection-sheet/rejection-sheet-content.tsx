@@ -108,7 +108,7 @@ const RejectionSheetContent = ({ model, variant }: Props) => {
           />
         </FormItem>
         <FormItem>
-          <Label>Talep Eden ${model?.UserName} Açıklaması</Label>
+          <Label>Talep Eden {model?.UserName} Açıklaması</Label>
           <Textarea
             rows={5}
             className="w-full pb-3.5"
@@ -125,7 +125,7 @@ const RejectionSheetContent = ({ model, variant }: Props) => {
           />
         </FormItem>
         <FormItem>
-          <Label>${model?.UserName} - Admin Açıklaması</Label>
+          <Label>{model?.UserName} - Admin Açıklaması</Label>
           <Textarea
             rows={5}
             className="w-full pb-3.5"

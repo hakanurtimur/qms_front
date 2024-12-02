@@ -8,51 +8,6 @@ import { EyeIcon } from "lucide-react";
 
 export const columns: ColumnDef<DirectorRejectionModel>[] = [
   {
-    accessorKey: "requestNo",
-    header: ({ column }) => {
-      return (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
-            onClick={() =>
-              column.toggleVisibility(
-                column.getIsVisible() === true ? false : true,
-              )
-            }
-          />
-          <SortingBtn
-            text={"Talep No"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "state",
-    header: ({ column }) => {
-      return (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
-            onClick={() =>
-              column.toggleVisibility(
-                column.getIsVisible() === true ? false : true,
-              )
-            }
-          />
-          <SortingBtn
-            text={"Durum"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </div>
-      );
-    },
-    cell: ({ cell }) => {
-      return cell.getValue() ? "AKTİF" : "PASİF";
-    },
-  },
-  {
     accessorKey: "qualityState",
     header: ({ column }) => {
       return (
@@ -125,27 +80,6 @@ export const columns: ColumnDef<DirectorRejectionModel>[] = [
     },
   },
   {
-    accessorKey: "requester",
-    header: ({ column }) => {
-      return (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
-            onClick={() =>
-              column.toggleVisibility(
-                column.getIsVisible() === true ? false : true,
-              )
-            }
-          />
-          <SortingBtn
-            text={"Talep Eden"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </div>
-      );
-    },
-  },
-  {
     accessorKey: "department",
     header: ({ column }) => {
       return (
@@ -160,27 +94,6 @@ export const columns: ColumnDef<DirectorRejectionModel>[] = [
           />
           <SortingBtn
             text={"Bölüm"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          />
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "adminName",
-    header: ({ column }) => {
-      return (
-        <div className="flex items-center gap-1">
-          <EyeIcon
-            className="h-5 w-5 hover:text-black-900 hover:scale-125 cursor-pointer"
-            onClick={() =>
-              column.toggleVisibility(
-                column.getIsVisible() === true ? false : true,
-              )
-            }
-          />
-          <SortingBtn
-            text={"Admin Adı"}
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           />
         </div>

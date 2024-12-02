@@ -13,6 +13,22 @@ const config = {
   prefix: "",
   theme: {
     extend: {
+      minWidth: {
+        "screen-90": "90vw",
+        "screen-70": "80vw",
+      },
+      minHeight: {
+        "screen-90": "90vh",
+        "screen-70": "70vh",
+      },
+      maxWidth: {
+        "screen-90": "90vw",
+        "screen-70": "80vw",
+      },
+      maxHeight: {
+        "screen-90": "90vh",
+        "screen-70": "70vh",
+      },
       colors: {
         primary: colors.slate,
         secondary: colors.green,
