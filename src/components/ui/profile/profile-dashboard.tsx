@@ -170,11 +170,10 @@ const ProfileDashboard = () => {
   return (
     <div className="flex flex-col gap-12">
       <div className="grid md:grid-cols-2 grid-cols-1 gap-8">
-        <Card >
-          <CardHeader >
+        <Card>
+          <CardHeader>
             <CardTitle className="py-1">Kişisel Bilgiler</CardTitle>
-          <div className="w-92  pt-1  rounded text-gray-900 bg-black-200"/>
-
+            <div className="w-92  pt-1  rounded text-gray-900 bg-black-200" />
           </CardHeader>
 
           <CardContent className="grid grid-cols-3 gap-4">
@@ -211,10 +210,9 @@ const ProfileDashboard = () => {
         <Card>
           <CardHeader>
             <CardTitle className="py-1">Şirket Bilgileri</CardTitle>
-            <div className="w-92  pt-1  rounded text-gray-900 bg-black-200"/>
-
+            <div className="w-92  pt-1  rounded text-gray-900 bg-black-200" />
           </CardHeader>
-          
+
           <CardContent className="w-full h-full flex flex-row justify-between ">
             <div className="flex flex-col gap-4 w-3/4">
               <div className="flex flex-row gap-4 min-w-full">

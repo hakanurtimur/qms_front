@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, Dock, InfoIcon, User } from "lucide-react";
+import { Clock, Dock, InfoIcon } from "lucide-react";
 import DashboardCard from "./_components/dashboard-card";
 import { BarChartComponent } from "@/components/ui/bar-chart";
 import TaskTable from "./_components/task-table";
@@ -40,14 +40,13 @@ const Page = () => {
       <DashboardCard items={dashboardCardItems} />
       <div className="flex w-full h-fit ">
         <div className="flex w-1/3 h-full gap-4">
-        <BarChartComponent/>
+          <BarChartComponent />
         </div>
         <div className="flex w-2/3 h-full gap-4">
-        <TaskTable/>
+          <TaskTable />
         </div>
       </div>
-      <SearchableTaskTable/>
-
+      <SearchableTaskTable />
     </div>
   );
 };

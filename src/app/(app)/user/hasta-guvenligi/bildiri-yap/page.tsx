@@ -10,7 +10,6 @@ import {
 } from "@/models/incidentForm";
 import PatientReport from "./_components/PatientReport";
 import React, { useState } from "react";
-import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 
 const DUMMY_PATIENT: IncidentFormPatient = {
   name: "Hakan Urtimur",
@@ -28,7 +27,7 @@ const DUMMY_PATIENT: IncidentFormPatient = {
 const Page = () => {
   const [patient, setPatient] = useState<IncidentFormPatient | null>(null);
 
-  const [selectedTab, setSelectedTab] = useState<string | number>("patient");
+  const [selectedTab] = useState<string | number>("patient");
 
   const handleSubmitPatientFilter = (data: IncidentFormFilter) => {
     console.log(data);
@@ -50,14 +49,6 @@ const Page = () => {
 
   const handleIncidentReportSubmit = (data: IncidentForm) => {
     console.log(data);
-  };
-
-  const handleTabChange = (value: string | number) => {
-    setSelectedTab(value);
-  };
-
-  const options = {
-    patient: "Hasta",
   };
 
   return (

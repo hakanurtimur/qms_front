@@ -14,7 +14,10 @@ import { PatientFeedbackForm } from "@/models/patientFeedbackForm";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
-import { PatientDetailsSchema, TPatientDetails } from "@/app/modules/2/models/patient-details-model";
+import {
+  PatientDetailsSchema,
+  TPatientDetails,
+} from "@/app/modules/2/models/patient-details-model";
 
 interface PatientDetailsFormProps {
   containerRef: React.RefObject<HTMLDivElement>;

@@ -9,7 +9,6 @@ import { useRef } from "react";
 import PatientDetailsForm from "./patient-details-form";
 import PatientFiltering from "./PatientFiltering";
 
-
 interface Props {
   onSubmitFilter: (data: PatientFeedbackFilterForm) => void;
   patientModel: PatientFeedbackForm | null;
@@ -42,11 +41,12 @@ const PatientFeedback = ({
                 onReset={onReset}
               />
             </div>
-            {patientModel && (<div className="md:w-1 md:h-full w-full h-1   rounded bg-black-200 text-black-800"></div>)}
+            {patientModel && (
+              <div className="md:w-1 md:h-full w-full h-1   rounded bg-black-200 text-black-800"></div>
+            )}
             {patientModel && (
               <>
                 <div className="w-full md:flex-row flex-col flex ">
-                  
                   <PatientDetailsForm
                     containerRef={containerRef}
                     onSubmitPatient={onSubmitPatient}

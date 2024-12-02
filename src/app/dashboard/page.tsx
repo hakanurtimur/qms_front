@@ -1,7 +1,7 @@
-import DashboardCards from "@/components/DashboardCards"
-import DailyChart from "@/components/DailyChart"
-import RecentActivities from "@/components/RecentActivities"
-import TaskTable from "@/components/TaskTable"
+import DashboardCards from "@/components/DashboardCards";
+import DailyChart from "@/components/DailyChart";
+import RecentActivities from "@/components/RecentActivities";
+import TaskTable from "@/components/TaskTable";
 
 export default function DashboardPage() {
   return (
@@ -14,6 +14,5 @@ export default function DashboardPage() {
       </div>
       <TaskTable />
     </div>
-  )
+  );
 }
-

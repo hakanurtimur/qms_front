@@ -16,8 +16,6 @@ import {
   SPatientFeedbackFilterForm,
 } from "@/models/patientFeedbackForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { nameSurnamePairs } from "@/constants/dummy_combobox_items";
-import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 
 interface Props {
   onSubmitFilter: (data: PatientFeedbackFilterForm) => void;
