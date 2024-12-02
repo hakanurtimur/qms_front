@@ -36,10 +36,10 @@ const PatientReport = ({
       </div>
 
       {patientFormModel && (
-        <div className="w-full flex md:flex-row flex-col gap-4">
+        <div className="w-full flex md:flex-row flex-col gap-4 ">
           <div
             className="md:w-1 md:h-[450px] w-full h-1
-            rounded bg-black-200 text-black-800"
+            rounded bg-black-200 text-black-800 md:no-scrollbar"
           ></div>
           <PatientReportIncident
             patientFormModel={patientFormModel}

@@ -37,7 +37,6 @@ import {
   IChangePasswordStore,
   useChangePasswordStore,
 } from "@/app/(app)/user/service/change-password.store";
-import { IAlertState, useAlertStore } from "@/services/states/alert.service";
 import DynamicAlert from "../ui/dynamic-alert";
 import { useRouter } from "next/navigation";
 import { ResponseModel } from "@/models/api/response";
@@ -62,9 +61,11 @@ const DashboardLayout = ({
     (state) => state as IChangePasswordStore,
   );
   const router = useRouter();
-  const { showAlertForDuration } = useAlertStore(
-    (state) => state as IAlertState,
-  );
+<<<<<<< Updated upstream
+=======
+
+  console.log(user && user.roleId);
+>>>>>>> Stashed changes
 
   const [popoverOpen, setPopoverOpen] = useState(false);
 
@@ -73,7 +74,6 @@ const DashboardLayout = ({
     console.log("res", res);
     const resWithTyped = res as ResponseModel;
     if (resWithTyped.isSuccessful) {
-      showAlertForDuration("Şifre Değiştirme Başarılı", "success", 3000);
       await authService.logout();
       //if path is in /user redirect to login page, else redirect to admin login page
       const currentPath = window.location.pathname;
@@ -82,8 +82,6 @@ const DashboardLayout = ({
       } else {
         router.push("/admin-login");
       }
-    } else {
-      showAlertForDuration("Başarısız İşlem!", "error", 3000);
     }
   };
 

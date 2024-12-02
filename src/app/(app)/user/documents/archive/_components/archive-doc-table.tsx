@@ -276,7 +276,7 @@ export default function ArchiveDocTable({
                         </TableHead>
                       );
                     })}
-                    <TableHead className="w-20">İşlem</TableHead>
+                    <TableHead className="w-20 pl-16">İşlem</TableHead>
                   </TableRow>
                 ))}
               </TableHeader>

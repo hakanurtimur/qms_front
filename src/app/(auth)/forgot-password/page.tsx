@@ -6,7 +6,6 @@ import tokenService from "@/services/TokenService";
 import LoadingScreen from "@/components/commons/LoadingScreen";
 import ForgotPassowordForm from "@/components/ui/reusable-forms/forgot-passoword-form";
 import FormPage from "@/app/(auth)/forgot-password/_components/form-page";
-import { IAlertState, useAlertStore } from "@/services/states/alert.service";
 import {
   IForgetPasswordState,
   useForgetPasswordStore,
@@ -20,9 +19,6 @@ const Page = () => {
   const { forgetPassword } = useForgetPasswordStore(
     (state) => state as IForgetPasswordState,
   );
-  const { showAlertForDuration } = useAlertStore(
-    (state) => state as IAlertState,
-  );
 
   useEffect(() => {
     const authToken = !tokenService.isAccessTokenExpired();
@@ -34,24 +30,13 @@ const Page = () => {
 
   const handleSubmit = async (data: ForgotPasswordModel) => {
     if (!captchaValue) {
-      showAlertForDuration(
-        "Lütfen reCAPTCHA doğrulamasını yapınız",
-        "error",
-        3000,
-      );
       return;
     }
     const res: unknown = await forgetPassword(data.email);
     const resWithTyped = res as ResponseModel;
     console.log("res", res);
     if (resWithTyped.isSuccessful) {
-      showAlertForDuration("Şifre sıfırlama maili gönderildi", "success", 3000);
-      console.log("success");
-
       router.push("/login");
-    } else {
-      console.log("error");
-      showAlertForDuration("Bir hata oluştu", "error", 3000);
     }
 
     console.log(data);

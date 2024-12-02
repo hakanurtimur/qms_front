@@ -59,7 +59,6 @@ const Page = () => {
   const options = {
     general: "Genel",
     patient: "Hasta",
-    employee: "Çalışan",
   };
 
   return (

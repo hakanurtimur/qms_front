@@ -60,19 +60,40 @@ export const userNavItems: NavItemModel[] = [
     icon: ArrowPathRoundedSquareIcon,
     label: "Hasta Geri Bildirim",
     href: "/hasta-geri-bildirim",
-    items: [],
+    items: [
+      {
+        icon: DocumentTextIcon,
+        label: "Bildiri Yap",
+        href: "/user/hasta-geri-bildirim/bildiri-yap",
+        items: [],
+      },
+    ],
   },
   {
     icon: FlagIcon,
-    label: "Hasta Güvenliği",
+    label: "Hasta Güvenliği Bildirimi",
     href: "/hasta-guvenligi",
-    items: [],
+    items: [
+      {
+        icon: DocumentTextIcon,
+        label: "Bildiri Yap",
+        href: "/user/hasta-guvenligi/bildiri-yap",
+        items: [],
+      },
+    ],
   },
   {
     icon: CursorArrowRippleIcon,
-    label: "Çalışan Güvenliği",
+    label: "Çalışan Güvenliği Bildirimi",
     href: "/calisan-guvenligi",
-    items: [],
+    items: [
+      {
+        icon: DocumentTextIcon,
+        label: "Bildiri Yap",
+        href: "/user/calisan-guvenligi/bildiri-yap",
+        items: [],
+      },
+    ],
   },
   {
     icon: ArrowTopRightOnSquareIcon,

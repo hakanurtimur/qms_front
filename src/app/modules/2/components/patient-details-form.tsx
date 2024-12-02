@@ -147,7 +147,7 @@ const PatientDetailsForm = ({
                     <div>Açıklama</div>
                   </FormLabel>
                   <FormControl>
-                    <Textarea className="md:w-[973px] " rows={6} {...field} />
+                    <Textarea className="md:w-[973px] " rows={5} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

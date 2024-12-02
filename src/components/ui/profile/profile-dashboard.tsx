@@ -170,10 +170,13 @@ const ProfileDashboard = () => {
   return (
     <div className="flex flex-col gap-12">
       <div className="grid md:grid-cols-2 grid-cols-1 gap-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Kişisel Bilgiler</CardTitle>
+        <Card >
+          <CardHeader >
+            <CardTitle className="py-1">Kişisel Bilgiler</CardTitle>
+          <div className="w-92  pt-1  rounded text-gray-900 bg-black-200"/>
+
           </CardHeader>
+
           <CardContent className="grid grid-cols-3 gap-4">
             <FormItem>
               <Label>Sicil No</Label>
@@ -207,26 +210,29 @@ const ProfileDashboard = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Şirket Bilgileri</CardTitle>
+            <CardTitle className="py-1">Şirket Bilgileri</CardTitle>
+            <div className="w-92  pt-1  rounded text-gray-900 bg-black-200"/>
+
           </CardHeader>
-          <CardContent className="w-full h-full flex flex-row ">
-            <div className="flex flex-col gap-4 w-2/3">
-              <div className="flex flex-row gap-4">
-                <FormItem>
+          
+          <CardContent className="w-full h-full flex flex-row justify-between ">
+            <div className="flex flex-col gap-4 w-3/4">
+              <div className="flex flex-row gap-4 min-w-full">
+                <FormItem className="w-full">
                   <Label>Lokasyon</Label>
                   <Input value={dummyData.location} readOnly />
                 </FormItem>
-                <FormItem>
+                <FormItem className="w-full">
                   <Label>Departman</Label>
                   <Input value={dummyData.department} readOnly />
                 </FormItem>
               </div>
               <div className="flex flex-row gap-4">
-                <FormItem>
+                <FormItem className="w-full">
                   <Label>Görev</Label>
                   <Input value={dummyData.job} readOnly />
                 </FormItem>
-                <FormItem>
+                <FormItem className="w-full">
                   <Label>Ünvan</Label>
                   <Input value={dummyData.title} readOnly />
                 </FormItem>

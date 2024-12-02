@@ -89,7 +89,7 @@ export function DataTable<TData, TValue>({
                       </TableHead>
                     );
                   })}
-                  <TableHead className="w-20"></TableHead>
+                  <TableHead className="w-20">İşlem</TableHead>
                 </TableRow>
               ))}
             </TableHeader>
