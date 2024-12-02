@@ -61,11 +61,8 @@ const DashboardLayout = ({
     (state) => state as IChangePasswordStore,
   );
   const router = useRouter();
-<<<<<<< Updated upstream
-=======
 
   console.log(user && user.roleId);
->>>>>>> Stashed changes
 
   const [popoverOpen, setPopoverOpen] = useState(false);
 
