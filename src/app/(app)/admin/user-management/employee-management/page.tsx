@@ -238,7 +238,7 @@ const Page = () => {
             </div>
           )}
         </TabsContent>
-        <TabsContent value="manager">
+        <TabsContent value="manager" className="pt-11">
           {managerQuery.data &&
           roleQuery.data &&
           departmentQuery.data &&

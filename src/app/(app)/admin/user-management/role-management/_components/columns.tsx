@@ -11,7 +11,9 @@ export const columns: ColumnDef<RoleManagementRoleModel>[] = [
       return (
         <SortingBtn
           text={"Rol Adı"}
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() =>
+            column.toggleSorting(column.getIsSorted().toUpperCase() === "asc")
+          }
         />
       );
     },
@@ -27,7 +29,7 @@ export const columns: ColumnDef<RoleManagementRoleModel>[] = [
       );
     },
     cell: ({ cell }) => {
-      return cell.getValue() ? "Aktif" : "Pasif";
+      return cell.getValue() ? "AKTIF" : "PASIF";
     },
   },
 ];

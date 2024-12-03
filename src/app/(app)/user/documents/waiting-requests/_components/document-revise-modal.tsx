@@ -70,7 +70,7 @@ export default function DocumentReviseForm({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-w-[970px] h-5/7 flex flex-col">
         <DialogHeader className="px-6 py-4 border-b">
-          <DialogTitle>Döküman Revize</DialogTitle>
+          <DialogTitle>Doküman Revize</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form

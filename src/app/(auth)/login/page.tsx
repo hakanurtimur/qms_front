@@ -11,12 +11,18 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/context/authContext";
 import tokenService from "@/services/TokenService";
 import LoadingScreen from "@/components/commons/LoadingScreen";
+import { AIChatBox } from "@/components/ui/ai-chat-box";
+import { GeminiRequest } from "@/models/gemini";
+import geminiService from "@/services/GeminiService";
 
 const Page = () => {
   const { onSetAuthenticated, onSetUser } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [open, setOpen] = useState(false);
 
   const query = useQuery({
     queryKey: ["locations"],
@@ -27,6 +33,23 @@ const Page = () => {
     queryKey: ["modules"],
     queryFn: () => listService.getModules(),
   });
+
+  const modelPrompt = `
+    Sen ISO standartları, kalite yönetimi, hizmet kalitesi, denetim ve iç denetim gibi belirli konular üzerine özelleşmiş bir uzmansın. Yalnızca aşağıdaki konulara ilişkin soruları yanıtlamalısın ve başka hiçbir soruya yanıt vermemelisin. 
+Eğer gelen soru aşağıdaki listede yoksa, bunu net bir şekilde belirtmelisin:
+
+1. ISO 27001 standardı nedir ve nasıl uygulanır?
+2. ISO 9001 standardı nedir ve kalite yönetimindeki önemi nedir?
+3. Kalite yönetimi nedir ve nasıl sağlanır?
+4. Hizmet kalitesi nedir ve nasıl ölçülür?
+5. Denetim nedir ve neden önemlidir?
+6. İç denetim nedir, nasıl yapılır ve faydaları nelerdir?
+
+**Önemli Kısıtlamalar:**
+- Bu liste dışındaki sorulara kesinlikle yanıt verme. Örneğin, farklı bir konu hakkında soru gelirse, şu şekilde cevap ver: "Bu soruya yanıt veremem çünkü yalnızca belirli ISO standartları ve kalite yönetimiyle ilgili sorulara yanıt verebilirim."
+- Cevapların mutlaka kısa, doğru ve resmi bir üslup içermeli.
+
+  `;
 
   useEffect(() => {
     const authToken = !tokenService.isAccessTokenExpired();
@@ -59,6 +82,48 @@ const Page = () => {
   const handleSubmit = async (data: UserLogin) => {
     await mutation.mutateAsync(data);
   };
+  const sendMessageToAI = useMutation({
+    mutationFn: (data: GeminiRequest) => geminiService.getAIResponse(data),
+    onSuccess: (res) => {
+      const response = res?.data?.candidates[0].content.parts[0].text;
+      setMessages((prev) => [
+        ...prev,
+        { text: response, type: "ai", id: Math.random(), isUser: true },
+      ]);
+    },
+  });
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    if (input.trim()) {
+      console.log(input);
+      const request: GeminiRequest = {
+        contents: [
+          {
+            parts: [
+              {
+                text: modelPrompt,
+              },
+            ],
+            role: "model",
+          },
+          {
+            parts: [
+              {
+                text: input,
+              },
+            ],
+            role: "user",
+          },
+        ],
+      };
+      setMessages((prev) => [
+        ...prev,
+        { text: input, type: "user", id: Math.random() },
+      ]);
+      setInput("");
+      sendMessageToAI.mutate(request);
+    }
+  };
 
   return (
     <div>
@@ -75,6 +140,15 @@ const Page = () => {
           formLoading={mutation.isPending}
         />
       )}
+      <AIChatBox
+        messages={messages}
+        setMessages={setMessages}
+        input={input}
+        setInput={setInput}
+        handleSendMessage={handleSendMessage}
+        open={open}
+        onOpenChange={setOpen}
+      />
     </div>
   );
 };

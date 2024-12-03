@@ -45,7 +45,7 @@ const IncidentReport = ({ onSubmit }: Props) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className={"flex items-center justify-between"}>
-                  (*)Olay Tarihi
+                  Olay Tarihi
                 </FormLabel>
                 <FormControl>
                   <DatePicker
@@ -64,7 +64,7 @@ const IncidentReport = ({ onSubmit }: Props) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className={"flex items-center justify-between"}>
-                  (*)Olay Yeri
+                  Olay Yeri
                 </FormLabel>
                 <FormControl>
                   <DynamicCombobox
@@ -110,7 +110,7 @@ const IncidentReport = ({ onSubmit }: Props) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className={"flex items-center justify-between"}>
-                  (*)Açıklama
+                  Açıklama
                 </FormLabel>
                 <FormControl>
                   <Textarea className="w-full" rows={4} {...field} />

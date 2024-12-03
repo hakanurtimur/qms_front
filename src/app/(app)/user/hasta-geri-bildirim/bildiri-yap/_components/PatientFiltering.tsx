@@ -45,7 +45,7 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className={"flex items-center justify-between"}>
-                  (*)Protokol No
+                  Protokol No
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -64,7 +64,7 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className={"flex items-center justify-between"}>
-                  (*)Hasta TC
+                  Hasta TC
                 </FormLabel>
                 <FormControl>
                   <Input

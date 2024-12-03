@@ -1,15 +1,16 @@
 "use client";
 
-import IncidentReport from "./_components/IncidentReport";
-import EmployeeReport from "./_components/EmployeeReport";
+import IncidentReport from "@/components/modules/incident/IncidentReport";
+import EmployeeReport from "@/components/modules/incident/EmployeeReport";
 import {
   IncidentForm,
   IncidentFormEmployee,
   IncidentFormFilter,
   IncidentFormPatient,
 } from "@/models/incidentForm";
-import PatientReport from "./_components/PatientReport";
+import PatientReport from "@/components/modules/incident/patientReport/PatientReport";
 import React, { useState } from "react";
+import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 
 const DUMMY_PATIENT: IncidentFormPatient = {
   name: "Hakan Urtimur",
@@ -27,7 +28,7 @@ const DUMMY_PATIENT: IncidentFormPatient = {
 const Page = () => {
   const [patient, setPatient] = useState<IncidentFormPatient | null>(null);
 
-  const [selectedTab] = useState<string | number>("patient");
+  const [selectedTab, setSelectedTab] = useState<string | number>("");
 
   const handleSubmitPatientFilter = (data: IncidentFormFilter) => {
     console.log(data);
@@ -51,21 +52,40 @@ const Page = () => {
     console.log(data);
   };
 
+  const handleTabChange = (value: string | number) => {
+    setSelectedTab(value);
+  };
+
+  const options = {
+    general: "Genel",
+    patient: "Hasta",
+    employee: "Çalışan",
+  };
+
   return (
     <div className="md:relative h-full w-full bg-white">
       {/* İçerik Katmanı */}
       <div className="md:relative z-10 w-full flex md:flex-row flex-col justify-between">
-        <div className="md:w-full w-full h-full p-4 flex items-center justify-center">
+        <div className="md:w-1/6 w-4/5 p-4">
+          <DynamicCombobox
+            name="incidentType"
+            options={options}
+            label="Olaydan etkilenen"
+            onChange={handleTabChange}
+            width="[300px] md:w-full"
+          />
+        </div>
+        <div className="md:w-5/6 w-full h-full p-4 flex items-center justify-center">
           {selectedTab === "general" && (
-            <div className="md:w-[500px] w-full border-4 p-5 border-black-900 rounded-lg shadow-2xl md:mr-52 bg-white">
+            <div className="md:w-[500px] w-full border-4 p-10 border-black-900 rounded-lg shadow-2xl md:mr-52 bg-white">
               <IncidentReport onSubmit={handleIncidentReportSubmit} />
             </div>
           )}
           {selectedTab === "patient" && (
             <div
               className={
-                "md:w-fit md:min-h-[500px] w-full h-full  border-4 p-5 border-black-900 rounded-lg shadow-2xl bg-white" +
-                (patient ? "" : " ")
+                "md:w-fit md:min-h-[500px] w-full h-full  border-4 p-10 border-black-900 rounded-lg shadow-2xl bg-white" +
+                (patient ? "" : " md:mr-52")
               }
             >
               <PatientReport

@@ -67,6 +67,8 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  useEffect(() => {}, [data]);
+
   return (
     <div className="w-full overflow-scroll flex items-center justify-center no-scrollbar">
       <div className="rounded-md border w-full max-w-[1600px] min-w-[800px] no-scrollbar">

@@ -43,7 +43,7 @@ const PatientReportFilter = ({
             render={({ field }) => (
               <FormItem className="md:w-52 pt-2">
                 <FormLabel className={"flex items-center justify-between"}>
-                  (*)Protokol No
+                  Protokol No
                 </FormLabel>
                 <FormControl>
                   <Input

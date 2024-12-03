@@ -15,13 +15,13 @@ const dashboardCardItems = [
     icon: InfoIcon,
   },
   {
-    title: "Döküman",
+    title: "Doküman",
     value: 2,
     growth: "growth",
     icon: Dock,
   },
   {
-    title: "DİF ataması",
+    title: "DİF Sayısı",
     value: 3,
     growth: "growth",
     icon: ArrowTopRightOnSquareIcon,
@@ -38,7 +38,7 @@ const Page = () => {
   return (
     <div className="flex flex-col w-full h-screen gap-4">
       <DashboardCard items={dashboardCardItems} />
-      <div className="flex w-full h-fit ">
+      <div className="flex w-full h-fit gap-5 ">
         <div className="flex w-1/3 h-full gap-4">
           <BarChartComponent />
         </div>

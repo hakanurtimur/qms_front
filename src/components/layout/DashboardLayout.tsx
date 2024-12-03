@@ -40,6 +40,10 @@ import {
 import DynamicAlert from "../ui/dynamic-alert";
 import { useRouter } from "next/navigation";
 import { ResponseModel } from "@/models/api/response";
+import { AIChatBox } from "@/components/ui/ai-chat-box";
+import { GeminiRequest } from "@/models/gemini";
+import geminiService from "@/services/GeminiService";
+import { useMutation } from "@tanstack/react-query";
 
 interface Props {
   variant: "admin" | "user";
@@ -61,10 +65,30 @@ const DashboardLayout = ({
     (state) => state as IChangePasswordStore,
   );
   const router = useRouter();
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [openChatModal, setOpenChatModal] = useState(false);
 
   console.log(user && user.roleId);
 
   const [popoverOpen, setPopoverOpen] = useState(false);
+
+  const modelPrompt = `
+    Sen ISO standartları, kalite yönetimi, hizmet kalitesi, denetim ve iç denetim gibi belirli konular üzerine özelleşmiş bir uzmansın. Yalnızca aşağıdaki konulara ilişkin soruları yanıtlamalısın ve başka hiçbir soruya yanıt vermemelisin. 
+Eğer gelen soru aşağıdaki listede yoksa, bunu net bir şekilde belirtmelisin:
+
+1. ISO 27001 standardı nedir ve nasıl uygulanır?
+2. ISO 9001 standardı nedir ve kalite yönetimindeki önemi nedir?
+3. Kalite yönetimi nedir ve nasıl sağlanır?
+4. Hizmet kalitesi nedir ve nasıl ölçülür?
+5. Denetim nedir ve neden önemlidir?
+6. İç denetim nedir, nasıl yapılır ve faydaları nelerdir?
+
+**Önemli Kısıtlamalar:**
+- Bu liste dışındaki sorulara kesinlikle yanıt verme. Örneğin, farklı bir konu hakkında soru gelirse, şu şekilde cevap ver: "Bu soruya yanıt veremem çünkü yalnızca belirli ISO standartları ve kalite yönetimiyle ilgili sorulara yanıt verebilirim."
+- Cevapların mutlaka kısa, doğru ve resmi bir üslup içermeli.
+
+  `;
 
   const handlePasswordChange = async (data: ChangePasswordModel) => {
     const res: unknown = await changePassword(data, Number(user?.userId));
@@ -82,6 +106,50 @@ const DashboardLayout = ({
     }
   };
 
+  const sendMessageToAI = useMutation({
+    mutationFn: (data: GeminiRequest) => geminiService.getAIResponse(data),
+    onSuccess: (res) => {
+      const response = res?.data?.candidates[0].content.parts[0].text;
+      setMessages((prev) => [
+        ...prev,
+        { text: response, type: "ai", id: Math.random(), isUser: true },
+      ]);
+    },
+  });
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    if (input.trim()) {
+      console.log(input);
+      const request: GeminiRequest = {
+        contents: [
+          {
+            parts: [
+              {
+                text: modelPrompt,
+              },
+            ],
+            role: "model",
+          },
+          {
+            parts: [
+              {
+                text: input,
+              },
+            ],
+            role: "user",
+          },
+        ],
+      };
+      setMessages((prev) => [
+        ...prev,
+        { text: input, type: "user", id: Math.random() },
+      ]);
+      setInput("");
+      sendMessageToAI.mutate(request);
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen w-full bg-muted/40">
       {open && (
@@ -96,7 +164,6 @@ const DashboardLayout = ({
               <NavItem key={item.label} item={item} />
             ))}
           </nav>
-
           <div className="flex flex-col gap-0">
             {variant === "user" && user?.userId && user.roleId === "4" && (
               <div className="flex flex-grow justify-end px-2 py-2">
@@ -153,6 +220,7 @@ const DashboardLayout = ({
                 <Bars3Icon className="h-5 w-5" />
               </Button>
             </SheetTrigger>
+
             <SheetContent
               side="left"
               className="sm:max-w-xs  bg-primary-900  text-primary-50"
@@ -206,6 +274,15 @@ const DashboardLayout = ({
             </SheetContent>
           </Sheet>
           <div className="flex flex-shrink gap-4 items-center">
+            <AIChatBox
+              messages={messages}
+              setMessages={setMessages}
+              input={input}
+              setInput={setInput}
+              handleSendMessage={handleSendMessage}
+              open={openChatModal}
+              onOpenChange={setOpenChatModal}
+            />
             <Button
               variant="outline"
               size="icon"

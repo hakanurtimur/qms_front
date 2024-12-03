@@ -41,7 +41,7 @@ const chartConfig = {
 
 export function BarChartComponent() {
   return (
-    <Card className="w-96">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Doküman Görüntüleme Grafiği</CardTitle>
         <CardDescription>2024 Yılı</CardDescription>

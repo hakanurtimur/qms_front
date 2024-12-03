@@ -149,13 +149,13 @@ const RejectionSheetContent = ({ model, variant }: Props) => {
           />
         </FormItem>
         <FormItem>
-          <Label>KYS Sorumlusu Sebebi</Label>
+          <Label>Talep Nedeni</Label>
           <Input readOnly value={defaultValues.SuperAdminAboutName} />
         </FormItem>
         <TooltipProvider>
           <div className="flex flex-col">
             <div className="text-sm font-medium leading-none h-[16.5px] flex items-end">
-              Döküman
+              Doküman
             </div>
             <div className="flex items-center gap-4 mt-4">
               <Tooltip>

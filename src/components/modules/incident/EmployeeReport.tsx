@@ -54,7 +54,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
               name="employeeName"
               render={({ field }) => (
                 <FormItem className="w-56">
-                  <FormLabel>(*)Çalışan</FormLabel>
+                  <FormLabel>Çalışan</FormLabel>
                   <FormControl>
                     <DynamicCombobox
                       {...field}
@@ -73,7 +73,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
               name="date"
               render={({ field }) => (
                 <FormItem className="w-56">
-                  <FormLabel>(*)Olay Tarihi</FormLabel>
+                  <FormLabel>Olay Tarihi</FormLabel>
                   <FormControl>
                     <DatePicker
                       {...field}
@@ -93,7 +93,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
               name="affectedPerson"
               render={({ field }) => (
                 <FormItem className="w-56 ">
-                  <FormLabel>(*)Olaydan Etkilenen</FormLabel>
+                  <FormLabel>Olaydan Etkilenen</FormLabel>
                   <FormControl>
                     <DynamicCombobox
                       {...field}
@@ -112,7 +112,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
               name="incidentPlace"
               render={({ field }) => (
                 <FormItem className="w-56">
-                  <FormLabel>(*)Olay Yeri</FormLabel>
+                  <FormLabel>Olay Yeri</FormLabel>
                   <FormControl>
                     <DynamicCombobox
                       {...field}
@@ -153,7 +153,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
             name="incidentDescription"
             render={({ field }) => (
               <FormItem className="flex-1">
-                <FormLabel>(*)Açıklama</FormLabel>
+                <FormLabel>Açıklama</FormLabel>
                 <FormControl>
                   <Textarea className="w-full min-h-32" {...field} />
                 </FormControl>

@@ -67,7 +67,7 @@ export default function ArchiveDocSheet({
         <SheetHeader>
           <SheetTitle>Arşivleme</SheetTitle>
           <SheetDescription>
-            Dökümanın arşivlenme işlemlerini buradan yapabilirsiniz.
+            Dokümanın arşivlenme işlemlerini buradan yapabilirsiniz.
           </SheetDescription>
         </SheetHeader>
         <Form {...form}>

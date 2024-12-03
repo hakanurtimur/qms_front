@@ -55,6 +55,16 @@ export default function Layout({ children }: Props) {
                   },
                 ]
               : []),
+            ...(user?.roleId === "7"
+              ? [
+                  {
+                    icon: DocumentTextIcon,
+                    label: "Doküman Ana Liste",
+                    href: "/user/documents/document-master",
+                    items: [],
+                  },
+                ]
+              : []),
             ...(user?.roleId === "4"
               ? [
                   {

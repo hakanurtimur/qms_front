@@ -48,12 +48,12 @@ export const userNavItems: NavItemModel[] = [
         href: "/user/documents/director-rejection",
         items: [],
       },
-      // {
-      //   icon: DocumentTextIcon,
-      //   label: "Döküman Ana Liste",
-      //   href: "/user/documents/document-master",
-      //   items: [],
-      // },
+      {
+        icon: DocumentTextIcon,
+        label: "Doküman Ana Liste",
+        href: "/user/documents/document-master",
+        items: [],
+      },
     ],
   },
   {
@@ -155,8 +155,14 @@ export const adminNavItems: NavItemModel[] = [
   },
   {
     icon: FlagIcon,
-    label: "Olay Bildirim",
-    href: "/olay-bildirim",
+    label: "Hasta Güvenliği Bildirimi",
+    href: "/admin/hasta-guvenligi",
+    items: [],
+  },
+  {
+    icon: CursorArrowRippleIcon,
+    label: "Çalışan Güvenliği Bildirimi",
+    href: "/calisan-guvenligi",
     items: [],
   },
   {
@@ -221,7 +227,7 @@ export const adminNavItems: NavItemModel[] = [
       {
         icon: DocumentTextIcon,
         label: "Yetkilendirme",
-        href: "/kullanici-yonetimi/yetkilendirme",
+        href: "/admin/kullanici-yonetimi/yetkilendirme",
         items: [],
       },
       {

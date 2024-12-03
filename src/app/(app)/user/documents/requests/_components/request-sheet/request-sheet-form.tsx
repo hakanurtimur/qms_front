@@ -249,7 +249,7 @@ const RequestSheetForm = ({
             </FormItem>
 
             <FormItem>
-              <Label>KYS Sorumlusu Sebebi</Label>
+              <Label>Talep Nedeni</Label>
               <Input
                 readOnly
                 className="w-full bg-primary-100"
@@ -259,7 +259,7 @@ const RequestSheetForm = ({
             <div>
               {form.getValues("garbageFileName") && (
                 <div>
-                  <Label>Revize Dökümanı</Label>
+                  <Label>Revize Dokümanı</Label>
                   <Input
                     readOnly
                     className="w-full bg-primary-100"
@@ -272,7 +272,7 @@ const RequestSheetForm = ({
             <TooltipProvider>
               <div className="flex flex-col">
                 <div className="text-sm font-medium leading-none h-[16.5px] flex items-end">
-                  Döküman
+                  Doküman
                 </div>
                 <div className="flex items-center gap-4 mt-4">
                   {variant === "actives" && (
