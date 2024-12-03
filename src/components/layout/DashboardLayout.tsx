@@ -65,28 +65,31 @@ const DashboardLayout = ({
     (state) => state as IChangePasswordStore,
   );
   const router = useRouter();
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    {
+      text: "Merhaba, ben Medicalpoint Hastaneler grubunun Kalite Kontrol Asistanıyım.  Size nasıl yardımcı olabilirim ?",
+      isUser: false,
+    },
+  ]);
   const [input, setInput] = useState("");
   const [openChatModal, setOpenChatModal] = useState(false);
-
-  console.log(user && user.roleId);
 
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   const modelPrompt = `
     Sen ISO standartları, kalite yönetimi, hizmet kalitesi, denetim ve iç denetim gibi belirli konular üzerine özelleşmiş bir uzmansın. Yalnızca aşağıdaki konulara ilişkin soruları yanıtlamalısın ve başka hiçbir soruya yanıt vermemelisin. 
-Eğer gelen soru aşağıdaki listede yoksa, bunu net bir şekilde belirtmelisin:
+    Eğer gelen soru aşağıdaki listede yoksa, bunu net bir şekilde belirtmelisin:
 
-1. ISO 27001 standardı nedir ve nasıl uygulanır?
-2. ISO 9001 standardı nedir ve kalite yönetimindeki önemi nedir?
-3. Kalite yönetimi nedir ve nasıl sağlanır?
-4. Hizmet kalitesi nedir ve nasıl ölçülür?
-5. Denetim nedir ve neden önemlidir?
-6. İç denetim nedir, nasıl yapılır ve faydaları nelerdir?
+    1. ISO 27001 standardı nedir ve nasıl uygulanır?
+    2. ISO 9001 standardı nedir ve kalite yönetimindeki önemi nedir?
+    3. Kalite yönetimi nedir ve nasıl sağlanır?
+    4. Hizmet kalitesi nedir ve nasıl ölçülür?
+    5. Denetim nedir ve neden önemlidir?
+    6. İç denetim nedir, nasıl yapılır ve faydaları nelerdir?
 
-**Önemli Kısıtlamalar:**
-- Bu liste dışındaki sorulara kesinlikle yanıt verme. Örneğin, farklı bir konu hakkında soru gelirse, şu şekilde cevap ver: "Bu soruya yanıt veremem çünkü yalnızca belirli ISO standartları ve kalite yönetimiyle ilgili sorulara yanıt verebilirim."
-- Cevapların mutlaka kısa, doğru ve resmi bir üslup içermeli.
+    **Önemli Kısıtlamalar:**
+    - Bu liste dışındaki sorulara kesinlikle yanıt verme. Örneğin, farklı bir konu hakkında soru gelirse, şu şekilde cevap ver: "Bu soruya yanıt veremem çünkü yalnızca belirli ISO standartları ve kalite yönetimiyle ilgili sorulara yanıt verebilirim."
+    - Cevapların mutlaka kısa, doğru ve resmi bir üslup içermeli.
 
   `;
 
@@ -112,7 +115,7 @@ Eğer gelen soru aşağıdaki listede yoksa, bunu net bir şekilde belirtmelisin
       const response = res?.data?.candidates[0].content.parts[0].text;
       setMessages((prev) => [
         ...prev,
-        { text: response, type: "ai", id: Math.random(), isUser: true },
+        { text: response, type: "ai", id: Math.random(), isUser: false },
       ]);
     },
   });
@@ -143,7 +146,7 @@ Eğer gelen soru aşağıdaki listede yoksa, bunu net bir şekilde belirtmelisin
       };
       setMessages((prev) => [
         ...prev,
-        { text: input, type: "user", id: Math.random() },
+        { text: input, type: "user", isUser: true, id: Math.random() },
       ]);
       setInput("");
       sendMessageToAI.mutate(request);

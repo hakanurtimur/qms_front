@@ -56,11 +56,11 @@ export function AIChatBox({
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`mb-4  ${!message.isUser ? "text-right justify-end  " : "text-left  justify-start"}`}
+                className={`mb-4  ${message.isUser ? "text-right justify-end  " : "text-left  justify-start"}`}
               >
                 <span
                   className={`inline-block p-4 rounded-lg max-w-lg break-words ${
-                    !message.isUser
+                    message.isUser
                       ? "bg-primary text-primary-foreground rounded-br-none border rounded-md bg-black-800 text-white "
                       : "bg-muted bg-black-800 text-white rounded-bl-none"
                   }`}
