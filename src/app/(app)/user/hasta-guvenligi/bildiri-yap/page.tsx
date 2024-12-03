@@ -1,14 +1,14 @@
 "use client";
 
-import IncidentReport from "@/components/modules/incident/IncidentReport";
-import EmployeeReport from "@/components/modules/incident/EmployeeReport";
+import IncidentReport from "./_components/IncidentReport";
+import EmployeeReport from "./_components/EmployeeReport";
 import {
   IncidentForm,
   IncidentFormEmployee,
   IncidentFormFilter,
   IncidentFormPatient,
 } from "@/models/incidentForm";
-import PatientReport from "@/components/modules/incident/patientReport/PatientReport";
+import PatientReport from "./_components/PatientReport";
 import React, { useState } from "react";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 
@@ -59,7 +59,6 @@ const Page = () => {
   const options = {
     general: "Genel",
     patient: "Hasta",
-    employee: "Çalışan",
   };
 
   return (
