@@ -4,9 +4,8 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "osmanoguzsensoy.com", // Görsellerin yüklendiği domain
-        port: "", // Eğer özel bir port kullanıyorsanız ekleyin, aksi takdirde boş bırakın
-        pathname: "/**", // Alt dizinleri belirtmek için joker karakter
+        hostname: "izmkysapi.mph.com.tr",
+        pathname: "/private/profileImagefolder/**",
       },
     ],
   },
