@@ -27,45 +27,43 @@ import {
   SResultedRequestsFormModel,
 } from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
 import Combobox from "@/components/ui/combobox";
+import {
+  RequestDocumentListModel,
+  RequestDocumentCreatedModel,
+} from "@/models/user/documents/requestDocumentListModel";
 
 interface DocumentUploadFormProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   documentTypeListQpts: { [key: string]: string };
+  categoryFolderList: RequestDocumentListModel[];
+  hiddenTypeList: RequestDocumentCreatedModel[];
+  issueTypeList: RequestDocumentCreatedModel[];
+  onSubmit: (data: ResultedRequestsFormModel) => void;
 }
 
 export default function DocumentUploadForm({
   open,
   setOpen,
   documentTypeListQpts,
+  categoryFolderList,
+  hiddenTypeList,
+  issueTypeList,
+  onSubmit,
 }: DocumentUploadFormProps) {
   const form = useForm<ResultedRequestsFormModel>({
     resolver: zodResolver(SResultedRequestsFormModel),
-    defaultValues: {
-      Id: 0,
-      UserId: 0,
-      DocumentTypeId: 0,
-      FolderId: 0,
-      Code: "",
-      NewFileName: "",
-      PublishDate: "",
-      ArchiveInfo: "",
-      IssueTypeId: 0,
-      HiddenId: 0,
-      ReviseDate: "",
-      Description: "",
-    },
+    defaultValues: {},
   });
 
-  function onSubmit(data: ResultedRequestsFormModel) {
-    console.log(data);
+  const handleSubmit = (data: ResultedRequestsFormModel) => {
+    onSubmit(data);
     setOpen(false);
-  }
+  };
 
   if (!open) {
     return null;
   }
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-w-[970px] h-5/7 flex flex-col   ">
@@ -74,31 +72,41 @@ export default function DocumentUploadForm({
         </DialogHeader>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(handleSubmit)}
             className="space-y-6 p-6"
           >
             <div className="flex flex-row gap-6">
               <div className="flex flex-col w-56 gap-2">
-                <Combobox
+                <FormField
                   control={form.control}
-                  name={"DocumentTypeId"}
-                  label={"Doküman Tİpi"}
-                  options={documentTypeListQpts}
-                  variant={"in-column"}
+                  name="documentTypeId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Doküman Tipi</FormLabel>
+                      <Combobox
+                        name="documentTypeId"
+                        options={documentTypeListQpts}
+                        onChange={(value) => field.onChange(value)}
+                      />
+                    </FormItem>
+                  )}
                 />
 
                 <FormField
                   control={form.control}
-                  name="FolderId"
+                  name="folderId"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Klasör</FormLabel>
                       <DynamicCombobox
-                        name="FolderId"
-                        options={{
-                          1: "Rıza Belgeleri",
-                          2: "Formlar",
-                        }}
+                        name="folderId"
+                        options={categoryFolderList.reduce(
+                          (acc, item: RequestDocumentListModel) => {
+                            acc[item?.folderId] = item?.folderName;
+                            return acc;
+                          },
+                          {},
+                        )}
                         onChange={(value) => field.onChange(value)}
                       />
                       <FormMessage />
@@ -107,16 +115,19 @@ export default function DocumentUploadForm({
                 />
                 <FormField
                   control={form.control}
-                  name="HiddenId"
+                  name="hiddenId"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Görünürlük</FormLabel>
                       <DynamicCombobox
-                        name="Hidden"
-                        options={{
-                          1: "Genel",
-                          2: "Özel",
-                        }}
+                        name="hidden"
+                        options={hiddenTypeList.reduce(
+                          (acc, item: RequestDocumentCreatedModel) => {
+                            acc[item?.hiddenId] = item?.hiddenName;
+                            return acc;
+                          },
+                          {},
+                        )}
                         onChange={(value) => field.onChange(value)}
                       />
                       <FormMessage />
@@ -125,7 +136,7 @@ export default function DocumentUploadForm({
                 />
                 <FormField
                   control={form.control}
-                  name="ArchiveInfo"
+                  name="archiveInfo"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Arşiv Bilgisi</FormLabel>
@@ -141,17 +152,19 @@ export default function DocumentUploadForm({
               <div className="flex flex-col w-56 gap-2">
                 <FormField
                   control={form.control}
-                  name="IssueTypeId"
+                  name="issueTypeId"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Baskı Bilgisi</FormLabel>
                       <DynamicCombobox
-                        name="IssueTypeId"
-                        options={{
-                          1: "Elektronik",
-                          2: "Baskı",
-                          3: "Dijital",
-                        }}
+                        name="issueTypeId"
+                        options={issueTypeList.reduce(
+                          (acc, item: RequestDocumentCreatedModel) => {
+                            acc[item?.issueTypeId] = item?.issueTypeName;
+                            return acc;
+                          },
+                          {},
+                        )}
                         onChange={(value) => field.onChange(value)}
                       />
                       <FormMessage />
@@ -160,13 +173,13 @@ export default function DocumentUploadForm({
                 />
                 <FormField
                   control={form.control}
-                  name="PublishDate"
+                  name="publishDate"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Yayın Tarihi</FormLabel>
                       <FormControl>
                         <DatePicker
-                          name="PublishDate"
+                          name="publishDate"
                           onChange={(date) => field.onChange(date)}
                           includeTime={false}
                           value={field.value}
@@ -178,17 +191,30 @@ export default function DocumentUploadForm({
                 />
                 <FormField
                   control={form.control}
-                  name="ReviseDate"
+                  name="reviseDate"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Revize Tarihi</FormLabel>
                       <FormControl>
                         <DatePicker
-                          name="ReviseDate"
+                          name="reviseDate"
                           onChange={(date) => field.onChange(date)}
                           includeTime={false}
                           value={field.value}
                         />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="code"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Kod</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Kod" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -199,7 +225,7 @@ export default function DocumentUploadForm({
               <div className="flex flex-col gap-2 w-[350px]">
                 <FormField
                   control={form.control}
-                  name="NewFileName"
+                  name="formFile"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Dosya İsmi</FormLabel>
@@ -217,7 +243,7 @@ export default function DocumentUploadForm({
                 />
                 <FormField
                   control={form.control}
-                  name="Description"
+                  name="description"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Açıklama</FormLabel>

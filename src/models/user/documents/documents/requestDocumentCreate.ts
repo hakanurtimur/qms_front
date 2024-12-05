@@ -1,14 +1,14 @@
 import { z } from "zod";
 
 export const SRequestDocumentCreate = z.object({
-  UserId: z.number().int(),
   RoleId: z.number().int(),
+  UserId: z.number().int(),
   DepartmentId: z.number().int(),
   DocumentTypeId: z.number().int(),
   Description: z.string(),
   GarbageFileName: z.string(),
   FileId: z.number().int().optional().nullable(),
-  formFile: z
+  FormFile: z
     .instanceof(File)
     .nullable()
     .optional()

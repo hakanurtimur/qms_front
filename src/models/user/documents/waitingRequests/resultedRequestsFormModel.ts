@@ -1,23 +1,41 @@
 import { z } from "zod";
 
 export const SResultedRequestsFormModel = z.object({
-  Id: z.number().int(),
-  UserId: z.number().int(),
-  DocumentTypeId: z.number().int().optional(),
-  FolderId: z.number().int().optional(),
-  Code: z.string(),
-  NewFileName: z.string(),
-  PublishDate: z.string(),
-  ArchiveInfo: z.string(),
-  IssueTypeId: z.number().int(),
-  HiddenId: z.number().int(),
-  Format: z.string(),
-  ReviseDate: z.string(),
-  Description: z.string(),
-  FileId: z.number().int().optional(),
-  ReviseNo: z.string().optional(),
+  documentTypeId: z.number().int(),
+  folderId: z.number().int(),
+  code: z.string(),
+  newFileName: z.string().optional(),
+  formFile: z.instanceof(File).refine((file) => !file || file.size > 0, {
+    message: "Boş bir dosya yükleyemezsiniz.",
+  }),
+  publishDate: z.string(),
+  archiveInfo: z.string(),
+  issueTypeId: z.number().int(),
+  hiddenId: z.number().int(),
+  format: z.string().optional(),
+  reviseDate: z.string(),
+  description: z.string(),
 });
 
+// descripton mutlaka girilmesi gerekiyor
 export type ResultedRequestsFormModel = z.infer<
   typeof SResultedRequestsFormModel
+>;
+
+//fileId olmayan versiyonunu yao
+export const SResultedRequestsReviseFormModel = z.object({
+  folderId: z.number().int().optional(),
+  formFile: z.instanceof(File).refine((file) => !file || file.size > 0, {
+    message: "Boş bir dosya yükleyemezsiniz.",
+  }),
+  archiveInfo: z.string(),
+  issueTypeId: z.number().int(),
+  format: z.string().optional(),
+  reviseDate: z.string(),
+  description: z.string(),
+  reviseNo: z.string(),
+});
+
+export type ResultedRequestsReviseFormModel = z.infer<
+  typeof SResultedRequestsReviseFormModel
 >;

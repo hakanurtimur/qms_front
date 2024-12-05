@@ -36,7 +36,7 @@ interface DataTableProps<TData, TValue> {
   // requestTypeOpts: { [key: string]: string };
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  handleDocumentUploadModal: () => void;
+  handleDocumentUploadModal: (id: string) => void;
   handleDocumentReviseModal: () => void;
 }
 
@@ -193,7 +193,9 @@ export function ResultedDataTable<TData, TValue>({
                               <TooltipTrigger
                                 asChild
                                 onClick={() => {
-                                  handleDocumentUploadModal();
+                                  handleDocumentUploadModal(
+                                    row.getValue("id").toString(),
+                                  );
                                 }}
                               >
                                 {/*<RequestSheet*/}
@@ -212,7 +214,9 @@ export function ResultedDataTable<TData, TValue>({
                               <TooltipTrigger
                                 asChild
                                 onClick={() => {
-                                  handleDocumentReviseModal();
+                                  handleDocumentReviseModal(
+                                    row.getValue("id").toString(),
+                                  );
                                 }}
                               >
                                 {/*<RequestSheet*/}

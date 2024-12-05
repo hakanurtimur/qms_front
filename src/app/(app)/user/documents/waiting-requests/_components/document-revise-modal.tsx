@@ -24,43 +24,34 @@ import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 import { Input } from "@/components/ui/input";
 import { Dropzone } from "@/components/ui/dropZone";
 import {
-  ResultedRequestsFormModel,
-  SResultedRequestsFormModel,
+  ResultedRequestsReviseFormModel,
+  SResultedRequestsReviseFormModel,
 } from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
-import Combobox from "@/components/ui/combobox";
+import { RequestDocumentCreatedModel } from "@/models/user/documents/requestDocumentListModel";
 
 interface DocumentReviseFormProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   documentTypeListQpts: { [key: string]: string };
+  issueTypeList: RequestDocumentCreatedModel[];
+  onSubmit: (data: ResultedRequestsFormModel) => void;
 }
 
 export default function DocumentReviseForm({
   open,
   setOpen,
-  documentTypeListQpts,
+  issueTypeList,
+  onSubmit,
 }: DocumentReviseFormProps) {
-  const form = useForm<ResultedRequestsFormModel>({
-    resolver: zodResolver(SResultedRequestsFormModel),
-    defaultValues: {
-      Id: 0,
-      UserId: 0,
-      DocumentTypeId: 0,
-      FileId: 0,
-      ReviseNo: "",
-      Code: "",
-      NewFileName: "",
-      ReviseDate: "",
-      ArchiveInfo: "",
-      IssueTypeId: 0,
-      Description: "",
-    },
+  const form = useForm<ResultedRequestsReviseFormModel>({
+    resolver: zodResolver(SResultedRequestsReviseFormModel),
+    defaultValues: {},
   });
 
-  function onSubmit(data: ResultedRequestsFormModel) {
-    console.log(data);
+  const handleSubmit = (data: ResultedRequestsReviseFormModel) => {
+    onSubmit(data);
     setOpen(false);
-  }
+  };
 
   if (!open) {
     return null;
@@ -68,27 +59,20 @@ export default function DocumentReviseForm({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="max-w-[970px] h-5/7 flex flex-col">
+      <DialogContent className="max-w-[740px] h-5/7 flex flex-col">
         <DialogHeader className="px-6 py-4 border-b">
           <DialogTitle>Doküman Revize</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(handleSubmit)}
             className="space-y-6 p-6"
           >
             <div className="flex flex-row gap-6">
-              <div className="flex flex-col w-56 gap-2">
-                <Combobox
-                  control={form.control}
-                  name={"DocumentTypeId"}
-                  label={"Doküman Tİpi"}
-                  options={documentTypeListQpts}
-                  variant={"in-column"}
-                />
+              <div className="flex flex-col w-56 gap-5  ">
                 <FormField
                   control={form.control}
-                  name="ReviseNo"
+                  name="reviseNo"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Revize No</FormLabel>
@@ -101,32 +85,19 @@ export default function DocumentReviseForm({
                 />
                 <FormField
                   control={form.control}
-                  name="Code"
+                  name="issueTypeId"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Kod</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Kod" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="flex flex-col w-56 gap-2">
-                <FormField
-                  control={form.control}
-                  name="IssueTypeId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Sorun Türü</FormLabel>
+                      <FormLabel>Baskı Türü</FormLabel>
                       <DynamicCombobox
                         name="IssueTypeId"
-                        options={{
-                          1: "Elektronik",
-                          2: "Baskı",
-                          3: "Dijital",
-                        }}
+                        options={issueTypeList.reduce(
+                          (acc, item: RequestDocumentCreatedModel) => {
+                            acc[item?.issueTypeId] = item?.issueTypeName;
+                            return acc;
+                          },
+                          {},
+                        )}
                         onChange={(value) => field.onChange(value)}
                       />
                       <FormMessage />
@@ -135,13 +106,13 @@ export default function DocumentReviseForm({
                 />
                 <FormField
                   control={form.control}
-                  name="ReviseDate"
+                  name="reviseDate"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Revize Tarihi</FormLabel>
                       <FormControl>
                         <DatePicker
-                          name="ReviseDate"
+                          name="reviseDate"
                           onChange={(date) => field.onChange(date)}
                           includeTime={false}
                           value={field.value}
@@ -153,7 +124,7 @@ export default function DocumentReviseForm({
                 />
                 <FormField
                   control={form.control}
-                  name="ArchiveInfo"
+                  name="archiveInfo"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Arşiv Bilgisi</FormLabel>
@@ -169,7 +140,7 @@ export default function DocumentReviseForm({
               <div className="flex flex-col gap-2 w-[350px]">
                 <FormField
                   control={form.control}
-                  name="NewFileName"
+                  name="formFile"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Dosya İsmi</FormLabel>
@@ -187,7 +158,7 @@ export default function DocumentReviseForm({
                 />
                 <FormField
                   control={form.control}
-                  name="Description"
+                  name="description"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Açıklama</FormLabel>

@@ -21,12 +21,26 @@ import useGetGarbage from "@/app/(app)/user/documents/hooks/useGetGarbage";
 import useGetFile from "@/app/(app)/user/documents/hooks/useGetFile";
 import { UpdateWaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
 import { toast } from "@/hooks/use-toast";
+import useCategoryFolderList from "./hooks/useCategoryFolderList";
+import useHiddenList from "./hooks/useHiddenList";
+import useIssueTypeList from "./hooks/useIssueTypeList";
+import {
+  ResultedRequestsFormModel,
+  ResultedRequestsReviseFormModel,
+} from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
+import useDocumentCreate from "./hooks/useDocumentCreate";
+import useDocumentRevise from "./hooks/useDocumentRevise";
 
 const Page = () => {
   const { user } = useAuth();
   const { documentTypeOpts: documentTypeListQpts } = useDocumentTypes();
   const { superAdminActionOpts } = useSuperAdminActionTypes();
   const { superAdminAboutOpts } = useSuperAdminAboutTypes();
+  const [selectedRow, setSelectedRow] = useState<string | null>(null);
+  const [uploadData, setUploadData] =
+    useState<ResultedRequestsFormModel | null>(null);
+  const [reviseData, setReviseData] =
+    useState<ResultedRequestsFormModel | null>();
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
   const { garbageSrc, garbageFileName, getGarbageMutation } = useGetGarbage({
@@ -42,6 +56,15 @@ const Page = () => {
   const { fileUrl, fileName, getFileMutation } = useGetFile({
     handleShow: () => setShowFile(true),
     key: ["getDocUrl"],
+  });
+  const categoryFolderList = useCategoryFolderList({
+    key: ["category-folder-list"],
+  });
+  const hiddenTypeList = useHiddenList({
+    key: ["hidden-type-list"],
+  });
+  const issueTypeList = useIssueTypeList({
+    key: ["issue-type-list"],
   });
 
   const allRequestsQuery = useQuery({
@@ -90,6 +113,20 @@ const Page = () => {
     },
   });
 
+  const createDocument = useDocumentCreate({
+    userId: user?.userId ?? "",
+    id: selectedRow ?? "",
+    body: uploadData ?? {},
+    key: ["create-document-for-waiting-request"],
+  });
+
+  const reviseDocument = useDocumentRevise({
+    userId: user?.userId ?? "",
+    id: selectedRow ?? "",
+    body: reviseData ?? {},
+    key: ["revise-document-for-waiting-request"],
+  });
+
   const deparments = allRequestsQuery.data?.data.map(
     (doc) => doc.departmentName,
   );
@@ -131,7 +168,6 @@ const Page = () => {
   const activeRequestTypes = activeRequestsQuery.data?.data.map(
     (doc) => doc.requestTypeName,
   );
-
   const activeDepartmentOps = activeDeparments
     ? convertStringArrayToOptions(activeDeparments)
     : null;
@@ -144,18 +180,41 @@ const Page = () => {
     ? convertStringArrayToOptions(activeRequestTypes)
     : null;
 
-  const handleOpenDocumentUploadModal = () => {
+  const handleOpenDocumentUploadModal = (id: string) => {
+    setSelectedRow(id);
     setDocumentUploadModal(true);
   };
 
-  const handleOpenDocumentReviseModal = () => {
+  const handleOpenDocumentReviseModal = (id: string) => {
+    setSelectedRow(id);
     setDocumentReviseModal(true);
+  };
+
+  const handleSubmitDocumentUpload = (data: ResultedRequestsFormModel) => {
+    const body = {
+      ...data,
+      newFileName: data.formFile?.name,
+      format: data.formFile?.type,
+    };
+    setUploadData(body);
+    createDocument.mutate();
+  };
+
+  const handleSubmitDocumentRevise = (
+    data: ResultedRequestsReviseFormModel,
+  ) => {
+    const body = {
+      ...data,
+      format: data.formFile?.type?.split("/")[1],
+    };
+
+    setReviseData(body);
+    reviseDocument.mutate();
   };
 
   // const resultedRequestTypes = resultedRequestsQuery.data?.data.map(
   //   (doc) => doc.RequestTypeId,
   // );
-
   const handleUpdateWaitingRequest = (data: UpdateWaitingRequestModel) => {
     updateWaitingRequestMutation.mutate(data);
   };
@@ -256,11 +315,17 @@ const Page = () => {
             open={openDocumentUploadModal}
             setOpen={() => setDocumentUploadModal(!openDocumentUploadModal)}
             documentTypeListQpts={documentTypeListQpts}
+            categoryFolderList={categoryFolderList}
+            hiddenTypeList={hiddenTypeList}
+            issueTypeList={issueTypeList}
+            onSubmit={handleSubmitDocumentUpload}
           />
           <DocumentReviseForm
             open={openDocumentReviseModal}
             setOpen={() => setDocumentReviseModal(!openDocumentReviseModal)}
             documentTypeListQpts={documentTypeListQpts}
+            issueTypeList={issueTypeList}
+            onSubmit={handleSubmitDocumentRevise}
           />
         </>
       )}

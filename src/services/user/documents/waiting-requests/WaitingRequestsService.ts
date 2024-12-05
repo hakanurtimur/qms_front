@@ -4,6 +4,7 @@ import {
   WaitingRequestResponseDetailsModel,
   WaitingRequestResponseModel,
 } from "@/models/user/documents/waitingRequests/waitingRequestModel";
+import { ResultedRequestsFormModel } from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
 
 export class WaitingRequestsService {
   public async list(
@@ -48,6 +49,73 @@ export class WaitingRequestsService {
   ): Promise<WaitingRequestResponseModel> {
     return await api.get(
       `/documentdemand/get-superadmin-document-demand-resulted-list/${user_id}/${role_id}`,
+    );
+  }
+  //api/document/get-category-folder-list
+  public async getCategoryFolderList(): Promise<RequestDocumentListModelResponse> {
+    return await api.get(`/document/get-category-folder-list`);
+  }
+
+  //api/documentdemand/get-hidden-type-list
+  public async getHiddenTypeList(): Promise<RequestDocumentCreatedModelResponse> {
+    return await api.get(`/documentdemand/get-hidden-type-list`);
+  }
+
+  //api/documentdemand/get-issue-type-list
+  public async getIssueTypeList(): Promise<unknown> {
+    return await api.get(`/documentdemand/get-issue-type-list`);
+  }
+
+  // api/document/upload-document-new/{userId}/{id}
+  public async createDocument(
+    userId: string,
+    id: string,
+    body: ResultedRequestsFormModel,
+  ): Promise<unknown> {
+    Object.entries(body?.formFile).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formFile.append(key, value instanceof File ? value : String(value));
+      }
+    });
+
+    try {
+      return await api.put(
+        `/document/upload-document-new/${userId}/${id}`,
+        body,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+
+  // api/document/upload-document-revise/{userId}/{id}
+  public async revizeDocument(
+    userId: string,
+    id: string,
+    body: ResultedRequestsFormModel,
+  ): Promise<unknown> {
+    console.log("body", body);
+    console.log("userId", userId);
+    console.log("id", id);
+    Object.entries(body?.formFile).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formFile.append(key, value instanceof File ? value : String(value));
+      }
+    });
+
+    return await api.put(
+      `/document/upload-document-revise/${userId}/${id}`,
+      body,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
     );
   }
 }
