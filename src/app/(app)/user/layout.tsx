@@ -55,7 +55,7 @@ export default function Layout({ children }: Props) {
                   },
                 ]
               : []),
-            ...(user?.roleId === "7"
+            ...(user?.roleId === "4"
               ? [
                   {
                     icon: DocumentTextIcon,
