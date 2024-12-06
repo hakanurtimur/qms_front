@@ -2,13 +2,14 @@ import { z } from "zod";
 
 // Define a schema for the request body
 const SGeminiRequest = z.object({
-  contents: zod.array(
-    zod.object({
-      parts: zod.array(
-        zod.object({
-          text: zod.string(),
+  contents: z.array(
+    z.object({
+      parts: z.array(
+        z.object({
+          text: z.string(),
         }),
       ),
+      role: z.string(),
     }),
   ),
 });
@@ -68,3 +69,9 @@ const SGeminiResponse = z.object({
 });
 
 export type GeminiResponse = z.infer<typeof SGeminiResponse>;
+
+const SGeminiAxiosResponse = z.object({
+  data: SGeminiResponse,
+});
+
+export type GeminiAxiosResponse = z.infer<typeof SGeminiAxiosResponse>;

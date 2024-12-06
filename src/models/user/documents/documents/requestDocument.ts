@@ -3,6 +3,7 @@ import { SResponseModel } from "@/models/api/response";
 
 export const SRequestDocumentListModel = z.object({
   fileId: z.number().int(),
+  folderId: z.number().int(),
   categoryName: z.string(),
   folderName: z.string(),
   documentTypeId: z.number().int(),

@@ -12,15 +12,17 @@ import { useAuth } from "@/context/authContext";
 import tokenService from "@/services/TokenService";
 import LoadingScreen from "@/components/commons/LoadingScreen";
 import { AIChatBox } from "@/components/ui/ai-chat-box";
-import { GeminiRequest } from "@/models/gemini";
 import geminiService from "@/services/GeminiService";
+import { GeminiAxiosResponse, GeminiRequest } from "@/models/gemini-ai";
 
 const Page = () => {
   const { onSetAuthenticated, onSetUser } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<
+    { text: string; type: string; id: number; isUser: boolean }[]
+  >([]);
   const [input, setInput] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -84,7 +86,7 @@ Eğer gelen soru aşağıdaki listede yoksa, bunu net bir şekilde belirtmelisin
   };
   const sendMessageToAI = useMutation({
     mutationFn: (data: GeminiRequest) => geminiService.getAIResponse(data),
-    onSuccess: (res) => {
+    onSuccess: (res: GeminiAxiosResponse) => {
       const response = res?.data?.candidates[0].content.parts[0].text;
       setMessages((prev) => [
         ...prev,
@@ -92,7 +94,7 @@ Eğer gelen soru aşağıdaki listede yoksa, bunu net bir şekilde belirtmelisin
       ]);
     },
   });
-  const handleSendMessage = (e) => {
+  const handleSendMessage = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (input.trim()) {
       console.log(input);
@@ -118,7 +120,7 @@ Eğer gelen soru aşağıdaki listede yoksa, bunu net bir şekilde belirtmelisin
       };
       setMessages((prev) => [
         ...prev,
-        { text: input, type: "user", id: Math.random() },
+        { text: input, type: "user", id: Math.random(), isUser: true },
       ]);
       setInput("");
       sendMessageToAI.mutate(request);
@@ -142,7 +144,6 @@ Eğer gelen soru aşağıdaki listede yoksa, bunu net bir şekilde belirtmelisin
       )}
       <AIChatBox
         messages={messages}
-        setMessages={setMessages}
         input={input}
         setInput={setInput}
         handleSendMessage={handleSendMessage}

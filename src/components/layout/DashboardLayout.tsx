@@ -41,7 +41,7 @@ import DynamicAlert from "../ui/dynamic-alert";
 import { useRouter } from "next/navigation";
 import { ResponseModel } from "@/models/api/response";
 import { AIChatBox } from "@/components/ui/ai-chat-box";
-import { GeminiRequest } from "@/models/gemini";
+import { GeminiRequest } from "@/models/gemini-ai";
 import geminiService from "@/services/GeminiService";
 import { useMutation } from "@tanstack/react-query";
 
@@ -120,7 +120,7 @@ const DashboardLayout = ({
     },
   });
 
-  const handleSendMessage = (e) => {
+  const handleSendMessage = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (input.trim()) {
       console.log(input);
@@ -279,7 +279,6 @@ const DashboardLayout = ({
           <div className="flex flex-shrink gap-4 items-center">
             <AIChatBox
               messages={messages}
-              setMessages={setMessages}
               input={input}
               setInput={setInput}
               handleSendMessage={handleSendMessage}

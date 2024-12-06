@@ -54,7 +54,7 @@ const RequestForm = ({
       Description: "",
       GarbageFileName: "",
       FileId: model ? model.fileId : undefined,
-      formFile: undefined,
+      FormFile: undefined,
     },
   });
 
@@ -89,7 +89,7 @@ const RequestForm = ({
                       field.onChange(file?.name);
                       if (file) {
                         console.log(file);
-                        form.setValue("formFile", file);
+                        form.setValue("FormFile", file);
                       }
                     }}
                     className="min-h-36"

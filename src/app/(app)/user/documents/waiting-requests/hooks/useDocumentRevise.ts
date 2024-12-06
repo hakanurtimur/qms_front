@@ -1,12 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import waitingRequestsService from "@/services/user/documents/waiting-requests/WaitingRequestsService";
-import { ResultedRequestsFormModel } from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
+import { ResultedRequestsReviseFormModel } from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
 import { toast } from "@/hooks/use-toast";
 
 interface DocumentReviseParams {
   userId: string;
   id: string;
-  body: ResultedRequestsFormModel;
+  body: ResultedRequestsReviseFormModel;
   key: string[];
 }
 

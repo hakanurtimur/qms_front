@@ -27,14 +27,14 @@ import {
   ResultedRequestsReviseFormModel,
   SResultedRequestsReviseFormModel,
 } from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
-import { RequestDocumentCreatedModel } from "@/models/user/documents/requestDocumentListModel";
+import { RequestDocumentCreatedModel } from "@/models/user/documents/documents/requestDocumentCreate";
 
 interface DocumentReviseFormProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   documentTypeListQpts: { [key: string]: string };
   issueTypeList: RequestDocumentCreatedModel[];
-  onSubmit: (data: ResultedRequestsFormModel) => void;
+  onSubmit: (data: ResultedRequestsReviseFormModel) => void;
 }
 
 export default function DocumentReviseForm({
@@ -49,7 +49,7 @@ export default function DocumentReviseForm({
   });
 
   const handleSubmit = (data: ResultedRequestsReviseFormModel) => {
-    onSubmit(data);
+    onSubmit(data as ResultedRequestsReviseFormModel);
     setOpen(false);
   };
 
@@ -92,11 +92,16 @@ export default function DocumentReviseForm({
                       <DynamicCombobox
                         name="IssueTypeId"
                         options={issueTypeList.reduce(
-                          (acc, item: RequestDocumentCreatedModel) => {
-                            acc[item?.issueTypeId] = item?.issueTypeName;
+                          (
+                            acc: { [key: string]: string },
+                            item: RequestDocumentCreatedModel,
+                          ) => {
+                            if (item?.issueTypeId && item?.issueTypeName) {
+                              acc[item.issueTypeId] = item.issueTypeName;
+                            }
                             return acc;
                           },
-                          {},
+                          {} as { [key: string]: string },
                         )}
                         onChange={(value) => field.onChange(value)}
                       />
@@ -149,7 +154,7 @@ export default function DocumentReviseForm({
                           onChange={(value) => field.onChange(value)}
                           className="w-full h-32"
                           fileExtensions={["pdf"]}
-                          key={field.value}
+                          key={field.value?.name ?? ""}
                         />
                       </FormControl>
                       <FormMessage />

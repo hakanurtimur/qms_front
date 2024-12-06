@@ -4,7 +4,12 @@ import {
   WaitingRequestResponseDetailsModel,
   WaitingRequestResponseModel,
 } from "@/models/user/documents/waitingRequests/waitingRequestModel";
-import { ResultedRequestsFormModel } from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
+import {
+  ResultedRequestsFormModel,
+  ResultedRequestsReviseFormModel,
+} from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
+import { RequestDocumentCreatedModelResponse } from "@/models/user/documents/documents/requestDocumentCreate";
+import { RequestDocumentListModelResponse } from "@/models/user/documents/documents/requestDocument";
 
 export class WaitingRequestsService {
   public async list(
@@ -62,7 +67,7 @@ export class WaitingRequestsService {
   }
 
   //api/documentdemand/get-issue-type-list
-  public async getIssueTypeList(): Promise<unknown> {
+  public async getIssueTypeList(): Promise<RequestDocumentCreatedModelResponse> {
     return await api.get(`/documentdemand/get-issue-type-list`);
   }
 
@@ -72,6 +77,7 @@ export class WaitingRequestsService {
     id: string,
     body: ResultedRequestsFormModel,
   ): Promise<unknown> {
+    const formFile = new FormData();
     Object.entries(body?.formFile).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
         formFile.append(key, value instanceof File ? value : String(value));
@@ -97,11 +103,12 @@ export class WaitingRequestsService {
   public async revizeDocument(
     userId: string,
     id: string,
-    body: ResultedRequestsFormModel,
+    body: ResultedRequestsReviseFormModel,
   ): Promise<unknown> {
     console.log("body", body);
     console.log("userId", userId);
     console.log("id", id);
+    const formFile = new FormData();
     Object.entries(body?.formFile).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
         formFile.append(key, value instanceof File ? value : String(value));

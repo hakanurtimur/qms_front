@@ -30,6 +30,8 @@ import {
 } from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
 import useDocumentCreate from "./hooks/useDocumentCreate";
 import useDocumentRevise from "./hooks/useDocumentRevise";
+import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
+import { RequestDocumentCreatedModel } from "@/models/user/documents/documents/requestDocumentCreate";
 
 const Page = () => {
   const { user } = useAuth();
@@ -40,7 +42,7 @@ const Page = () => {
   const [uploadData, setUploadData] =
     useState<ResultedRequestsFormModel | null>(null);
   const [reviseData, setReviseData] =
-    useState<ResultedRequestsFormModel | null>();
+    useState<ResultedRequestsReviseFormModel | null>();
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
   const { garbageSrc, garbageFileName, getGarbageMutation } = useGetGarbage({
@@ -57,15 +59,23 @@ const Page = () => {
     handleShow: () => setShowFile(true),
     key: ["getDocUrl"],
   });
-  const categoryFolderList = useCategoryFolderList({
-    key: ["category-folder-list"],
-  });
-  const hiddenTypeList = useHiddenList({
-    key: ["hidden-type-list"],
-  });
-  const issueTypeList = useIssueTypeList({
-    key: ["issue-type-list"],
-  });
+
+  const categoryFolderList =
+    useCategoryFolderList({
+      key: ["category-folder-list"],
+    }) ?? [];
+
+  console.log("categoryFolderList", categoryFolderList);
+
+  const hiddenTypeList =
+    useHiddenList({
+      key: ["hidden-type-list"],
+    }) ?? [];
+
+  const issueTypeList =
+    useIssueTypeList({
+      key: ["issue-type-list"],
+    }) ?? [];
 
   const allRequestsQuery = useQuery({
     queryKey: ["waiting-requests"],
@@ -116,14 +126,14 @@ const Page = () => {
   const createDocument = useDocumentCreate({
     userId: user?.userId ?? "",
     id: selectedRow ?? "",
-    body: uploadData ?? {},
+    body: uploadData ?? ({} as ResultedRequestsFormModel),
     key: ["create-document-for-waiting-request"],
   });
 
   const reviseDocument = useDocumentRevise({
     userId: user?.userId ?? "",
     id: selectedRow ?? "",
-    body: reviseData ?? {},
+    body: reviseData ?? ({} as ResultedRequestsReviseFormModel),
     key: ["revise-document-for-waiting-request"],
   });
 
@@ -193,8 +203,8 @@ const Page = () => {
   const handleSubmitDocumentUpload = (data: ResultedRequestsFormModel) => {
     const body = {
       ...data,
-      newFileName: data.formFile?.name,
-      format: data.formFile?.type,
+      newFileName: data.formFile?.name.split(".")[0],
+      format: data.formFile?.type?.split("/")[1],
     };
     setUploadData(body);
     createDocument.mutate();
@@ -203,7 +213,7 @@ const Page = () => {
   const handleSubmitDocumentRevise = (
     data: ResultedRequestsReviseFormModel,
   ) => {
-    const body = {
+    const body: ResultedRequestsReviseFormModel = {
       ...data,
       format: data.formFile?.type?.split("/")[1],
     };
@@ -315,16 +325,18 @@ const Page = () => {
             open={openDocumentUploadModal}
             setOpen={() => setDocumentUploadModal(!openDocumentUploadModal)}
             documentTypeListQpts={documentTypeListQpts}
-            categoryFolderList={categoryFolderList}
-            hiddenTypeList={hiddenTypeList}
-            issueTypeList={issueTypeList}
+            categoryFolderList={
+              categoryFolderList as RequestDocumentListModel[]
+            }
+            hiddenTypeList={hiddenTypeList as RequestDocumentCreatedModel[]}
+            issueTypeList={issueTypeList as RequestDocumentCreatedModel[]}
             onSubmit={handleSubmitDocumentUpload}
           />
           <DocumentReviseForm
             open={openDocumentReviseModal}
             setOpen={() => setDocumentReviseModal(!openDocumentReviseModal)}
             documentTypeListQpts={documentTypeListQpts}
-            issueTypeList={issueTypeList}
+            issueTypeList={issueTypeList as RequestDocumentCreatedModel[]}
             onSubmit={handleSubmitDocumentRevise}
           />
         </>

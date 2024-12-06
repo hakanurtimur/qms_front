@@ -12,7 +12,9 @@ export const columns: ColumnDef<RoleManagementRoleModel>[] = [
         <SortingBtn
           text={"Rol Adı"}
           onClick={() =>
-            column.toggleSorting(column.getIsSorted().toUpperCase() === "asc")
+            column.toggleSorting(
+              String(column.getIsSorted()).toUpperCase() === "asc",
+            )
           }
         />
       );

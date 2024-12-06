@@ -20,7 +20,6 @@ interface Message {
 
 interface AIChatBoxProps {
   messages: Message[];
-  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
   input: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
   handleSendMessage: (e: React.FormEvent) => void;

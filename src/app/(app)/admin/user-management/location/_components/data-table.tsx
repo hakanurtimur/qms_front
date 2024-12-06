@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
+import { useEffect } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

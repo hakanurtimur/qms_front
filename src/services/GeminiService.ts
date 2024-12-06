@@ -1,3 +1,4 @@
+import { GeminiAxiosResponse, GeminiRequest } from "@/models/gemini-ai";
 import axios from "axios";
 
 export class GeminiService {
@@ -10,7 +11,9 @@ export class GeminiService {
   -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=YOUR_API_KEY"
   */
 
-  public async getAIResponse(data: GeminiRequest): Promise<GeminiResponse> {
+  public async getAIResponse(
+    data: GeminiRequest,
+  ): Promise<GeminiAxiosResponse> {
     return await axios.post(
       `${this.URL}` +
         "/models/gemini-1.5-flash-latest:generateContent?key=" +

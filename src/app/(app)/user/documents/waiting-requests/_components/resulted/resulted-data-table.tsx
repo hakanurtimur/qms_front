@@ -37,7 +37,7 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   handleDocumentUploadModal: (id: string) => void;
-  handleDocumentReviseModal: () => void;
+  handleDocumentReviseModal: (id: string) => void;
 }
 
 export function ResultedDataTable<TData, TValue>({
@@ -194,7 +194,7 @@ export function ResultedDataTable<TData, TValue>({
                                 asChild
                                 onClick={() => {
                                   handleDocumentUploadModal(
-                                    row.getValue("id").toString(),
+                                    String(row.getValue("id")),
                                   );
                                 }}
                               >
@@ -215,7 +215,7 @@ export function ResultedDataTable<TData, TValue>({
                                 asChild
                                 onClick={() => {
                                   handleDocumentReviseModal(
-                                    row.getValue("id").toString(),
+                                    String(row.getValue("id")),
                                   );
                                 }}
                               >

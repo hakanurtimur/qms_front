@@ -26,11 +26,8 @@ import {
   ResultedRequestsFormModel,
   SResultedRequestsFormModel,
 } from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
-import Combobox from "@/components/ui/combobox";
-import {
-  RequestDocumentListModel,
-  RequestDocumentCreatedModel,
-} from "@/models/user/documents/requestDocumentListModel";
+import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
+import { RequestDocumentCreatedModel } from "@/models/user/documents/documents/requestDocumentCreate";
 
 interface DocumentUploadFormProps {
   open: boolean;
@@ -83,10 +80,10 @@ export default function DocumentUploadForm({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Doküman Tipi</FormLabel>
-                      <Combobox
+                      <DynamicCombobox
                         name="documentTypeId"
                         options={documentTypeListQpts}
-                        onChange={(value) => field.onChange(value)}
+                        onChange={field.onChange}
                       />
                     </FormItem>
                   )}
@@ -101,7 +98,10 @@ export default function DocumentUploadForm({
                       <DynamicCombobox
                         name="folderId"
                         options={categoryFolderList.reduce(
-                          (acc, item: RequestDocumentListModel) => {
+                          (
+                            acc: { [key: string]: string },
+                            item: RequestDocumentListModel,
+                          ) => {
                             acc[item?.folderId] = item?.folderName;
                             return acc;
                           },
@@ -122,8 +122,13 @@ export default function DocumentUploadForm({
                       <DynamicCombobox
                         name="hidden"
                         options={hiddenTypeList.reduce(
-                          (acc, item: RequestDocumentCreatedModel) => {
-                            acc[item?.hiddenId] = item?.hiddenName;
+                          (
+                            acc: { [key: string]: string },
+                            item: RequestDocumentCreatedModel,
+                          ) => {
+                            if (item?.hiddenId && item?.hiddenName) {
+                              acc[item.hiddenId] = item.hiddenName;
+                            }
                             return acc;
                           },
                           {},
@@ -159,11 +164,16 @@ export default function DocumentUploadForm({
                       <DynamicCombobox
                         name="issueTypeId"
                         options={issueTypeList.reduce(
-                          (acc, item: RequestDocumentCreatedModel) => {
-                            acc[item?.issueTypeId] = item?.issueTypeName;
+                          (
+                            acc: { [key: string]: string },
+                            item: RequestDocumentCreatedModel,
+                          ) => {
+                            if (item?.issueTypeId && item?.issueTypeName) {
+                              acc[item.issueTypeId] = item.issueTypeName;
+                            }
                             return acc;
                           },
-                          {},
+                          {} as { [key: string]: string },
                         )}
                         onChange={(value) => field.onChange(value)}
                       />
@@ -233,7 +243,6 @@ export default function DocumentUploadForm({
                         <Dropzone
                           onChange={(file) => field.onChange(file)}
                           className="w-full min-h-28"
-                          key={field.value}
                           fileExtensions={["pdf"]}
                         />
                       </FormControl>
