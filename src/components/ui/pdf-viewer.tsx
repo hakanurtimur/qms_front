@@ -68,7 +68,7 @@ const PdfViewer = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className={`${isZoomed ? "min-w-screen-90 max-w-screen-90" : "max-w-3xl min-h-screen-90 max-h-screen-90"} w-full flex gap-8 flex-col items-center justify-center`}
+        className={`${isZoomed ? "min-w-screen-90 max-w-screen-90" : "max-w-3xl min-h-screen-90 max-h-screen-90"} w-full flex gap-2 flex-col items-center justify-center`}
       >
         <DialogHeader>
           <DialogTitle>{fileName}</DialogTitle>
@@ -95,7 +95,7 @@ const PdfViewer = ({
         {(variant === "default" || variant === "view") && (
           <div className="mx-h-[600px]">
             <Document
-              className={`${isZoomed ? "max-w-screen-70 max-h-screen-70 min-h-screen-70" : "max-h-[600px] min-h-[600px] p-0"} overflow-y-scroll text-center flex items-center justify-center`}
+              className={`${isZoomed ? "max-w-screen-70 max-h-full min-h-screen-70" : "max-h-[600px] min-h-[600px] p-0"} overflow-y-scroll text-center flex items-center justify-center`}
               file={adjustedSrc}
               onLoadSuccess={onDocumentLoadSuccess}
             >
@@ -104,10 +104,11 @@ const PdfViewer = ({
                 pageNumber={pageNumber}
                 renderTextLayer={false}
                 renderAnnotationLayer={false}
-                width={isZoomed ? 1200 : 600}
+                devicePixelRatio={2}
+                width={500}
               />
             </Document>
-            <div className="flex gap-2 items-center justify-center mt-4">
+            <div className="flex gap-2 items-center justify-center">
               <Pagination>
                 <PaginationContent>
                   <PaginationItem>

@@ -6,88 +6,42 @@ import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/app/(app)/user/documents/director-rejection/_components/data-table";
 import { columns } from "@/app/(app)/user/documents/director-rejection/_components/columns";
+import useListRequests from "@/app/(app)/user/documents/director-rejection/lib/hooks/useListRequests";
+import { useAuth } from "@/context/authContext";
+import useActiveListRequests from "@/app/(app)/user/documents/director-rejection/lib/hooks/useActiveListRequests";
+import useApprovement from "@/app/(app)/user/documents/director-rejection/lib/hooks/useApprovement";
 
 const Page = () => {
-  // TODO: add query service
-
-  // const query = useQuery({
-  //   queryKey: ["documents"],
-  //   queryFn: () => documentService.getDocuments(moduleId),
-  // });
-
-  const allRequestsQuery = {
-    data: {
-      data: [
-        {
-          requestNo: 101,
-          adminName: "John Doe",
-          state: true,
-          qualityState: false,
-          managerState: true,
-          requestDate: "2024-01-15",
-          requester: "Dr. Ayşe Yılmaz",
-          department: "Oncology",
-          documentType: "Patient Consent Form",
-          requestType: "Initial",
-          updateDate: "2024-01-20",
-        },
-        {
-          requestNo: 102,
-          adminName: "Janet Doe",
-          state: false,
-          qualityState: true,
-          managerState: false,
-          requestDate: "2024-02-10",
-          requester: "Dr. Mehmet Kaya",
-          department: "Cardiology",
-          documentType: "Medical Report",
-          requestType: "Follow-up",
-          updateDate: "2024-02-15",
-        },
-        {
-          requestNo: 103,
-          adminName: "Johnson Doe",
-          state: true,
-          qualityState: true,
-          managerState: true,
-          requestDate: "2024-03-05",
-          requester: "Nurse Emine Demir",
-          department: "Pediatrics",
-          documentType: "Treatment Plan",
-          requestType: "Update",
-          updateDate: "2024-03-10",
-        },
-      ],
-    },
-  };
-  const activeRequestsQuery = {
-    data: {
-      data: [
-        {
-          requestNo: 101,
-          adminName: "John Doe",
-          state: true,
-          qualityState: false,
-          managerState: true,
-          requestDate: "2024-01-15",
-          requester: "Dr. Ayşe Yılmaz",
-          department: "Oncology",
-          documentType: "Patient Consent Form",
-          requestType: "Initial",
-          updateDate: "2024-01-20",
-        },
-      ],
-    },
-  };
-
-  const deparments = allRequestsQuery.data?.data.map((doc) => doc.department);
-
-  const documentTypes = allRequestsQuery.data?.data.map(
-    (doc) => doc.documentType,
+  const { user } = useAuth();
+  const { query: allRequestsQuery } = useListRequests(
+    user?.userId ?? "",
+    user?.roleId ?? "",
   );
-  const requestTypes = allRequestsQuery.data?.data.map(
-    (doc) => doc.requestType,
+  const { query: activeRequestsQuery } = useActiveListRequests(
+    user?.userId ?? "",
+    user?.roleId ?? "",
   );
+
+  const deparments = allRequestsQuery?.data?.data?.map(
+    (doc) => doc.departmentName,
+  );
+
+  const documentTypes = allRequestsQuery?.data?.data?.map(
+    (doc) => doc.documentTypeName,
+  );
+  const requestTypes = allRequestsQuery?.data?.data?.map(
+    (doc) => doc.requestTypeName,
+  );
+
+  const { mutaiton: approveRequestMutation } = useApprovement(
+    user?.userId ?? "",
+  );
+
+  const handleApproveRequest = async (id: string, action_id: number) => {
+    approveRequestMutation.mutate({ id, action_id });
+    await allRequestsQuery.refetch();
+    await activeRequestsQuery.refetch();
+  };
 
   const departmentOps = deparments
     ? convertStringArrayToOptions(deparments)
@@ -102,14 +56,14 @@ const Page = () => {
     : null;
 
   const activeDeparments = activeRequestsQuery.data?.data.map(
-    (doc) => doc.department,
+    (doc) => doc.departmentName,
   );
 
   const activeDocumentTypes = activeRequestsQuery.data?.data.map(
-    (doc) => doc.documentType,
+    (doc) => doc.documentTypeName,
   );
   const activeRequestTypes = activeRequestsQuery.data?.data.map(
-    (doc) => doc.requestType,
+    (doc) => doc.requestTypeName,
   );
 
   const activeDepartmentOps = activeDeparments
@@ -144,6 +98,8 @@ const Page = () => {
               requestTypeOpts={requestTypeOpts}
               columns={columns}
               data={allRequestsQuery.data.data}
+              variant={"default"}
+              onApproveRequest={handleApproveRequest}
             />
           ) : (
             <LoadingScreen />
@@ -161,6 +117,7 @@ const Page = () => {
               columns={columns}
               data={activeRequestsQuery.data.data}
               variant={"actives"}
+              onApproveRequest={handleApproveRequest}
             />
           ) : (
             <LoadingScreen />

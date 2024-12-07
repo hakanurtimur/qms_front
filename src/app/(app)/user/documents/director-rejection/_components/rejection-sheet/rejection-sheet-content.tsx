@@ -3,7 +3,6 @@ import { SheetClose, SheetFooter } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
 import React from "react";
-import { UserRequestModelUpdate } from "@/models/user/documents/userRequests/userRequestModel";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { DatePicker } from "@/components/ui/date-picker";
@@ -15,33 +14,43 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { FolderIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
+import { DirectorRejectionDetailsModel } from "@/models/user/documents/director-rejection/director-rejection";
+import { useAuth } from "@/context/authContext";
 
 interface Props {
-  model?: UserRequestModelUpdate;
+  model?: DirectorRejectionDetailsModel;
   variant: "default" | "actives";
+  onGetGarbage: (garbageId: string) => void;
+  onGetFile: (fileId: string) => void;
+  onApproveRequest: (action_id: number) => void;
 }
 
-const RejectionSheetContent = ({ model, variant }: Props) => {
+const RejectionSheetContent = ({
+  model,
+  variant,
+  onGetFile,
+  onGetGarbage,
+  onApproveRequest,
+}: Props) => {
+  const { user } = useAuth();
   const defaultValues = {
-    Id: model ? (model.Id ?? 0) : 0,
-    ActionName: model ? (model.ActionName ?? "") : "",
-    AuthRequestId: model ? (model.AuthRequestId ?? 0) : 0,
-    UserName: model ? (model.UserName ?? "") : "",
-    DepartmentName: model ? (model.DepartmentName ?? "") : "",
-    RequestTypeName: model ? (model.RequestTypeName ?? "") : "",
-    DocumentTypeId: model ? (model.DocumentTypeId ?? 0) : 0,
-    DocumentTypeName: model ? (model.DocumentTypeName ?? "") : "",
-    DescriptionUser: model ? (model.DescriptionUser ?? "") : "",
-    DescriptionAdmin: model ? (model.DescriptionAdmin ?? "") : "",
-    OpenDate: model ? (model.OpenDate ?? "") : "",
-    UpdateDate: model ? (model.UpdateDate ?? "") : "",
-    ActionId: model ? (model.ActionId ?? 0) : 0,
-    SuperAdminActionName: model ? (model.SuperAdminActionName ?? "") : "",
-    DescriptionSuperAdmin: model ? (model.DescriptionSuperAdmin ?? "") : "",
-    SuperAdminAboutName: model ? (model.SuperAdminAboutName ?? "") : "",
-    GarbageId: model ? (model.GarbageId ?? 0) : 0,
-    FileId: model ? (model.FileId ?? 0) : 0,
+    id: model ? (model.id ?? 0) : 0,
+    actionName: model ? (model.actionName ?? "") : "",
+    userName: model ? (model.userName ?? "") : "",
+    departmentName: model ? (model.departmentName ?? "") : "",
+    requestTypeName: model ? (model.requestTypeName ?? "") : "",
+    documentTypeId: model ? (model.documentTypeName ?? 0) : 0,
+    descriptionUser: model ? (model.descriptionUser ?? "") : "",
+    descriptionManager: model ? (model.descriptionManager ?? "") : "",
+    openDate: model ? (model.openDate ?? "") : "",
+    updateDate: model ? (model.updateDate ?? "") : "",
+    superAdminActionName: model ? (model.superAdminActionName ?? "") : "",
+    descriptionSuperAdmin: model ? (model.descriptionSuperAdmin ?? "") : "",
+    superAdminAboutName: model ? (model.superAdminAboutName ?? "") : "",
+    garbageId: model ? (model.garbageId ?? 0) : 0,
+    fileId: model ? (model.fileId ?? 0) : 0,
   };
+
   return (
     <div className="mt-10 grid grid-cols-3 gap-x-4 gap-y-8">
       <div className="space-y-5 border-r-2 border-primary-600 pr-4">
@@ -50,7 +59,7 @@ const RejectionSheetContent = ({ model, variant }: Props) => {
           <Input
             readOnly
             className="w-full bg-primary-100"
-            value={defaultValues.Id}
+            value={defaultValues.id}
           />
         </FormItem>
         <FormItem>
@@ -58,7 +67,7 @@ const RejectionSheetContent = ({ model, variant }: Props) => {
           <Input
             readOnly
             className="w-full bg-primary-100"
-            value={defaultValues.UserName}
+            value={defaultValues.userName}
           />
         </FormItem>
         <FormItem>
@@ -66,7 +75,7 @@ const RejectionSheetContent = ({ model, variant }: Props) => {
           <Input
             readOnly
             className="w-full bg-primary-100"
-            value={defaultValues.DepartmentName}
+            value={defaultValues.departmentName}
           />
         </FormItem>
         <FormItem>
@@ -74,14 +83,14 @@ const RejectionSheetContent = ({ model, variant }: Props) => {
           <Input
             readOnly
             className="w-full bg-primary-100"
-            value={defaultValues.RequestTypeName}
+            value={defaultValues.requestTypeName}
           />
         </FormItem>
         <FormItem>
           <Label>Talep Tarihi</Label>
           <DatePicker
-            name={"OpenDate"}
-            value={defaultValues.OpenDate}
+            name={"openDate"}
+            value={defaultValues.openDate}
             placeholder="Seçiniz"
             readonly={true}
             includeTime={true}
@@ -91,7 +100,7 @@ const RejectionSheetContent = ({ model, variant }: Props) => {
           <Label>Son İşlem Tarihi</Label>
           <DatePicker
             name={"UpdateDate"}
-            value={defaultValues.UpdateDate}
+            value={defaultValues.updateDate}
             placeholder="Seçiniz"
             readonly={true}
             includeTime={true}
@@ -104,15 +113,15 @@ const RejectionSheetContent = ({ model, variant }: Props) => {
           <Input
             readOnly
             className="w-full bg-primary-100"
-            value={defaultValues.DocumentTypeName}
+            value={defaultValues.documentTypeId}
           />
         </FormItem>
         <FormItem>
-          <Label>Talep Eden {model?.UserName} Açıklaması</Label>
+          <Label>Talep Eden {model?.userName} Açıklaması</Label>
           <Textarea
             rows={5}
             className="w-full pb-3.5"
-            value={defaultValues.DescriptionUser}
+            value={defaultValues.descriptionUser}
             readOnly
           />
         </FormItem>
@@ -121,15 +130,15 @@ const RejectionSheetContent = ({ model, variant }: Props) => {
           <Input
             readOnly
             className="w-full bg-primary-100"
-            value={defaultValues.ActionName}
+            value={defaultValues.actionName}
           />
         </FormItem>
         <FormItem>
-          <Label>{model?.UserName} - Admin Açıklaması</Label>
+          <Label>{model?.userName} - Admin Açıklaması</Label>
           <Textarea
             rows={5}
             className="w-full pb-3.5"
-            value={defaultValues.DescriptionAdmin}
+            value={defaultValues.descriptionManager}
             readOnly
           />
         </FormItem>
@@ -137,20 +146,20 @@ const RejectionSheetContent = ({ model, variant }: Props) => {
       <div className="space-y-5 pr-4">
         <FormItem>
           <Label>Kalite Durum</Label>
-          <Input readOnly value={defaultValues.SuperAdminActionName} />
+          <Input readOnly value={defaultValues.superAdminActionName} />
         </FormItem>
         <FormItem>
           <Label>KYS Sorumlusu Açıklaması</Label>
           <Textarea
             readOnly
             className="w-full bg-primary-100 pb-3.5"
-            value={defaultValues.DescriptionSuperAdmin}
+            value={defaultValues.descriptionSuperAdmin}
             rows={5}
           />
         </FormItem>
         <FormItem>
           <Label>Talep Nedeni</Label>
-          <Input readOnly value={defaultValues.SuperAdminAboutName} />
+          <Input readOnly value={defaultValues.superAdminAboutName} />
         </FormItem>
         <TooltipProvider>
           <div className="flex flex-col">
@@ -160,30 +169,34 @@ const RejectionSheetContent = ({ model, variant }: Props) => {
             <div className="flex items-center gap-4 mt-4">
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button
-                    onClick={() => {
-                      console.log(model?.FileId);
-                    }}
-                    type="button"
-                    className="pb-3 pt-3 min-w-24 min-h-12"
-                  >
-                    <PencilSquareIcon className="min-h-8 max-h-8 w-auto" />
-                  </Button>
+                  {model?.garbageId && (
+                    <Button
+                      onClick={() => {
+                        onGetGarbage(model?.garbageId.toString());
+                      }}
+                      type="button"
+                      className="pb-3 pt-3 min-w-24 min-h-12"
+                    >
+                      <PencilSquareIcon className="min-h-8 max-h-8 w-auto" />
+                    </Button>
+                  )}
                 </TooltipTrigger>
                 <TooltipContent>Talep Edilen Doküman</TooltipContent>
               </Tooltip>
               <Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button
-                      onClick={() => {
-                        console.log(model?.GarbageId);
-                      }}
-                      type="button"
-                      className="pb-3 pt-3 min-w-24 min-h-12"
-                    >
-                      <FolderIcon className="min-h-8 max-h-8 w-auto" />
-                    </Button>
+                    {model?.fileId && (
+                      <Button
+                        onClick={() => {
+                          onGetFile(model?.fileId.toString());
+                        }}
+                        type="button"
+                        className="pb-3 pt-3 min-w-24 min-h-12"
+                      >
+                        <FolderIcon className="min-h-8 max-h-8 w-auto" />
+                      </Button>
+                    )}
                   </TooltipTrigger>
                   <TooltipContent>Mevcut Doküman</TooltipContent>
                 </Tooltip>
@@ -206,8 +219,14 @@ const RejectionSheetContent = ({ model, variant }: Props) => {
                   İptal Et
                 </Button>
               </SheetClose>
-              <Button type="button">Onayla</Button>
-              <Button variant={"destructive"} type="button">
+              <Button onClick={() => onApproveRequest(1)} type="button">
+                Onayla
+              </Button>
+              <Button
+                onClick={() => onApproveRequest(2)}
+                variant={"destructive"}
+                type="button"
+              >
                 Reddet
               </Button>
             </>
