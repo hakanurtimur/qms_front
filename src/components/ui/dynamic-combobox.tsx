@@ -25,6 +25,7 @@ interface DynamicComboboxProps {
   placeholder?: string;
   onChange?: (value: string | number) => void;
   width?: string;
+  defaultValue?: string | number;
 }
 
 export function DynamicCombobox({
@@ -33,10 +34,11 @@ export function DynamicCombobox({
   options,
   placeholder = "Seçiniz",
   onChange,
+  defaultValue,
   width = "",
 }: DynamicComboboxProps) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState<string | number>("");
+  const [value, setValue] = React.useState<string | number>(defaultValue || "");
 
   const handleSelect = (selectedValue: string | number) => {
     setValue(selectedValue);
@@ -48,7 +50,7 @@ export function DynamicCombobox({
 
   return (
     <div className="">
-      <div className="space-y-0  pt-0 flex items-start flex-col gap-0">
+      <div className="space-y-0 pt-0 flex items-start flex-col gap-0">
         <label htmlFor={name} className="mt-0 font-semibold">
           {label}
         </label>

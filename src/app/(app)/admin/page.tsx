@@ -1,7 +1,9 @@
+import FeatureCards from "./_components/features-cards";
+
 const Page = () => {
   return (
-    <div>
-      <h1>Page</h1>
+    <div className="w-full h-full">
+      <FeatureCards />
     </div>
   );
 };
