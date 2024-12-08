@@ -16,6 +16,7 @@ export const columns: ColumnDef<ActionHistoryModel>[] = [
         />
       );
     },
+    footer: "Ad Soyad",
   },
   {
     accessorKey: "updateTable",
@@ -30,6 +31,7 @@ export const columns: ColumnDef<ActionHistoryModel>[] = [
     cell: ({ cell }) => {
       return [cell.getValue() as string].toString().toLocaleUpperCase("tr");
     },
+    footer: "İşlem Yeri",
   },
   {
     accessorKey: "description",
@@ -41,6 +43,7 @@ export const columns: ColumnDef<ActionHistoryModel>[] = [
         />
       );
     },
+    footer: "İşlem Açıklaması",
   },
   {
     accessorKey: "createDate",
@@ -59,5 +62,6 @@ export const columns: ColumnDef<ActionHistoryModel>[] = [
         </div>
       );
     },
+    footer: "İşlem Tarihi",
   },
 ];

@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 
-import LoadingScreen from "@/components/commons/LoadingScreen";
 import { ModuleDataTable } from "@/app/(app)/admin/user-management/module-management/_components/module/module-data-table";
 import { moduleColumns } from "@/app/(app)/admin/user-management/module-management/_components/module/module-columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -108,11 +107,7 @@ const Page = () => {
               columns={moduleColumns}
               data={moduleQuery.data.data}
             />
-          ) : (
-            <div className="w-screen h-screen absolute top-0 left-0">
-              <LoadingScreen />
-            </div>
-          )}
+          ) : null}
         </TabsContent>
         <TabsContent value={"screens"}>
           {screenQuery.data &&
@@ -128,11 +123,7 @@ const Page = () => {
               screenRoleOpts={screenRoleOpts}
               data={screenQuery.data.data}
             />
-          ) : (
-            <div className="w-screen h-screen absolute top-0 left-0">
-              <LoadingScreen />
-            </div>
-          )}
+          ) : null}
         </TabsContent>
       </Tabs>
     </div>

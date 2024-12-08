@@ -1,7 +1,6 @@
 "use client";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
-import LoadingScreen from "@/components/commons/LoadingScreen";
 import { DataTable } from "@/app/(app)/admin/user-management/role-management/_components/data-table";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
@@ -103,11 +102,7 @@ const Page = () => {
             columns={columns}
             onSheetFormSubmit={handleSheetFormSubmit}
           />
-        ) : (
-          <div className="w-screen h-screen absolute top-0 left-0">
-            <LoadingScreen />
-          </div>
-        )}
+        ) : null}
       </div>
     </div>
   );

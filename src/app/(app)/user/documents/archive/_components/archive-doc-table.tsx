@@ -343,7 +343,7 @@ export default function ArchiveDocTable({
             </Table>
           </div>
           <div>
-            <DataTablePagination table={table} />
+            <DataTablePagination isColumnHiderDropdownVisible table={table} />
           </div>
         </div>
       </div>

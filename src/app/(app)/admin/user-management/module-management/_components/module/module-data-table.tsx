@@ -169,7 +169,7 @@ export function ModuleDataTable<TData, TValue>({
             </Table>
           </div>
           <div>
-            <DataTablePagination table={table} />
+            <DataTablePagination isColumnHiderDropdownVisible table={table} />
           </div>
         </div>
       </div>

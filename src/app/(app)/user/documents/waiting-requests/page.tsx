@@ -1,7 +1,5 @@
 "use client";
 import React, { useState } from "react";
-
-import LoadingScreen from "@/components/commons/LoadingScreen";
 import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/app/(app)/user/documents/waiting-requests/_components/data-table";
@@ -258,9 +256,7 @@ const Page = () => {
               handleGetFile={handleGetFile}
               handleUpdateWaitingRequest={handleUpdateWaitingRequest}
             />
-          ) : (
-            <LoadingScreen />
-          )}
+          ) : null}
         </TabsContent>
         <TabsContent value={"actives"}>
           {activeRequestsQuery.data &&
@@ -284,9 +280,7 @@ const Page = () => {
               documentTypeListQpts={documentTypeListQpts}
               handleUpdateWaitingRequest={handleUpdateWaitingRequest}
             />
-          ) : (
-            <LoadingScreen />
-          )}
+          ) : null}
         </TabsContent>
         <TabsContent value={"result"}>
           {resultedRequestsQuery.data ? (
@@ -296,9 +290,7 @@ const Page = () => {
               handleDocumentUploadModal={handleOpenDocumentUploadModal}
               handleDocumentReviseModal={handleOpenDocumentReviseModal}
             />
-          ) : (
-            <LoadingScreen />
-          )}
+          ) : null}
         </TabsContent>
       </Tabs>
       {getGarbageMutation.data && (

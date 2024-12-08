@@ -3,7 +3,6 @@ import { ForgotPasswordModel } from "@/models/auth";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import tokenService from "@/services/TokenService";
-import LoadingScreen from "@/components/commons/LoadingScreen";
 import ForgotPassowordForm from "@/components/ui/reusable-forms/forgot-passoword-form";
 import FormPage from "@/app/(auth)/forgot-password/_components/form-page";
 import {
@@ -48,9 +47,7 @@ const Page = () => {
 
   return (
     <div>
-      {loading ? (
-        <LoadingScreen />
-      ) : (
+      {loading ? null : (
         <FormPage>
           <ForgotPassowordForm
             setCaptchaValue={setCaptchaValueHandler}

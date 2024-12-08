@@ -13,7 +13,6 @@ import React from "react";
 import { EmployeeToManageTableModel } from "@/models/admin/employeeManagement/employeeToManageTableModel";
 import { useQuery } from "@tanstack/react-query";
 import employeeManagementService from "@/services/admin/EmployeeManagement";
-import LoadingScreen from "@/components/commons/LoadingScreen";
 import { EmployeeRole } from "@/models/admin/employeeManagement/roles";
 import ManagerForm from "@/app/(app)/admin/user-management/employee-management/_components/manager/manager-form";
 import { EmployeeDepartment } from "@/models/admin/employeeManagement/departments";
@@ -52,11 +51,7 @@ const ManagerSheet = ({ model, onSubmit, roles, departments }: Props) => {
             roles={roles}
             departments={departments}
           />
-        ) : (
-          <div className="w-full h-full relative z-10">
-            <LoadingScreen />
-          </div>
-        )}
+        ) : null}
       </SheetContent>
     </Sheet>
   );

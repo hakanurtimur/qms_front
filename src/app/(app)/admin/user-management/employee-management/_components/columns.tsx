@@ -15,6 +15,7 @@ export const Columns: ColumnDef<EmployeeToManageTableModel>[] = [
         />
       );
     },
+    footer: "Ad Soyad",
   },
   {
     accessorKey: "departmentName",
@@ -26,6 +27,7 @@ export const Columns: ColumnDef<EmployeeToManageTableModel>[] = [
         />
       );
     },
+    footer: "Bölüm",
   },
   {
     accessorKey: "jobName",
@@ -37,6 +39,7 @@ export const Columns: ColumnDef<EmployeeToManageTableModel>[] = [
         />
       );
     },
+    footer: "Görev",
   },
   {
     accessorKey: "roleName",
@@ -48,6 +51,7 @@ export const Columns: ColumnDef<EmployeeToManageTableModel>[] = [
         />
       );
     },
+    footer: "Rol",
   },
   {
     accessorKey: "workingStatus",
@@ -62,5 +66,6 @@ export const Columns: ColumnDef<EmployeeToManageTableModel>[] = [
     cell: ({ cell }) => {
       return cell.getValue() ? "AKTİF" : "PASİF";
     },
+    footer: "Durum",
   },
 ];

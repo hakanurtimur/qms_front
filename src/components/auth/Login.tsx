@@ -28,7 +28,6 @@ import {
 import Link from "next/link";
 import { Location } from "@/models/location";
 import { useEffect, useState } from "react";
-import LoadingSpinner from "@/components/ui/loading-spinner";
 import { Module } from "@/models/module";
 import FormContainerCard from "@/components/ui/form-container-card";
 import CagriButon from "@/components/ui/cagriButon";
@@ -110,13 +109,7 @@ const Login = ({
                         disabled={true}
                       >
                         <SelectTrigger>
-                          {locationLoading ? (
-                            <div className="w-full flex items-center justify-center">
-                              <LoadingSpinner />
-                            </div>
-                          ) : (
-                            <SelectValue />
-                          )}
+                          {locationLoading ? null : <SelectValue />}
                         </SelectTrigger>
                         <SelectContent>
                           {locations.length > 0 &&
@@ -194,13 +187,7 @@ const Login = ({
                 variant="primary"
                 type="submit"
               >
-                {formLoading || locationLoading ? (
-                  <div className="w-full flex items-center justify-center">
-                    <LoadingSpinner />
-                  </div>
-                ) : (
-                  <p>Giriş Yap</p>
-                )}
+                {formLoading || locationLoading ? null : <p>Giriş Yap</p>}
               </Button>
             </form>
           </Form>
@@ -220,23 +207,21 @@ const Login = ({
           </Button>
         </div>
         <div className="flex flex-col justify-center gap-12 items-stretch flex-1">
-          {moduleLoading ? (
-            <LoadingSpinner className={"w-32 h-32"} />
-          ) : (
-            modules.map((module) => (
-              <Button
-                key={module.moduleId}
-                variant="outline"
-                size="4xl"
-                className=""
-                asChild
-              >
-                <Link href={`modules/${module.moduleId}`}>
-                  {module.moduleName}
-                </Link>
-              </Button>
-            ))
-          )}
+          {moduleLoading
+            ? null
+            : modules.map((module) => (
+                <Button
+                  key={module.moduleId}
+                  variant="outline"
+                  size="4xl"
+                  className=""
+                  asChild
+                >
+                  <Link href={`modules/${module.moduleId}`}>
+                    {module.moduleName}
+                  </Link>
+                </Button>
+              ))}
         </div>
       </div>
     </div>

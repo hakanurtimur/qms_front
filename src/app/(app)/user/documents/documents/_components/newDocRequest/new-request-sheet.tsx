@@ -24,14 +24,14 @@ const NewRequestSheet = ({ onSubmit, documentTypeOpts }: Props) => {
     <Sheet>
       <SheetTrigger asChild>
         <Button className="flex gap-2">
-          <PlusIcon className="w-4 h-4 text-white" /> <p>Dokuman Talebi</p>
+          <PlusIcon className="w-4 h-4 text-white" /> <p>Doküman Talebi</p>
         </Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Dokuman Talebi</SheetTitle>
+          <SheetTitle>Doküman Talebi</SheetTitle>
           <SheetDescription>
-            Buradan yeni dokuman talebi oluşturabilirsiniz.
+            Buradan yeni doküman talebi oluşturabilirsiniz.
           </SheetDescription>
         </SheetHeader>
         <RequestForm

@@ -133,7 +133,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
               name="file"
               render={({ field }) => (
                 <FormItem className="md:w-[300px] w-full md:min-h-[110px] justify-center items-center   ">
-                  <FormLabel>Dosya Yükleme</FormLabel>
+                  <FormLabel>Dosya Yükle</FormLabel>
                   <FormControl>
                     <Dropzone
                       onChange={(file) => field.onChange(file)}

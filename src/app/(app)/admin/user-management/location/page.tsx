@@ -3,7 +3,6 @@
 import managerLocationService from "@/services/admin/Location";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { DataTable } from "@/app/(app)/admin/user-management/location/_components/data-table";
-import LoadingScreen from "@/components/commons/LoadingScreen";
 import { columns } from "@/app/(app)/admin/user-management/location/_components/columns";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@heroicons/react/24/outline";
@@ -59,11 +58,7 @@ const Page = () => {
           columns={columns}
           onSheetFormSubmit={handleSheetFormSubmit}
         />
-      ) : (
-        <div className="w-screen h-screen absolute top-0 left-0">
-          <LoadingScreen />
-        </div>
-      )}
+      ) : null}
     </div>
   );
 };

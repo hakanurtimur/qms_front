@@ -13,7 +13,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import LoadingSpinner from "@/components/ui/loading-spinner";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -82,23 +81,11 @@ const ForgotPassowordForm = ({
                     router.back();
                   }}
                 >
-                  {formLoading ? (
-                    <div className="w-full flex items-center justify-center">
-                      <LoadingSpinner />
-                    </div>
-                  ) : (
-                    <p>Geri</p>
-                  )}
+                  {formLoading ? null : <p>Geri</p>}
                 </Button>
               )}
               <Button disabled={formLoading} variant="primary" type="submit">
-                {formLoading ? (
-                  <div className="w-full flex items-center justify-center">
-                    <LoadingSpinner />
-                  </div>
-                ) : (
-                  <p>Sıfırla</p>
-                )}
+                {formLoading ? null : <p>Sıfırla</p>}
               </Button>
             </div>
           </div>

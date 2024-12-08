@@ -2,13 +2,9 @@
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
-import React, { useEffect } from "react";
+import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/context/authContext";
-import { ILoadingState, loadingState } from "@/services/states/loading.service";
-import { usePathname } from "next/navigation"; // next/router yerine next/navigation kullanın
-import LoadingBar from "@/components/ui/loading-bar";
-import DynamicAlert from "@/components/ui/dynamic-alert";
 
 export default function RootLayout({
   children,
@@ -16,14 +12,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const queryClient = new QueryClient();
-  const { setLoadingWithDelay, loading } = loadingState(
-    (state) => state as ILoadingState,
-  );
-  const pathname = usePathname();
-
-  useEffect(() => {
-    setLoadingWithDelay(true, 1000);
-  }, [pathname, setLoadingWithDelay]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -31,8 +19,6 @@ export default function RootLayout({
         <TooltipProvider>
           <html lang="en">
             <body>
-              {loading && <LoadingBar />}
-              <DynamicAlert />
               {children}
               <Toaster />
             </body>

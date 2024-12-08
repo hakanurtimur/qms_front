@@ -24,7 +24,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import LoadingSpinner from "@/components/ui/loading-spinner";
 import FormContainerCard from "@/components/ui/form-container-card";
 import CagriButon from "@/components/ui/cagriButon";
 
@@ -105,13 +104,7 @@ const AdminLogin = ({
                         disabled={true}
                       >
                         <SelectTrigger>
-                          {locationLoading ? (
-                            <div className="w-full flex items-center justify-center">
-                              <LoadingSpinner />
-                            </div>
-                          ) : (
-                            <SelectValue />
-                          )}
+                          {locationLoading ? null : <SelectValue />}
                         </SelectTrigger>
                         <SelectContent>
                           {locations.length > 0 &&
@@ -189,13 +182,7 @@ const AdminLogin = ({
                 variant="primary"
                 type="submit"
               >
-                {formLoading || locationLoading ? (
-                  <div className="w-full flex items-center justify-center">
-                    <LoadingSpinner />
-                  </div>
-                ) : (
-                  <p>Giriş Yap</p>
-                )}
+                {formLoading || locationLoading ? null : <p>Giriş Yap</p>}
               </Button>
             </form>
           </Form>

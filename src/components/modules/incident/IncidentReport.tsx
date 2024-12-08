@@ -89,7 +89,7 @@ const IncidentReport = ({ onSubmit }: Props) => {
             render={({ field }) => (
               <FormItem className="w-2/3 justify-center items-center">
                 <FormLabel className="flex items-center justify-between">
-                  Dosya Yükleme
+                  Dosya Yükle
                 </FormLabel>
                 <FormControl>
                   <Dropzone

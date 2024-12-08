@@ -23,7 +23,7 @@ const tasks = [
     name: "Müşteri görüşmesi",
     status: "Tamamlandı",
     date: "2023-06-14",
-    avatar: "/avatars/02.png",
+    avatar: "../../../../../public/icons/profile.jpg",
     initials: "MB",
   },
   {
@@ -31,7 +31,7 @@ const tasks = [
     name: "Proje sunumu",
     status: "Beklemede",
     date: "2023-06-16",
-    avatar: "/avatars/03.png",
+    avatar: "../../../../../public/icons/profile.jpg",
     initials: "CK",
   },
   {
@@ -39,7 +39,7 @@ const tasks = [
     name: "Kod incelemesi",
     status: "Devam ediyor",
     date: "2023-06-15",
-    avatar: "/avatars/04.png",
+    avatar: "../../../../../public/icons/profile.jpg",
     initials: "DL",
   },
 ];

@@ -1,7 +1,6 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import LoadingScreen from "@/components/commons/LoadingScreen";
 import { Button } from "@/components/ui/button";
 import actionHistory from "@/services/admin/ActionHistory";
 import { DataTable } from "@/app/(app)/admin/user-management/history/_components/data-table";
@@ -36,11 +35,7 @@ const Page = () => {
           data={query.data.data}
           columns={columns}
         />
-      ) : (
-        <div className="w-screen h-screen absolute top-0 left-0">
-          <LoadingScreen />
-        </div>
-      )}
+      ) : null}
     </div>
   );
 };

@@ -21,6 +21,7 @@ export const moduleColumns: ColumnDef<ModuleToManageModel>[] = [
         </Button>
       );
     },
+    footer: "Modül Adı",
   },
   {
     accessorKey: "state",
@@ -36,5 +37,6 @@ export const moduleColumns: ColumnDef<ModuleToManageModel>[] = [
     cell: ({ cell }) => {
       return cell.getValue() ? "AKTİF" : "PASİF";
     },
+    footer: "Durum",
   },
 ];

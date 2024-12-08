@@ -16,6 +16,7 @@ export const columns: ColumnDef<DocumentModel>[] = [
         />
       );
     },
+    footer: "Kategori",
   },
   {
     accessorKey: "folderName",
@@ -27,6 +28,7 @@ export const columns: ColumnDef<DocumentModel>[] = [
         />
       );
     },
+    footer: "Klasör Adı",
   },
   {
     accessorKey: "fileName",
@@ -40,5 +42,6 @@ export const columns: ColumnDef<DocumentModel>[] = [
         </Button>
       );
     },
+    footer: "Dosya Adı",
   },
 ];

@@ -212,7 +212,7 @@ export function ScreenDataTable<TData, TValue>({
             </Table>
           </div>
           <div>
-            <DataTablePagination table={table} />
+            <DataTablePagination isColumnHiderDropdownVisible table={table} />
           </div>
         </div>
       </div>

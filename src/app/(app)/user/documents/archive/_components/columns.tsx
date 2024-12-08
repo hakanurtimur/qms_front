@@ -2,59 +2,37 @@ import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
 import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDownIcon, EyeIcon } from "lucide-react";
+import { ArrowUpDownIcon } from "lucide-react";
 
 export const columns: ColumnDef<RequestDocumentListModel>[] = [
   {
     accessorKey: "categoryName",
-    header: ({ column }) => (
+    header: () => (
       <div className="flex items-center gap-1 ">
-        <EyeIcon
-          className="w-6 h-6 cursor-pointer hover:text-black-900 hover:scale-125 "
-          onClick={() =>
-            column.toggleVisibility(
-              column.getIsVisible() === true ? false : true,
-            )
-          }
-        />
         Kategori
         <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
       </div>
     ),
     cell: (info) => <div className="">{String(info.getValue())}</div>,
     size: 180,
+    footer: "Kategori",
   },
   {
     accessorKey: "folderName",
-    header: ({ column }) => (
+    header: () => (
       <div className="flex items-center gap-1">
-        <EyeIcon
-          className="w-6 h-6 cursor-pointer hover:text-black-900 hover:scale-125 "
-          onClick={() =>
-            column.toggleVisibility(
-              column.getIsVisible() === true ? false : true,
-            )
-          }
-        />
         Klasör Adı
         <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
       </div>
     ),
     cell: (info) => <div className="">{String(info.getValue())}</div>,
     size: 140,
+    footer: "Klasör Adı",
   },
   {
     accessorKey: "state",
-    header: ({ column }) => (
+    header: () => (
       <div className="flex items-center justify-between gap-1">
-        <EyeIcon
-          className="w-6 h-6 cursor-pointer hover:text-black-900 hover:scale-125"
-          onClick={() =>
-            column.toggleVisibility(
-              column.getIsVisible() === true ? false : true,
-            )
-          }
-        />
         Durum
         <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
       </div>
@@ -63,19 +41,12 @@ export const columns: ColumnDef<RequestDocumentListModel>[] = [
       <div className="">{info.getValue() ? "AKTIF" : "PASİF"}</div>
     ),
     size: 65,
+    footer: "Durum",
   },
   {
     accessorKey: "fileName",
-    header: ({ column }) => (
+    header: () => (
       <div className=" flex items-center gap-1">
-        <EyeIcon
-          className="w-6 h-6 cursor-pointer hover:text-black-900 hover:scale-125"
-          onClick={() =>
-            column.toggleVisibility(
-              column.getIsVisible() === true ? false : true,
-            )
-          }
-        />
         Dosya Adı
         <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
       </div>
@@ -99,5 +70,6 @@ export const columns: ColumnDef<RequestDocumentListModel>[] = [
       </div>
     ),
     size: 200,
+    footer: "Dosya Adı",
   },
 ];

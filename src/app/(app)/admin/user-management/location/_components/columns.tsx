@@ -15,6 +15,7 @@ export const columns: ColumnDef<ManagerLocationModel>[] = [
         />
       );
     },
+    footer: "Ülke",
   },
   {
     accessorKey: "cityName",
@@ -26,6 +27,7 @@ export const columns: ColumnDef<ManagerLocationModel>[] = [
         />
       );
     },
+    footer: "Şehir",
   },
   {
     accessorKey: "locationName",
@@ -37,6 +39,7 @@ export const columns: ColumnDef<ManagerLocationModel>[] = [
         />
       );
     },
+    footer: "Şube Adı",
   },
   {
     accessorKey: "state",
@@ -51,5 +54,6 @@ export const columns: ColumnDef<ManagerLocationModel>[] = [
     cell: ({ cell }) => {
       return cell.getValue() ? "AKTİF" : "PASİF";
     },
+    footer: "Durum",
   },
 ];

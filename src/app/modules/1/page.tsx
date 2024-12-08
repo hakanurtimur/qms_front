@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { DataTable } from "@/app/modules/1/_components/data-table";
 import { columns } from "@/app/modules/1/_components/columns";
-import LoadingScreen from "@/components/commons/LoadingScreen";
 import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
 
 const Page = () => {
@@ -37,9 +36,7 @@ const Page = () => {
           columns={columns}
           data={query.data.data}
         />
-      ) : (
-        <LoadingScreen />
-      )}
+      ) : null}
     </>
   );
 };

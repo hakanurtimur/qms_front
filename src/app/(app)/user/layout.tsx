@@ -2,7 +2,6 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { useState } from "react";
 import { useAuth } from "@/context/authContext";
-import LoadingScreen from "@/components/commons/LoadingScreen";
 import { NavItemModel } from "@/components/ui/breadcrumb-with-dropdown";
 import {
   ArrowPathRoundedSquareIcon,
@@ -155,9 +154,7 @@ export default function Layout({ children }: Props) {
 
   return (
     <>
-      {!isAuthenticated ? (
-        <LoadingScreen />
-      ) : (
+      {!isAuthenticated ? null : (
         <DashboardLayout
           variant={"user"}
           open={open}

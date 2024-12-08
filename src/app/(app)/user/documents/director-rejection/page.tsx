@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 
-import LoadingScreen from "@/components/commons/LoadingScreen";
 import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/app/(app)/user/documents/director-rejection/_components/data-table";
@@ -101,9 +100,7 @@ const Page = () => {
               variant={"default"}
               onApproveRequest={handleApproveRequest}
             />
-          ) : (
-            <LoadingScreen />
-          )}
+          ) : null}
         </TabsContent>
         <TabsContent value={"actives"}>
           {activeRequestsQuery.data &&
@@ -119,9 +116,7 @@ const Page = () => {
               variant={"actives"}
               onApproveRequest={handleApproveRequest}
             />
-          ) : (
-            <LoadingScreen />
-          )}
+          ) : null}
         </TabsContent>
       </Tabs>
     </div>

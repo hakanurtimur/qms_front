@@ -3,7 +3,6 @@ import { adminNavItems } from "@/constants/userNavItems";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { useState } from "react";
 import { useAuth } from "@/context/authContext";
-import LoadingScreen from "@/components/commons/LoadingScreen";
 
 interface Props {
   children: React.ReactNode;
@@ -14,9 +13,7 @@ export default function Layout({ children }: Props) {
   const { isAuthenticated } = useAuth();
   return (
     <>
-      {!isAuthenticated ? (
-        <LoadingScreen />
-      ) : (
+      {!isAuthenticated ? null : (
         <DashboardLayout
           variant={"admin"}
           open={open}

@@ -14,7 +14,6 @@ import { EmployeeToManageTableModel } from "@/models/admin/employeeManagement/em
 import { useQuery } from "@tanstack/react-query";
 import employeeManagementService from "@/services/admin/EmployeeManagement";
 import EmployeeForm from "@/app/(app)/admin/user-management/employee-management/_components/employee/employee-form";
-import LoadingScreen from "@/components/commons/LoadingScreen";
 import { EmployeeRole } from "@/models/admin/employeeManagement/roles";
 
 interface Props {
@@ -49,11 +48,7 @@ const EmployeeSheet = ({ model, onSubmit, roles }: Props) => {
             onSubmit={onSubmit}
             roles={roles}
           />
-        ) : (
-          <div className="w-full h-full relative z-10">
-            <LoadingScreen />
-          </div>
-        )}
+        ) : null}
       </SheetContent>
     </Sheet>
   );

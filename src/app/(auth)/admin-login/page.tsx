@@ -9,7 +9,6 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
 import tokenService from "@/services/TokenService";
-import LoadingScreen from "@/components/commons/LoadingScreen";
 
 const Page = () => {
   const router = useRouter();
@@ -55,9 +54,7 @@ const Page = () => {
 
   return (
     <div>
-      {loading ? (
-        <LoadingScreen />
-      ) : (
+      {loading ? null : (
         <AdminLogin
           locations={query.data?.data ?? []}
           locationLoading={query.isPending}

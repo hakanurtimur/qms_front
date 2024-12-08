@@ -13,7 +13,6 @@ import React from "react";
 import { EmployeeToManageTableModel } from "@/models/admin/employeeManagement/employeeToManageTableModel";
 import { useQuery } from "@tanstack/react-query";
 import employeeManagementService from "@/services/admin/EmployeeManagement";
-import LoadingScreen from "@/components/commons/LoadingScreen";
 import { EmployeeDepartment } from "@/models/admin/employeeManagement/departments";
 import DepartmentForm from "@/app/(app)/admin/user-management/employee-management/_components/manager/department-form";
 
@@ -49,11 +48,7 @@ const DepartmentSheet = ({ model, onSubmit, departments }: Props) => {
             onSubmit={onSubmit}
             departments={departments}
           />
-        ) : (
-          <div className="w-full h-full relative z-10">
-            <LoadingScreen />
-          </div>
-        )}
+        ) : null}
       </SheetContent>
     </Sheet>
   );

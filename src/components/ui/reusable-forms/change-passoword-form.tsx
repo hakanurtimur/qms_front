@@ -13,7 +13,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import LoadingSpinner from "@/components/ui/loading-spinner";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
@@ -161,22 +160,10 @@ const ChangePassowordForm = ({
                     router.back();
                   }}
                 >
-                  {formLoading ? (
-                    <div className="w-full flex items-center justify-center">
-                      <LoadingSpinner />
-                    </div>
-                  ) : (
-                    <p>Geri</p>
-                  )}
+                  {formLoading ? null : <p>Geri</p>}
                 </Button>
                 <Button disabled={formLoading} variant="primary" type="submit">
-                  {formLoading ? (
-                    <div className="w-full flex items-center justify-center">
-                      <LoadingSpinner />
-                    </div>
-                  ) : (
-                    <p>Sıfırla</p>
-                  )}
+                  {formLoading ? null : <p>Sıfırla</p>}
                 </Button>
               </>
             )}
@@ -188,13 +175,7 @@ const ChangePassowordForm = ({
                   </Button>
                 </SheetClose>
                 <Button disabled={formLoading} variant="primary" type="submit">
-                  {formLoading ? (
-                    <div className="w-full flex items-center justify-center">
-                      <LoadingSpinner />
-                    </div>
-                  ) : (
-                    <p>Sıfırla</p>
-                  )}
+                  {formLoading ? null : <p>Sıfırla</p>}
                 </Button>{" "}
               </>
             )}

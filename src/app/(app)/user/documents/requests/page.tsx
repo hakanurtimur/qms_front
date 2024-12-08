@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 
-import LoadingScreen from "@/components/commons/LoadingScreen";
 import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
 import { columns } from "@/app/(app)/user/documents/requests/_components/columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -178,9 +177,7 @@ const Page = () => {
               handleGetFile={handleGetFile}
               updateDocumentDemandMutation={handleUpdateDocumentDemand}
             />
-          ) : (
-            <LoadingScreen />
-          )}
+          ) : null}
         </TabsContent>
         <TabsContent value={"actives"}>
           {activeRequestsQuery.data &&
@@ -202,9 +199,7 @@ const Page = () => {
               handleGetFile={handleGetFile}
               updateDocumentDemandMutation={handleUpdateDocumentDemand}
             />
-          ) : (
-            <LoadingScreen />
-          )}
+          ) : null}
         </TabsContent>
       </Tabs>
       {getGarbageMutation.data && (

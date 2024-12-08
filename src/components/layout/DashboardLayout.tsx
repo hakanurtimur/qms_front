@@ -37,7 +37,6 @@ import {
   IChangePasswordStore,
   useChangePasswordStore,
 } from "@/app/(app)/user/service/change-password.store";
-import DynamicAlert from "../ui/dynamic-alert";
 import { useRouter } from "next/navigation";
 import { ResponseModel } from "@/models/api/response";
 import { AIChatBox } from "@/components/ui/ai-chat-box";
@@ -334,7 +333,6 @@ const DashboardLayout = ({
                       formLoading={false}
                       variant={"sheet"}
                     />
-                    <DynamicAlert />
                   </SheetContent>
                 </Sheet>
                 <div

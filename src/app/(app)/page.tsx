@@ -1,5 +1,4 @@
 "use client";
-import LoadingScreen from "@/components/commons/LoadingScreen";
 import { useEffect } from "react";
 import tokenService from "@/services/TokenService";
 import { useRouter } from "next/navigation";
@@ -14,7 +13,7 @@ const Page = () => {
     }
   }, [router]);
 
-  return <LoadingScreen />;
+  return null;
 };
 
 export default Page;

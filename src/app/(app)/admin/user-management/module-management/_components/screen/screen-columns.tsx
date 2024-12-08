@@ -15,6 +15,7 @@ export const screenColumns: ColumnDef<ScreenToManageModel>[] = [
         />
       );
     },
+    footer: "Tip Adı",
   },
   {
     accessorKey: "moduleName",
@@ -26,6 +27,7 @@ export const screenColumns: ColumnDef<ScreenToManageModel>[] = [
         />
       );
     },
+    footer: "Modül Adı",
   },
   {
     accessorKey: "subModuleName",
@@ -37,6 +39,7 @@ export const screenColumns: ColumnDef<ScreenToManageModel>[] = [
         />
       );
     },
+    footer: "Alt Modül Adı",
   },
   {
     accessorKey: "roleName",
@@ -48,6 +51,7 @@ export const screenColumns: ColumnDef<ScreenToManageModel>[] = [
         />
       );
     },
+    footer: "Rol Adı",
   },
   {
     accessorKey: "state",
@@ -62,5 +66,6 @@ export const screenColumns: ColumnDef<ScreenToManageModel>[] = [
     cell: ({ cell }) => {
       return cell.getValue() ? "AKTİF" : "PASİF";
     },
+    footer: "Durum",
   },
 ];

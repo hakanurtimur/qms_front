@@ -9,7 +9,6 @@ import employeeManagementService from "@/services/admin/EmployeeManagement";
 import { DataTable } from "@/app/(app)/admin/user-management/employee-management/_components/data-table";
 import React from "react";
 import { Columns } from "@/app/(app)/admin/user-management/employee-management/_components/columns";
-import LoadingScreen from "@/components/commons/LoadingScreen";
 import { EmployeeToManageTableModel } from "@/models/admin/employeeManagement/employeeToManageTableModel";
 import GuestSheet from "@/app/(app)/admin/user-management/employee-management/_components/guest/guest-sheet";
 import { GuestCreated } from "@/models/admin/employeeManagement/guest";
@@ -232,11 +231,7 @@ const Page = () => {
                 variant={"employee"}
               />
             </>
-          ) : (
-            <div className="w-screen h-screen absolute top-0 left-0">
-              <LoadingScreen />
-            </div>
-          )}
+          ) : null}
         </TabsContent>
         <TabsContent value="manager" className="pt-11">
           {managerQuery.data &&
@@ -254,11 +249,7 @@ const Page = () => {
               departments={departmentQuery.data.data}
               variant={"manager"}
             />
-          ) : (
-            <div className="w-screen h-screen absolute top-0 left-0">
-              <LoadingScreen />
-            </div>
-          )}
+          ) : null}
         </TabsContent>
       </Tabs>
     </div>

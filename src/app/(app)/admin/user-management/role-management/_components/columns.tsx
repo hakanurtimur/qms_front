@@ -19,6 +19,7 @@ export const columns: ColumnDef<RoleManagementRoleModel>[] = [
         />
       );
     },
+    footer: "Rol Adı",
   },
   {
     accessorKey: "state",
@@ -33,5 +34,6 @@ export const columns: ColumnDef<RoleManagementRoleModel>[] = [
     cell: ({ cell }) => {
       return cell.getValue() ? "AKTIF" : "PASIF";
     },
+    footer: "Durum",
   },
 ];

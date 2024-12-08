@@ -81,7 +81,7 @@ const RequestForm = ({
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormLabel className="flex items-center justify-between">
-                  Dosya Yükleme
+                  Dosya Yükle
                 </FormLabel>
                 <FormControl>
                   <Dropzone

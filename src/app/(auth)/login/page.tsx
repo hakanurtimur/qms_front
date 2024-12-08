@@ -10,7 +10,6 @@ import { toast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/authContext";
 import tokenService from "@/services/TokenService";
-import LoadingScreen from "@/components/commons/LoadingScreen";
 import { AIChatBox } from "@/components/ui/ai-chat-box";
 import geminiService from "@/services/GeminiService";
 import { GeminiAxiosResponse, GeminiRequest } from "@/models/gemini-ai";
@@ -129,9 +128,7 @@ Eğer gelen soru aşağıdaki listede yoksa, bunu net bir şekilde belirtmelisin
 
   return (
     <div>
-      {loading ? (
-        <LoadingScreen />
-      ) : (
+      {loading ? null : (
         <Login
           locations={query.data?.data ?? []}
           locationLoading={query.isPending}

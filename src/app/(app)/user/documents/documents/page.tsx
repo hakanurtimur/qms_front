@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 
-import LoadingScreen from "@/components/commons/LoadingScreen";
 import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
 import { DataTable } from "@/app/(app)/user/documents/documents/_components/data-table";
 import { columns } from "@/app/(app)/user/documents/documents/_components/columns";
@@ -146,9 +145,7 @@ const Page = () => {
           onReviseDocument={handleReviseDocument}
           documentTypeOpts={documentTypeOpts}
         />
-      ) : (
-        <LoadingScreen />
-      )}
+      ) : null}
       {getFileMutation.data && (
         <PdfViewer
           data={getFileMutation.data.data}

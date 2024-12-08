@@ -48,7 +48,7 @@ export function AIChatBox({
       <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
       <DialogContent className="sm:max-w-[800px]">
         <DialogHeader>
-          <DialogTitle>Kalite Kontrol Asistanı</DialogTitle>
+          <DialogTitle>Point AI</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col h-[78vh]">
           <ScrollArea className="flex-grow pr-4 rounded px-5 ">

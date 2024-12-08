@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/tooltip";
 import { FolderIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
 import { DirectorRejectionDetailsModel } from "@/models/user/documents/director-rejection/director-rejection";
-import { useAuth } from "@/context/authContext";
 
 interface Props {
   model?: DirectorRejectionDetailsModel;
@@ -32,7 +31,6 @@ const RejectionSheetContent = ({
   onGetGarbage,
   onApproveRequest,
 }: Props) => {
-  const { user } = useAuth();
   const defaultValues = {
     id: model ? (model.id ?? 0) : 0,
     actionName: model ? (model.actionName ?? "") : "",
