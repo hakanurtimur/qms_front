@@ -15,15 +15,15 @@ import {
   PaginationItem,
   PaginationLink,
 } from "@/components/ui/pagination";
-import { FormItem } from "@/components/ui/form";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import {
   ArrowsPointingInIcon,
   ArrowsPointingOutIcon,
 } from "@heroicons/react/24/outline";
+import { FormItem } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -68,7 +68,7 @@ const PdfViewer = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className={`${isZoomed ? "min-w-screen-90 max-w-screen-90" : "max-w-3xl min-h-screen-90 max-h-screen-90"} w-full flex gap-2 flex-col items-center justify-center`}
+        className={`${isZoomed ? "min-w-screen-90 max-w-screen-90 max-h-screen-90" : "max-w-3xl min-h-screen-90 max-h-screen-90"} w-full flex gap-2 flex-col items-center justify-center`}
       >
         <DialogHeader>
           <DialogTitle>{fileName}</DialogTitle>
@@ -93,9 +93,9 @@ const PdfViewer = ({
           </div>
         )}
         {(variant === "default" || variant === "view") && (
-          <div className="mx-h-[600px]">
+          <div className="max-h-[600px] overflow-y-scroll">
             <Document
-              className={`${isZoomed ? "max-w-screen-70 max-h-full min-h-screen-70" : "max-h-[600px] min-h-[600px] p-0"} overflow-y-scroll text-center flex items-center justify-center`}
+              className={`h-full  text-center flex items-center justify-center`}
               file={adjustedSrc}
               onLoadSuccess={onDocumentLoadSuccess}
             >
@@ -104,11 +104,18 @@ const PdfViewer = ({
                 pageNumber={pageNumber}
                 renderTextLayer={false}
                 renderAnnotationLayer={false}
-                devicePixelRatio={2}
-                width={500}
+                width={1000}
               />
             </Document>
-            <div className="flex gap-2 items-center justify-center">
+          </div>
+        )}
+        {variant === "printible" && (
+          <iframe src={src} className="w-full h-[600px]" />
+        )}
+        <DialogFooter className="w-full flex items-center gap-5 justify-between">
+          <div className="min-w-32"></div>
+          {numPages !== 0 && numPages && (
+            <div className=" flex-1 flex gap-2 items-center justify-center">
               <Pagination>
                 <PaginationContent>
                   <PaginationItem>
@@ -148,29 +155,26 @@ const PdfViewer = ({
                 </PaginationContent>
               </Pagination>
             </div>
+          )}
+          <div className="min-w-32 flex flex-row gap-4">
+            <Button
+              onClick={() => {
+                setIsZoomed(!isZoomed);
+              }}
+              variant="outline"
+              size={"icon"}
+              disabled
+            >
+              {isZoomed ? (
+                <ArrowsPointingInIcon className="w-4 h-4" />
+              ) : (
+                <ArrowsPointingOutIcon className="w-4 h-4" />
+              )}
+            </Button>
+            <DialogClose asChild>
+              <Button>Kapat</Button>
+            </DialogClose>
           </div>
-        )}
-        {variant === "printible" && (
-          <iframe src={src} className="w-full h-[600px]" />
-        )}
-        <DialogFooter className="w-full flex items-center gap-5 justify-end">
-          <Button
-            onClick={() => {
-              setIsZoomed(!isZoomed);
-            }}
-            variant="outline"
-            size={"icon"}
-            disabled
-          >
-            {isZoomed ? (
-              <ArrowsPointingInIcon className="w-4 h-4" />
-            ) : (
-              <ArrowsPointingOutIcon className="w-4 h-4" />
-            )}
-          </Button>
-          <DialogClose asChild>
-            <Button>Kapat</Button>
-          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
