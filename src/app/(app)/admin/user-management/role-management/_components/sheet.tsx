@@ -41,7 +41,13 @@ const RoleSheet = ({ model, onSubmit }: Props) => {
           </SheetDescription>
         </SheetHeader>
         {query.data && (
-          <SheetForm model={query.data.data} onSubmit={onSubmit} />
+          <SheetForm
+            model={query.data.data}
+            onSubmit={(data) => {
+              onSubmit(data);
+              query.refetch().then();
+            }}
+          />
         )}
       </SheetContent>
     </Sheet>
