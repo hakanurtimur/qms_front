@@ -86,7 +86,9 @@ const RejectionSheet = ({ model, variant, onApproveRequest }: Props) => {
               onGetGarbage={handleGetGarbage}
               variant={variant}
               model={query.data.data}
-              onApproveRequest={() => onApproveRequest(model.id.toString(), 1)}
+              onApproveRequest={(action_id) =>
+                onApproveRequest(model.id.toString(), action_id)
+              }
             />
           )}
         </SheetContent>

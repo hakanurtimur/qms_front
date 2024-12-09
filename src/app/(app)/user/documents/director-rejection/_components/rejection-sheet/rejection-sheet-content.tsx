@@ -217,16 +217,20 @@ const RejectionSheetContent = ({
                   İptal Et
                 </Button>
               </SheetClose>
-              <Button onClick={() => onApproveRequest(1)} type="button">
-                Onayla
-              </Button>
-              <Button
-                onClick={() => onApproveRequest(2)}
-                variant={"destructive"}
-                type="button"
-              >
-                Reddet
-              </Button>
+              <SheetClose>
+                <Button onClick={() => onApproveRequest(1)} type="button">
+                  Onayla
+                </Button>
+              </SheetClose>
+              <SheetClose>
+                <Button
+                  onClick={() => onApproveRequest(2)}
+                  variant={"destructive"}
+                  type="button"
+                >
+                  Reddet
+                </Button>
+              </SheetClose>
             </>
           )}
         </SheetFooter>
