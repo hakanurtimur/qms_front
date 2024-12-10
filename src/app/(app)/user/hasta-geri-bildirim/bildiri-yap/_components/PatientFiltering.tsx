@@ -12,30 +12,44 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import {
-  PatientFeedbackFilterForm,
-  SPatientFeedbackFilterForm,
+  PatientFeedbackFilterFormForLogin,
+  SPatientFeedbackFilterFormForLogin,
 } from "@/models/patientFeedbackForm";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  ModulesUserList,
+  PatientFeedbackByIdRequestModel,
+} from "@/models/modules/2/PatientFeedbackModels";
 
 interface Props {
-  onSubmitFilter: (data: PatientFeedbackFilterForm) => void;
+  onSubmitFilter: (data: PatientFeedbackByIdRequestModel) => void;
   onReset: () => void;
+  userList: ModulesUserList[] | undefined;
 }
 
 const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
-  const form = useForm<PatientFeedbackFilterForm>({
-    resolver: zodResolver(SPatientFeedbackFilterForm),
+  const form = useForm<PatientFeedbackFilterFormForLogin>({
+    resolver: zodResolver(SPatientFeedbackFilterFormForLogin),
     defaultValues: {
-      interviewer: "DEFAULT",
       protocolNum: "",
       patientTC: "",
     },
   });
+
+  const handleSubmit = (data: PatientFeedbackFilterFormForLogin) => {
+    console.log(data);
+    const req: PatientFeedbackByIdRequestModel = {
+      protocolId: data.protocolNum as string,
+      identityNumber: data.patientTC as string,
+    };
+
+    onSubmit(req);
+  };
   // değişkenlerin tanımlanması
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(handleSubmit)}
         className={"flex flex-col w-full h-full"}
       >
         <div className="flex flex-col h-full w-full gap-8  justify-between mb-5  ">

@@ -1,19 +1,24 @@
 "use client";
 
-import {
-  PatientFeedbackFilterForm,
-  PatientFeedbackForm,
-} from "@/models/patientFeedbackForm";
+import { PatientFeedbackForm } from "@/models/patientFeedbackForm";
 
 import { useRef } from "react";
 import PatientDetailsForm from "./patient-details-form";
 import PatientFiltering from "./PatientFiltering";
+import {
+  FeedbackTypeModel,
+  ModulesUserList,
+  PatientFeedbackByIdModel,
+  PatientFeedbackByIdRequestModel,
+} from "@/models/modules/2/PatientFeedbackModels";
 
 interface Props {
-  onSubmitFilter: (data: PatientFeedbackFilterForm) => void;
-  patientModel: PatientFeedbackForm | null;
+  onSubmitFilter: (data: PatientFeedbackByIdRequestModel) => void;
+  patientModel: PatientFeedbackByIdModel | null;
   onSubmitPatient: (data: PatientFeedbackForm) => void;
   onReset: () => void;
+  userList: ModulesUserList[] | undefined;
+  feedbackTypes: FeedbackTypeModel[] | undefined;
 }
 
 const PatientFeedback = ({
@@ -21,6 +26,8 @@ const PatientFeedback = ({
   patientModel,
   onSubmitPatient,
   onReset,
+  userList,
+  feedbackTypes,
 }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -39,6 +46,7 @@ const PatientFeedback = ({
                   onSubmitFilter(data);
                 }}
                 onReset={onReset}
+                userList={userList}
               />
             </div>
             {patientModel && (
@@ -50,7 +58,8 @@ const PatientFeedback = ({
                   <PatientDetailsForm
                     containerRef={containerRef}
                     onSubmitPatient={onSubmitPatient}
-                    patientModel={patientModel}
+                    patientModel={patientModel as PatientFeedbackByIdModel}
+                    feedbackTypes={feedbackTypes}
                   />
                 </div>
               </>
