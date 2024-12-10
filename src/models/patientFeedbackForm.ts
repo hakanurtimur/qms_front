@@ -5,7 +5,7 @@ export const SPatientFeedbackFilterForm = z
     interviewer: z.string().min(6, "Geçerli bir kullanıcı ismi giriniz"),
     protocolNum: z
       .string()
-      .min(11, "Protokol numarası en az 11 karakter olmalıdır")
+      .min(6, "Protokol numarası en az 7 karakter olmalıdır")
       .optional()
       .or(z.literal("")),
     patientTC: z
@@ -34,7 +34,7 @@ export const SPatientFeedbackForm = z.object({
   bornDate: z.string(),
   patientNum: z.string(),
   phoneNum: z.string().optional(),
-  reportType: z.string().optional(),
+  reportType: z.number(),
   description: z.string().optional(),
 });
 

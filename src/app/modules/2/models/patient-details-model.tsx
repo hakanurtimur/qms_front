@@ -9,8 +9,8 @@ export const PatientDetailsSchema = z.object({
     .string()
     .min(7, "Telefon numarası en az 7 karakter olmalıdır")
     .optional(),
-  reportType: z.string().optional(),
-  description: z.string().optional(),
+  reportType: z.number(),
+  description: z.string(),
 });
 
 export type TPatientDetails = z.infer<typeof PatientDetailsSchema>;

@@ -44,7 +44,6 @@ const PatientDetailsForm = ({
       bornDate: patientModel.bornDate,
       patientNum: patientModel.patientNum,
       phoneNum: patientModel.phoneNum ?? "",
-      reportType: patientModel.reportType ?? "",
       description: patientModel.description ?? "",
     },
   });

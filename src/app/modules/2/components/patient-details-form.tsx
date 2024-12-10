@@ -18,45 +18,43 @@ import {
   TPatientDetails,
 } from "../models/patient-details-model";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
+import {
+  FeedbackTypeModel,
+  PatientFeedbackByIdModel,
+} from "@/models/modules/2/PatientFeedbackModels";
+import { DatePicker } from "@/components/ui/date-picker";
 
 interface PatientDetailsFormProps {
   containerRef: React.RefObject<HTMLDivElement>;
   onSubmitPatient: (data: PatientFeedbackForm) => void;
-  patientModel: PatientFeedbackForm;
+  patientModel: PatientFeedbackByIdModel;
+  feedbackTypes: FeedbackTypeModel[] | undefined;
 }
-
-const reportTypes = {
-  tesekkur: "Teşekkür",
-  sikayet: "Şikayet",
-  oneri: "Öneri",
-  talep: "Talep",
-};
 
 const PatientDetailsForm = ({
   containerRef,
   onSubmitPatient,
   patientModel,
+  feedbackTypes,
 }: PatientDetailsFormProps) => {
   const form = useForm<TPatientDetails>({
     resolver: zodResolver(PatientDetailsSchema),
     defaultValues: {
-      name: patientModel.name,
-      bornDate: patientModel.bornDate,
-      patientNum: patientModel.patientNum,
-      phoneNum: patientModel.phoneNum ?? "",
-      reportType: patientModel.reportType ?? "",
-      description: patientModel.description ?? "",
+      name: patientModel?.nameSurname,
+      bornDate: patientModel?.birthDate,
+      patientNum: String(patientModel.patientId),
+      phoneNum: patientModel.phoneNumber ?? "",
     },
   });
 
-  const onSubmit = (data: TPatientDetails) => {
+  const onSubmithandle = (data: PatientFeedbackForm) => {
     onSubmitPatient(data);
   };
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(onSubmithandle)}
         className={
           "space-y-8  animate-slide-in-from-bottom flex md:flex-row flex-col w-full"
         }
@@ -87,7 +85,11 @@ const PatientDetailsForm = ({
                     <div>Doğum Tarihi</div>
                   </FormLabel>
                   <FormControl>
-                    <Input className="bg-slate-100 pe-11" {...field} />
+                    <DatePicker
+                      name="bornDate"
+                      readonly={true}
+                      value={field.value}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -129,13 +131,28 @@ const PatientDetailsForm = ({
               control={form.control}
               name="reportType"
               render={({ field }) => (
-                <DynamicCombobox
-                  name="reportType"
-                  options={reportTypes}
-                  label="Bildirim Türü"
-                  onChange={field.onChange}
-                  width="-56 md:w-full"
-                />
+                <FormItem>
+                  <DynamicCombobox
+                    name="feedbackTypeId"
+                    options={
+                      feedbackTypes?.reduce(
+                        (acc, item) => {
+                          acc[item.feedbackTypeId] = String(
+                            item.feedbackTypeName,
+                          );
+                          return acc;
+                        },
+                        {} as { [key: number]: string },
+                      ) || {}
+                    }
+                    label="Bildirim Türü"
+                    onChange={(value) => {
+                      field.onChange(value);
+                    }}
+                    width="-56 md:w-full"
+                  />
+                  <FormMessage />
+                </FormItem>
               )}
             />
             <FormField

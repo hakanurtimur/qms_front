@@ -16,15 +16,23 @@ import {
   SPatientFeedbackFilterForm,
 } from "@/models/patientFeedbackForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { nameSurnamePairs } from "@/constants/dummy_combobox_items";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
+import {
+  ModulesUserList,
+  PatientFeedbackByIdRequestModel,
+} from "@/models/modules/2/PatientFeedbackModels";
 
 interface Props {
-  onSubmitFilter: (data: PatientFeedbackFilterForm) => void;
+  onSubmitFilter: (data: PatientFeedbackByIdRequestModel) => void;
   onReset: () => void;
+  userList: ModulesUserList[] | undefined;
 }
 
-const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
+const PatientFiltering = ({
+  onSubmitFilter: onSubmit,
+  onReset,
+  userList,
+}: Props) => {
   const form = useForm<PatientFeedbackFilterForm>({
     resolver: zodResolver(SPatientFeedbackFilterForm),
     defaultValues: {
@@ -33,11 +41,22 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
       patientTC: "",
     },
   });
+
+  const handleSubmit = (data: PatientFeedbackFilterForm) => {
+    const req: PatientFeedbackByIdRequestModel = {
+      userId: userList?.find((item) => item.nameSurname === data.interviewer)
+        ?.userId as string,
+      protocolId: data.protocolNum as string,
+      identityNumber: data.patientTC as string,
+    };
+
+    onSubmit(req);
+  };
   // değişkenlerin tanımlanması
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(handleSubmit)}
         className={"flex flex-col w-full h-full"}
       >
         <div className="flex flex-col h-full w-full gap-8  justify-between mb-5  ">
@@ -52,7 +71,17 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
                 <FormControl>
                   <DynamicCombobox
                     {...field}
-                    options={nameSurnamePairs}
+                    options={
+                      userList?.reduce(
+                        (acc, item) => {
+                          acc[String(item.nameSurname)] = String(
+                            item.nameSurname,
+                          );
+                          return acc;
+                        },
+                        {} as { [key: string]: string },
+                      ) || {}
+                    }
                     width="full"
                     onChange={(value) => {
                       field.onChange(value);

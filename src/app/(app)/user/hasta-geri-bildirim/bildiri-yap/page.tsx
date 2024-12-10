@@ -12,7 +12,7 @@ const DUMMY_PATIENT_DATA: PatientFeedbackForm = {
   bornDate: "04.01.1997",
   patientNum: "123456",
   phoneNum: undefined,
-  reportType: undefined,
+  reportType: 1,
   description: undefined,
 };
 
