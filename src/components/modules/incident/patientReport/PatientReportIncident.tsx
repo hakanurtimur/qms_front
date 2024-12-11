@@ -37,7 +37,7 @@ const PatientReportIncident = ({
       bornDate: patientFormModel?.bornDate || "",
       patientNum: patientFormModel?.patientNum || "",
       date: "",
-      incidentPlace: "",
+      incidentPlace: 0,
       incidentDescription: "",
       file: undefined,
     },

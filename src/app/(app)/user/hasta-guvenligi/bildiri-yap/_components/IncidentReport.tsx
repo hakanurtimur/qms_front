@@ -16,21 +16,30 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dropzone } from "@/components/ui/dropZone";
 import { DatePicker } from "@/components/ui/date-picker";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
+import { EventSceneListModel } from "@/models/modules/3/PatientSafetyFeedbackModels";
+import { useEffect } from "react";
 
 interface Props {
   onSubmit: (data: IncidentForm) => void;
+  eventSceneTypeList: EventSceneListModel;
+  refreshForm: boolean;
 }
 
-const IncidentReport = ({ onSubmit }: Props) => {
+const IncidentReport = ({
+  onSubmit,
+  eventSceneTypeList,
+  refreshForm,
+}: Props) => {
   const form = useForm<IncidentForm>({
     resolver: zodResolver(SIncidentForm),
-    defaultValues: {
-      date: "",
-      incidentPlace: "",
-      incidentDescription: "",
-      file: undefined,
-    },
+    defaultValues: {},
   });
+
+  useEffect(() => {
+    if (refreshForm) {
+      window.location.reload();
+    }
+  }, [refreshForm]);
 
   return (
     <Form {...form}>
@@ -69,12 +78,17 @@ const IncidentReport = ({ onSubmit }: Props) => {
                 <FormControl>
                   <DynamicCombobox
                     name={"incidentPlace"}
-                    options={{
-                      plknk: "Dahiliye Polikliniği",
-                      gnlcrh: "Genel Cerrahi Polikliniği",
-                    }}
+                    options={
+                      eventSceneTypeList.reduce(
+                        (acc, item) => ({
+                          ...acc,
+                          [item.eventSceneId]: item.eventSceneName,
+                        }),
+                        {},
+                      ) || {}
+                    }
                     onChange={(value) => field.onChange(value)}
-                    width="full md:w-full"
+                    width="full md:w-56"
                   />
                 </FormControl>
                 <FormMessage />

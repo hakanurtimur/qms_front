@@ -4,6 +4,8 @@ import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   Dialog,
   DialogContent,
@@ -57,7 +59,7 @@ export function AIChatBox({
                 key={index}
                 className={`mb-4  ${message.isUser ? "text-right justify-end  " : "text-left  justify-start"}`}
               >
-                <span
+                {/* <span
                   className={`inline-block p-4 rounded-lg max-w-lg break-words ${
                     message.isUser
                       ? "bg-primary text-primary-foreground rounded-br-none border rounded-md bg-black-800 text-white "
@@ -65,7 +67,18 @@ export function AIChatBox({
                   }`}
                 >
                   {message.text}
-                </span>
+                </span> */}
+                <article
+                  className={`prose prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-strong:text-white inline-block p-4 rounded-lg max-w-lg break-words ${
+                    message.isUser
+                      ? "bg-primary text-primary-foreground rounded-br-none border rounded-md bg-black-800 text-white "
+                      : "bg-muted bg-black-800 text-white rounded-bl-none"
+                  }`}
+                >
+                  <Markdown remarkPlugins={[remarkGfm]}>
+                    {message.text}
+                  </Markdown>
+                </article>
               </div>
             ))}
           </ScrollArea>

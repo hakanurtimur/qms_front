@@ -12,6 +12,7 @@ import { columns } from "./_components/columns";
 import ArchiveDocSheet from "./_components/archive-doc-sheet";
 import { useAuth } from "@/context/authContext";
 import PdfViewer from "@/components/ui/pdf-viewer";
+import { toast } from "@/hooks/use-toast";
 
 const ArchivePage = () => {
   const [documents, setDocuments] = useState<RequestDocumentListModel[]>([]);
@@ -31,6 +32,11 @@ const ArchivePage = () => {
     mutationFn: (data: { userId: number; fileId: number; state: boolean }) =>
       archiveDocumentService.updateDocumentArchive(data),
     onSuccess: () => {
+      toast({
+        title: "Başarılı",
+        description: "Döküman başarıyla güncellendi",
+        variant: "success",
+      });
       refetch(); // Listeyi yenile
     },
   });

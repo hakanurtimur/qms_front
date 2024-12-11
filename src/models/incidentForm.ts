@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const SIncidentForm = z.object({
   date: z.string().min(1, "Tarih seçiniz"),
-  incidentPlace: z.string().min(1, "Olay yeri seçiniz"),
+  incidentPlace: z.number().min(1, "Olay yeri seçiniz"),
   incidentDescription: z.string().min(3, "En az 3 karakter olmalıdır"),
   file: z
     .instanceof(File)

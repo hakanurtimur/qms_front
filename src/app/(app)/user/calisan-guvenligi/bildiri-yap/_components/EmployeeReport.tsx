@@ -31,7 +31,7 @@ const EmployeeReport = ({ onSubmit }: Props) => {
     defaultValues: {
       employeeName: "",
       date: "",
-      incidentPlace: "",
+      incidentPlace: 0,
       incidentDescription: "",
       affectedPerson: "",
       file: null,
