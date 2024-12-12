@@ -9,35 +9,31 @@ import {
   IncidentFormPatient,
 } from "@/models/incidentForm";
 import PatientReport from "./_components/PatientReport";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 import useEventSceneTypeList from "@/app/modules/3/hooks/useEventSceneTypeList";
 import useFeedBackTypeList from "@/app/modules/3/hooks/useEventTypeList";
-import { PatientSafetyFeedbackInsertRequestModel } from "@/models/modules/3/PatientSafetyFeedbackModels";
+import {
+  EventSceneListModel,
+  PatientModel,
+  PatientSafetyFeedbackInsertRequestModel,
+} from "@/models/modules/3/PatientSafetyFeedbackModels";
 import usePatientSafetyGeneralFeedBackInsert from "@/app/modules/3/hooks/usePatientSafetyGeneralFeedBackInsert";
 import { useAuth } from "@/context/authContext";
-
-const DUMMY_PATIENT: IncidentFormPatient = {
-  name: "Hakan Urtimur",
-  bornDate: "04.01.1997",
-  patientNum: "12345678901",
-  phoneNum: "0532 123 45 67",
-  date: "",
-  incidentPlace: 1,
-  incidentDescription: "",
-  file: undefined,
-  isSecondaryVictim: "false",
-  secondaryVictimName: "",
-};
+import useUserList from "@/app/modules/2/hooks/useUserList";
+import usePatientGetById from "@/app/modules/3/hooks/usePatientGeyById";
 
 const Page = () => {
-  const [patient, setPatient] = useState<IncidentFormPatient | null>(null);
+  const [patient, setPatient] = useState<PatientModel | null>(null);
 
   const [selectedTab, setSelectedTab] = useState<string | number>("");
   const [generalFeedbackFormData, setGeneralFeedbackFormData] =
     useState<PatientSafetyFeedbackInsertRequestModel | null>(null);
   const auth = useAuth();
-  //hooks
+  const [patientFeedbackFormData, setPatientFeedbackFormData] =
+    useState<PatientSafetyFeedbackInsertRequestModel | null>(null);
+  const [protocolId, setProtocolId] = useState<string | null>(null);
+  //-----Hooks-----
   const feedbackTypeListQuery = useFeedBackTypeList({
     key: ["feedbackTypeList-for-patient-safety-feedback"],
   });
@@ -53,15 +49,59 @@ const Page = () => {
       userId: auth.user?.userId,
     });
 
+  const patientSafetuPatientFeedBackInsertMutation =
+    usePatientSafetyGeneralFeedBackInsert({
+      key: ["patientSafetyPatientFeedBackInsert-for-patient-safety-feedback"],
+      data: patientFeedbackFormData as PatientSafetyFeedbackInsertRequestModel,
+      userId: auth.user?.userId,
+    });
+
+  const patientGetByIdMutation = usePatientGetById({
+    key: ["patientGetById-for-patient-safety-feedback"],
+    protocolId: protocolId as string,
+  });
+
+  const userListQuery = useUserList({
+    key: ["userList-for-patient-safety-feedback"],
+  });
+
   const handleSubmitPatientFilter = (data: IncidentFormFilter) => {
-    console.log(data);
-    setPatient(DUMMY_PATIENT);
-    console.log(patient);
+    setProtocolId(data.protocolNum);
+    patientGetByIdMutation.mutate();
   };
 
+  useEffect(() => {
+    if (patientGetByIdMutation.isSuccess) {
+      setPatient(patientGetByIdMutation.data?.data as PatientModel);
+    }
+  }, [patientGetByIdMutation.isSuccess]);
+
   const handlePatientReportSubmit = (data: IncidentFormPatient) => {
-    console.log(data);
+    const req: PatientSafetyFeedbackInsertRequestModel = {
+      typeId: 2,
+      description: data.incidentDescription,
+      eventSceneId: data.incidentPlace,
+      eventDate: data.date,
+      fileName: data.file?.name || "",
+      formFile: data.file as File,
+    };
+    setPatientFeedbackFormData(req);
+    patientSafetuPatientFeedBackInsertMutation.mutate();
   };
+
+  useEffect(() => {
+    if (
+      patientSafetuPatientFeedBackInsertMutation.isSuccess ||
+      patientSafetyGeneralFeedBackInsert.isSuccess
+    ) {
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    }
+  }, [
+    patientSafetuPatientFeedBackInsertMutation.isSuccess,
+    patientSafetyGeneralFeedBackInsert.isSuccess,
+  ]);
 
   const handleResetPatientForm = () => {
     setPatient(null);
@@ -130,7 +170,12 @@ const Page = () => {
             >
               <PatientReport
                 onSubmitFilter={handleSubmitPatientFilter}
-                patientFormModel={patient}
+                eventSceneTypeList={
+                  eventSceneTypeListQuery?.data
+                    ?.data as unknown as EventSceneListModel
+                }
+                userList={userListQuery?.data?.data || []}
+                patientFormModel={patient as PatientModel}
                 onResetPatientForm={handleResetPatientForm}
                 onPatientReportSubmit={handlePatientReportSubmit}
               />

@@ -34,7 +34,6 @@ const IncidentReport = ({
     resolver: zodResolver(SIncidentForm),
     defaultValues: {},
   });
-
   useEffect(() => {
     if (refreshForm) {
       window.location.reload();

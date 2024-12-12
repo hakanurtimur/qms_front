@@ -26,9 +26,9 @@ export const SIncidentFormPatient = SIncidentForm.extend({
   name: z.string(),
   bornDate: z.string(),
   patientNum: z.string(),
-  phoneNum: z.string(),
+  phoneNum: z.string().optional(),
   isSecondaryVictim: z.enum(["true", "false"]),
-  secondaryVictimName: z.string().min(3, "En az 3 karakter olmalıdır"),
+  secondaryVictimName: z.number().optional(),
 });
 
 export type IncidentFormPatient = z.infer<typeof SIncidentFormPatient>;
@@ -36,7 +36,7 @@ export type IncidentFormPatient = z.infer<typeof SIncidentFormPatient>;
 export const SIncidentFormFilter = z.object({
   protocolNum: z
     .string()
-    .min(11, "Protokol numarası en az 10 karakter olmalıdır"),
+    .min(3, "Protokol numarası en az 10 karakter olmalıdır"),
 });
 
 export type IncidentFormFilter = z.infer<typeof SIncidentFormFilter>;

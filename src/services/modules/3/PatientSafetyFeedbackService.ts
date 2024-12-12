@@ -1,7 +1,9 @@
 import {
   EventSceneListResponseModel,
   FeedbackEventTypeListResponseModel,
+  PatientModelResponse,
   PatientSafetyFeedbackInsertRequestModel,
+  PatientSafetyFeedbackPatientRequestModel,
 } from "@/models/modules/3/PatientSafetyFeedbackModels";
 import api from "@/services/Api";
 
@@ -20,7 +22,7 @@ export class PatientSafetyFeedbackService {
 
   // HTTP POST: api/patientsecurityevent/patient-general-request/{userId}     ----userId opsiyonel
 
-  public async insertPatientSafetyFeedback(
+  public async insertPatientSafetyGeneralFeedback(
     data: PatientSafetyFeedbackInsertRequestModel,
     userId?: string,
   ) {
@@ -32,6 +34,37 @@ export class PatientSafetyFeedbackService {
     });
     return await api.post(
       `/patientsecurityevent/patient-general-request?userId=${userId || ""} `,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
+  }
+
+  //HTTP GET: api/patient/patient-get-by-id/?protocolId=7707778
+  public async getPatientById(
+    protocolId: string,
+  ): Promise<PatientModelResponse> {
+    return await api.get(
+      `/patient/patient-get-by-id/?protocolId=${protocolId}`,
+    );
+  }
+
+  //HTTP POST: api/patientsecurityevent/patient-security-patient-request?userId=
+  public async insertPatientSafetyPatientFeedback(
+    data: PatientSafetyFeedbackPatientRequestModel,
+    userId?: string,
+  ) {
+    const formFile = new FormData();
+    Object.entries(data?.formFile).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formFile.append(key, value instanceof File ? value : String(value));
+      }
+    });
+    return await api.post(
+      `/patientsecurityevent/patient-security-patient-request?userId=${userId || ""}`,
       data,
       {
         headers: {

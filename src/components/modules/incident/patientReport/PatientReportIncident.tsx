@@ -1,5 +1,8 @@
 "use client";
-import { IncidentFormPatient, SIncidentForm } from "@/models/incidentForm";
+import {
+  IncidentFormPatient,
+  SIncidentFormPatient,
+} from "@/models/incidentForm";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -16,30 +19,33 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dropzone } from "@/components/ui/dropZone";
 import { DatePicker } from "@/components/ui/date-picker";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
-import { incidentPlaces } from "@/constants/incidentPlaces";
-import { nameSurnamePairs } from "@/constants/dummy_combobox_items";
+import {
+  EventSceneListModel,
+  PatientModel,
+} from "@/models/modules/3/PatientSafetyFeedbackModels";
+import { ModulesUserList } from "@/models/modules/2/PatientFeedbackModels";
 
 interface Props {
   containerRef: React.RefObject<HTMLDivElement>;
-  patientFormModel: IncidentFormPatient | null;
+  patientFormModel: PatientModel;
   onPatientReportSubmit: (data: IncidentFormPatient) => void;
+  eventSceneTypeList: EventSceneListModel;
+  userList: ModulesUserList[];
 }
 
 const PatientReportIncident = ({
   containerRef,
   patientFormModel,
   onPatientReportSubmit: onSubmit,
+  eventSceneTypeList,
+  userList,
 }: Props) => {
   const form = useForm<IncidentFormPatient>({
-    resolver: zodResolver(SIncidentForm),
+    resolver: zodResolver(SIncidentFormPatient),
     defaultValues: {
-      name: patientFormModel?.name || "",
-      bornDate: patientFormModel?.bornDate || "",
-      patientNum: patientFormModel?.patientNum || "",
-      date: "",
-      incidentPlace: 0,
-      incidentDescription: "",
-      file: undefined,
+      name: patientFormModel?.nameSurname || "",
+      bornDate: patientFormModel?.birthDate || "",
+      patientNum: patientFormModel?.identityNumber || "",
     },
   });
 
@@ -60,7 +66,13 @@ const PatientReportIncident = ({
                 <FormItem>
                   <FormLabel className={"w-52"}>Hasta Adı</FormLabel>
                   <FormControl>
-                    <Input {...field} readOnly className="bg-slate-100 w-52" />
+                    <Input
+                      {...field}
+                      defaultValue={patientFormModel?.nameSurname}
+                      value={patientFormModel?.nameSurname}
+                      readOnly
+                      className="bg-slate-100 w-52"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -77,7 +89,7 @@ const PatientReportIncident = ({
                       <DatePicker
                         {...field}
                         readonly={true}
-                        value={patientFormModel?.bornDate}
+                        value={patientFormModel?.birthDate}
                         placeholder="Tarih Seçiniz"
                         includeTime={false}
                       />
@@ -129,10 +141,16 @@ const PatientReportIncident = ({
                   <FormControl>
                     <DynamicCombobox
                       {...field}
-                      options={incidentPlaces}
+                      options={eventSceneTypeList.reduce(
+                        (acc, item) => ({
+                          ...acc,
+                          [item.eventSceneId]: item.eventSceneName,
+                        }),
+                        {},
+                      )}
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
-                      width="[230px]"
+                      width="[230px] md:w-56"
                     />
                   </FormControl>
                   <FormMessage className="absolute" />
@@ -162,7 +180,7 @@ const PatientReportIncident = ({
                 </FormItem>
               )}
             />
-            {form.watch("isSecondaryVictim") === "true" && (
+            {form.watch("isSecondaryVictim") == "true" && (
               <FormField
                 control={form.control}
                 name={"secondaryVictimName"}
@@ -174,7 +192,13 @@ const PatientReportIncident = ({
                     <FormControl>
                       <DynamicCombobox
                         {...field}
-                        options={nameSurnamePairs}
+                        options={userList.reduce(
+                          (acc, item) => ({
+                            ...acc,
+                            [item.userId]: item.nameSurname,
+                          }),
+                          {},
+                        )}
                         onChange={(value) => field.onChange(value)}
                         placeholder="Seçiniz"
                         width="[230px]"

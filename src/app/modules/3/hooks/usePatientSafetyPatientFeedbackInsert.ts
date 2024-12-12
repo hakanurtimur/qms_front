@@ -1,11 +1,11 @@
 import { toast } from "@/hooks/use-toast";
-import { PatientSafetyFeedbackInsertRequestModel } from "@/models/modules/3/PatientSafetyFeedbackModels";
+import { PatientSafetyFeedbackPatientRequestModel } from "@/models/modules/3/PatientSafetyFeedbackModels";
 import patientSafetyFeedbackService from "@/services/modules/3/PatientSafetyFeedbackService";
 import { useMutation } from "@tanstack/react-query";
 
-interface PatientSafetyGeneralFeedBackInsertProps {
+interface PatientSafetyPatientFeedBackInsertProps {
   key: string[];
-  data: PatientSafetyFeedbackInsertRequestModel;
+  data: PatientSafetyFeedbackPatientRequestModel;
   userId?: string;
 }
 
@@ -13,11 +13,11 @@ const usePatientSafetyGeneralFeedBackInsert = ({
   key,
   data,
   userId,
-}: PatientSafetyGeneralFeedBackInsertProps) => {
-  const insertPatientSafetyGeneralFeedback = useMutation({
+}: PatientSafetyPatientFeedBackInsertProps) => {
+  const insertPatientSafetyPatientFeedback = useMutation({
     mutationKey: key,
     mutationFn: () =>
-      patientSafetyFeedbackService.insertPatientSafetyGeneralFeedback(
+      patientSafetyFeedbackService.insertPatientSafetyPatientFeedback(
         data,
         userId,
       ),
@@ -31,7 +31,7 @@ const usePatientSafetyGeneralFeedBackInsert = ({
     },
   });
 
-  return insertPatientSafetyGeneralFeedback;
+  return insertPatientSafetyPatientFeedback;
 };
 
 export default usePatientSafetyGeneralFeedBackInsert;
