@@ -45,7 +45,7 @@ const PatientReportIncident = ({
     defaultValues: {
       name: patientFormModel?.nameSurname || "",
       bornDate: patientFormModel?.birthDate || "",
-      patientNum: patientFormModel?.identityNumber || "",
+      patientNum: String(patientFormModel?.patientId) || "",
       file: null,
     },
   });
@@ -107,7 +107,12 @@ const PatientReportIncident = ({
                 <FormItem>
                   <FormLabel className={""}>Hasta No</FormLabel>
                   <FormControl>
-                    <Input {...field} readOnly className="bg-slate-100 w-52" />
+                    <Input
+                      {...field}
+                      value={patientFormModel.patientId}
+                      readOnly
+                      className="bg-slate-100 w-52"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

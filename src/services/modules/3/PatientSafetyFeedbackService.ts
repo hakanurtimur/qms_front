@@ -1,3 +1,4 @@
+import { toast } from "@/hooks/use-toast";
 import {
   EventSceneListResponseModel,
   FeedbackEventTypeListResponseModel,
@@ -27,11 +28,13 @@ export class PatientSafetyFeedbackService {
     userId?: string,
   ) {
     const formFile = new FormData();
-    Object.entries(data?.formFile).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        formFile.append(key, value instanceof File ? value : String(value));
-      }
-    });
+    if (data?.formFile) {
+      Object.entries(data.formFile).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          formFile.append(key, value instanceof File ? value : String(value));
+        }
+      });
+    }
     return await api.post(
       `/patientsecurityevent/patient-general-request?userId=${userId || ""} `,
       data,
@@ -57,12 +60,22 @@ export class PatientSafetyFeedbackService {
     data: PatientSafetyFeedbackPatientRequestModel,
     userId?: string,
   ) {
+    if (data.victimState === 1 && data.victimUserId === 0) {
+      toast({
+        title: "Hata",
+        description: "İkincil mağduru seçmediniz.",
+        variant: "destructive",
+      });
+      throw new Error("Lütfen mağdur bilgilerini doldurunuz.");
+    }
     const formFile = new FormData();
-    Object.entries(data?.formFile).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        formFile.append(key, value instanceof File ? value : String(value));
-      }
-    });
+    if (data?.formFile) {
+      Object.entries(data.formFile).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          formFile.append(key, value instanceof File ? value : String(value));
+        }
+      });
+    }
     return await api.post(
       `/patientsecurityevent/patient-security-patient-request?userId=${userId || ""}`,
       data,

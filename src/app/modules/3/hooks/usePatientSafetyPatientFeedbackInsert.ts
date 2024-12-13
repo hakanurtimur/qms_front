@@ -9,7 +9,7 @@ interface PatientSafetyPatientFeedBackInsertProps {
   userId?: string;
 }
 
-const usePatientSafetyGeneralFeedBackInsert = ({
+const usePatientSafetyPatientFeedBackInsert = ({
   key,
   data,
   userId,
@@ -34,4 +34,4 @@ const usePatientSafetyGeneralFeedBackInsert = ({
   return insertPatientSafetyPatientFeedback;
 };
 
-export default usePatientSafetyGeneralFeedBackInsert;
+export default usePatientSafetyPatientFeedBackInsert;

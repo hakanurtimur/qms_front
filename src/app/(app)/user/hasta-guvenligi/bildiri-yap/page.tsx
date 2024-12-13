@@ -17,11 +17,13 @@ import {
   EventSceneListModel,
   PatientModel,
   PatientSafetyFeedbackInsertRequestModel,
+  PatientSafetyFeedbackPatientRequestModel,
 } from "@/models/modules/3/PatientSafetyFeedbackModels";
 import usePatientSafetyGeneralFeedBackInsert from "@/app/modules/3/hooks/usePatientSafetyGeneralFeedBackInsert";
 import { useAuth } from "@/context/authContext";
 import useUserList from "@/app/modules/2/hooks/useUserList";
 import usePatientGetById from "@/app/modules/3/hooks/usePatientGeyById";
+import usePatientSafetyPatientFeedBackInsert from "@/app/modules/3/hooks/usePatientSafetyPatientFeedbackInsert";
 
 const Page = () => {
   const [patient, setPatient] = useState<PatientModel | null>(null);
@@ -50,9 +52,9 @@ const Page = () => {
     });
 
   const patientSafetuPatientFeedBackInsertMutation =
-    usePatientSafetyGeneralFeedBackInsert({
+    usePatientSafetyPatientFeedBackInsert({
       key: ["patientSafetyPatientFeedBackInsert-for-patient-safety-feedback"],
-      data: patientFeedbackFormData as PatientSafetyFeedbackInsertRequestModel,
+      data: patientFeedbackFormData as PatientSafetyFeedbackPatientRequestModel,
       userId: auth.user?.userId,
     });
 
@@ -77,13 +79,16 @@ const Page = () => {
   }, [patientGetByIdMutation.isSuccess]);
 
   const handlePatientReportSubmit = (data: IncidentFormPatient) => {
-    const req: PatientSafetyFeedbackInsertRequestModel = {
+    console.log("Patient Report Submit", data);
+    const req: PatientSafetyFeedbackPatientRequestModel = {
       typeId: 2,
+      victimState: data.isSecondaryVictim ? 1 : 0,
+      victimUserId: data.secondaryVictimName || 0,
       description: data.incidentDescription,
       eventSceneId: data.incidentPlace,
       eventDate: data.date,
       fileName: data.file?.name || "",
-      formFile: data.file as File,
+      formFile: data?.file as File,
     };
     setPatientFeedbackFormData(req);
     patientSafetuPatientFeedBackInsertMutation.mutate();

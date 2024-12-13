@@ -49,9 +49,12 @@ const SPatientSafetyFeedbackInsertRequestModel = z.object({
   eventDate: z.string(),
   description: z.string(),
   fileName: z.string(),
-  formFile: z.instanceof(File).refine((file) => !file || file.size > 0, {
-    message: "Boş bir dosya yükleyemezsiniz.",
-  }),
+  formFile: z
+    .instanceof(File)
+    .optional()
+    .refine((file) => !file || file.size > 0, {
+      message: "Boş bir dosya yükleyemezsiniz.",
+    }),
 });
 
 export type PatientSafetyFeedbackInsertRequestModel = z.infer<
@@ -64,6 +67,7 @@ const SPatientModel = z.object({
   nameSurname: z.string(),
   birthDate: z.string(),
   identityNumber: z.string(),
+  patientId: z.string(),
   protocolId: z.string(),
 });
 

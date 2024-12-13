@@ -15,10 +15,12 @@ import {
   EventSceneListModel,
   PatientModel,
   PatientSafetyFeedbackInsertRequestModel,
+  PatientSafetyFeedbackPatientRequestModel,
 } from "@/models/modules/3/PatientSafetyFeedbackModels";
 import usePatientSafetyGeneralFeedBackInsert from "./hooks/usePatientSafetyGeneralFeedBackInsert";
 import usePatientGetById from "./hooks/usePatientGeyById";
 import useUserList from "../2/hooks/useUserList";
+import usePatientSafetyPatientFeedBackInsert from "./hooks/usePatientSafetyPatientFeedbackInsert";
 
 const Page = () => {
   const [patient, setPatient] = useState<PatientModel | null>(null);
@@ -45,9 +47,9 @@ const Page = () => {
     });
 
   const patientSafetuPatientFeedBackInsertMutation =
-    usePatientSafetyGeneralFeedBackInsert({
+    usePatientSafetyPatientFeedBackInsert({
       key: ["patientSafetyPatientFeedBackInsert-for-patient-safety-feedback"],
-      data: patientFeedbackFormData as PatientSafetyFeedbackInsertRequestModel,
+      data: patientFeedbackFormData as PatientSafetyFeedbackPatientRequestModel,
     });
 
   const patientGetByIdMutation = usePatientGetById({
@@ -74,13 +76,15 @@ const Page = () => {
 
   const handlePatientReportSubmit = (data: IncidentFormPatient) => {
     console.log("Patient Report Submit", data);
-    const req: PatientSafetyFeedbackInsertRequestModel = {
+    const req: PatientSafetyFeedbackPatientRequestModel = {
       typeId: 2,
+      victimState: data.isSecondaryVictim ? 1 : 0,
+      victimUserId: data.secondaryVictimName || 0,
       description: data.incidentDescription,
       eventSceneId: data.incidentPlace,
       eventDate: data.date,
       fileName: data.file?.name || "",
-      formFile: data.file as File,
+      formFile: data?.file as File,
     };
     setPatientFeedbackFormData(req);
     patientSafetuPatientFeedBackInsertMutation.mutate();
@@ -92,7 +96,7 @@ const Page = () => {
       patientSafetyGeneralFeedBackInsert.isSuccess
     ) {
       setTimeout(() => {
-        window.location.reload();
+        //window.location.reload();
       }, 1500);
     }
   }, [
@@ -105,13 +109,14 @@ const Page = () => {
   };
 
   const handleIncidentReportSubmit = (data: IncidentForm) => {
+    console.log("Incident Report Submit", data);
     const req: PatientSafetyFeedbackInsertRequestModel = {
       typeId: 1,
       description: data.incidentDescription,
       eventSceneId: data.incidentPlace,
       eventDate: data.date,
       fileName: data.file?.name || "",
-      formFile: data.file as File,
+      formFile: data?.file as File,
     };
     setGeneralFeedbackFormData(req);
     patientSafetyGeneralFeedBackInsert.mutate();
@@ -148,9 +153,6 @@ const Page = () => {
               <IncidentReport
                 eventSceneTypeList={eventSceneTypeListQuery?.data?.data || []}
                 onSubmit={handleIncidentReportSubmit}
-                refreshForm={
-                  patientSafetyGeneralFeedBackInsert.isSuccess ? true : false
-                }
               />
             </div>
           )}

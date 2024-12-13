@@ -1,4 +1,5 @@
 "use client";
+
 import { IncidentForm, SIncidentForm } from "@/models/incidentForm";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,28 +18,17 @@ import { Dropzone } from "@/components/ui/dropZone";
 import { DatePicker } from "@/components/ui/date-picker";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 import { EventSceneListModel } from "@/models/modules/3/PatientSafetyFeedbackModels";
-import { useEffect } from "react";
 
 interface Props {
   onSubmit: (data: IncidentForm) => void;
   eventSceneTypeList: EventSceneListModel;
-  refreshForm: boolean;
 }
 
-const IncidentReport = ({
-  onSubmit,
-  eventSceneTypeList,
-  refreshForm,
-}: Props) => {
+const IncidentReport = ({ onSubmit, eventSceneTypeList }: Props) => {
   const form = useForm<IncidentForm>({
     resolver: zodResolver(SIncidentForm),
     defaultValues: {},
   });
-  useEffect(() => {
-    if (refreshForm) {
-      window.location.reload();
-    }
-  }, [refreshForm]);
 
   return (
     <Form {...form}>

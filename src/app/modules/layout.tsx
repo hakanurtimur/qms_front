@@ -8,6 +8,7 @@ interface Props {
 
 const Layout = ({ children }: Props) => {
   const pathname = usePathname();
+
   let title = "Dokümanlar";
 
   if (pathname === "/modules/2") {

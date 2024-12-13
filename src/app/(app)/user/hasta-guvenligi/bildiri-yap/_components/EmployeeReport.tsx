@@ -29,11 +29,9 @@ const EmployeeReport = ({ onSubmit }: Props) => {
   const form = useForm<IncidentFormEmployee>({
     resolver: zodResolver(SIncidentFormEmployee),
     defaultValues: {
-      employeeName: "",
       date: "",
       incidentPlace: 0,
       incidentDescription: "",
-      affectedPerson: "",
       file: null,
     },
   });

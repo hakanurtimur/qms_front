@@ -40,7 +40,7 @@ export default function Layout({ children }: Props) {
             },
             {
               icon: DocumentTextIcon,
-              label: "Talepler",
+              label: "Taleplerim",
               href: "/user/documents/requests",
               items: [],
             },
@@ -48,7 +48,7 @@ export default function Layout({ children }: Props) {
               ? [
                   {
                     icon: DocumentTextIcon,
-                    label: "Bekleyen Talepler",
+                    label: "Kurum Talepleri",
                     href: "/user/documents/waiting-requests",
                     items: [],
                   },
@@ -97,6 +97,18 @@ export default function Layout({ children }: Props) {
               href: "/user/hasta-geri-bildirim/bildiri-yap",
               items: [],
             },
+            {
+              icon: DocumentTextIcon,
+              label: "Bildirimlerim",
+              href: "/user/hasta-geri-bildirim/bildirimlerim",
+              items: [],
+            },
+            {
+              icon: DocumentTextIcon,
+              label: "Kurum Bildirimleri",
+              href: "/user/hasta-geri-bildirim/kurum-bildirimleri",
+              items: [],
+            },
           ],
         },
         {
@@ -110,6 +122,18 @@ export default function Layout({ children }: Props) {
               href: "/user/hasta-guvenligi/bildiri-yap",
               items: [],
             },
+            {
+              icon: DocumentTextIcon,
+              label: "Bildirimlerim",
+              href: "/user/hasta-guvenligi/bildirimlerim",
+              items: [],
+            },
+            {
+              icon: DocumentTextIcon,
+              label: "Kurum Bildirimleri",
+              href: "/user/hasta-guvenligi/kurum-bildirimleri",
+              items: [],
+            },
           ],
         },
         {
@@ -121,6 +145,18 @@ export default function Layout({ children }: Props) {
               icon: DocumentTextIcon,
               label: "Bildiri Yap",
               href: "/user/calisan-guvenligi/bildiri-yap",
+              items: [],
+            },
+            {
+              icon: DocumentTextIcon,
+              label: "Bildirimlerim",
+              href: "/user/calisan-guvenligi/bildirimlerim",
+              items: [],
+            },
+            {
+              icon: DocumentTextIcon,
+              label: "Kurum Bildirimleri",
+              href: "/user/calisan-guvenligi/kurum-bildirimleri",
               items: [],
             },
           ],

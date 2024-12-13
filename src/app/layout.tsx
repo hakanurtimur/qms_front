@@ -18,6 +18,14 @@ export default function RootLayout({
       <AuthProvider>
         <TooltipProvider>
           <html lang="en">
+            <head>
+              <meta charSet="UTF-8" />
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1.0"
+              />
+              <title>Qubqa</title>
+            </head>
             <body>
               {children}
               <Toaster />
