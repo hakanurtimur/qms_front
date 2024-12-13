@@ -16,26 +16,21 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Dropzone } from "@/components/ui/dropZone";
-import { nameSurnamePairs } from "@/constants/dummy_combobox_items";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 import { DatePicker } from "@/components/ui/date-picker";
-import { incidentPlaces } from "@/constants/incidentPlaces";
+import { ModulesUserList } from "@/models/modules/2/PatientFeedbackModels";
+import { EventSceneListModel } from "@/models/modules/3/PatientSafetyFeedbackModels";
 
 interface Props {
   onSubmit: (data: IncidentFormEmployee) => void;
+  userList: ModulesUserList[];
+  eventSceneTypeList: EventSceneListModel;
 }
 
-const EmployeeReport = ({ onSubmit }: Props) => {
+const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
   const form = useForm<IncidentFormEmployee>({
     resolver: zodResolver(SIncidentFormEmployee),
-    defaultValues: {
-      employeeName: "",
-      date: "",
-      incidentPlace: 0,
-      incidentDescription: "",
-      affectedPerson: "",
-      file: null,
-    },
+    defaultValues: {},
   });
 
   return (
@@ -58,7 +53,13 @@ const EmployeeReport = ({ onSubmit }: Props) => {
                   <FormControl>
                     <DynamicCombobox
                       {...field}
-                      options={nameSurnamePairs}
+                      options={userList.reduce(
+                        (acc, item) => ({
+                          ...acc,
+                          [item.userId]: item.nameSurname,
+                        }),
+                        {},
+                      )}
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
                       width="[240px]"
@@ -97,7 +98,13 @@ const EmployeeReport = ({ onSubmit }: Props) => {
                   <FormControl>
                     <DynamicCombobox
                       {...field}
-                      options={nameSurnamePairs}
+                      options={userList.reduce(
+                        (acc, item) => ({
+                          ...acc,
+                          [item.userId]: item.nameSurname,
+                        }),
+                        {},
+                      )}
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
                       width="[240px]"
@@ -116,7 +123,13 @@ const EmployeeReport = ({ onSubmit }: Props) => {
                   <FormControl>
                     <DynamicCombobox
                       {...field}
-                      options={incidentPlaces}
+                      options={eventSceneTypeList.reduce(
+                        (acc, item) => ({
+                          ...acc,
+                          [item.eventSceneId]: item.eventSceneName,
+                        }),
+                        {},
+                      )}
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
                       width="[250px]"
