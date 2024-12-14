@@ -32,18 +32,15 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
-import { useEffect } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  onSheetFormSubmit: (data: ManagerLocationModel) => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  onSheetFormSubmit,
 }: DataTableProps<TData, TValue>) {
   const [globalFilter, setGlobalFilter] = React.useState("");
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -67,8 +64,6 @@ export function DataTable<TData, TValue>({
       globalFilter,
     },
   });
-
-  useEffect(() => {}, [data]);
 
   return (
     <div className="w-full overflow-scroll flex items-center justify-center no-scrollbar">
@@ -156,7 +151,6 @@ export function DataTable<TData, TValue>({
                     <TableCell>
                       <FormSheet
                         model={row.original as unknown as ManagerLocationModel}
-                        onSubmit={(data) => onSheetFormSubmit(data)}
                       />
                     </TableCell>
                   </TableRow>
