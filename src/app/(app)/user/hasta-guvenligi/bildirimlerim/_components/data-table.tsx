@@ -32,6 +32,8 @@ import {
 
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { Button } from "@/components/ui/button";
+import NonFormCombobox from "@/components/ui/nonform-combobox";
+import { Input } from "@/components/ui/input";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -71,11 +73,71 @@ export function DataTable<TData, TValue>({
       globalFilter,
     },
   });
-  console.log("variant", variant);
+
+  console.log(variant);
+
   return (
     <TooltipProvider>
       <div className="min-w-full overflow-scroll flex items-center justify-center no-scrollbar">
         <div className="min-w-full rounded-md border no-scrollbar">
+          <div className="flex items-center py-4 px-4 gap-10">
+            <div className="flex flex-1 flex-shrink-0 items-center gap-10">
+              <div className="flex flex-1 col-span-1 items-center gap-2">
+                <div className="flex-1">
+                  <NonFormCombobox
+                    value={
+                      (table
+                        .getColumn("bildiriTipi")
+                        ?.getFilterValue() as string) || ""
+                    }
+                    onChange={(value) =>
+                      table
+                        .getColumn("bildiriTipi")
+                        ?.setFilterValue(value ? value : "")
+                    }
+                    placeholder={"Bildiri Tipi"}
+                    options={{
+                      "1": "Tip 1",
+                      "2": "Tip 2",
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-1 col-span-1 items-center gap-2">
+                <div className="flex-1">
+                  <NonFormCombobox
+                    value={
+                      (table
+                        .getColumn("olayYeri")
+                        ?.getFilterValue() as string) || ""
+                    }
+                    onChange={(value) =>
+                      table
+                        .getColumn("olayYeri")
+                        ?.setFilterValue(
+                          value ? value.toLocaleUpperCase("tr") : "",
+                        )
+                    }
+                    options={{
+                      "1": "Yer 1",
+                      "2": "Yer 2",
+                    }}
+                    placeholder={"Olay Yer"}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-1 max-w-[520px] flex-shrink-0 col-span-1 justify-stretch gap-2">
+              <Input
+                placeholder="Arama yapın..."
+                value={globalFilter ?? ""}
+                onChange={(event) =>
+                  setGlobalFilter(event.target.value.toLocaleUpperCase("tr"))
+                }
+                className="max-w-sm"
+              />
+            </div>
+          </div>
           <div className="rounded-md border px-4 py-4">
             <Table className="">
               <TableHeader>

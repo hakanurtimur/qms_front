@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { exampleDataMyNotifications } from "@/models/user/patient-safety-notification/my-notifications/my-notifications";
 
 const Page = () => {
+  //TODO: query data
   const exampleDataArray = [exampleDataMyNotifications];
 
   return (
@@ -28,11 +29,12 @@ const Page = () => {
           </TabsList>
         </div>
         <TabsContent value={"all"}>
-          (
-          <DataTable columns={columns} data={exampleDataArray} />) :
+          {exampleDataArray ? (
+            <DataTable columns={columns} data={exampleDataArray} />
+          ) : null}
         </TabsContent>
         <TabsContent value={"actives"}>
-          {exampleDataMyNotifications ? (
+          {exampleDataArray ? (
             <DataTable
               columns={columns}
               data={exampleDataArray}

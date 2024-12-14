@@ -7,8 +7,8 @@ export const SMyNotifications = z.object({
   bildiriYapanKisi: z.string(),
   protokolNo: z.number().nonnegative(),
   olayYeri: z.string(),
-  olayTarihi: z.date(),
-  sonlanmaTarihi: z.date().nullable(),
+  olayTarihi: z.string(),
+  sonlanmaTarihi: z.string(),
 });
 
 export const exampleDataMyNotifications = {
@@ -18,8 +18,8 @@ export const exampleDataMyNotifications = {
   bildiriYapanKisi: "John Doe",
   protokolNo: 456,
   olayYeri: "Main Office",
-  olayTarihi: new Date("2024-12-01"),
-  sonlanmaTarihi: null,
+  olayTarihi: new Date().toDateString(),
+  sonlanmaTarihi: new Date().toDateString(),
 };
 
 export type MyNotifications = z.infer<typeof SMyNotifications>;
