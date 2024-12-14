@@ -12,12 +12,41 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { RoleManagementRoleModel } from "@/models/admin/roleManagementRoleModel";
 import CreateSheetForm from "@/app/(app)/admin/user-management/role-management/_components/create-role/create-sheet-form";
+import { useAdminCreateRole } from "@/app/(app)/admin/user-management/role-management/lib/hooks/useAdminCreateRole";
+import { toast } from "@/hooks/use-toast";
+import { useAdminGetRolesList } from "@/app/(app)/admin/user-management/role-management/lib/hooks/useAdminGetRolesList";
+import { useAuth } from "@/context/authContext";
 
-interface Props {
-  onSubmit: (data: RoleManagementRoleModel) => void;
-}
+const CreateRoleSheet = () => {
+  const { user } = useAuth();
+  const { refetch: refetchRoles } = useAdminGetRolesList();
 
-const CreateRoleSheet = ({ onSubmit }: Props) => {
+  const createMutation = useAdminCreateRole(
+    () => {
+      toast({
+        title: "Başarılı",
+        description: "Rol başarıyla güncellendi",
+        variant: "success",
+      });
+      refetchRoles().then();
+    },
+    () => {
+      toast({
+        title: "Hata",
+        description: "Rol güncellenirken bir hata oluştu",
+        variant: "destructive",
+      });
+    },
+  );
+
+  const handleSubmmit = (formData: RoleManagementRoleModel) => {
+    if (!user) return;
+    const data = {
+      roleName: formData.roleName,
+    };
+    createMutation.mutate({ userId: user.userId, data });
+  };
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -33,7 +62,7 @@ const CreateRoleSheet = ({ onSubmit }: Props) => {
             Buradan yeni rol ekleyebilirsiniz.
           </SheetDescription>
         </SheetHeader>
-        <CreateSheetForm onSubmit={onSubmit} />
+        <CreateSheetForm onSubmit={handleSubmmit} />
       </SheetContent>
     </Sheet>
   );

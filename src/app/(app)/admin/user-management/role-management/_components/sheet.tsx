@@ -12,19 +12,49 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { RoleManagementRoleModel } from "@/models/admin/roleManagementRoleModel";
 import SheetForm from "@/app/(app)/admin/user-management/role-management/_components/sheet-form";
-import { useQuery } from "@tanstack/react-query";
-import roleManagementService from "@/services/admin/RoleManagement";
+import { useAdminUpdateRole } from "@/app/(app)/admin/user-management/role-management/lib/hooks/useAdminUpdateRole";
+import { toast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/authContext";
+import { useAdminGetRolesList } from "@/app/(app)/admin/user-management/role-management/lib/hooks/useAdminGetRolesList";
+import { useAdminGetSingleRole } from "@/app/(app)/admin/user-management/role-management/lib/hooks/useAdminGetSingleRole";
 
 interface Props {
   model: RoleManagementRoleModel;
-  onSubmit: (data: RoleManagementRoleModel) => void;
 }
 
-const RoleSheet = ({ model, onSubmit }: Props) => {
-  const query = useQuery({
-    queryKey: ["roles", model.roleId.toString()],
-    queryFn: () => roleManagementService.get(model.roleId.toString()),
-  });
+const RoleSheet = ({ model }: Props) => {
+  const { user } = useAuth();
+  const { refetch: refetchRoles } = useAdminGetRolesList();
+  const query = useAdminGetSingleRole(model.roleId);
+
+  const updateMutation = useAdminUpdateRole(
+    () => {
+      toast({
+        title: "Başarılı",
+        description: "Rol başarıyla güncellendi",
+        variant: "success",
+      });
+      refetchRoles().then();
+      query.refetch().then();
+    },
+    () => {
+      toast({
+        title: "Hata",
+        description: "Rol güncellenirken bir hata oluştu",
+        variant: "destructive",
+      });
+    },
+  );
+
+  const handleSubmit = (formData: RoleManagementRoleModel) => {
+    if (!user) return;
+    const data = {
+      roleName: formData.roleName,
+      roleId: formData.roleId,
+      state: formData.state,
+    };
+    updateMutation.mutate({ userId: user.userId, data });
+  };
 
   return (
     <Sheet>
@@ -41,13 +71,7 @@ const RoleSheet = ({ model, onSubmit }: Props) => {
           </SheetDescription>
         </SheetHeader>
         {query.data && (
-          <SheetForm
-            model={query.data.data}
-            onSubmit={(data) => {
-              onSubmit(data);
-              query.refetch().then();
-            }}
-          />
+          <SheetForm model={query.data.data} onSubmit={handleSubmit} />
         )}
       </SheetContent>
     </Sheet>

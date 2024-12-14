@@ -28,13 +28,11 @@ import { Input } from "@/components/ui/input";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  onSheetFormSubmit: (data: RoleManagementRoleModel) => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  onSheetFormSubmit,
 }: DataTableProps<TData, TValue>) {
   const [globalFilter, setGlobalFilter] = React.useState("");
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -113,7 +111,6 @@ export function DataTable<TData, TValue>({
                         model={
                           row.original as unknown as RoleManagementRoleModel
                         }
-                        onSubmit={(data) => onSheetFormSubmit(data)}
                       />
                     </TableCell>
                   </TableRow>
