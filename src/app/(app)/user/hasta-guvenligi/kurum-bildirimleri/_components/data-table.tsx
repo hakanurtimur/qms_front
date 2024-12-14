@@ -101,8 +101,7 @@ export function DataTable<TData, TValue>({
                   }}
                 />
               </div>
-              {/* Olay Yeri */}
-              <div className="flex-shrink-0 w-64">
+              <div className="flex-shrink-0 w-72">
                 <NonFormCombobox
                   value={
                     (table.getColumn("olayYeri")?.getFilterValue() as string) ||

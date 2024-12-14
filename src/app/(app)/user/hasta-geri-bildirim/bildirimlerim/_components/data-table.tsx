@@ -82,35 +82,35 @@ export function DataTable<TData, TValue>({
         <div className="min-w-full rounded-md border no-scrollbar">
           <div className="flex items-center py-4 px-4 gap-10">
             <div className="flex flex-1 flex-shrink-0 items-center gap-4">
-              <div className="flex-shrink-0 w-64">
+              <div className="flex-shrink-0 w-48">
                 <NonFormCombobox
                   value={
                     (table
-                      .getColumn("bildiriTipi")
+                      .getColumn("bildiriTuru")
                       ?.getFilterValue() as string) || ""
                   }
                   onChange={(value) =>
                     table
-                      .getColumn("bildiriTipi")
+                      .getColumn("bildiriTuru")
                       ?.setFilterValue(value ? value : "")
                   }
-                  placeholder={"Bildiri Tipi"}
+                  placeholder={"Bildiri Türü"}
                   options={{
                     "1": "Tip 1",
                     "2": "Tip 2",
                   }}
                 />
               </div>
-              {/* Olay Yeri */}
-              <div className="flex-shrink-0 w-64">
+              <div className="flex-shrink-0 w-72">
                 <NonFormCombobox
                   value={
-                    (table.getColumn("olayYeri")?.getFilterValue() as string) ||
-                    ""
+                    (table
+                      .getColumn("atananBolum")
+                      ?.getFilterValue() as string) || ""
                   }
                   onChange={(value) =>
                     table
-                      .getColumn("olayYeri")
+                      .getColumn("atananBolum")
                       ?.setFilterValue(
                         value ? value.toLocaleUpperCase("tr") : "",
                       )
@@ -119,7 +119,7 @@ export function DataTable<TData, TValue>({
                     "1": "Yer 1",
                     "2": "Yer 2",
                   }}
-                  placeholder={"Olay Yeri"}
+                  placeholder={"Atanan Bölüm"}
                 />
               </div>
             </div>

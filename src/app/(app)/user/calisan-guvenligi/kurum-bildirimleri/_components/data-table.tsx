@@ -82,27 +82,22 @@ export function DataTable<TData, TValue>({
         <div className="min-w-full rounded-md border no-scrollbar">
           <div className="flex items-center py-4 px-4 gap-10">
             <div className="flex flex-1 flex-shrink-0 items-center gap-4">
-              <div className="flex-shrink-0 w-64">
+              <div className="flex-shrink-0 w-48">
                 <NonFormCombobox
                   value={
-                    (table
-                      .getColumn("bildiriTipi")
-                      ?.getFilterValue() as string) || ""
+                    (table.getColumn("durum")?.getFilterValue() as string) || ""
                   }
                   onChange={(value) =>
-                    table
-                      .getColumn("bildiriTipi")
-                      ?.setFilterValue(value ? value : "")
+                    table.getColumn("durum")?.setFilterValue(value ? value : "")
                   }
-                  placeholder={"Bildiri Tipi"}
+                  placeholder={"Durum"}
                   options={{
                     "1": "Tip 1",
                     "2": "Tip 2",
                   }}
                 />
               </div>
-              {/* Olay Yeri */}
-              <div className="flex-shrink-0 w-64">
+              <div className="flex-shrink-0 w-72">
                 <NonFormCombobox
                   value={
                     (table.getColumn("olayYeri")?.getFilterValue() as string) ||
@@ -115,11 +110,11 @@ export function DataTable<TData, TValue>({
                         value ? value.toLocaleUpperCase("tr") : "",
                       )
                   }
+                  placeholder={"Olay Yeri"}
                   options={{
                     "1": "Yer 1",
                     "2": "Yer 2",
                   }}
-                  placeholder={"Olay Yeri"}
                 />
               </div>
             </div>
