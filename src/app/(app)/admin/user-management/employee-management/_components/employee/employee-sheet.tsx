@@ -11,22 +11,53 @@ import {
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { EmployeeToManageTableModel } from "@/models/admin/employeeManagement/employeeToManageTableModel";
-import { useQuery } from "@tanstack/react-query";
-import employeeManagementService from "@/services/admin/EmployeeManagement";
 import EmployeeForm from "@/app/(app)/admin/user-management/employee-management/_components/employee/employee-form";
-import { EmployeeRole } from "@/models/admin/employeeManagement/roles";
+import { useAdminGetSingleEmployee } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetSingleEmployee";
+import { useAuth } from "@/context/authContext";
+import { useAdminGetEmployees } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetEmployees";
+import { useAdminUpdateEmployee } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminUpdateEmployee";
+import { toast } from "@/hooks/use-toast";
 
 interface Props {
   model: EmployeeToManageTableModel;
-  onSubmit: (data: EmployeeToManageTableModel) => void;
-  roles: EmployeeRole[];
 }
 
-const EmployeeSheet = ({ model, onSubmit, roles }: Props) => {
-  const query = useQuery({
-    queryKey: ["employee-management", model.id],
-    queryFn: () => employeeManagementService.getEmployee(model.id.toString()),
-  });
+const EmployeeSheet = ({ model }: Props) => {
+  const { user } = useAuth();
+  const query = useAdminGetSingleEmployee(model.id);
+  const { refetch: refetchEmployees } = useAdminGetEmployees();
+  const updateEmployeeMutation = useAdminUpdateEmployee(
+    () => {
+      toast({
+        title: "Başarılı",
+        description: "Personel başarıyla güncellendi",
+        variant: "success",
+      });
+      refetchEmployees().then();
+      query.refetch().then();
+    },
+    () => {
+      toast({
+        title: "Hata",
+        description: "Personel güncellenirken bir hata oluştu",
+        variant: "destructive",
+      });
+    },
+  );
+  const handleSubmit = (formData: EmployeeToManageTableModel) => {
+    if (!user) return;
+    const data: {
+      id: number;
+      roleId: number;
+    } = {
+      id: formData.id,
+      roleId: formData.roleId,
+    };
+    updateEmployeeMutation.mutate({
+      id: user.userId,
+      data,
+    });
+  };
 
   return (
     <Sheet>
@@ -43,11 +74,7 @@ const EmployeeSheet = ({ model, onSubmit, roles }: Props) => {
           </SheetDescription>
         </SheetHeader>
         {query.data ? (
-          <EmployeeForm
-            model={query.data.data}
-            onSubmit={onSubmit}
-            roles={roles}
-          />
+          <EmployeeForm model={query.data.data} onSubmit={handleSubmit} />
         ) : null}
       </SheetContent>
     </Sheet>

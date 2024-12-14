@@ -15,20 +15,21 @@ import {
   SEmployeeToManageTableModel,
 } from "@/models/admin/employeeManagement/employeeToManageTableModel";
 import { useForm } from "react-hook-form";
-import { EmployeeRole } from "@/models/admin/employeeManagement/roles";
 import Combobox from "@/components/ui/combobox";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EmployeeDepartment } from "@/models/admin/employeeManagement/departments";
 import { Switch } from "@/components/ui/switch";
+import { useAdminGetRoles } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetRoles";
+import { useAdminGetDepartments } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetDepartments";
+import { convertObjectArrayToOptions } from "@/utils/convertObjectArrayToOptions";
 
 interface Props {
   model: EmployeeToManageTableModel;
   onSubmit: (data: EmployeeToManageTableModel) => void;
-  roles: EmployeeRole[];
-  departments: EmployeeDepartment[];
 }
 
-const ManagerForm = ({ model, onSubmit, roles, departments }: Props) => {
+const ManagerForm = ({ model, onSubmit }: Props) => {
+  const roleQuery = useAdminGetRoles();
+  const departmentQuery = useAdminGetDepartments();
   const form = useForm<EmployeeToManageTableModel>({
     resolver: zodResolver(SEmployeeToManageTableModel),
     defaultValues: {
@@ -37,36 +38,17 @@ const ManagerForm = ({ model, onSubmit, roles, departments }: Props) => {
       mail: model.mail ?? "",
     },
   });
-  function convertRolesToOptions(roles: EmployeeRole[]): {
-    [key: string]: string;
-  } {
-    return roles.reduce(
-      (options, role) => {
-        options[role.roleId] = role.roleName;
-        return options;
-      },
-      {} as { [key: number]: string },
-    );
-  }
-  function convertDepartmentsToOptions(departments: EmployeeDepartment[]): {
-    [key: string]: string;
-  } {
-    const uniqueNames = new Set<string>();
 
-    return departments.reduce(
-      (options, department) => {
-        if (!uniqueNames.has(department.departmentName)) {
-          uniqueNames.add(department.departmentName);
-          options[department.departmentId] = department.departmentName;
-        }
-        return options;
-      },
-      {} as { [key: string]: string },
-    );
-  }
-
-  const roleOptions = convertRolesToOptions(roles);
-  const departmentOptions = convertDepartmentsToOptions(departments);
+  const roleOptions = convertObjectArrayToOptions(
+    roleQuery.data?.data ?? [],
+    "roleId",
+    "roleName",
+  );
+  const departmentOptions = convertObjectArrayToOptions(
+    departmentQuery.data?.data ?? [],
+    "departmentId",
+    "departmentName",
+  );
 
   return (
     <Form {...form}>

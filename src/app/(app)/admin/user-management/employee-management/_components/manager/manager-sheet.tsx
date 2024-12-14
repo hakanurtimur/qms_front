@@ -11,24 +11,60 @@ import {
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { EmployeeToManageTableModel } from "@/models/admin/employeeManagement/employeeToManageTableModel";
-import { useQuery } from "@tanstack/react-query";
-import employeeManagementService from "@/services/admin/EmployeeManagement";
-import { EmployeeRole } from "@/models/admin/employeeManagement/roles";
 import ManagerForm from "@/app/(app)/admin/user-management/employee-management/_components/manager/manager-form";
-import { EmployeeDepartment } from "@/models/admin/employeeManagement/departments";
+import { useAdminGetSingleManager } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetSingleManager";
+import { useAdminGetEmployees } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetEmployees";
+import { useAdminGetManagers } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetManagers";
+import { useAdminUpdateManager } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminUpdateManager";
+import { toast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/authContext";
 
 interface Props {
   model: EmployeeToManageTableModel;
-  onSubmit: (data: EmployeeToManageTableModel) => void;
-  roles: EmployeeRole[];
-  departments: EmployeeDepartment[];
 }
 
-const ManagerSheet = ({ model, onSubmit, roles, departments }: Props) => {
-  const query = useQuery({
-    queryKey: ["manager-management", model.id],
-    queryFn: () => employeeManagementService.getManager(model.id.toString()),
-  });
+const ManagerSheet = ({ model }: Props) => {
+  const { user } = useAuth();
+  const query = useAdminGetSingleManager(model.id);
+  const { refetch: refetchEmployees } = useAdminGetEmployees();
+  const { refetch: refetchManagers } = useAdminGetManagers();
+  const updateManagerMutation = useAdminUpdateManager(
+    () => {
+      toast({
+        title: "Başarılı",
+        description: "Yönetici başarıyla güncellendi",
+        variant: "success",
+      });
+      refetchEmployees().then();
+      refetchManagers().then();
+      query.refetch().then();
+    },
+    () => {
+      toast({
+        title: "Hata",
+        description: "Yönetici güncellenirken bir hata oluştu",
+        variant: "destructive",
+      });
+    },
+  );
+  const handleSubmit = (formData: EmployeeToManageTableModel) => {
+    if (!user) return;
+    const data: {
+      id: number;
+      roleId: number;
+      departmentId: number;
+      state: boolean;
+    } = {
+      id: formData.id,
+      roleId: formData.roleId,
+      departmentId: formData.departmentId,
+      state: formData.workingStatus,
+    };
+    updateManagerMutation.mutate({
+      id: user.userId,
+      data,
+    });
+  };
 
   return (
     <Sheet>
@@ -45,12 +81,7 @@ const ManagerSheet = ({ model, onSubmit, roles, departments }: Props) => {
           </SheetDescription>
         </SheetHeader>
         {query.data ? (
-          <ManagerForm
-            model={query.data.data}
-            onSubmit={onSubmit}
-            roles={roles}
-            departments={departments}
-          />
+          <ManagerForm model={query.data.data} onSubmit={handleSubmit} />
         ) : null}
       </SheetContent>
     </Sheet>

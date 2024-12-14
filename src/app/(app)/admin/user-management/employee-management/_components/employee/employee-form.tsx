@@ -15,17 +15,19 @@ import {
   SEmployeeToManageTableModel,
 } from "@/models/admin/employeeManagement/employeeToManageTableModel";
 import { useForm } from "react-hook-form";
-import { EmployeeRole } from "@/models/admin/employeeManagement/roles";
 import Combobox from "@/components/ui/combobox";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAdminGetRoles } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetRoles";
+import { convertObjectArrayToOptions } from "@/utils/convertObjectArrayToOptions";
 
 interface Props {
   model: EmployeeToManageTableModel;
   onSubmit: (data: EmployeeToManageTableModel) => void;
-  roles: EmployeeRole[];
 }
 
-const EmployeeForm = ({ model, onSubmit, roles }: Props) => {
+const EmployeeForm = ({ model, onSubmit }: Props) => {
+  const roleQuery = useAdminGetRoles();
+
   const form = useForm<EmployeeToManageTableModel>({
     resolver: zodResolver(SEmployeeToManageTableModel),
     defaultValues: {
@@ -34,19 +36,12 @@ const EmployeeForm = ({ model, onSubmit, roles }: Props) => {
       mail: model.mail ?? "",
     },
   });
-  function convertRolesToOptions(roles: EmployeeRole[]): {
-    [key: string]: string;
-  } {
-    return roles.reduce(
-      (options, role) => {
-        options[role.roleId] = role.roleName;
-        return options;
-      },
-      {} as { [key: number]: string },
-    );
-  }
+  const roleOptions = convertObjectArrayToOptions(
+    roleQuery.data?.data ?? [],
+    "roleId",
+    "roleName",
+  );
 
-  const roleOptions = convertRolesToOptions(roles);
   return (
     <Form {...form}>
       <form

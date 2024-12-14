@@ -12,12 +12,40 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import GuestForm from "@/app/(app)/admin/user-management/employee-management/_components/guest/guest-form";
 import { GuestCreated } from "@/models/admin/employeeManagement/guest";
+import { useAdminCreateGuest } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminCreateGuest";
+import { toast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/authContext";
+import { useAdminGetEmployees } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetEmployees";
 
-interface Props {
-  onSubmit: (data: GuestCreated) => void;
-}
+const GuestSheet = () => {
+  const { user } = useAuth();
+  const { refetch: refetchEmployees } = useAdminGetEmployees();
+  const createGuestMutation = useAdminCreateGuest(
+    () => {
+      toast({
+        title: "Başarılı",
+        description: "Misafir kullanıcı eklendi",
+        variant: "success",
+      });
+      refetchEmployees().then();
+    },
+    () => {
+      toast({
+        title: "Hata",
+        description: "Misafir kullanıcı eklenirken bir hata oluştu",
+        variant: "destructive",
+      });
+    },
+  );
 
-const GuestSheet = ({ onSubmit }: Props) => {
+  const handleSubmit = (data: GuestCreated) => {
+    if (!user) return;
+    createGuestMutation.mutate({
+      userId: user.userId,
+      data,
+    });
+  };
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -34,7 +62,7 @@ const GuestSheet = ({ onSubmit }: Props) => {
           </SheetDescription>
         </SheetHeader>
         <div className="mt-2"></div>
-        <GuestForm onSubmit={onSubmit} />
+        <GuestForm onSubmit={handleSubmit} />
       </SheetContent>
     </Sheet>
   );

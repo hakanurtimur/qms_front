@@ -15,17 +15,18 @@ import {
 import { useForm } from "react-hook-form";
 import Combobox from "@/components/ui/combobox";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EmployeeDepartment } from "@/models/admin/employeeManagement/departments";
 import { SheetClose, SheetFooter } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { useAdminGetDepartments } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetDepartments";
+import { convertObjectArrayToOptions } from "@/utils/convertObjectArrayToOptions";
 
 interface Props {
   model: EmployeeToManageTableModel;
   onSubmit: (data: EmployeeToManageTableModel) => void;
-  departments: EmployeeDepartment[];
 }
 
-const DepartmentForm = ({ model, onSubmit, departments }: Props) => {
+const DepartmentForm = ({ model, onSubmit }: Props) => {
+  const departmentQuery = useAdminGetDepartments();
   const form = useForm<EmployeeToManageTableModel>({
     resolver: zodResolver(SEmployeeToManageTableModel),
     defaultValues: {
@@ -36,24 +37,11 @@ const DepartmentForm = ({ model, onSubmit, departments }: Props) => {
     },
   });
 
-  function convertDepartmentsToOptions(departments: EmployeeDepartment[]): {
-    [key: string]: string;
-  } {
-    const uniqueNames = new Set<string>();
-
-    return departments.reduce(
-      (options, department) => {
-        if (!uniqueNames.has(department.departmentName)) {
-          uniqueNames.add(department.departmentName);
-          options[department.departmentId] = department.departmentName;
-        }
-        return options;
-      },
-      {} as { [key: string]: string },
-    );
-  }
-
-  const departmentOptions = convertDepartmentsToOptions(departments);
+  const departmentOptions = convertObjectArrayToOptions(
+    departmentQuery.data?.data ?? [],
+    "departmentId",
+    "departmentName",
+  );
 
   return (
     <Form {...form}>

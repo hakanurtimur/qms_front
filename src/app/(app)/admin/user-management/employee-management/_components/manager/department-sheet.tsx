@@ -11,22 +11,52 @@ import {
 import { BriefcaseIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { EmployeeToManageTableModel } from "@/models/admin/employeeManagement/employeeToManageTableModel";
-import { useQuery } from "@tanstack/react-query";
-import employeeManagementService from "@/services/admin/EmployeeManagement";
-import { EmployeeDepartment } from "@/models/admin/employeeManagement/departments";
 import DepartmentForm from "@/app/(app)/admin/user-management/employee-management/_components/manager/department-form";
+import { useAdminGetSingleManager } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetSingleManager";
+import { useAuth } from "@/context/authContext";
+import { useAdminUpdateManagerDepartment } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminUpdateManagerDepartment";
+import { toast } from "@/hooks/use-toast";
 
 interface Props {
   model: EmployeeToManageTableModel;
-  onSubmit: (data: EmployeeToManageTableModel) => void;
-  departments: EmployeeDepartment[];
 }
 
-const DepartmentSheet = ({ model, onSubmit, departments }: Props) => {
-  const query = useQuery({
-    queryKey: ["manager-management", model.id],
-    queryFn: () => employeeManagementService.getManager(model.id.toString()),
-  });
+const DepartmentSheet = ({ model }: Props) => {
+  const { user } = useAuth();
+  const query = useAdminGetSingleManager(model.id);
+  const { refetch: refetchManagers } = useAdminGetSingleManager(model.id);
+  const updateManagerDepartmentMutation = useAdminUpdateManagerDepartment(
+    () => {
+      toast({
+        title: "Başarılı",
+        description: "Departman başarıyla güncellendi",
+        variant: "success",
+      });
+      refetchManagers().then();
+      query.refetch().then();
+    },
+    () => {
+      toast({
+        title: "Hata",
+        description: "Departman güncellenirken bir hata oluştu",
+        variant: "destructive",
+      });
+    },
+  );
+  const handleSubmit = (formData: EmployeeToManageTableModel) => {
+    if (!user) return;
+    const data: {
+      id: number;
+      departmentId: number;
+    } = {
+      id: formData.id,
+      departmentId: formData.departmentId,
+    };
+    updateManagerDepartmentMutation.mutate({
+      id: user.userId,
+      data,
+    });
+  };
 
   return (
     <Sheet>
@@ -43,11 +73,7 @@ const DepartmentSheet = ({ model, onSubmit, departments }: Props) => {
           </SheetDescription>
         </SheetHeader>
         {query.data ? (
-          <DepartmentForm
-            model={query.data.data}
-            onSubmit={onSubmit}
-            departments={departments}
-          />
+          <DepartmentForm model={query.data.data} onSubmit={handleSubmit} />
         ) : null}
       </SheetContent>
     </Sheet>

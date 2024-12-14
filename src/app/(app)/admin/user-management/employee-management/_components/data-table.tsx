@@ -22,29 +22,19 @@ import React from "react";
 import EmployeeSheet from "@/app/(app)/admin/user-management/employee-management/_components/employee/employee-sheet";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { EmployeeToManageTableModel } from "@/models/admin/employeeManagement/employeeToManageTableModel";
-import { EmployeeRole } from "@/models/admin/employeeManagement/roles";
 import { Input } from "@/components/ui/input";
 import ManagerSheet from "@/app/(app)/admin/user-management/employee-management/_components/manager/manager-sheet";
-import { EmployeeDepartment } from "@/models/admin/employeeManagement/departments";
 import DepartmentSheet from "@/app/(app)/admin/user-management/employee-management/_components/manager/department-sheet";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  onSheetFormSubmit: (data: EmployeeToManageTableModel) => void;
-  onAddDepartment?: (data: EmployeeToManageTableModel) => void;
-  roles: EmployeeRole[];
-  departments: EmployeeDepartment[] | undefined;
   variant: "employee" | "manager";
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  onSheetFormSubmit,
-  onAddDepartment,
-  roles,
-  departments,
   variant,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -134,31 +124,18 @@ export function DataTable<TData, TValue>({
                           model={
                             row.original as unknown as EmployeeToManageTableModel
                           }
-                          onSubmit={(data) => onSheetFormSubmit(data)}
-                          roles={roles}
                         />
-                      ) : variant === "manager" &&
-                        departments &&
-                        onAddDepartment ? (
+                      ) : variant === "manager" ? (
                         <div className="flex gap-2">
                           <ManagerSheet
                             model={
                               row.original as unknown as EmployeeToManageTableModel
                             }
-                            onSubmit={(data) => {
-                              onSheetFormSubmit(data);
-                            }}
-                            roles={roles}
-                            departments={departments}
                           />
                           <DepartmentSheet
                             model={
                               row.original as unknown as EmployeeToManageTableModel
                             }
-                            onSubmit={(data) => {
-                              onAddDepartment(data);
-                            }}
-                            departments={departments}
                           />
                         </div>
                       ) : null}
