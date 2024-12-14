@@ -26,6 +26,7 @@ interface DynamicComboboxProps {
   onChange?: (value: string | number) => void;
   width?: string;
   defaultValue?: string | number;
+  refresh?: boolean;
 }
 
 export function DynamicCombobox({
@@ -36,9 +37,20 @@ export function DynamicCombobox({
   onChange,
   defaultValue,
   width = "",
+  refresh = false,
 }: DynamicComboboxProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState<string | number>(defaultValue || "");
+
+  React.useEffect(() => {
+    if (refresh) {
+      setValue("");
+    }
+  }, [refresh]);
+
+  React.useEffect(() => {
+    setValue(defaultValue || "");
+  }, [defaultValue]);
 
   const handleSelect = (selectedValue: string | number) => {
     setValue(selectedValue);

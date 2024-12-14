@@ -27,7 +27,9 @@ interface Props {
 const IncidentReport = ({ onSubmit, eventSceneTypeList }: Props) => {
   const form = useForm<IncidentForm>({
     resolver: zodResolver(SIncidentForm),
-    defaultValues: {},
+    defaultValues: {
+      incidentDescription: "",
+    },
   });
 
   return (
@@ -76,6 +78,7 @@ const IncidentReport = ({ onSubmit, eventSceneTypeList }: Props) => {
                         {},
                       ) || {}
                     }
+                    refresh={field.value === undefined ? true : false}
                     onChange={(value) => field.onChange(value)}
                     width="full md:w-56"
                   />

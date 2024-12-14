@@ -47,6 +47,7 @@ const PatientReportIncident = ({
       bornDate: patientFormModel?.birthDate || "",
       patientNum: String(patientFormModel?.patientId) || "",
       file: null,
+      incidentDescription: "",
     },
   });
 
@@ -146,6 +147,7 @@ const PatientReportIncident = ({
                   <FormLabel className={"w-52"}>Olay Yeri</FormLabel>
                   <FormControl>
                     <DynamicCombobox
+                      refresh={field.value === undefined ? true : false}
                       {...field}
                       options={eventSceneTypeList.reduce(
                         (acc, item) => ({
@@ -172,6 +174,7 @@ const PatientReportIncident = ({
                   <FormLabel className={"w-full"}>İkincil Mağdur</FormLabel>
                   <FormControl>
                     <DynamicCombobox
+                      refresh={field.value === undefined ? true : false}
                       {...field}
                       options={{
                         true: "Evet",
@@ -220,6 +223,7 @@ const PatientReportIncident = ({
                     <FormControl>
                       <DynamicCombobox
                         {...field}
+                        refresh={field.value === undefined ? true : false}
                         options={userList.reduce(
                           (acc, item) => ({
                             ...acc,

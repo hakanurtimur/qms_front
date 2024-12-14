@@ -46,6 +46,7 @@ const PatientReportIncident = ({
       name: patientFormModel?.nameSurname || "",
       bornDate: patientFormModel?.birthDate || "",
       patientNum: String(patientFormModel?.patientId) || "",
+      incidentDescription: "",
     },
   });
 
@@ -153,6 +154,7 @@ const PatientReportIncident = ({
                         }),
                         {},
                       )}
+                      refresh={field.value === undefined ? true : false}
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
                       width="[230px] md:w-56"
@@ -176,6 +178,7 @@ const PatientReportIncident = ({
                         true: "Evet",
                         false: "Hayır",
                       }}
+                      refresh={field.value === undefined ? true : false}
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
                       width="[230px]"
@@ -204,6 +207,7 @@ const PatientReportIncident = ({
                           }),
                           {},
                         )}
+                        refresh={field.value === undefined ? true : false}
                         onChange={(value) => field.onChange(value)}
                         placeholder="Seçiniz"
                         width="[230px]"

@@ -60,14 +60,18 @@ export class PatientSafetyFeedbackService {
     data: PatientSafetyFeedbackPatientRequestModel,
     userId?: string,
   ) {
-    if (data.victimState === 1 && data.victimUserId === 0) {
-      toast({
-        title: "Hata",
-        description: "İkincil mağduru seçmediniz.",
-        variant: "destructive",
-      });
-      throw new Error("Lütfen mağdur bilgilerini doldurunuz.");
+    console.log("Gelecek Data", data);
+    if (data.victimState === 1) {
+      if (data.victimUserId === 0) {
+        toast({
+          title: "Hata",
+          description: "İkincil mağduru seçmediniz.",
+          variant: "destructive",
+        });
+        throw new Error("Lütfen mağdur bilgilerini doldurunuz.");
+      }
     }
+
     const formFile = new FormData();
     if (data?.formFile) {
       Object.entries(data.formFile).forEach(([key, value]) => {

@@ -21,6 +21,7 @@ import {
   ModulesUserList,
   PatientFeedbackByIdRequestModel,
 } from "@/models/modules/2/PatientFeedbackModels";
+import { useEffect } from "react";
 
 interface Props {
   onSubmitFilter: (data: PatientFeedbackByIdRequestModel) => void;
@@ -52,6 +53,9 @@ const PatientFiltering = ({
 
     onSubmit(req);
   };
+
+  useEffect(() => {}, [form.formState]);
+
   // değişkenlerin tanımlanması
   return (
     <Form {...form}>
@@ -71,6 +75,7 @@ const PatientFiltering = ({
                 <FormControl>
                   <DynamicCombobox
                     {...field}
+                    refresh={field.value === undefined ? true : false}
                     options={
                       userList?.reduce(
                         (acc, item) => {
@@ -86,6 +91,7 @@ const PatientFiltering = ({
                     onChange={(value) => {
                       field.onChange(value);
                     }}
+                    name="interviewer"
                     placeholder={"Seçiniz"}
                   />
                 </FormControl>
@@ -139,8 +145,9 @@ const PatientFiltering = ({
           <div className="w-full h-full flex  items-end justify-start gap-4">
             <Button
               onClick={() => {
-                onReset();
                 form.reset();
+                onReset();
+                window.location.reload();
               }}
               type={"button"}
               variant={"outline"}

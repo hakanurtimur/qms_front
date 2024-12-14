@@ -44,6 +44,7 @@ const PatientDetailsForm = ({
       bornDate: patientModel?.birthDate,
       patientNum: String(patientModel.patientId),
       phoneNum: patientModel.phoneNumber ?? "",
+      description: "",
     },
   });
 
@@ -55,6 +56,9 @@ const PatientDetailsForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmithandle)}
+        onChange={() => {
+          console.log(form.getValues("reportType"));
+        }}
         className={
           "space-y-8  animate-slide-in-from-bottom flex md:flex-row flex-col w-full"
         }
@@ -145,6 +149,7 @@ const PatientDetailsForm = ({
                         {} as { [key: number]: string },
                       ) || {}
                     }
+                    refresh={field.value === undefined ? true : false}
                     label="Bildirim Türü"
                     onChange={(value) => {
                       field.onChange(value);
@@ -164,7 +169,7 @@ const PatientDetailsForm = ({
                     <div>Açıklama</div>
                   </FormLabel>
                   <FormControl>
-                    <Textarea className="md:w-[973px] " rows={5} {...field} />
+                    <Textarea {...field} className="md:w-[973px] " rows={5} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

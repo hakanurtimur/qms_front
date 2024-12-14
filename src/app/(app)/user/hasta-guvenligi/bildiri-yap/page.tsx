@@ -81,14 +81,15 @@ const Page = () => {
   const handlePatientReportSubmit = (data: IncidentFormPatient) => {
     console.log("Patient Report Submit", data);
     const req: PatientSafetyFeedbackPatientRequestModel = {
-      typeId: 2,
-      victimState: data.isSecondaryVictim ? 1 : 0,
+      typeId: Number(selectedTab),
+      victimState: data.isSecondaryVictim == "true" ? 1 : 0,
       victimUserId: data.secondaryVictimName || 0,
       description: data.incidentDescription,
       eventSceneId: data.incidentPlace,
       eventDate: data.date,
       fileName: data.file?.name || "",
       formFile: data?.file as File,
+      protocolId: protocolId || "",
     };
     setPatientFeedbackFormData(req);
     patientSafetuPatientFeedBackInsertMutation.mutate();
@@ -118,7 +119,7 @@ const Page = () => {
 
   const handleIncidentReportSubmit = (data: IncidentForm) => {
     const req: PatientSafetyFeedbackInsertRequestModel = {
-      typeId: 1,
+      typeId: Number(selectedTab),
       description: data.incidentDescription,
       eventSceneId: data.incidentPlace,
       eventDate: data.date,

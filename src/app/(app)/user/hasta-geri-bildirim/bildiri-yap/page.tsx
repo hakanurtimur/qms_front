@@ -47,6 +47,7 @@ const Page = () => {
 
   const handleReset = () => {
     console.log("reset");
+    getPatientFeedbackByIdMutation.reset();
   };
 
   //hooks

@@ -92,6 +92,7 @@ const SPatientSafetyFeedbackPatientRequestModel = z.object({
   formFile: z.instanceof(File).refine((file) => !file || file.size > 0, {
     message: "Boş bir dosya yükleyemezsiniz.",
   }),
+  protocolId: z.string(),
 });
 
 export type PatientSafetyFeedbackPatientRequestModel = z.infer<

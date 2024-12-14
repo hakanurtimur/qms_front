@@ -43,6 +43,7 @@ const PatientDetailsForm = ({
       bornDate: patientModel?.birthDate,
       patientNum: String(patientModel.patientId),
       phoneNum: patientModel.phoneNumber ?? "",
+      description: "",
     },
   });
 
@@ -54,6 +55,10 @@ const PatientDetailsForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmithandle)}
+        onChange={() => {
+          console.log(form.getValues("reportType"));
+          console.log(form.getValues("description"));
+        }}
         className={
           "space-y-8  animate-slide-in-from-bottom flex md:flex-row flex-col w-full"
         }
@@ -140,8 +145,11 @@ const PatientDetailsForm = ({
                         {} as { [key: number]: string },
                       ) || {}
                     }
+                    refresh={field.value === undefined ? true : false}
                     label="Bildirim Türü"
-                    onChange={field.onChange}
+                    onChange={(value) => {
+                      field.onChange(value);
+                    }}
                     width="-56 md:w-full"
                   />
                   <FormMessage />
@@ -157,7 +165,7 @@ const PatientDetailsForm = ({
                     <div>Açıklama</div>
                   </FormLabel>
                   <FormControl>
-                    <Textarea className="md:w-[973px] " rows={5} {...field} />
+                    <Textarea className="md:w-[973px]" rows={5} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -171,6 +179,8 @@ const PatientDetailsForm = ({
           >
             <Button
               onClick={() => {
+                form.setValue("description", "");
+
                 form.reset();
               }}
               variant="outline"

@@ -32,7 +32,9 @@ const IncidentReport = ({
 }: Props) => {
   const form = useForm<IncidentForm>({
     resolver: zodResolver(SIncidentForm),
-    defaultValues: {},
+    defaultValues: {
+      incidentDescription: "",
+    },
   });
 
   useEffect(() => {
@@ -78,6 +80,7 @@ const IncidentReport = ({
                 <FormControl>
                   <DynamicCombobox
                     name={"incidentPlace"}
+                    refresh={field.value === undefined ? true : false}
                     options={
                       eventSceneTypeList.reduce(
                         (acc, item) => ({

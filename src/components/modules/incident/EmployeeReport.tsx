@@ -30,7 +30,9 @@ interface Props {
 const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
   const form = useForm<IncidentFormEmployee>({
     resolver: zodResolver(SIncidentFormEmployee),
-    defaultValues: {},
+    defaultValues: {
+      incidentDescription: "",
+    },
   });
 
   return (
@@ -52,7 +54,6 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
                   <FormLabel>Çalışan</FormLabel>
                   <FormControl>
                     <DynamicCombobox
-                      {...field}
                       options={userList.reduce(
                         (acc, item) => ({
                           ...acc,
@@ -60,9 +61,11 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
                         }),
                         {},
                       )}
+                      name="employeeName"
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
                       width="[240px]"
+                      refresh={field.value === undefined ? true : false}
                     />
                   </FormControl>
                   <FormMessage className="absolute" />
@@ -97,7 +100,7 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
                   <FormLabel>Olaydan Etkilenen</FormLabel>
                   <FormControl>
                     <DynamicCombobox
-                      {...field}
+                      refresh={field.value === undefined ? true : false}
                       options={userList.reduce(
                         (acc, item) => ({
                           ...acc,
@@ -105,6 +108,7 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
                         }),
                         {},
                       )}
+                      name="affectedPerson"
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
                       width="[240px]"
@@ -122,7 +126,7 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
                   <FormLabel>Olay Yeri</FormLabel>
                   <FormControl>
                     <DynamicCombobox
-                      {...field}
+                      refresh={field.value === undefined ? true : false}
                       options={eventSceneTypeList.reduce(
                         (acc, item) => ({
                           ...acc,
@@ -130,6 +134,7 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
                         }),
                         {},
                       )}
+                      name="incidentPlace"
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
                       width="[250px]"

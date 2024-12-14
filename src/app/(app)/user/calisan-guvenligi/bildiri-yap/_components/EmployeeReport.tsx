@@ -30,7 +30,9 @@ interface Props {
 const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
   const form = useForm<IncidentFormEmployee>({
     resolver: zodResolver(SIncidentFormEmployee),
-    defaultValues: {},
+    defaultValues: {
+      incidentDescription: "",
+    },
   });
 
   return (
@@ -53,6 +55,7 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
                   <FormControl>
                     <DynamicCombobox
                       {...field}
+                      refresh={field.value === undefined ? true : false}
                       options={userList.reduce(
                         (acc, item) => ({
                           ...acc,
@@ -98,6 +101,7 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
                   <FormControl>
                     <DynamicCombobox
                       {...field}
+                      refresh={field.value === undefined ? true : false}
                       options={userList.reduce(
                         (acc, item) => ({
                           ...acc,
@@ -123,6 +127,7 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
                   <FormControl>
                     <DynamicCombobox
                       {...field}
+                      refresh={field.value === undefined ? true : false}
                       options={eventSceneTypeList.reduce(
                         (acc, item) => ({
                           ...acc,
