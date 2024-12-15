@@ -74,6 +74,8 @@ export class RequestDocumentService {
     );
   }
 
+  // TODO: remove, this function is in DocumentsGeneralService and we have a hook for named useGetFile
+
   public async get(file_id: string): Promise<RequestDocumentGetModelResponse> {
     return await api.get(`/Document/get-document-by-id/${file_id}`);
   }
