@@ -3,13 +3,11 @@
 import { useQuery } from "@tanstack/react-query";
 import directorRejectionService from "@/services/user/documents/director-rejection/DirectorRejectionService";
 
-const useListRequests = (user_id: string, role_id: string) => {
-  const query = useQuery({
-    queryKey: ["rejectionRequests"],
+const useUserGetRejectionRequests = (user_id: string, role_id: string) => {
+  return useQuery({
+    queryKey: ["rejection-requests"],
     queryFn: async () => directorRejectionService.list(user_id, role_id),
   });
-
-  return { query };
 };
 
-export default useListRequests;
+export default useUserGetRejectionRequests;

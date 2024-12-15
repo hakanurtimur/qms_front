@@ -12,6 +12,7 @@ import ArchiveDocTable from "@/app/(app)/user/documents/archive/_components/arch
 import { useUserGetArchiveDocuments } from "@/app/(app)/user/documents/archive/lib/hooks/useUserGetArchiveDocuments";
 import { useUserUpdateArchiveDocuments } from "@/app/(app)/user/documents/archive/lib/hooks/useUserUpdateArchiveDocuments";
 import useGetFile from "@/app/(app)/user/documents/hooks/useGetFile";
+import LoadingText from "@/components/ui/loading-text";
 
 const ArchiveContent = () => {
   const auth = useAuth();
@@ -79,13 +80,15 @@ const ArchiveContent = () => {
         </Button>
       </div>
       <div className="w-full flex flex-col space-y-10">
-        {isSuccess && (
+        {documents ? (
           <ArchiveDocTable
             handleEditDocument={handleEditDocument}
             data={documents}
             columns={columns}
             handleViewDocument={handleViewDocument}
           />
+        ) : (
+          <LoadingText />
         )}
       </div>
       <PdfViewer

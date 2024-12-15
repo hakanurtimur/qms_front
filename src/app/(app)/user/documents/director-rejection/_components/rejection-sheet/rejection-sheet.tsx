@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 import RejectionSheetContent from "@/app/(app)/user/documents/director-rejection/_components/rejection-sheet/rejection-sheet-content";
-import useGetRequestDetails from "@/app/(app)/user/documents/director-rejection/lib/hooks/useGetRequestDetails";
+import useGetRequestDetails from "@/app/(app)/user/documents/director-rejection/lib/hooks/useGetSingleRejectionRequest";
 import { useAuth } from "@/context/authContext";
 import { DirectorRejectionModel } from "@/models/user/documents/director-rejection/director-rejection";
 import useGetFile from "@/app/(app)/user/documents/hooks/useGetFile";
@@ -24,10 +24,7 @@ interface Props {
 
 const RejectionSheet = ({ model, variant, onApproveRequest }: Props) => {
   const { user } = useAuth();
-  const { query } = useGetRequestDetails(
-    model.id.toString(),
-    user?.roleId ?? "",
-  );
+  const query = useGetRequestDetails(model.id.toString(), user?.roleId ?? "");
   const [show, setShow] = useState(false);
   const [showFile, setShowFile] = useState(false);
 

@@ -58,20 +58,6 @@ export function DataTable<TData, TValue>({
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
-  // TODO: add related mutation
-
-  // const mutation = useMutation({
-  //   mutationKey: ["goDoc"],
-  //   mutationFn: (fileId: string) => documentService.goDoc(fileId),
-  //   onSuccess: (data) => {
-  //     console.log(data);
-  //     console.log(data.data.url);
-  //     if (data.data.url) {
-  //       window.open(data.data.url, "_blank");
-  //     }
-  //   },
-  // });
-
   const table = useReactTable({
     data,
     columns,
