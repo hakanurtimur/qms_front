@@ -36,16 +36,19 @@ import {
 } from "@/components/ui/select";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
-import { Edit, Eye, InfoIcon } from "lucide-react";
+import { EyeIcon, InfoIcon } from "lucide-react";
+import ArchiveDocSheet from "./archive-doc-sheet";
+import { toast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/authContext";
+import { useUserGetArchiveDocuments } from "../lib/hooks/useUserGetArchiveDocuments";
+import { useUserUpdateArchiveDocuments } from "../lib/hooks/useUserUpdateArchiveDocuments";
 
 export interface ArchiveDocTableProps<TData, TValue> {
-  data: RequestDocumentListModel[];
   columns: ColumnDef<TData, TValue>[];
   handleViewDocument: (fileId: string) => void;
   handleEditDocument: (fileId: string) => void;
 }
 export default function ArchiveDocTable({
-  data,
   columns,
   handleViewDocument,
   handleEditDocument,
@@ -56,8 +59,7 @@ export default function ArchiveDocTable({
   const [folderType, setFolderType] = useState<string[] | null>();
   const [selectedCategory, setSelectedCategory] = useState<string | null>();
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
-  const [searchResults, setSearchResults] =
-    useState<RequestDocumentListModel[]>(data);
+
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     categoryName: true,
     folderName: true,
@@ -65,9 +67,15 @@ export default function ArchiveDocTable({
     fileName: true,
     actions: true,
   });
+  const auth = useAuth();
+  const { data, refetch } = useUserGetArchiveDocuments();
+
+  const [searchResults, setSearchResults] = useState<
+    RequestDocumentListModel[]
+  >(data?.data ?? []);
 
   const getCategoryTypes = () => {
-    const categoryTypes = data.map(
+    const categoryTypes = data?.data.map(
       (item: { categoryName: string }) => item.categoryName,
     );
     const uniqueCategoryTypes = Array.from(new Set(categoryTypes));
@@ -75,7 +83,7 @@ export default function ArchiveDocTable({
   };
 
   const getFolderTypes = () => {
-    const folderTypes = data.map(
+    const folderTypes = data?.data.map(
       (item: { folderName: string }) => item.folderName,
     );
     const uniqueFolderTypes = Array.from(new Set(folderTypes));
@@ -91,13 +99,13 @@ export default function ArchiveDocTable({
 
   const handleSearch = () => {
     // Klasör ve kategoriye göre arama yap
-    const results = data.filter(
+    const results = data?.data.filter(
       (item: { categoryName: string; folderName: string }) =>
         (selectedCategory ? item.categoryName === selectedCategory : true) &&
         (selectedFolder ? item.folderName === selectedFolder : true),
     );
 
-    setSearchResults(results);
+    setSearchResults(results ?? []);
   };
 
   useEffect(() => {
@@ -138,6 +146,32 @@ export default function ArchiveDocTable({
     },
     onColumnVisibilityChange: setColumnVisibility,
   });
+
+  const updateArchiveDocumentsMutation = useUserUpdateArchiveDocuments(
+    () => {
+      toast({
+        title: "Başarılı",
+        description: "Döküman başarıyla güncellendi",
+        variant: "success",
+      });
+      refetch().then();
+    },
+    () => {
+      toast({
+        title: "Hata",
+        description: "Döküman güncellenirken bir hata oluştu",
+        variant: "destructive",
+      });
+    },
+  );
+
+  const handleSubmitArchiveSheet = (state: boolean, fileId: number) => {
+    updateArchiveDocumentsMutation.mutate({
+      userId: Number(auth.user?.userId),
+      fileId: fileId,
+      state: state,
+    });
+  };
 
   return (
     <TooltipProvider>
@@ -310,7 +344,10 @@ export default function ArchiveDocTable({
                                 handleViewDocument(String(row.original.fileId));
                               }}
                             >
-                              <Eye className="w-9 h-9 p-2 rounded-md border text-white bg-black-900 hover:bg-black-800 cursor-pointer" />
+                              <ArchiveDocSheet
+                                data={row.original}
+                                handleSubmit={handleSubmitArchiveSheet}
+                              />
                             </TooltipTrigger>
                             <TooltipContent>Görüntüle</TooltipContent>
                           </Tooltip>
@@ -321,7 +358,7 @@ export default function ArchiveDocTable({
                                 handleEditDocument(String(row.original.fileId));
                               }}
                             >
-                              <Edit className="w-9 h-9 p-2 rounded-md border text-white bg-black-900 hover:bg-black-800 cursor-pointer" />
+                              <EyeIcon className="w-9 h-9 p-2 rounded-md border text-white bg-black-900 hover:bg-black-800 cursor-pointer" />
                             </TooltipTrigger>
                             <TooltipContent>Düzenle</TooltipContent>
                           </Tooltip>

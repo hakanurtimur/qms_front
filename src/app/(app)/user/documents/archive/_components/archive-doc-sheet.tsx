@@ -7,10 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
+  SheetTrigger,
 } from "@/components/ui/sheet";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
@@ -27,17 +29,14 @@ import {
   RequestDocumentListModel,
 } from "@/models/user/documents/documents/requestDocument";
 import { useEffect } from "react";
+import { EditIcon } from "lucide-react";
 
 export interface ArchiveDocSheetProps {
-  isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
   handleSubmit: (state: boolean, fileId: number) => void;
   data: RequestDocumentListModel;
 }
 
 export default function ArchiveDocSheet({
-  isOpen,
-  setIsOpen,
   data,
   handleSubmit,
 }: ArchiveDocSheetProps) {
@@ -62,7 +61,10 @@ export default function ArchiveDocSheet({
   }, [data, form]);
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+    <Sheet>
+      <SheetTrigger asChild>
+        <EditIcon className="w-9 h-9 rounded bg-primary-900 text-white p-2 cursor-pointer" />
+      </SheetTrigger>
       <SheetContent className="w-[400px] sm:w-[540px]">
         <SheetHeader>
           <SheetTitle>Arşivleme</SheetTitle>
@@ -73,7 +75,6 @@ export default function ArchiveDocSheet({
         <Form {...form}>
           <form
             onSubmit={(e) => {
-              setIsOpen(false);
               handleSubmit(form.getValues().state, data.fileId);
               e.preventDefault(); // Sayfanın yenilenmesini engelle
             }}
@@ -149,14 +150,20 @@ export default function ArchiveDocSheet({
               )}
             />
             <div className="flex justify-end space-x-2 pt-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setIsOpen(false)}
-              >
-                İptal Et
-              </Button>
-              <Button type="submit">Kaydet</Button>
+              <SheetClose asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    form.reset();
+                  }}
+                >
+                  İptal Et
+                </Button>
+              </SheetClose>
+              <SheetClose asChild>
+                <Button type="submit">Kaydet</Button>
+              </SheetClose>
             </div>
           </form>
         </Form>
