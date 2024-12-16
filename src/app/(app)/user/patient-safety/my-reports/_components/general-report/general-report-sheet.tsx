@@ -8,7 +8,7 @@ import {
   SheetClose,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { DialogOverlay } from "@radix-ui/react-dialog";
+import { DialogOverlay } from "@/components/ui/dialog";
 import GeneralForm from "./general-report-form";
 import { GeneralSheetModel } from "@/models/user/patient-safety-notification/sheet-model/patient-security-general-sheet-model";
 import { Button } from "@/components/ui/button";

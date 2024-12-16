@@ -17,6 +17,7 @@ import { useAuth } from "@/context/authContext";
 import { useAdminGetEmployees } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetEmployees";
 import { useAdminUpdateEmployee } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminUpdateEmployee";
 import { toast } from "@/hooks/use-toast";
+import { DialogOverlay } from "@radix-ui/react-dialog";
 
 interface Props {
   model: EmployeeToManageTableModel;
@@ -61,6 +62,7 @@ const EmployeeSheet = ({ model }: Props) => {
 
   return (
     <Sheet>
+      <DialogOverlay className="fixed inset-0 z-50 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
       <SheetTrigger asChild>
         <Button size="icon">
           <PencilSquareIcon className="w-4 h-4" />

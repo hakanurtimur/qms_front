@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import PatientForm from "./patient-report-form";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { PatientSecuritySheetModel } from "@/models/user/patient-safety-notification/sheet-model/patient-security-sheet-model";
-import { DialogOverlay } from "@radix-ui/react-dialog";
+import { DialogOverlay } from "@/components/ui/dialog";
 interface PatientSheetProps {
   model: PatientSecuritySheetModel;
 }
@@ -23,7 +23,7 @@ interface PatientSheetProps {
 const PatientSheet: React.FC<PatientSheetProps> = ({ model }) => {
   return (
     <Sheet>
-      <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
+      <DialogOverlay className="fixed inset-0 z-50 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
       <SheetTrigger asChild>
         <Button
           size="icon"

@@ -16,6 +16,7 @@ import { useAdminGetSingleManager } from "@/app/(app)/admin/user-management/empl
 import { useAuth } from "@/context/authContext";
 import { useAdminUpdateManagerDepartment } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminUpdateManagerDepartment";
 import { toast } from "@/hooks/use-toast";
+import { DialogOverlay } from "@/components/ui/dialog";
 
 interface Props {
   model: EmployeeToManageTableModel;
@@ -60,6 +61,7 @@ const DepartmentSheet = ({ model }: Props) => {
 
   return (
     <Sheet>
+      <DialogOverlay className="fixed inset-0 z-50 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
       <SheetTrigger asChild>
         <Button size="icon">
           <BriefcaseIcon className="w-4 h-4" />

@@ -16,7 +16,7 @@ import { useAdminCreateRole } from "@/app/(app)/admin/user-management/role-manag
 import { toast } from "@/hooks/use-toast";
 import { useAdminGetRolesList } from "@/app/(app)/admin/user-management/role-management/lib/hooks/useAdminGetRolesList";
 import { useAuth } from "@/context/authContext";
-
+import { DialogOverlay } from "@/components/ui/dialog";
 const CreateRoleSheet = () => {
   const { user } = useAuth();
   const { refetch: refetchRoles } = useAdminGetRolesList();
@@ -49,6 +49,7 @@ const CreateRoleSheet = () => {
 
   return (
     <Sheet>
+      <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
       <SheetTrigger asChild>
         <Button className="gap-2">
           <PlusIcon className="w-4 h-4" />
