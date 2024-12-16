@@ -103,7 +103,7 @@ const DirectorRejectionContent = () => {
           </TabsList>
         </div>
         <TabsContent
-          className="animate-in slide-in-from-bottom-16 duration-500"
+          className="animate-in pt-2 slide-in-from-bottom-16 duration-500"
           value={"all"}
         >
           {allRequestsQuery.data &&
@@ -124,7 +124,7 @@ const DirectorRejectionContent = () => {
           )}
         </TabsContent>
         <TabsContent
-          className="animate-in slide-in-from-bottom-16 duration-500"
+          className="animate-in pt-2 slide-in-from-bottom-16 duration-500"
           value={"actives"}
         >
           {activeRequestsQuery.data &&

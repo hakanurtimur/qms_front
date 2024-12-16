@@ -148,7 +148,10 @@ const RequestContentPage = () => {
             <TabsTrigger value="actives">Aktif Talepler</TabsTrigger>
           </TabsList>
         </div>
-        <TabsContent value={"all"}>
+        <TabsContent
+          className="animate-in slide-in-from-bottom-16 duration-500"
+          value={"all"}
+        >
           {allRequestsQuery.data &&
           departmentOps &&
           documentTypeOpts &&
@@ -169,7 +172,10 @@ const RequestContentPage = () => {
             />
           ) : null}
         </TabsContent>
-        <TabsContent value={"actives"}>
+        <TabsContent
+          className="animate-in slide-in-from-bottom-16 duration-500"
+          value={"actives"}
+        >
           {activeRequestsQuery.data &&
           activeDepartmentOps &&
           activeDocumentTypeOpts &&

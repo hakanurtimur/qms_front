@@ -228,7 +228,10 @@ const WaitingRequestsContentPage = () => {
             <TabsTrigger value="result">Sonuç Bekleyen Talepler</TabsTrigger>
           </TabsList>
         </div>
-        <TabsContent value={"all"}>
+        <TabsContent
+          className="animate-in pt-2 slide-in-from-bottom-16 duration-500"
+          value={"all"}
+        >
           {allRequestsQuery.data &&
           departmentOps &&
           documentTypeOpts &&
@@ -249,7 +252,10 @@ const WaitingRequestsContentPage = () => {
             />
           ) : null}
         </TabsContent>
-        <TabsContent value={"actives"}>
+        <TabsContent
+          className="animate-in pt-2 slide-in-from-bottom-16 duration-500"
+          value={"actives"}
+        >
           {activeRequestsQuery.data &&
           activeDepartmentOps &&
           activeDocumentTypeOpts &&
@@ -273,7 +279,10 @@ const WaitingRequestsContentPage = () => {
             />
           ) : null}
         </TabsContent>
-        <TabsContent value={"result"}>
+        <TabsContent
+          className="animate-in pt-2 slide-in-from-bottom-16 duration-500"
+          value={"result"}
+        >
           {resultedRequestsQuery.data ? (
             <ResultedDataTable
               columns={resultedColumns}

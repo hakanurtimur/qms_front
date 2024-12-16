@@ -40,7 +40,7 @@ export default function Layout({ children }: Props) {
             },
             {
               icon: DocumentTextIcon,
-              label: "Taleplerim",
+              label: "Talepler",
               href: "/user/documents/requests",
               items: [],
             },
