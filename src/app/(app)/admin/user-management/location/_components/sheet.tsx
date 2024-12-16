@@ -15,7 +15,7 @@ import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/authContext";
 import { useAdminGetLocations } from "@/app/(app)/admin/user-management/location/lib/hooks/useAdminGetLocations";
 import SheetForm from "@/app/(app)/admin/user-management/location/_components/sheet-form";
-import { DialogOverlay } from "@radix-ui/react-dialog";
+import { DialogOverlay } from "@/components/ui/dialog";
 
 interface Props {
   model: ManagerLocationModel;
@@ -49,7 +49,7 @@ const FormSheet = ({ model }: Props) => {
 
   return (
     <Sheet>
-      <DialogOverlay className="fixed inset-0 z-50 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
+      <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
       <SheetTrigger asChild>
         <Button size="icon">
           <PencilSquareIcon className="w-4 h-4" />
