@@ -200,7 +200,7 @@ const WaitingRequestSheetForm = ({
             name="descriptionSuperAdmin"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>KYS Sorumlusu Açıklaması</FormLabel>
+                <FormLabel>Açıklama</FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}
@@ -218,7 +218,7 @@ const WaitingRequestSheetForm = ({
             control={form.control}
             name={"superAdminAboutId"}
             variant={"in-column"}
-            label={"KYS Sorumlusu Sebebi"}
+            label={"Talep Nedeni"}
             options={superAdminAboutOpts}
             readonly={variant === "default"}
           />

@@ -239,7 +239,7 @@ const RequestSheetForm = ({
             </FormItem>
 
             <FormItem>
-              <Label>KYS Sorumlusu Açıklaması</Label>
+              <Label>Açıklama</Label>
               <Textarea
                 readOnly
                 className="w-full bg-primary-100 pb-3.5"

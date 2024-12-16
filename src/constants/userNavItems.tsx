@@ -44,7 +44,7 @@ export const userNavItems: NavItemModel[] = [
       },
       {
         icon: DocumentTextIcon,
-        label: "Yönetici Onay Red",
+        label: "Direktör Onayı",
         href: "/user/documents/director-rejection",
         items: [],
       },

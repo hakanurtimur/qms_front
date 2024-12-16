@@ -78,7 +78,7 @@ export default function Layout({ children }: Props) {
               ? [
                   {
                     icon: DocumentTextIcon,
-                    label: "Yönetici Onay Red",
+                    label: "Direktör Onayı",
                     href: "/user/documents/director-rejection",
                     items: [],
                   },

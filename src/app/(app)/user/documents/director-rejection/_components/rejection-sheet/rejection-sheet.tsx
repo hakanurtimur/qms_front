@@ -75,7 +75,7 @@ const RejectionSheet = ({ model, variant, onApproveRequest }: Props) => {
         </SheetTrigger>
         <SheetContent className="min-w-[1100px]">
           <SheetHeader>
-            <SheetTitle>Yönetici Onay Red</SheetTitle>
+            <SheetTitle>Direktör Onayı</SheetTitle>
           </SheetHeader>
           {query.data && (
             <RejectionSheetContent
