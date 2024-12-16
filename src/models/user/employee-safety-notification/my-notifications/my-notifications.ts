@@ -1,5 +1,5 @@
 import { z } from "zod";
-
+/* not bu verilere de bak */
 export const SEmployeeSafetyNotifications = z.object({
   bildiriNo: z.number().nonnegative(),
   durum: z.string().nonempty(),

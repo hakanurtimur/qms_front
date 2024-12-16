@@ -63,7 +63,7 @@ export const userNavItems: NavItemModel[] = [
     items: [
       {
         icon: DocumentTextIcon,
-        label: "Bildiri Yap",
+        label: "Bildirim Yap",
         href: "/user/hasta-geri-bildirim/bildiri-yap",
         items: [],
       },

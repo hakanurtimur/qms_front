@@ -89,24 +89,24 @@ export default function Layout({ children }: Props) {
         {
           icon: ArrowPathRoundedSquareIcon,
           label: "Hasta Geri Bildirim",
-          href: "/hasta-geri-bildirim",
+          href: "/patient-feedback",
           items: [
             {
               icon: DocumentTextIcon,
-              label: "Bildiri Yap",
-              href: "/user/hasta-geri-bildirim/bildiri-yap",
+              label: "Bildirim Yap",
+              href: "/user/patient-feedback/submit-report",
               items: [],
             },
             {
               icon: DocumentTextIcon,
               label: "Bildirimlerim",
-              href: "/user/hasta-geri-bildirim/bildirimlerim",
+              href: "/user/patient-feedback/my-reports",
               items: [],
             },
             {
               icon: DocumentTextIcon,
               label: "Kurum Bildirimleri",
-              href: "/user/hasta-geri-bildirim/kurum-bildirimleri",
+              href: "/user/patient-feedback/company-reports",
               items: [],
             },
           ],
@@ -114,24 +114,24 @@ export default function Layout({ children }: Props) {
         {
           icon: FlagIcon,
           label: "Hasta Güvenliği Bildirimi",
-          href: "/hasta-guvenligi",
+          href: "/patient-safety",
           items: [
             {
               icon: DocumentTextIcon,
-              label: "Bildiri Yap",
-              href: "/user/hasta-guvenligi/bildiri-yap",
+              label: "Bildirim Yap",
+              href: "/user/patient-safety/submit-report",
               items: [],
             },
             {
               icon: DocumentTextIcon,
               label: "Bildirimlerim",
-              href: "/user/hasta-guvenligi/bildirimlerim",
+              href: "/user/patient-safety/my-reports",
               items: [],
             },
             {
               icon: DocumentTextIcon,
               label: "Kurum Bildirimleri",
-              href: "/user/hasta-guvenligi/kurum-bildirimleri",
+              href: "/user/patient-safety/company-reports",
               items: [],
             },
           ],
@@ -139,24 +139,24 @@ export default function Layout({ children }: Props) {
         {
           icon: CursorArrowRippleIcon,
           label: "Çalışan Güvenliği Bildirimi",
-          href: "/calisan-guvenligi",
+          href: "/personnel-safety",
           items: [
             {
               icon: DocumentTextIcon,
-              label: "Bildiri Yap",
-              href: "/user/calisan-guvenligi/bildiri-yap",
+              label: "Bildirim Yap",
+              href: "/user/personnel-safety/submit-report",
               items: [],
             },
             {
               icon: DocumentTextIcon,
               label: "Bildirimlerim",
-              href: "/user/calisan-guvenligi/bildirimlerim",
+              href: "/user/personnel-safety/my-reports",
               items: [],
             },
             {
               icon: DocumentTextIcon,
               label: "Kurum Bildirimleri",
-              href: "/user/calisan-guvenligi/kurum-bildirimleri",
+              href: "/user/personnel-safety/company-reports",
               items: [],
             },
           ],

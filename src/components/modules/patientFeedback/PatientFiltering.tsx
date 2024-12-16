@@ -70,7 +70,7 @@ const PatientFiltering = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel className={"flex items-center justify-between"}>
-                  Bildiri Sahibi
+                  Bildirim Sahibi
                 </FormLabel>
                 <FormControl>
                   <DynamicCombobox

@@ -1,25 +1,48 @@
 import { z } from "zod";
 
 export const SMyNotifications = z.object({
-  bildiriNo: z.number().nonnegative(),
-  durum: z.string(),
-  bildiriTipi: z.string(),
-  bildiriYapanKisi: z.string(),
-  protokolNo: z.number().nonnegative(),
-  olayYeri: z.string(),
-  olayTarihi: z.string(),
-  sonlanmaTarihi: z.string(),
+  reportId: z.number().nonnegative(),
+  status: z.string(),
+  reportType: z.string(),
+  reporterName: z.string(),
+  protocolId: z.number().nonnegative().nullable(),
+  eventLocation: z.string(),
+  eventDate: z.string(),
+  completionDate: z.string(),
 });
 
 export const exampleDataMyNotifications = {
-  bildiriNo: 123,
-  durum: "Open",
-  bildiriTipi: "Technical",
-  bildiriYapanKisi: "John Doe",
-  protokolNo: 456,
-  olayYeri: "Main Office",
-  olayTarihi: new Date().toDateString(),
-  sonlanmaTarihi: new Date().toDateString(),
+  reportId: 123,
+  status: "Open",
+  reportType: "Technical",
+  reporterName: "John Doe",
+  protocolId: 456,
+  eventLocation: "Main Office",
+  eventDate: new Date().toDateString(),
+  completionDate: new Date().toDateString(),
 };
 
 export type MyNotifications = z.infer<typeof SMyNotifications>;
+
+export const patientSafetyDummyData: MyNotifications[] = [
+  {
+    reportId: 123,
+    status: "Open",
+    reportType: "Genel",
+    reporterName: "John Doe",
+    protocolId: null,
+    eventLocation: "Main Office",
+    eventDate: new Date().toDateString(),
+    completionDate: new Date().toDateString(),
+  },
+  {
+    reportId: 124,
+    status: "Closed",
+    reportType: "Hasta",
+    reporterName: "Jane Smith",
+    protocolId: 789,
+    eventLocation: "Headquarters",
+    eventDate: new Date().toDateString(),
+    completionDate: new Date().toDateString(),
+  },
+];

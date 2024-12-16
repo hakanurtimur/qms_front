@@ -1,23 +1,23 @@
 import { z } from "zod";
 
 export const SPatientFeedback = z.object({
-  bildiriNo: z.number().nonnegative(),
-  durum: z.string().nonempty(),
-  bildiriTuru: z.string().nonempty(),
-  bildiriYapanKisi: z.string().nonempty(),
-  atananBolum: z.string().optional(),
-  bildiriTarihi: z.string(),
-  sonlanmaTarihi: z.string().nullable(),
+  reportId: z.number().nonnegative(),
+  status: z.string().nonempty(),
+  reportType: z.string().nonempty(),
+  reporterName: z.string().nonempty(),
+  assignedDepartment: z.string().optional(),
+  reportDate: z.string(),
+  completionDate: z.string().nullable(),
 });
 
-export const exampleDataBildiri = {
-  bildiriNo: 202,
-  durum: "Tamamlandı",
-  bildiriTuru: "İdari",
-  bildiriYapanKisi: "Mehmet Öztürk",
-  atananBolum: "Finans",
-  bildiriTarihi: "2024-11-20",
-  sonlanmaTarihi: "2024-12-01",
+export const patientFeedbackDummyData = {
+  reportId: 202,
+  status: "Completed",
+  reportType: "Administrative",
+  reporterName: "Mehmet Öztürk",
+  assignedDepartment: "Finance",
+  reportDate: "2024-11-20",
+  completionDate: "2024-12-01",
 };
 
-export type PatientFeedback = z.infer<typeof SPatientFeedback>;
+export type PatientFeedbackModel = z.infer<typeof SPatientFeedback>;
