@@ -143,8 +143,8 @@ export function DataTable<TData, TValue>({
                   </TooltipTrigger>
                   <TooltipContent className="ml-52 mt-3" side={"bottom"}>
                     <p className="max-w-[200px]">
-                      Bu klasörde, hastanemizdeki tıbbi hizmetleri yürüten tüm
-                      bölümler ve ilgili rıza belgeleri bulunmaktadır. Her
+                      Bu klasörde, hastanemizdeki tıbbi hizmetleri yürüten
+                      bölümlere ait formlar ve rıza belgeleri bulunmaktadır. Her
                       bölüm, uzmanlık alanına göre ayrılmış olup, tedavi
                       süreçlerinde gereken belgeleri içerir.
                     </p>

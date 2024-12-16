@@ -228,9 +228,8 @@ export default function ArchiveDocTable({
                 "
                 >
                   Bu klasörde, hastanemizdeki tıbbi hizmetleri yürüten tüm
-                  bölümler ve ilgili rıza belgeleri bulunmaktadır. Her bölüm,
-                  uzmanlık alanına göre ayrılmış olup, tedavi süreçlerinde
-                  gereken belgeleri içerir.
+                  dokümanlar yer almaktadır. Her bölüm, uzmanlık alanına göre
+                  ayrılmış olup, tedavi süreçlerinde gereken belgeleri içerir.
                 </TooltipContent>
               </Tooltip>
               <Select onValueChange={handleFolderChange}>
