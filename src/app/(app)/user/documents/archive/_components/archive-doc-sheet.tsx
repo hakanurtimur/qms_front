@@ -30,6 +30,7 @@ import {
 } from "@/models/user/documents/documents/requestDocument";
 import { useEffect } from "react";
 import { EditIcon } from "lucide-react";
+import { DialogOverlay } from "@/components/ui/dialog";
 
 export interface ArchiveDocSheetProps {
   handleSubmit: (state: boolean, fileId: number) => void;
@@ -62,6 +63,7 @@ export default function ArchiveDocSheet({
 
   return (
     <Sheet>
+      <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
       <SheetTrigger asChild>
         <EditIcon className="w-9 h-9 rounded bg-primary-900 text-white p-2 cursor-pointer" />
       </SheetTrigger>

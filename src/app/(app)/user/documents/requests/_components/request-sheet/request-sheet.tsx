@@ -14,6 +14,7 @@ import RequestSheetForm from "@/app/(app)/user/documents/requests/_components/re
 import { UpdateDocumentDemandModel } from "@/models/user/documents/userRequests/userRequestModel";
 import { useQuery } from "@tanstack/react-query";
 import requestDocumentService from "@/services/user/documents/request-document/RequestDocumentsService";
+import { DialogOverlay } from "@/components/ui/dialog";
 
 interface Props {
   id: string;
@@ -54,6 +55,7 @@ const RequestSheet = ({
         }
       }}
     >
+      <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
       <SheetTrigger asChild>
         <Button disabled={query.isPending} size={"icon"}>
           <PencilSquareIcon className="w-4 h-4" />

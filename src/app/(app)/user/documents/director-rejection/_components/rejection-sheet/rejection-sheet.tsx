@@ -15,6 +15,7 @@ import { DirectorRejectionModel } from "@/models/user/documents/director-rejecti
 import useGetFile from "@/app/(app)/user/documents/hooks/useGetFile";
 import useGetGarbage from "@/app/(app)/user/documents/hooks/useGetGarbage";
 import PdfViewer from "@/components/ui/pdf-viewer";
+import { DialogOverlay } from "@/components/ui/dialog";
 
 interface Props {
   model: DirectorRejectionModel;
@@ -68,6 +69,7 @@ const RejectionSheet = ({ model, variant, onApproveRequest }: Props) => {
         />
       )}
       <Sheet>
+        <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
         <SheetTrigger asChild>
           <Button size={"icon"}>
             <PencilSquareIcon className="w-4 h-4" />

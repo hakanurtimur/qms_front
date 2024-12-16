@@ -99,7 +99,7 @@ const DirectorRejectionContent = () => {
         <div className="w-full flex justify-between items-center">
           <TabsList className="grid grid-cols-2 w-[480px]">
             <TabsTrigger value="all">Tüm Talepler</TabsTrigger>
-            <TabsTrigger value="actives">Aktif Talepler</TabsTrigger>
+            <TabsTrigger value="actives">Sonuç Bekleyen Talepler</TabsTrigger>
           </TabsList>
         </div>
         <TabsContent

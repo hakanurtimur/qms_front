@@ -14,7 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/context/authContext";
 import waitingRequestsService from "@/services/user/documents/waiting-requests/WaitingRequestsService";
 import WaitingRequestSheetForm from "@/app/(app)/user/documents/waiting-requests/_components/waiting-request-sheet/waiting-request-sheet-form";
-
+import { DialogOverlay } from "@/components/ui/dialog";
 interface Props {
   id: string;
   onSubmit: (data: UpdateWaitingRequestModel) => void;
@@ -48,6 +48,7 @@ const WaitingRequestSheet = ({
         await requestDetailsQuery.refetch();
       }}
     >
+      <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
       <SheetTrigger asChild>
         <Button size={"icon"}>
           <PencilSquareIcon className="w-4 h-4" />
