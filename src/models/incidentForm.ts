@@ -2,7 +2,9 @@ import { z } from "zod";
 
 export const SIncidentForm = z.object({
   date: z.string().min(1, "Tarih seçiniz"),
-  incidentPlace: z.number().min(1, "Olay yeri seçiniz"),
+  incidentPlace: z.number({
+    required_error: "Olay yeri seçiniz",
+  }),
   incidentDescription: z.string().min(3, "En az 3 karakter olmalıdır"),
   file: z
     .instanceof(File)
@@ -16,8 +18,12 @@ export const SIncidentForm = z.object({
 export type IncidentForm = z.infer<typeof SIncidentForm>;
 
 export const SIncidentFormEmployee = SIncidentForm.extend({
-  employeeName: z.number(),
-  affectedPerson: z.number(),
+  employeeName: z.number({
+    required_error: "Çalışan seçiniz",
+  }),
+  affectedPerson: z.number({
+    required_error: "Etkilenen kişi seçiniz",
+  }),
 });
 
 export type IncidentFormEmployee = z.infer<typeof SIncidentFormEmployee>;
@@ -27,7 +33,9 @@ export const SIncidentFormPatient = SIncidentForm.extend({
   bornDate: z.string(),
   patientNum: z.string(),
   phoneNum: z.string().optional(),
-  isSecondaryVictim: z.enum(["true", "false"]),
+  isSecondaryVictim: z.enum(["true", "false"], {
+    required_error: "İkincil mağdur seçiniz.",
+  }),
   secondaryVictimName: z.number().optional(),
 });
 

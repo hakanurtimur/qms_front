@@ -76,7 +76,7 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
               control={form.control}
               name="date"
               render={({ field }) => (
-                <FormItem className="w-56">
+                <FormItem className="w-56 pt-3">
                   <FormLabel>Olay Tarihi</FormLabel>
                   <FormControl>
                     <DatePicker
@@ -122,7 +122,7 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
               control={form.control}
               name="incidentPlace"
               render={({ field }) => (
-                <FormItem className="w-56">
+                <FormItem className="w-56 pt-3">
                   <FormLabel>Olay Yeri</FormLabel>
                   <FormControl>
                     <DynamicCombobox
@@ -165,7 +165,7 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
             />
           </div>
         </div>
-        <div className="w-full flex flex-col md:flex-col gap-2 ">
+        <div className="w-full flex flex-col md:flex-col gap-2 pt-3 ">
           <FormField
             control={form.control}
             name="incidentDescription"

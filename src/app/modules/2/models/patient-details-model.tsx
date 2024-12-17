@@ -9,7 +9,9 @@ export const PatientDetailsSchema = z.object({
     .string()
     .min(7, "Telefon numarası en az 7 karakter olmalıdır")
     .optional(),
-  reportType: z.number(),
+  reportType: z.number({
+    required_error: "Bildirim Türü Seçiniz",
+  }),
   description: z.string().min(3, "En az 3 karakter olmalıdır"),
 });
 

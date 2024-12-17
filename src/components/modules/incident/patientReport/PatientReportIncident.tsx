@@ -225,11 +225,11 @@ const PatientReportIncident = ({
             control={form.control}
             name={"file"}
             render={({ field }) => (
-              <FormItem className="w-full md:px-72">
+              <FormItem className="w-full pt-2 md:px-72">
                 <FormLabel className={"w-full"}>Dosya</FormLabel>
                 <FormControl>
                   <Dropzone
-                    className="md:w-full w-full min-h-20"
+                    className="md:w-full w-full min-h-32"
                     {...field}
                     onChange={(value) => field.onChange(value)}
                   />

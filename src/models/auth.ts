@@ -26,16 +26,16 @@ export const SChangePasswordModel = z
   .object({
     oldPassword: z
       .string()
-      .min(7, "Şifre en az 7 karakter olmalıdır")
-      .max(7, "Şifre en fazla 7 karakter olmalıdır"),
+      .min(7, "Şifre 7 karakter olmalıdır")
+      .max(7, "Şifre 7 karakter olmalıdır"),
     password: z
       .string()
-      .min(7, "Şifre en az 7 karakter olmalıdır")
-      .max(7, "Şifre en fazla 7 karakter olmalıdır"),
+      .min(7, "Şifre 7 karakter olmalıdır")
+      .max(7, "Şifre 7 karakter olmalıdır"),
     passwordConfirm: z
       .string()
-      .min(7, "Şifre en az 7 karakter olmalıdır")
-      .max(7, "Şifre en fazla 7 karakter olmalıdır"),
+      .min(7, "Şifre 7 karakter olmalıdır")
+      .max(7, "Şifre 7 karakter olmalıdır"),
   })
   .refine((data) => data.password === data.passwordConfirm, {
     path: ["passwordConfirm"],
