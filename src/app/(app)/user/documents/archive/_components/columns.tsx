@@ -30,20 +30,6 @@ export const columns: ColumnDef<RequestDocumentListModel>[] = [
     footer: "Klasör Adı",
   },
   {
-    accessorKey: "state",
-    header: () => (
-      <div className="flex items-center justify-between gap-1">
-        Durum
-        <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
-      </div>
-    ),
-    cell: (info) => (
-      <div className="">{info.getValue() ? "AKTIF" : "PASİF"}</div>
-    ),
-    size: 65,
-    footer: "Durum",
-  },
-  {
     accessorKey: "fileName",
     header: () => (
       <div className=" flex items-center gap-1">
@@ -71,5 +57,19 @@ export const columns: ColumnDef<RequestDocumentListModel>[] = [
     ),
     size: 200,
     footer: "Dosya Adı",
+  },
+  {
+    accessorKey: "state",
+    header: () => (
+      <div className="flex items-center justify-between gap-1">
+        Durum
+        <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
+      </div>
+    ),
+    cell: (info) => (
+      <div className="">{info.getValue() ? "AKTIF" : "PASİF"}</div>
+    ),
+    size: 65,
+    footer: "Durum",
   },
 ];

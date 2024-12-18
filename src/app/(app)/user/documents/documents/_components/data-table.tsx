@@ -158,7 +158,7 @@ export function DataTable<TData, TValue>({
                         .getColumn("categoryName")
                         ?.setFilterValue(value ? value : "")
                     }
-                    placeholder={"Kategoriler"}
+                    placeholder={"Kategori Seçiniz"}
                     options={categoryOpts}
                   />
                 </div>
@@ -191,7 +191,7 @@ export function DataTable<TData, TValue>({
                           value ? value.toLocaleUpperCase("tr") : "",
                         )
                     }
-                    placeholder={"Klasör Adı"}
+                    placeholder={"Klasör Seçiniz"}
                     options={folderOpts}
                   />
                 </div>

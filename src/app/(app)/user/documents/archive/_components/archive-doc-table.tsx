@@ -193,7 +193,7 @@ export default function ArchiveDocTable({
                   standartlarını belirleyerek sürekli iyileştirmeyi destekler.
                 </TooltipContent>
               </Tooltip>
-              <div className="w-56">
+              <div className="w-[300px]">
                 <DynamicCombobox
                   options={
                     categoryType?.reduce(
@@ -206,8 +206,8 @@ export default function ArchiveDocTable({
                   }
                   name="category"
                   onChange={(value) => handleCategoryChange(value as string)}
-                  placeholder="Seçiniz"
-                  width="[230px] md:w-56"
+                  placeholder="Kategori Seçiniz"
+                  width="[320px] md:w-56"
                 />
               </div>
             </div>
@@ -231,7 +231,7 @@ export default function ArchiveDocTable({
                   ayrılmış olup, tedavi süreçlerinde gereken belgeleri içerir.
                 </TooltipContent>
               </Tooltip>
-              <div className="w-56">
+              <div className="w-[320px]">
                 <DynamicCombobox
                   options={
                     folderType?.reduce(
@@ -244,7 +244,7 @@ export default function ArchiveDocTable({
                   }
                   name="folderType"
                   onChange={(value) => handleFolderChange(value as string)}
-                  placeholder="Seçiniz"
+                  placeholder="Klasör Seçiniz"
                   width="[230px] md:w-56"
                 />
               </div>
@@ -283,7 +283,7 @@ export default function ArchiveDocTable({
           </div>
         </div>
         <div className="rounded-md border w-full min-w-[800px] no-scrollbar">
-          <div className="rounded-md  px-4 py-4 no-scrollbar">
+          <div className="rounded-md px-4 py-4 no-scrollbar">
             <Table className="table-fixed">
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
@@ -313,7 +313,9 @@ export default function ArchiveDocTable({
                         </TableHead>
                       );
                     })}
-                    <TableHead className="w-20 pl-16">İşlem</TableHead>
+                    <TableHead className="w-20 text-right pr-16">
+                      İşlem
+                    </TableHead>
                   </TableRow>
                 ))}
               </TableHeader>
@@ -352,7 +354,7 @@ export default function ArchiveDocTable({
                                 handleSubmit={handleSubmitArchiveSheet}
                               />
                             </TooltipTrigger>
-                            <TooltipContent>Görüntüle</TooltipContent>
+                            <TooltipContent>Düzenle</TooltipContent>
                           </Tooltip>
                           <Tooltip>
                             <TooltipTrigger
@@ -363,7 +365,7 @@ export default function ArchiveDocTable({
                             >
                               <EyeIcon className="w-9 h-9 p-2 rounded-md border text-white bg-black-900 hover:bg-black-800 cursor-pointer" />
                             </TooltipTrigger>
-                            <TooltipContent>Düzenle</TooltipContent>
+                            <TooltipContent>Görüntüle</TooltipContent>
                           </Tooltip>
                         </div>
                       </TableCell>
