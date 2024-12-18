@@ -50,6 +50,16 @@ const DocumentContentPage = () => {
     query.refetch();
   }, []);
 
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500); // 1 saniye
+
+    return () => clearTimeout(timer); // Temizleme
+  }, []);
+
   console.log("query", query.data?.data);
   const categories = query.data?.data.map((doc) => doc.categoryName);
 
@@ -126,7 +136,9 @@ const DocumentContentPage = () => {
           />
         )}
       </div>
-      {query.data && categroyOpts && folderOpts && documentTypeOpts ? (
+      {isLoading ? (
+        <div className="flex items-center justify-center">Yükleniyor...</div>
+      ) : query.data && categroyOpts && folderOpts && documentTypeOpts ? (
         <DataTable
           categoryOpts={categroyOpts}
           folderOpts={folderOpts}
@@ -140,7 +152,9 @@ const DocumentContentPage = () => {
           onReviseDocument={handleReviseDocument}
           documentTypeOpts={documentTypeOpts}
         />
-      ) : null}
+      ) : (
+        <div className="flex items-center justify-center">...</div>
+      )}
       {getFileMutation.data && (
         <PdfViewer
           data={getFileMutation.data.data}
