@@ -161,7 +161,7 @@ const WaitingRequestSheetForm = ({
           )}
 
           <FormItem>
-            <Label>Talep Eden {model?.userName} Açıklaması</Label>
+            <Label>{model?.userName} - Açıklama</Label>
             <Textarea
               value={model?.descriptionUser ?? ""}
               rows={5}
@@ -176,7 +176,7 @@ const WaitingRequestSheetForm = ({
           </FormItem>
 
           <FormItem>
-            <Label>{model?.userName} - Admin Açıklaması</Label>
+            <Label>{model?.adminName} - Açıklama</Label>
             <Textarea
               value={model?.descriptionAdmin ?? ""}
               rows={5}

@@ -28,12 +28,12 @@ export const resultedColumns: ColumnDef<WaitingRequestModel>[] = [
     header: ({ column }) => {
       return (
         <SortingBtn
-          text={"Yönetici Durumu"}
+          text={"Direktör Durum"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
       );
     },
-    footer: "Yönetici Durumu",
+    footer: "Direktör Durum",
   },
   {
     accessorKey: "requestTypeId",

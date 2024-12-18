@@ -53,12 +53,12 @@ export const columns: ColumnDef<UserRequestModel>[] = [
     header: ({ column }) => {
       return (
         <SortingBtn
-          text={"Yönetici Durum"}
+          text={"Direktör Durum"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
       );
     },
-    footer: "Yönetici Durum",
+    footer: "Direktör Durum",
   },
   {
     accessorKey: "openDate",

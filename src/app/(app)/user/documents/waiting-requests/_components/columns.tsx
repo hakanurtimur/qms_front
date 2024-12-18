@@ -43,13 +43,13 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
     header: ({ column }) => {
       return (
         <SortingBtn
-          text={"Yönetici Durum"}
+          text={"Direktör Durum"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
       );
     },
     enableHiding: true,
-    footer: "Yönetici Durum",
+    footer: "Direktör Durum",
   },
   {
     accessorKey: "openDate",

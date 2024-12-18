@@ -33,9 +33,9 @@ const RevisionRequestSheet = ({ onSubmit, model, documentTypeOpts }: Props) => {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Revizyon Talebi</SheetTitle>
+          <SheetTitle>Revize Talebi</SheetTitle>
           <SheetDescription>
-            Buradan yeni revizyon talebi oluşturabilirsiniz.
+            Buradan yeni Revize talebi oluşturabilirsiniz.
           </SheetDescription>
         </SheetHeader>
         <RequestForm

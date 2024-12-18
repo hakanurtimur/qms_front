@@ -158,7 +158,7 @@ const MainDocSheet: React.FC<MainDocSheetProps> = ({
                       name="lastReviseNo"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Revizyon No</FormLabel>
+                          <FormLabel>Revize No</FormLabel>
                           <FormControl>
                             <Input readOnly {...field} />
                           </FormControl>
@@ -175,7 +175,7 @@ const MainDocSheet: React.FC<MainDocSheetProps> = ({
                       name="lastReviseDate"
                       render={() => (
                         <FormItem>
-                          <FormLabel>Revizyon Tarihi</FormLabel>
+                          <FormLabel>Revize Tarihi</FormLabel>
                           <FormControl>
                             <DatePicker
                               readonly={true}

@@ -64,9 +64,9 @@ const HistorySheet: React.FC<HistorySheetProps> = ({
         <DialogOverlay className="fixed inset-0 bg-gray-900 bg-opacity-10 transition-opacity backdrop-blur-sm" />
         <SheetContent className="sm:max-w-[400px] lg:max-w-[600px] z-50">
           <SheetHeader>
-            <SheetTitle>Revizyon Bilgileri</SheetTitle>
+            <SheetTitle>Revize Bilgileri</SheetTitle>
             <SheetDescription>
-              Buradan revizyon bilgilerini görüntüleyebilirsiniz.
+              Buradan revize bilgilerini görüntüleyebilirsiniz.
             </SheetDescription>
           </SheetHeader>
           <div className="mt-4 flex">
@@ -82,7 +82,7 @@ const HistorySheet: React.FC<HistorySheetProps> = ({
                       name="reviseNo"
                       render={() => (
                         <FormItem>
-                          <FormLabel>Revizyon No</FormLabel>
+                          <FormLabel>Revize No</FormLabel>
                           <FormControl>
                             <Input readOnly value={data?.reviseNo} />
                           </FormControl>
@@ -95,7 +95,7 @@ const HistorySheet: React.FC<HistorySheetProps> = ({
                       name="reviseDate"
                       render={() => (
                         <FormItem>
-                          <FormLabel>Revizyon Tarihi</FormLabel>
+                          <FormLabel>Revize Tarihi</FormLabel>
                           <FormControl>
                             <DatePicker
                               name="reviseDate"

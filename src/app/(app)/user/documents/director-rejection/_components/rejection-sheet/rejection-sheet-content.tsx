@@ -115,7 +115,7 @@ const RejectionSheetContent = ({
           />
         </FormItem>
         <FormItem>
-          <Label>Talep Eden {model?.userName} Açıklaması</Label>
+          <Label>{model?.userName} - Açıklama</Label>
           <Textarea
             rows={5}
             className="w-full pb-3.5"
@@ -132,7 +132,7 @@ const RejectionSheetContent = ({
           />
         </FormItem>
         <FormItem>
-          <Label>{model?.userName} - Admin Açıklaması</Label>
+          <Label>{model?.adminName} - Açıklama</Label>
           <Textarea
             rows={5}
             className="w-full pb-3.5"
