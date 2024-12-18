@@ -54,13 +54,15 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
                   <FormLabel>Çalışan</FormLabel>
                   <FormControl>
                     <DynamicCombobox
-                      options={userList.reduce(
-                        (acc, item) => ({
-                          ...acc,
-                          [item.userId]: item.nameSurname,
-                        }),
-                        {},
-                      )}
+                      options={
+                        userList?.reduce(
+                          (acc, item) => {
+                            acc[item.nameSurname] = item.nameSurname;
+                            return acc;
+                          },
+                          {} as { [key: string]: string },
+                        ) || {}
+                      }
                       name="employeeName"
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
@@ -101,13 +103,15 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
                   <FormControl>
                     <DynamicCombobox
                       refresh={field.value === undefined ? true : false}
-                      options={userList.reduce(
-                        (acc, item) => ({
-                          ...acc,
-                          [item.userId]: item.nameSurname,
-                        }),
-                        {},
-                      )}
+                      options={
+                        userList?.reduce(
+                          (acc, item) => {
+                            acc[item.nameSurname] = item.nameSurname;
+                            return acc;
+                          },
+                          {} as { [key: string]: string },
+                        ) || {}
+                      }
                       name="affectedPerson"
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"

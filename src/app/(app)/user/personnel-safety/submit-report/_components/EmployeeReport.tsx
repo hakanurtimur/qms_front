@@ -56,13 +56,15 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
                     <DynamicCombobox
                       {...field}
                       refresh={field.value === undefined ? true : false}
-                      options={userList.reduce(
-                        (acc, item) => ({
-                          ...acc,
-                          [item.userId]: item.nameSurname,
-                        }),
-                        {},
-                      )}
+                      options={
+                        userList?.reduce(
+                          (acc, item) => {
+                            acc[item.nameSurname] = item.nameSurname;
+                            return acc;
+                          },
+                          {} as { [key: string]: string },
+                        ) || {}
+                      }
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
                       width="[240px]"
@@ -102,13 +104,15 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
                     <DynamicCombobox
                       {...field}
                       refresh={field.value === undefined ? true : false}
-                      options={userList.reduce(
-                        (acc, item) => ({
-                          ...acc,
-                          [item.userId]: item.nameSurname,
-                        }),
-                        {},
-                      )}
+                      options={
+                        userList?.reduce(
+                          (acc, item) => {
+                            acc[item.nameSurname] = item.nameSurname;
+                            return acc;
+                          },
+                          {} as { [key: string]: string },
+                        ) || {}
+                      }
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
                       width="[240px]"
