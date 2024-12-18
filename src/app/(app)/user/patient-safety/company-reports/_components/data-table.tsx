@@ -82,6 +82,24 @@ export function DataTable<TData extends { reportType: string }, TValue>({
         <div className="min-w-full rounded-md border no-scrollbar">
           <div className="flex items-center py-4 px-4 gap-10">
             <div className="flex flex-1 flex-shrink-0 items-center gap-4">
+              <div className="flex-shrink-0 w-48">
+                <NonFormCombobox
+                  value={
+                    (table.getColumn("status")?.getFilterValue() as string) ||
+                    ""
+                  }
+                  onChange={(value) =>
+                    table
+                      .getColumn("status")
+                      ?.setFilterValue(value ? value : "")
+                  }
+                  placeholder={"Durum"}
+                  options={{
+                    "1": "Durum 1",
+                    "2": "Durum 2",
+                  }}
+                />
+              </div>
               <div className="flex-shrink-0 w-64">
                 {/* not bildiri tipine bak. */}
                 {/* PROTOKOL no ya göre arama yapmıyor galiba */}

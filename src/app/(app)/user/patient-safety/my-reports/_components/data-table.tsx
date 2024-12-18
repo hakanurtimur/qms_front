@@ -78,6 +78,21 @@ export function DataTable<TData extends { reportType: string }, TValue>({
       <div className="rounded-md border w-full max-w-[1600px] min-w-[800px] no-scrollbar">
         <div className="flex items-center py-4 px-4 gap-10 no-scrollbar">
           <div className="flex flex-1 flex-shrink-0 items-center gap-4">
+            <div className="flex-shrink-0 w-48">
+              <NonFormCombobox
+                value={
+                  (table.getColumn("status")?.getFilterValue() as string) || ""
+                }
+                onChange={(value) =>
+                  table.getColumn("status")?.setFilterValue(value ? value : "")
+                }
+                placeholder={"Durum"}
+                options={{
+                  "1": "Durum 1",
+                  "2": "Durum 2",
+                }}
+              />
+            </div>
             <div className="flex-shrink-0 w-64">
               <NonFormCombobox
                 value={

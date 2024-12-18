@@ -85,6 +85,24 @@ export function DataTable<TData, TValue>({
               <div className="flex-shrink-0 w-48">
                 <NonFormCombobox
                   value={
+                    (table.getColumn("status")?.getFilterValue() as string) ||
+                    ""
+                  }
+                  onChange={(value) =>
+                    table
+                      .getColumn("status")
+                      ?.setFilterValue(value ? value : "")
+                  }
+                  placeholder={"Durum"}
+                  options={{
+                    "1": "Durum 1",
+                    "2": "Durum 2",
+                  }}
+                />
+              </div>
+              <div className="flex-shrink-0 w-48">
+                <NonFormCombobox
+                  value={
                     (table
                       .getColumn("bildiriTuru")
                       ?.getFilterValue() as string) || ""
