@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import SortingBtn from "@/components/ui/sorting-btn";
 import { formatDateWithoutTime } from "@/utils/dateUtils";
 import { DocumentMasterHistoryModel } from "@/models/user/documents/document-master/DocumentMasterModels";
+import { Badge } from "@/components/ui/badge";
 
 export const columns: ColumnDef<DocumentMasterHistoryModel>[] = [
   {
@@ -14,6 +15,11 @@ export const columns: ColumnDef<DocumentMasterHistoryModel>[] = [
           text={"Revize No"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
+      );
+    },
+    cell: ({ cell }) => {
+      return (
+        <Badge variant={"defaultRounded"}>{cell.getValue() as string}</Badge>
       );
     },
     footer: "Revize No",

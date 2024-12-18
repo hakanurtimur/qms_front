@@ -9,27 +9,27 @@ import SearchableTaskTable from "./_components/searchable-task-table";
 
 const dashboardCardItems = [
   {
-    title: "Bildirim",
-    value: "3232",
-    growth: "olaylar için bildirin sayısı",
+    title: "-",
+    value: "-",
+    growth: "-",
     icon: InfoIcon,
   },
   {
-    title: "Doküman",
-    value: 2,
-    growth: "growth",
+    title: "-",
+    value: "-",
+    growth: "-",
     icon: Dock,
   },
   {
-    title: "DİF Sayısı",
-    value: 3,
-    growth: "growth",
+    title: "-",
+    value: "-",
+    growth: "-",
     icon: ArrowTopRightOnSquareIcon,
   },
   {
-    title: "Sisteme Son Giriş",
-    value: "12.12.2021",
-    growth: "growth",
+    title: "-",
+    value: "-",
+    growth: "-",
     icon: Clock,
   },
 ];

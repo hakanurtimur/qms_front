@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import SortingBtn from "@/components/ui/sorting-btn";
 import { formatDateWithoutTime } from "@/utils/dateUtils";
 import { WaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
+import { Badge } from "@/components/ui/badge";
 
 export const columns: ColumnDef<WaitingRequestModel>[] = [
   {
@@ -14,6 +15,11 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
           text={"Talep No"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
+      );
+    },
+    cell: ({ cell }) => {
+      return (
+        <Badge variant={"defaultRounded"}>{cell.getValue() as string}</Badge>
       );
     },
     enableHiding: true,

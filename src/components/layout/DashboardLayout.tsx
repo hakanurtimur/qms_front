@@ -142,6 +142,9 @@ const DashboardLayout = ({
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-muted/40">
+      {popoverOpen && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-md z-50"></div>
+      )}
       {open && (
         <aside
           className={`animate-slide-in-from-left fixed inset-y-0 left-0 z-10 hidden w-64 flex-col bg-primary-900 sm:flex items-stretch justify-between`}
@@ -200,6 +203,7 @@ const DashboardLayout = ({
           </div>
         </aside>
       )}
+
       <div
         className={`transition-[padding] ease duration-500 flex flex-col sm:gap-4 sm:pb-4 ${open ? "sm:pl-64" : "sm:pl-0"}`}
       >
@@ -285,6 +289,7 @@ const DashboardLayout = ({
                 3
               </Badge>
             </Button>
+
             <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
               <PopoverTrigger asChild className="">
                 <Button
@@ -295,7 +300,7 @@ const DashboardLayout = ({
                   <UserIcon className="h-6 w-6 text-black-900 " />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-48 flex flex-col gap-2">
+              <PopoverContent className="w-48 z-50 flex flex-col gap-2">
                 <div className="font-bold px-2.5">{user?.username}</div>
                 <PopoverClose asChild>
                   <Link

@@ -27,13 +27,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
 import { EyeIcon, InfoIcon } from "lucide-react";
@@ -42,6 +35,7 @@ import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/authContext";
 import { useUserGetArchiveDocuments } from "../lib/hooks/useUserGetArchiveDocuments";
 import { useUserUpdateArchiveDocuments } from "../lib/hooks/useUserUpdateArchiveDocuments";
+import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 
 export interface ArchiveDocTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -199,18 +193,23 @@ export default function ArchiveDocTable({
                   standartlarını belirleyerek sürekli iyileştirmeyi destekler.
                 </TooltipContent>
               </Tooltip>
-              <Select onValueChange={handleCategoryChange}>
-                <SelectTrigger className="w-64 h-10">
-                  <SelectValue placeholder="Kategoriler" />
-                </SelectTrigger>
-                <SelectContent className="w-64">
-                  {categoryType?.map((item) => (
-                    <SelectItem key={item} value={item}>
-                      {item}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="w-56">
+                <DynamicCombobox
+                  options={
+                    categoryType?.reduce(
+                      (acc, item) => ({
+                        ...acc,
+                        [item]: item,
+                      }),
+                      {},
+                    ) ?? {}
+                  }
+                  name="category"
+                  onChange={(value) => handleCategoryChange(value as string)}
+                  placeholder="Seçiniz"
+                  width="[230px] md:w-56"
+                />
+              </div>
             </div>
             <div className="flex items-center gap-2">
               <Tooltip>
@@ -232,18 +231,23 @@ export default function ArchiveDocTable({
                   ayrılmış olup, tedavi süreçlerinde gereken belgeleri içerir.
                 </TooltipContent>
               </Tooltip>
-              <Select onValueChange={handleFolderChange}>
-                <SelectTrigger className="w-64 h-10">
-                  <SelectValue placeholder="Klasörler" />
-                </SelectTrigger>
-                <SelectContent className="w-64">
-                  {folderType?.map((item) => (
-                    <SelectItem key={item} value={item}>
-                      {item}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="w-56">
+                <DynamicCombobox
+                  options={
+                    folderType?.reduce(
+                      (acc, item) => ({
+                        ...acc,
+                        [item]: item,
+                      }),
+                      {},
+                    ) ?? {}
+                  }
+                  name="folderType"
+                  onChange={(value) => handleFolderChange(value as string)}
+                  placeholder="Seçiniz"
+                  width="[230px] md:w-56"
+                />
+              </div>
             </div>
           </div>
           <div className="flex items-center gap-1 justify-center">
@@ -273,7 +277,7 @@ export default function ArchiveDocTable({
                 const upperCaseValue = e.target.value.toUpperCase();
                 setGlobalFilter(upperCaseValue);
               }}
-              className="w-[473px] h-10 mx-4 mt-3
+              className="w-[420px] h-9 mx-4 mt-3
             "
             />
           </div>

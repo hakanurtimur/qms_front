@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import SortingBtn from "@/components/ui/sorting-btn";
 import { formatDateWithoutTime } from "@/utils/dateUtils";
 import { DocumentMasterMainModal } from "@/models/user/documents/document-master/DocumentMasterModels";
-
+import { Badge } from "@/components/ui/badge";
 export const columns: ColumnDef<DocumentMasterMainModal>[] = [
   {
     accessorKey: "id",
@@ -14,6 +14,11 @@ export const columns: ColumnDef<DocumentMasterMainModal>[] = [
           text={"Sıra No"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
+      );
+    },
+    cell: ({ cell }) => {
+      return (
+        <Badge variant={"defaultRounded"}>{cell.getValue() as string}</Badge>
       );
     },
     footer: "Sıra No",
@@ -74,6 +79,11 @@ export const columns: ColumnDef<DocumentMasterMainModal>[] = [
           text={"Revize No"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
+      );
+    },
+    cell: ({ cell }) => {
+      return (
+        <Badge variant={"defaultRounded"}>{cell.getValue() as string}</Badge>
       );
     },
     footer: "Revize No",
