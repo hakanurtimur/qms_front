@@ -5,6 +5,12 @@ import { UserRequestModel } from "@/models/user/documents/userRequests/userReque
 import SortingBtn from "@/components/ui/sorting-btn";
 import { formatDateWithoutTime } from "@/utils/dateUtils";
 import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const columns: ColumnDef<UserRequestModel>[] = [
   {
@@ -61,6 +67,32 @@ export const columns: ColumnDef<UserRequestModel>[] = [
     footer: "Direktör Durum",
   },
   {
+    accessorKey: "fileName",
+    header: ({ column }) => {
+      return (
+        <SortingBtn
+          text={"Dosya Adı"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
+      );
+    },
+    cell: ({ cell }) => {
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="max-w-24 truncate">
+                {cell.getValue() as string}
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>{cell.getValue() as string}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    },
+    footer: "Dosya Adı",
+  },
+  {
     accessorKey: "openDate",
     header: ({ column }) => {
       return (
@@ -99,7 +131,7 @@ export const columns: ColumnDef<UserRequestModel>[] = [
     },
     footer: "Bölüm",
   },
-  {
+  /*  {
     accessorKey: "documentTypeName",
     header: ({ column }) => {
       return (
@@ -110,7 +142,7 @@ export const columns: ColumnDef<UserRequestModel>[] = [
       );
     },
     footer: "Doküman Tipi",
-  },
+  }, */
   {
     accessorKey: "requestTypeName",
     header: ({ column }) => {
@@ -123,7 +155,7 @@ export const columns: ColumnDef<UserRequestModel>[] = [
     },
     footer: "Talep Tipi",
   },
-  {
+  /* {
     accessorKey: "updateDate",
     header: ({ column }) => {
       return (
@@ -137,5 +169,5 @@ export const columns: ColumnDef<UserRequestModel>[] = [
       return formatDateWithoutTime(cell.getValue() as string);
     },
     footer: "Güncelleme Tarihi",
-  },
+  }, */
 ];

@@ -4,6 +4,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import SortingBtn from "@/components/ui/sorting-btn";
 import { WaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
 import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const resultedColumns: ColumnDef<WaitingRequestModel>[] = [
   {
@@ -22,6 +28,30 @@ export const resultedColumns: ColumnDef<WaitingRequestModel>[] = [
       );
     },
     footer: "Talep No",
+  },
+  {
+    accessorKey: "fileName",
+    header: ({ column }) => {
+      return (
+        <SortingBtn
+          text={"Dosya Adı"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
+      );
+    },
+    cell: ({ cell }) => {
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <div className="w-52 truncate">{cell.getValue() as string}</div>
+            </TooltipTrigger>
+            <TooltipContent>{cell.getValue() as string}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    },
+    footer: "Dosya Adı",
   },
   {
     accessorKey: "administratorActionName",

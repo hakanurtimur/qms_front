@@ -57,7 +57,7 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
                       options={
                         userList?.reduce(
                           (acc, item) => {
-                            acc[item.nameSurname] = item.nameSurname;
+                            acc[item.userId] = item.nameSurname;
                             return acc;
                           },
                           {} as { [key: string]: string },
@@ -106,7 +106,7 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
                       options={
                         userList?.reduce(
                           (acc, item) => {
-                            acc[item.nameSurname] = item.nameSurname;
+                            acc[item.userId] = item.nameSurname;
                             return acc;
                           },
                           {} as { [key: string]: string },
@@ -160,7 +160,7 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
                     <Dropzone
                       onChange={(file) => field.onChange(file)}
                       className="w-full justify-center items-center  h-full"
-                      fileExtensions={["pdf,png,jpg,jpeg"]}
+                      fileExtensions={["pdf", "png", "jpg", "jpeg"]}
                     />
                   </FormControl>
                   <FormMessage className="absolute" />

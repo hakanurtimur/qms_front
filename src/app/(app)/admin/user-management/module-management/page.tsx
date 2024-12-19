@@ -4,7 +4,7 @@ import React from "react";
 import { ModuleDataTable } from "@/app/(app)/admin/user-management/module-management/_components/module/module-data-table";
 import { moduleColumns } from "@/app/(app)/admin/user-management/module-management/_components/module/module-columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
+import { convertStringArrayToOptions } from "@/utils/convertStringArrayToOptions";
 import { ScreenDataTable } from "@/app/(app)/admin/user-management/module-management/_components/screen/screen-data-table";
 import { screenColumns } from "@/app/(app)/admin/user-management/module-management/_components/screen/screen-columns";
 

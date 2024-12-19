@@ -203,7 +203,7 @@ const PatientReportIncident = ({
                         options={
                           userList?.reduce(
                             (acc, item) => {
-                              acc[item.nameSurname] = item.nameSurname;
+                              acc[item.userId] = item.nameSurname;
                               return acc;
                             },
                             {} as { [key: string]: string },

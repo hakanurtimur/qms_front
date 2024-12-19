@@ -203,7 +203,7 @@ const PatientReportIncident = ({
                     <Dropzone
                       className="md:w-full w-full min-h-28"
                       {...field}
-                      fileExtensions={["pdf", "jpg", "jpeg", "png"]}
+                      fileExtensions={["pdf", "png", "jpg", "jpeg"]}
                       onChange={(value) => field.onChange(value)}
                     />
                   </FormControl>
@@ -227,7 +227,7 @@ const PatientReportIncident = ({
                         options={
                           userList?.reduce(
                             (acc, item) => {
-                              acc[item.nameSurname] = item.nameSurname;
+                              acc[item.userId] = item.nameSurname;
                               return acc;
                             },
                             {} as { [key: string]: string },

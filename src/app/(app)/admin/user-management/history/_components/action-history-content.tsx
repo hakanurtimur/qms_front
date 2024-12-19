@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/app/(app)/admin/user-management/history/_components/data-table";
 import { columns } from "@/app/(app)/admin/user-management/history/_components/columns";
-import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
+import { convertStringArrayToOptions } from "@/utils/convertStringArrayToOptions";
 import LoadingText from "@/components/ui/loading-text";
 import { useAdminGetActionHistory } from "@/app/(app)/admin/user-management/history/lib/hooks/useAdminGetActionHistory";
 

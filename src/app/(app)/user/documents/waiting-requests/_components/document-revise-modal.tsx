@@ -153,7 +153,7 @@ export default function DocumentReviseForm({
                         <Dropzone
                           onChange={(value) => field.onChange(value)}
                           className="w-full h-32"
-                          fileExtensions={["pdf,doc,docx,xlsx,xls"]}
+                          fileExtensions={["pdf", "doc", "docx", "xlsx", "xls"]}
                           key={field.value?.name ?? ""}
                         />
                       </FormControl>

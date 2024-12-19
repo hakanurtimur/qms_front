@@ -243,7 +243,7 @@ export default function DocumentUploadForm({
                         <Dropzone
                           onChange={(file) => field.onChange(file)}
                           className="w-full min-h-28"
-                          fileExtensions={["pdf,doc,docx,xlsx,xls"]}
+                          fileExtensions={["pdf", "doc", "docx", "xlsx", "xls"]}
                         />
                       </FormControl>
                       <FormMessage />

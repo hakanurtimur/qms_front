@@ -2,16 +2,16 @@ import { Tooltip, TooltipContent } from "@/components/ui/tooltip";
 import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDownIcon } from "lucide-react";
+import SortingBtn from "@/components/ui/sorting-btn";
 
 export const columns: ColumnDef<RequestDocumentListModel>[] = [
   {
     accessorKey: "categoryName",
-    header: () => (
-      <div className="flex items-center gap-1 ">
-        Kategori
-        <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
-      </div>
+    header: ({ column }) => (
+      <SortingBtn
+        text={"Kategori"}
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      />
     ),
     cell: (info) => <div className="">{String(info.getValue())}</div>,
     size: 180,
@@ -19,11 +19,11 @@ export const columns: ColumnDef<RequestDocumentListModel>[] = [
   },
   {
     accessorKey: "folderName",
-    header: () => (
-      <div className="flex items-center gap-1">
-        Klasör Adı
-        <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
-      </div>
+    header: ({ column }) => (
+      <SortingBtn
+        text={"Klasör Adı"}
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      />
     ),
     cell: (info) => <div className="">{String(info.getValue())}</div>,
     size: 140,
@@ -31,18 +31,14 @@ export const columns: ColumnDef<RequestDocumentListModel>[] = [
   },
   {
     accessorKey: "fileName",
-    header: () => (
-      <div className=" flex items-center gap-1">
-        Dosya Adı
-        <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
-      </div>
+    header: ({ column }) => (
+      <SortingBtn
+        text={"Dosya Adı"}
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      />
     ),
     cell: (info) => (
-      <div
-        className="
-        overflow-hidden overflow-ellipsis whitespace-nowrap
-      "
-      >
+      <div className="overflow-hidden overflow-ellipsis whitespace-nowrap">
         <Tooltip>
           <TooltipTrigger asChild>
             <div className="truncate">
@@ -60,11 +56,11 @@ export const columns: ColumnDef<RequestDocumentListModel>[] = [
   },
   {
     accessorKey: "state",
-    header: () => (
-      <div className="flex items-center justify-between gap-1">
-        Durum
-        <ArrowUpDownIcon className="w-4 h-4 ml-1 hover:scale-125" />
-      </div>
+    header: ({ column }) => (
+      <SortingBtn
+        text={"Durum"}
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      />
     ),
     cell: (info) => (
       <div className="">{info.getValue() ? "AKTIF" : "PASİF"}</div>

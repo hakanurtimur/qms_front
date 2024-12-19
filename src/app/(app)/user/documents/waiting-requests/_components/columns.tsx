@@ -5,6 +5,12 @@ import SortingBtn from "@/components/ui/sorting-btn";
 import { formatDateWithoutTime } from "@/utils/dateUtils";
 import { WaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
 import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const columns: ColumnDef<WaitingRequestModel>[] = [
   {
@@ -50,6 +56,32 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
     },
     enableHiding: true,
     footer: "Direktör Durum",
+  },
+  {
+    accessorKey: "fileName",
+    header: ({ column }) => {
+      return (
+        <SortingBtn
+          text={"Dosya Adı"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        />
+      );
+    },
+    cell: ({ cell }) => {
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="max-w-32 truncate">
+                {cell.getValue() as string}
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>{cell.getValue() as string}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    },
+    footer: "Dosya Adı",
   },
   {
     accessorKey: "openDate",
@@ -106,7 +138,7 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
     enableHiding: true,
     footer: "Admin Adı",
   },
-  {
+  /*   {
     accessorKey: "documentTypeName",
     header: ({ column }) => {
       return (
@@ -118,7 +150,7 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
     },
     enableHiding: true,
     footer: "Doküman Tipi",
-  },
+  }, */
   {
     accessorKey: "requestTypeName",
     header: ({ column }) => {
@@ -132,7 +164,7 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
     enableHiding: true,
     footer: "Talep Tipi",
   },
-  {
+  /* {
     accessorKey: "updateDate",
     header: ({ column }) => {
       return (
@@ -147,5 +179,5 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
     },
     enableHiding: true,
     footer: "Güncelleme Tarihi",
-  },
+  }, */
 ];

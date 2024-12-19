@@ -10,7 +10,6 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
-  VisibilityState,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -28,312 +27,192 @@ import {
 } from "@/components/ui/tooltip";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
+import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
 import { EyeIcon, InfoIcon } from "lucide-react";
 import ArchiveDocSheet from "./archive-doc-sheet";
-import { toast } from "@/hooks/use-toast";
-import { useAuth } from "@/context/authContext";
-import { useUserGetArchiveDocuments } from "../lib/hooks/useUserGetArchiveDocuments";
-import { useUserUpdateArchiveDocuments } from "../lib/hooks/useUserUpdateArchiveDocuments";
-import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 
 export interface ArchiveDocTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
+  data: TData[];
   handleViewDocument: (fileId: string) => void;
   handleEditDocument: (fileId: string) => void;
 }
+
 export default function ArchiveDocTable({
   columns,
+  data,
   handleViewDocument,
   handleEditDocument,
 }: ArchiveDocTableProps<RequestDocumentListModel, unknown>) {
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [categoryType, setCategoryType] = useState<string[] | null>();
-  const [folderType, setFolderType] = useState<string[] | null>();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>();
+  const [categoryType, setCategoryType] = useState<string[] | null>(null);
+  const [folderType, setFolderType] = useState<string[] | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
 
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
-    categoryName: true,
-    folderName: true,
-    state: true,
-    fileName: true,
-    actions: true,
-  });
-  const auth = useAuth();
-  const { data, refetch } = useUserGetArchiveDocuments();
-
-  const [searchResults, setSearchResults] = useState<
-    RequestDocumentListModel[]
-  >(data?.data ?? []);
-
-  const getCategoryTypes = () => {
-    const categoryTypes = data?.data.map(
-      (item: { categoryName: string }) => item.categoryName,
-    );
-    const uniqueCategoryTypes = Array.from(new Set(categoryTypes));
-    setCategoryType(uniqueCategoryTypes as string[]);
-  };
-
-  const getFolderTypes = () => {
-    const folderTypes = data?.data.map(
-      (item: { folderName: string }) => item.folderName,
-    );
-    const uniqueFolderTypes = Array.from(new Set(folderTypes));
-    setFolderType(uniqueFolderTypes as string[]);
-  };
+  const [filteredData, setFilteredData] =
+    useState<RequestDocumentListModel[]>(data);
 
   useEffect(() => {
-    getCategoryTypes();
-    getFolderTypes();
-    handleSearch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const uniqueCategories = Array.from(
+      new Set(data.map((item) => item.categoryName)),
+    );
+    const uniqueFolders = Array.from(
+      new Set(data.map((item) => item.folderName)),
+    );
+    setCategoryType(uniqueCategories);
+    setFolderType(uniqueFolders);
   }, [data]);
 
-  const handleSearch = () => {
-    // Klasör ve kategoriye göre arama yap
-    const results = data?.data.filter(
-      (item: { categoryName: string; folderName: string }) =>
-        (selectedCategory ? item.categoryName === selectedCategory : true) &&
-        (selectedFolder ? item.folderName === selectedFolder : true),
-    );
-
-    setSearchResults(results ?? []);
-  };
-
   useEffect(() => {
-    handleSearch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedCategory, selectedFolder]);
-
-  // Kategori seçimi
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
-    handleSearch();
-  };
-
-  // Klasör seçimi
-  const handleFolderChange = (folder: string) => {
-    setSelectedFolder(folder);
-    handleSearch();
-  };
+    let filtered = data;
+    if (selectedCategory) {
+      filtered = filtered.filter(
+        (item) => item.categoryName === selectedCategory,
+      );
+    }
+    if (selectedFolder) {
+      filtered = filtered.filter((item) => item.folderName === selectedFolder);
+    }
+    if (globalFilter) {
+      filtered = filtered.filter((item) =>
+        Object.values(item).join(" ").toUpperCase().includes(globalFilter),
+      );
+    }
+    setFilteredData(filtered);
+  }, [data, selectedCategory, selectedFolder, globalFilter]);
 
   const table = useReactTable({
-    data: searchResults,
+    data: filteredData,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    onGlobalFilterChange: setGlobalFilter,
     getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+      globalFilter,
+    },
+    onSortingChange: setSorting,
     initialState: {
       pagination: {
         pageSize: 5,
       },
     },
-    state: {
-      sorting,
-      globalFilter,
-      columnVisibility,
-    },
-    onColumnVisibilityChange: setColumnVisibility,
   });
-
-  const updateArchiveDocumentsMutation = useUserUpdateArchiveDocuments(
-    () => {
-      toast({
-        title: "Başarılı",
-        description: "Döküman başarıyla güncellendi",
-        variant: "success",
-      });
-      refetch().then();
-    },
-    () => {
-      toast({
-        title: "Hata",
-        description: "Döküman güncellenirken bir hata oluştu",
-        variant: "destructive",
-      });
-    },
-  );
-
-  const handleSubmitArchiveSheet = (state: boolean, fileId: number) => {
-    updateArchiveDocumentsMutation.mutate({
-      userId: Number(auth.user?.userId),
-      fileId: fileId,
-      state: state,
-    });
-  };
 
   return (
     <TooltipProvider>
-      <div className="w-full overflow-scroll flex flex-col items-center justify-center no-scrollbar border  rounded">
-        <div className="flex justify-between gap-10 w-full mb-4  items-center">
-          <div className="flex  items-center justify-center gap-8 pt-3 px-4">
-            <div className="flex items-center gap-2">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <InfoIcon
-                    className="w-6 h-6 text-black-700 cursor-pointer"
-                    aria-label="Açıklama"
+      <div className="w-full overflow-scroll flex items-center justify-center no-scrollbar">
+        <div className="rounded-md border no-scrollbar">
+          <div className="flex items-center py-4 px-4 gap-10">
+            <div className="flex flex-1 flex-shrink-0 items-center gap-10">
+              <div className="flex flex-1 col-span-1 items-center gap-2">
+                <Tooltip>
+                  <TooltipTrigger>
+                    <InfoIcon className="w-5 h-5 text-gray-600" />
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom" className="ml-52">
+                    <p className="max-w-[200px]">
+                      Kategorilere göre belge filtreleyebilirsiniz.
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+                <div className="flex-1">
+                  <DynamicCombobox
+                    options={
+                      categoryType?.reduce(
+                        (acc, item) => ({ ...acc, [item]: item }),
+                        {},
+                      ) ?? {}
+                    }
+                    name="category"
+                    placeholder="Kategori Seçiniz"
+                    onChange={(value) => setSelectedCategory(value as string)}
+                    width="w-[300px]"
                   />
-                </TooltipTrigger>
-                <TooltipContent
-                  side="bottom"
-                  className="
-                  max-w-[300px]
-                  ml-72
-                "
-                >
-                  Bu bölümde hastanemizde kullanılan rıza belgeleri ve kalite
-                  dokümanları bulunmaktadır. Rıza belgeleri, hasta onaylarını ve
-                  bilgilerini kaydederken, kalite dokümanları hizmet
-                  standartlarını belirleyerek sürekli iyileştirmeyi destekler.
-                </TooltipContent>
-              </Tooltip>
-              <div className="w-[300px]">
-                <DynamicCombobox
-                  options={
-                    categoryType?.reduce(
-                      (acc, item) => ({
-                        ...acc,
-                        [item]: item,
-                      }),
-                      {},
-                    ) ?? {}
-                  }
-                  name="category"
-                  onChange={(value) => handleCategoryChange(value as string)}
-                  placeholder="Kategori Seçiniz"
-                  width="[320px] md:w-56"
-                />
+                </div>
+              </div>
+
+              <div className="flex flex-1 col-span-1 items-center gap-2">
+                <Tooltip>
+                  <TooltipTrigger>
+                    <InfoIcon className="w-5 h-5 text-gray-600" />
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom" className="ml-52">
+                    <p className="max-w-[200px]">
+                      Klasörlere göre belge filtreleyebilirsiniz.
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+                <div className="flex-1">
+                  <DynamicCombobox
+                    options={
+                      folderType?.reduce(
+                        (acc, item) => ({ ...acc, [item]: item }),
+                        {},
+                      ) ?? {}
+                    }
+                    name="folder"
+                    placeholder="Klasör Seçiniz"
+                    onChange={(value) => setSelectedFolder(value as string)}
+                    width="w-[300px]"
+                  />
+                </div>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-1 max-w-[520px] flex-shrink-0 col-span-1 justify-end gap-2">
               <Tooltip>
-                <TooltipTrigger asChild>
-                  <InfoIcon
-                    className="w-6 h-6 text-black-700 cursor-pointer"
-                    aria-label="Açıklama"
-                  />
+                <TooltipTrigger>
+                  <InfoIcon className="w-5 h-5 text-gray-600" />
                 </TooltipTrigger>
-                <TooltipContent
-                  side="bottom"
-                  className="
-                  max-w-[300px]
-                  ml-72
-                "
-                >
-                  Bu klasörde, hastanemizdeki tıbbi hizmetleri yürüten tüm
-                  dokümanlar yer almaktadır. Her bölüm, uzmanlık alanına göre
-                  ayrılmış olup, tedavi süreçlerinde gereken belgeleri içerir.
+                <TooltipContent side="bottom" className="ml-52">
+                  <p className="max-w-[200px]">
+                    Belge isimlerinde arama yapabilirsiniz.
+                  </p>
                 </TooltipContent>
               </Tooltip>
-              <div className="w-[320px]">
-                <DynamicCombobox
-                  options={
-                    folderType?.reduce(
-                      (acc, item) => ({
-                        ...acc,
-                        [item]: item,
-                      }),
-                      {},
-                    ) ?? {}
-                  }
-                  name="folderType"
-                  onChange={(value) => handleFolderChange(value as string)}
-                  placeholder="Klasör Seçiniz"
-                  width="[230px] md:w-56"
-                />
-              </div>
+              <Input
+                placeholder="Dosya adı ara..."
+                value={globalFilter}
+                onChange={(e) => setGlobalFilter(e.target.value.toUpperCase())}
+                className="w-[400px]"
+              />
             </div>
           </div>
-          <div className="flex items-center gap-1 justify-center">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <InfoIcon
-                  className="w-6 h-6 mt-3 text-black-700 cursor-pointer"
-                  aria-label="Açıklama"
-                />
-              </TooltipTrigger>
-              <TooltipContent
-                side="bottom"
-                className="
-                max-w-[300px]
-                ml-72
-                "
-              >
-                Bu bölüm, tüm dokümanların isim ve kodlarını içermekte olup,
-                kullanıcıların aradıkları belgelere kolayca ulaşmalarını sağlar.
-              </TooltipContent>
-            </Tooltip>
-            <Input
-              placeholder="Dosya adı ara..."
-              value={globalFilter ?? ""}
-              onChange={(e) => {
-                // hep büyük harfe çevir
-                const upperCaseValue = e.target.value.toUpperCase();
-                setGlobalFilter(upperCaseValue);
-              }}
-              className="w-[420px] h-9 mx-4 mt-3
-            "
-            />
-          </div>
-        </div>
-        <div className="rounded-md border w-full min-w-[800px] no-scrollbar">
-          <div className="rounded-md px-4 py-4 no-scrollbar">
+
+          <div className="rounded-md border px-4 py-4">
             <Table className="table-fixed">
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow key={headerGroup.id}>
-                    {headerGroup.headers.map((header, index) => {
-                      return (
-                        <TableHead
-                          key={header.id + index}
-                          style={{
-                            width: header.column.columnDef.size,
-                          }}
-                          hidden={header.column.columnDef.enableHiding}
-                        >
-                          <div
-                            className="flex items-center cursor-pointer hover:text-black-900"
-                            onClick={header.column.getToggleSortingHandler()}
-                          >
-                            {header.isPlaceholder
-                              ? null
-                              : flexRender(
-                                  header.column.columnDef.header,
-                                  header.getContext(),
-                                )}
-
-                            {{}[header.column.getIsSorted() as string] ?? null}
-                          </div>
-                        </TableHead>
-                      );
-                    })}
-                    <TableHead className="w-20 text-right pr-16">
+                    {headerGroup.headers.map((header) => (
+                      <TableHead
+                        key={header.id}
+                        style={{ width: header.column.columnDef.size }}
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
+                      </TableHead>
+                    ))}
+                    <TableHead className="w-40 text-right pr-12">
                       İşlem
                     </TableHead>
                   </TableRow>
                 ))}
               </TableHeader>
               <TableBody>
-                {table.getRowModel().rows?.length ? (
-                  table.getRowModel().rows.map((row, index) => (
-                    <TableRow
-                      key={row.id + index}
-                      data-state={row.getIsSelected() && "selected"}
-                      onClick={() => {}}
-                    >
-                      {row.getVisibleCells().map((cell, index) => (
-                        <TableCell
-                          onClick={() => {
-                            console.log("cell", cell.id);
-                          }}
-                          key={cell.id + index}
-                        >
+                {table.getRowModel().rows.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow key={row.id}>
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext(),
@@ -341,29 +220,23 @@ export default function ArchiveDocTable({
                         </TableCell>
                       ))}
                       <TableCell>
-                        <div className="flex items-center justify-end gap-4">
+                        <div className="flex items-center gap-4 justify-end">
+                          <ArchiveDocSheet
+                            data={row.original}
+                            handleSubmit={(state, fileId) =>
+                              handleEditDocument(String(fileId))
+                            }
+                          />
                           <Tooltip>
-                            <TooltipTrigger
-                              asChild
-                              onClick={() => {
-                                handleViewDocument(String(row.original.fileId));
-                              }}
-                            >
-                              <ArchiveDocSheet
-                                data={row.original}
-                                handleSubmit={handleSubmitArchiveSheet}
+                            <TooltipTrigger>
+                              <EyeIcon
+                                className="w-9 h-9 rounded bg-primary-900 text-white p-2 cursor-pointer"
+                                onClick={() =>
+                                  handleViewDocument(
+                                    String(row.original.fileId),
+                                  )
+                                }
                               />
-                            </TooltipTrigger>
-                            <TooltipContent>Düzenle</TooltipContent>
-                          </Tooltip>
-                          <Tooltip>
-                            <TooltipTrigger
-                              asChild
-                              onClick={() => {
-                                handleEditDocument(String(row.original.fileId));
-                              }}
-                            >
-                              <EyeIcon className="w-9 h-9 p-2 rounded-md border text-white bg-black-900 hover:bg-black-800 cursor-pointer" />
                             </TooltipTrigger>
                             <TooltipContent>Görüntüle</TooltipContent>
                           </Tooltip>
@@ -374,8 +247,8 @@ export default function ArchiveDocTable({
                 ) : (
                   <TableRow>
                     <TableCell
-                      colSpan={columns.length}
-                      className="h-24 text-center"
+                      colSpan={columns.length + 1}
+                      className="text-center h-24"
                     >
                       Sonuç yok.
                     </TableCell>

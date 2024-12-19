@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
+import { convertStringArrayToOptions } from "@/utils/convertStringArrayToOptions";
 import { columns } from "@/app/(app)/user/documents/requests/_components/columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/app/(app)/user/documents/requests/_components/data-table";

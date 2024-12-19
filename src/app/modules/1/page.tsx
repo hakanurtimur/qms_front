@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useState, useEffect } from "react";
 import { DataTable } from "@/app/modules/1/_components/data-table";
 import { columns } from "@/app/modules/1/_components/columns";
-import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
+import { convertStringArrayToOptions } from "@/utils/convertStringArrayToOptions";
 
 const Page = () => {
   const pathname = usePathname();

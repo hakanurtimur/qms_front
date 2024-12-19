@@ -1,28 +1,21 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import PdfViewer from "@/components/ui/pdf-viewer";
 import { columns } from "@/app/(app)/user/documents/archive/_components/columns";
 import ArchiveDocTable from "@/app/(app)/user/documents/archive/_components/archive-doc-table";
 import useGetFile from "@/app/(app)/user/documents/hooks/useGetFile";
+import { useUserGetArchiveDocuments } from "../lib/hooks/useUserGetArchiveDocuments";
+import LoadingText from "@/components/ui/loading-text";
 
 const ArchiveContent = () => {
-  const [show, setShow] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Yükleme durumu
+  const [show, setShow] = React.useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false); // 1 saniye sonra yükleme tamamlandı
-    }, 1500);
-
-    return () => clearTimeout(timer); // Temizleme
-  }, []);
-
-  const handleShowFile = () => setShow(true);
+  const archiveQuery = useUserGetArchiveDocuments();
 
   const { fileUrl, fileName, getFileMutation } = useGetFile({
-    handleShow: handleShowFile,
+    handleShow: () => setShow(true),
     key: ["getDocUrl"],
   });
 
@@ -37,8 +30,8 @@ const ArchiveContent = () => {
 
   return (
     <>
-      {isLoading ? (
-        <div className="flex justify-center w-full h-screen">Yükleniyor...</div>
+      {archiveQuery.isLoading ? (
+        <LoadingText />
       ) : (
         <>
           <div className="w-fit flex flex-col space-y-10">
@@ -48,6 +41,7 @@ const ArchiveContent = () => {
           </div>
           <div className="w-full flex flex-col space-y-10">
             <ArchiveDocTable
+              data={archiveQuery.data?.data || []}
               handleEditDocument={handleEditDocument}
               columns={columns}
               handleViewDocument={handleViewDocument}

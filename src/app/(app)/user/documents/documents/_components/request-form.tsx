@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Combobox from "@/components/ui/combobox";
@@ -11,14 +12,14 @@ import {
 } from "@/components/ui/form";
 import { SheetClose, SheetFooter } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import React from "react";
+import { Textarea } from "@/components/ui/textarea";
+import { Dropzone } from "@/components/ui/dropZone";
+import { Input } from "@/components/ui/input";
 import {
   RequestDocumentCreate,
   SRequestDocumentCreate,
 } from "@/models/user/documents/documents/requestDocumentCreate";
 import { useAuth } from "@/context/authContext";
-import { Textarea } from "@/components/ui/textarea";
-import { Dropzone } from "@/components/ui/dropZone";
 import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
 
 interface Props {
@@ -40,6 +41,8 @@ const RequestForm = ({
   model,
 }: Props) => {
   const { user } = useAuth();
+  const [isFileUploaded, setIsFileUploaded] = useState(false);
+
   const form = useForm<RequestDocumentCreate>({
     resolver: zodResolver(SRequestDocumentCreate),
     defaultValues: {
@@ -86,10 +89,14 @@ const RequestForm = ({
                 <FormControl>
                   <Dropzone
                     onChange={(file) => {
-                      field.onChange(file?.name);
                       if (file) {
-                        console.log(file);
+                        field.onChange(file?.name);
                         form.setValue("FormFile", file);
+                        setIsFileUploaded(true);
+                      } else {
+                        field.onChange("");
+                        form.setValue("FormFile", undefined);
+                        setIsFileUploaded(false);
                       }
                     }}
                     className="min-h-36"
@@ -112,6 +119,15 @@ const RequestForm = ({
             )}
           />
         </div>
+        {!isFileUploaded && (
+          <FormItem>
+            <FormLabel>Temsili Dosya Adı</FormLabel>
+            <FormControl>
+              <Input placeholder="Dosya adını girin" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
         <FormField
           control={form.control}
           name={"Description"}

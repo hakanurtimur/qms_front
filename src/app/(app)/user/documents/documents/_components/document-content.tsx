@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
+import { convertStringArrayToOptions } from "@/utils/convertStringArrayToOptions";
 import { DataTable } from "@/app/(app)/user/documents/documents/_components/data-table";
 import { columns } from "@/app/(app)/user/documents/documents/_components/columns";
 import { Button } from "@/components/ui/button";

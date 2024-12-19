@@ -112,7 +112,7 @@ const IncidentReport = ({
                   <Dropzone
                     onChange={(file) => field.onChange(file)}
                     className="min-h-36"
-                    fileExtensions={["pdf,png,jpg,jpeg"]}
+                    fileExtensions={["pdf", "png", "jpg", "jpeg"]}
                   />
                 </FormControl>
                 <FormMessage />

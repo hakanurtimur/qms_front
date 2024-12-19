@@ -78,48 +78,65 @@ export const Dropzone = forwardRef<HTMLInputElement, DropzoneProps>(
     return (
       <Card
         className={`border-2 border-dashed bg-muted hover:cursor-pointer hover:border-muted-foreground/50 ${className}`}
+        onClick={handleButtonClick}
         {...props}
       >
         <CardContent
           className="flex flex-col items-center justify-center space-y-2 px-2 py-4 text-xs"
           onDragOver={handleDragOver}
           onDrop={handleDrop}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleButtonClick();
+          }}
         >
-          <div className="flex items-center justify-center text-muted-foreground">
+          <div
+            className="flex items-center justify-center w-full h-full space-x-2"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleButtonClick();
+            }}
+          >
             <span className="font-medium">Dosyaları Sürükleyin veya</span>
             <Button
               variant="ghost"
               type="button"
               size="sm"
-              className="ml-2 h-8 px-2 text-xs"
-              onClick={handleButtonClick}
+              className="h-8 px-2 text-xs"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleButtonClick();
+              }}
             >
               tıklayın
             </Button>
-            <input
-              ref={(node) => {
-                fileInputRef.current = node;
-                if (typeof ref === "function") {
-                  ref(node);
-                } else if (ref) {
-                  (
-                    ref as React.MutableRefObject<HTMLInputElement | null>
-                  ).current = node;
-                }
-              }}
-              type="file"
-              accept={fileExtensions?.map((ext) => `.${ext}`).join(", ")} // Accept multiple file types
-              onChange={handleFileInputChange}
-              className="hidden"
-              multiple={false}
-            />
           </div>
+          <input
+            ref={(node) => {
+              fileInputRef.current = node;
+              if (typeof ref === "function") {
+                ref(node);
+              } else if (ref) {
+                (
+                  ref as React.MutableRefObject<HTMLInputElement | null>
+                ).current = node;
+              }
+            }}
+            type="file"
+            accept={fileExtensions?.map((ext) => `.${ext}`).join(", ")}
+            onChange={handleFileInputChange}
+            className="hidden"
+            multiple={false}
+          />
           {fileInfo && (
             <div className="flex items-center justify-between w-full px-2">
               <p className="text-muted-foreground">{fileInfo}</p>
               <button
                 type="button"
-                onClick={handleClearFile}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleClearFile();
+                }}
                 className="text-red-500 hover:text-red-700 focus:outline-none"
                 aria-label="Dosyayı Sil"
               >

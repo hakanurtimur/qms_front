@@ -48,8 +48,8 @@ interface DataTableProps<TData, TValue> {
 
 export function DataTable<TData, TValue>({
   departmentOps,
-  documentTypeOpts,
-  requestTypeOpts,
+  /*   documentTypeOpts,
+   */ requestTypeOpts,
   columns,
   data,
   variant = "default",
@@ -111,7 +111,7 @@ export function DataTable<TData, TValue>({
                 />
               </div>
 
-              <div className="flex-1">
+              {/*  <div className="flex-1">
                 <NonFormCombobox
                   value={
                     (table
@@ -126,7 +126,7 @@ export function DataTable<TData, TValue>({
                   placeholder={"Doküman Tipi"}
                   options={documentTypeOpts}
                 />
-              </div>
+              </div> */}
               <div className="flex-1">
                 <NonFormCombobox
                   value={

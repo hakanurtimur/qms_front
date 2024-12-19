@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { convertStringArrayToOptions } from "@/utils/getDocumentOptions";
+import { convertStringArrayToOptions } from "@/utils/convertStringArrayToOptions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/app/(app)/user/documents/waiting-requests/_components/data-table";
 import { columns } from "@/app/(app)/user/documents/waiting-requests/_components/columns";
