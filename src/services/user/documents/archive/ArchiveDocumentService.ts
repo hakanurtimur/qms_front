@@ -41,7 +41,7 @@ export class ArchiveDocumentService {
     */
 
   public async updateDocumentArchive(data: {
-    userId: number;
+    userId: string;
     fileId: number;
     state: boolean;
   }): Promise<void> {

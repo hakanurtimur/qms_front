@@ -7,7 +7,7 @@ export const useUserUpdateArchiveDocuments = (
 ) => {
   return useMutation({
     mutationKey: ["update-archive-doc-state"],
-    mutationFn: (data: { userId: number; fileId: number; state: boolean }) =>
+    mutationFn: (data: { userId: string; fileId: number; state: boolean }) =>
       archiveDocumentService.updateDocumentArchive(data),
     onSuccess,
     onError,

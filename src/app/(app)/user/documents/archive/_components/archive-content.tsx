@@ -25,14 +25,16 @@ const ArchiveContent = () => {
   };
 
   const handleEditDocument = (fileId: string) => {
-    getFileMutation.mutate(fileId);
+    getFileMutation.mutate(fileId, {
+      onSuccess: () => {
+        setShow(false);
+      },
+    });
   };
-
+  console.log("archiveQuery", archiveQuery.data);
   return (
     <>
-      {archiveQuery.isLoading ? (
-        <LoadingText />
-      ) : (
+      {archiveQuery.data ? (
         <>
           <div className="w-fit flex flex-col space-y-10">
             <Button variant="primary" onClick={() => window.location.reload()}>
@@ -41,7 +43,7 @@ const ArchiveContent = () => {
           </div>
           <div className="w-full flex flex-col space-y-10">
             <ArchiveDocTable
-              data={archiveQuery.data?.data || []}
+              data={archiveQuery.data.data || []}
               handleEditDocument={handleEditDocument}
               columns={columns}
               handleViewDocument={handleViewDocument}
@@ -55,6 +57,8 @@ const ArchiveContent = () => {
             variant={"view"}
           />
         </>
+      ) : (
+        <LoadingText />
       )}
     </>
   );

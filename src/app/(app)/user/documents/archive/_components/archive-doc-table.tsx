@@ -43,7 +43,6 @@ export default function ArchiveDocTable({
   columns,
   data,
   handleViewDocument,
-  handleEditDocument,
 }: ArchiveDocTableProps<RequestDocumentListModel, unknown>) {
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -220,13 +219,8 @@ export default function ArchiveDocTable({
                         </TableCell>
                       ))}
                       <TableCell>
-                        <div className="flex items-center gap-4 justify-end">
-                          <ArchiveDocSheet
-                            data={row.original}
-                            handleSubmit={(state, fileId) =>
-                              handleEditDocument(String(fileId))
-                            }
-                          />
+                        <div className="flex items-center gap-2 justify-end">
+                          <ArchiveDocSheet data={row.original} />
                           <Tooltip>
                             <TooltipTrigger>
                               <EyeIcon

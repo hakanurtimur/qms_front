@@ -1,10 +1,17 @@
-import { Cpu } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 interface Props {
   className?: string;
 }
 
 const Logo = ({ className }: Props) => {
+  const [pathname, setPathname] = useState("");
+
+  useEffect(() => {
+    setPathname(window.location.pathname);
+  }, []);
+
   return (
     <div
       className={
@@ -12,15 +19,26 @@ const Logo = ({ className }: Props) => {
         className
       }
       onClick={() => {
-        if (window.location.pathname.includes("user")) {
+        if (pathname.includes("user")) {
           window.location.href = "/user";
-        } else if (window.location.pathname.includes("admin")) {
+        } else if (
+          pathname.includes("admin") &&
+          !pathname.includes("admin-login")
+        ) {
           window.location.href = "/admin";
         }
       }}
     >
-      <Cpu className="h-8 w-8 mr-2" />
-      Qubqa
+      {/* Logo Siyah */}
+      {(pathname.includes("login") || pathname.includes("admin-login")) && (
+        <Image src="/icons/logo-siyah.png" alt="Logo" width={288} height={72} />
+      )}
+
+      {/* Logo Beyaz */}
+      {(pathname.includes("user") ||
+        (pathname.includes("admin") && !pathname.includes("admin-login"))) && (
+        <Image src="/icons/logo-white.png" alt="Logo" width={288} height={72} />
+      )}
     </div>
   );
 };
