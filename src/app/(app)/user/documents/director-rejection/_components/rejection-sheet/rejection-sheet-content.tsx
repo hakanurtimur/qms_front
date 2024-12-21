@@ -45,7 +45,7 @@ const RejectionSheetContent = ({
     superAdminActionName: model ? (model.superAdminActionName ?? "") : "",
     descriptionSuperAdmin: model ? (model.descriptionSuperAdmin ?? "") : "",
     superAdminAboutName: model ? (model.superAdminAboutName ?? "") : "",
-    garbageId: model ? (model.garbageId ?? 0) : 0,
+    approveGarbageId: model ? (model.approveGarbageId ?? 0) : 0,
     fileId: model ? (model.fileId ?? 0) : 0,
   };
 
@@ -167,10 +167,10 @@ const RejectionSheetContent = ({
             <div className="flex items-center gap-4 mt-4">
               <Tooltip>
                 <TooltipTrigger asChild>
-                  {model?.garbageId && (
+                  {model?.approveGarbageId && (
                     <Button
                       onClick={() => {
-                        onGetGarbage(model?.garbageId.toString());
+                        onGetGarbage(model?.approveGarbageId!.toString());
                       }}
                       type="button"
                       className="pb-3 pt-3 min-w-24 min-h-12"

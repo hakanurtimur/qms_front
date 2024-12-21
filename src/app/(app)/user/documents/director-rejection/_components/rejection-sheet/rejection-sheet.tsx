@@ -13,9 +13,9 @@ import useGetRequestDetails from "@/app/(app)/user/documents/director-rejection/
 import { useAuth } from "@/context/authContext";
 import { DirectorRejectionModel } from "@/models/user/documents/director-rejection/director-rejection";
 import useGetFile from "@/app/(app)/user/documents/hooks/useGetFile";
-import useGetGarbage from "@/app/(app)/user/documents/hooks/useGetGarbage";
 import PdfViewer from "@/components/ui/pdf-viewer";
 import { DialogOverlay } from "@/components/ui/dialog";
+import useGetApprovedGarbageFile from "@/app/(app)/user/documents/waiting-requests/lib/hooks/useGetApprovedGarbageFile";
 
 interface Props {
   model: DirectorRejectionModel;
@@ -36,7 +36,7 @@ const RejectionSheet = ({ model, variant, onApproveRequest }: Props) => {
     handleShow: handleShowFile,
     key: ["getDocUrl"],
   });
-  const { garbageSrc, garbageFileName, getGarbageMutation } = useGetGarbage({
+  const { garbageSrc, getGarbageMutation } = useGetApprovedGarbageFile({
     handleShow,
     userId: user?.userId ?? "",
   });
@@ -55,7 +55,7 @@ const RejectionSheet = ({ model, variant, onApproveRequest }: Props) => {
           variant={"view"}
           open={show}
           onOpenChange={() => setShow(false)}
-          fileName={garbageFileName ?? null}
+          fileName={""}
           src={garbageSrc ?? ""}
         />
       )}

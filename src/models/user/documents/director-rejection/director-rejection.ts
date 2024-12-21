@@ -45,7 +45,7 @@ export const SDirectorRejectionDetailsModel = z.object({
   updateDate: z.string(), // UpdateDate DATETIME
   fileId: z.number(), // FileId INT
   fileName: z.string(), // FileName STRING
-  garbageId: z.number(), // GarbageId INT
+  approveGarbageId: z.number().optional(), // GarbageId INT
 });
 
 export type DirectorRejectionDetailsModel = z.infer<
