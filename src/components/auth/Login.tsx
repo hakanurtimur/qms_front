@@ -30,8 +30,8 @@ import { Location } from "@/models/location";
 import { useEffect, useState } from "react";
 import { Module } from "@/models/module";
 import FormContainerCard from "@/components/ui/form-container-card";
-/* import CagriButon from "@/components/ui/cagriButon";
- */
+import CagriButon from "@/components/ui/cagriButon";
+
 interface Props {
   locations: Location[];
   locationLoading: boolean;
@@ -74,8 +74,7 @@ const Login = ({
           <Logo />
         </div>
         <div className="md:absolute bottom-5 left-5">
-          {/*           <CagriButon />
-           */}{" "}
+          <CagriButon />
         </div>
         <div className="md:hidden block">
           <Button

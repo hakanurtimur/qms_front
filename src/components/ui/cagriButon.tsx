@@ -10,7 +10,7 @@ const CagriButon = () => {
       asChild
       variant="ghost"
     >
-      <Link href="https://www.google.com" target="_blank">
+      <Link href="http://10.35.45.5:8585" target="_blank">
         <Image width={75} height={75} src={"/icons/cagri-ikon.png"} alt={""} />
       </Link>
     </Button>

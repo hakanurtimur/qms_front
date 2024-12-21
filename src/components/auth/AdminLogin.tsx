@@ -25,8 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import FormContainerCard from "@/components/ui/form-container-card";
-/* import CagriButon from "@/components/ui/cagriButon";
- */
+import CagriButon from "../ui/cagriButon";
 interface Props {
   locations: Location[];
   locationLoading: boolean;
@@ -74,8 +73,7 @@ const AdminLogin = ({
           <Logo />
         </div>
         <div className="md:absolute bottom-5 right-5">
-          {/*           <CagriButon />
-           */}{" "}
+          <CagriButon />
         </div>
         <div className="md:hidden block">
           <Button variant="primary" size={"icon"} asChild>
