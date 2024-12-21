@@ -47,6 +47,7 @@ const HistorySheet: React.FC<HistorySheetProps> = ({
       userName: data?.userName,
       superAdminName: data?.superAdminName,
       administratorName: data?.administratorName,
+      publishDate: data?.publishDate,
     },
   });
 
@@ -118,7 +119,7 @@ const HistorySheet: React.FC<HistorySheetProps> = ({
                           <FormControl>
                             <DatePicker
                               name="publishDate"
-                              value={data?.publishDate}
+                              value={form.getValues("publishDate")}
                               onChange={(date) =>
                                 form.setValue("publishDate", date)
                               }

@@ -31,7 +31,7 @@ interface DatePickerProps {
   label?: string;
   placeholder?: string;
   width?: string;
-  value?: string;
+  value?: string | null | undefined;
   readonly?: boolean;
   onChange?: (value: string) => void;
   includeTime?: boolean; // Yeni prop
@@ -45,7 +45,7 @@ export function DatePicker({
   onChange,
   readonly,
   value,
-  includeTime = false, // Varsayılan olarak zaman seçimi kapalı
+  includeTime = false,
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false);
   const [selectedDateTime, setSelectedDateTime] = React.useState<Date>(
@@ -60,12 +60,6 @@ export function DatePicker({
       }
     }
   }, [value]);
-
-  React.useEffect(() => {
-    if (onChange) {
-      onChange(format(selectedDateTime, "yyyy-MM-dd'T'HH:mm"));
-    }
-  }, [selectedDateTime, onChange]);
 
   const handleYearChange = (value: string) => {
     const year = parseInt(value, 10);
@@ -115,6 +109,13 @@ export function DatePicker({
     return day;
   });
 
+  const handleCheck = () => {
+    if (onChange) {
+      onChange(format(selectedDateTime, "yyyy-MM-dd'T'HH:mm"));
+    }
+    setOpen(false);
+  };
+
   return (
     <div className={width}>
       <div className="space-y-1 flex flex-col">
@@ -125,11 +126,11 @@ export function DatePicker({
         )}
         <Popover
           open={open}
-          onOpenChange={(value) => {
+          onOpenChange={() => {
             if (readonly) {
               return;
             }
-            setOpen(value);
+            setOpen(true);
           }}
         >
           <PopoverTrigger asChild>
@@ -277,7 +278,7 @@ export function DatePicker({
               )}
               <div className="flex flex-row justify-center items-end">
                 <Check
-                  onClick={() => setOpen(false)}
+                  onClick={handleCheck}
                   className="h-9 w-9 p-1 items-center justify-center text-primary-800 cursor-pointer hover:text-primary-900 transition-colors duration-200 ease-in-out transform hover:bg-primary-100 border rounded"
                 />
               </div>

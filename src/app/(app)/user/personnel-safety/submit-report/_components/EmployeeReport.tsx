@@ -82,7 +82,8 @@ const EmployeeReport = ({ onSubmit, userList, eventSceneTypeList }: Props) => {
                   <FormLabel>Olay Tarihi</FormLabel>
                   <FormControl>
                     <DatePicker
-                      {...field}
+                      name="date"
+                      value={field.value}
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
                       includeTime={true}

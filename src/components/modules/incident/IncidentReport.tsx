@@ -50,6 +50,7 @@ const IncidentReport = ({ onSubmit, eventSceneTypeList }: Props) => {
                 <FormControl>
                   <DatePicker
                     name={"date"}
+                    value={field.value}
                     onChange={(date) => field.onChange(date)}
                     includeTime={true}
                   />

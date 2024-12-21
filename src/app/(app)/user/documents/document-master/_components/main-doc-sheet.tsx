@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Sheet,
   SheetContent,
@@ -58,24 +58,19 @@ const MainDocSheet: React.FC<MainDocSheetProps> = ({
       publishDate: data?.publishDate ?? "",
       issueTypeId: data?.issueTypeId ?? 0,
       archiveInfo: data?.archiveInfo ?? "",
+      lookOutDate: data?.lookOutDate ?? "",
     },
   });
-  console.log("data", data);
 
   const handleSubmitForm = (data: DocumentMasterMainSheetModal) => {
     const updatedData: DocumentMasterMainSheetModelRequest = {
       issueTypeId: data.issueTypeId ?? 0,
-      lookOutDate: data.lookOutDate,
+      lookOutDate: data.lookOutDate ?? "",
       archiveInfo: data.archiveInfo ?? "",
     };
     console.log("updatedData", updatedData);
     handleSubmit(updatedData);
   };
-
-  useEffect(() => {
-    console.log("Form ", form.getValues("lookOutDate"));
-  }, [form]);
-  console.log("Document Type Name", data.documentTypeName);
 
   return (
     <div>
@@ -183,7 +178,7 @@ const MainDocSheet: React.FC<MainDocSheetProps> = ({
                             <DatePicker
                               readonly={true}
                               name="reviseDate"
-                              value={data?.lastReviseDate}
+                              value={form.getValues("lastReviseDate")}
                             />
                           </FormControl>
                           <FormMessage />
@@ -200,7 +195,7 @@ const MainDocSheet: React.FC<MainDocSheetProps> = ({
                             <DatePicker
                               readonly={true}
                               {...field}
-                              value={data?.publishDate}
+                              value={field.value}
                               placeholder=""
                             />
                           </FormControl>
@@ -209,7 +204,6 @@ const MainDocSheet: React.FC<MainDocSheetProps> = ({
                       )}
                     />
                     <FormField
-                      control={form.control}
                       name="lookOutDate"
                       render={({ field }) => (
                         <FormItem>
@@ -217,8 +211,9 @@ const MainDocSheet: React.FC<MainDocSheetProps> = ({
                           <FormControl>
                             <DatePicker
                               name="lookOutDate"
-                              onChange={(value) => field.onChange(value)}
-                              value={data?.lookOutDate}
+                              onChange={(date) => field.onChange(date)}
+                              placeholder=""
+                              value={field.value}
                             />
                           </FormControl>
                           <FormMessage />

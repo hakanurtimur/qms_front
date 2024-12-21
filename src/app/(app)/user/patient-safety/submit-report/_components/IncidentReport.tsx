@@ -63,6 +63,7 @@ const IncidentReport = ({
                     name={"date"}
                     onChange={(date) => field.onChange(date)}
                     includeTime={true}
+                    value={field.value}
                   />
                 </FormControl>
                 <FormMessage />

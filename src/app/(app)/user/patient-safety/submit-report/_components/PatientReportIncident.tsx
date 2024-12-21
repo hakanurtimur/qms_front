@@ -129,10 +129,11 @@ const PatientReportIncident = ({
                   <FormLabel className={"w-52"}>Olay Tarihi</FormLabel>
                   <FormControl>
                     <DatePicker
-                      {...field}
                       onChange={(value) => field.onChange(value)}
                       placeholder="Seçiniz"
                       includeTime={true}
+                      value={field.value}
+                      name="date"
                     />
                   </FormControl>
                   <FormMessage className="absolute " />
