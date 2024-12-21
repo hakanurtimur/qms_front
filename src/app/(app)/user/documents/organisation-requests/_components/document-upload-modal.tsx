@@ -108,6 +108,7 @@ export default function DocumentUploadForm({
                           {},
                         )}
                         onChange={(value) => field.onChange(value)}
+                        width="w-[300px] w-full"
                       />
                       <FormMessage />
                     </FormItem>

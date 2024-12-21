@@ -5,6 +5,13 @@ import SortingBtn from "@/components/ui/sorting-btn";
 import { formatDateWithoutTime } from "@/utils/dateUtils";
 import { DocumentMasterMainModal } from "@/models/user/documents/document-master/DocumentMasterModels";
 import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 export const columns: ColumnDef<DocumentMasterMainModal>[] = [
   {
     accessorKey: "id",
@@ -55,6 +62,20 @@ export const columns: ColumnDef<DocumentMasterMainModal>[] = [
           text={"Dosya Adı"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
+      );
+    },
+    cell: ({ cell }) => {
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="max-w-32 truncate">
+                {cell.getValue() as string}
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>{cell.getValue() as string}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       );
     },
     footer: "Dosya Adı",
