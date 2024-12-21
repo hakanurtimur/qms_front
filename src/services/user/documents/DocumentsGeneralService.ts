@@ -5,7 +5,10 @@ import {
   SuperAdminActionOptionListResponseModel,
   WaitingRequestResponseDetailsModel,
 } from "@/models/user/documents/waitingRequests/waitingRequestModel";
-import { RequestDocumentGetModelResponse } from "@/models/user/documents/documents/requestDocument";
+import {
+  ApprovedGarbageResponseModel,
+  RequestDocumentGetModelResponse,
+} from "@/models/user/documents/documents/requestDocument";
 
 export class DocumentsGeneralService {
   public async getDocumentTypes(): Promise<RequestDocumentTypeResponse> {
@@ -39,6 +42,15 @@ export class DocumentsGeneralService {
     file_id: string,
   ): Promise<RequestDocumentGetModelResponse> {
     return await api.get(`/Document/get-document-by-id/${file_id}`);
+  }
+
+  public async getApprovedGarbage(
+    user_id: string,
+    approved_garbage_id: string,
+  ): Promise<ApprovedGarbageResponseModel> {
+    return await api.get(
+      `/documentdemand/get-approve-document-by-id/${approved_garbage_id}/${user_id}`,
+    );
   }
 }
 

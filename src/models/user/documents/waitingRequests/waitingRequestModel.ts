@@ -5,6 +5,7 @@ export const SWaitingRequestModel = z.object({
   id: z.number(),
   documentTypeId: z.number(),
   documentTypeName: z.string(),
+  approveGarbageId: z.number().optional(),
   userId: z.number(),
   roleId: z.number(),
   userName: z.string(),
@@ -117,14 +118,36 @@ export type WaitingRequestModelUpdate = z.infer<
   typeof SWaitingRequestModelUpdate
 >;
 
-export const SUpdateWaitingRequestModel = z.object({
-  id: z.number().int().nonnegative(), // id: Integer, non-negative
-  userId: z.number().int().nonnegative(), // userId: Integer, non-negative
-  superAdminActionId: z.number().int().nonnegative(), // actionId: Integer, non-negative
-  documentTypeId: z.number().int().nonnegative(), // documentTypeId: Integer, non-negative
-  superAdminAboutId: z.number().int().nonnegative(), // superAdminAboutId: Integer, non-negative
-  descriptionSuperAdmin: z.string().nullable(), // descriptionSuperAdmin: String, nullable
-});
+export const SUpdateWaitingRequestModel = z
+  .object({
+    id: z.number().int().nonnegative(), // id: Integer, non-negative
+    userId: z.number().int().nonnegative(), // userId: Integer, non-negative
+    superAdminActionId: z.number().int().nonnegative(), // actionId: Integer, non-negative
+    documentTypeId: z.number().int().nonnegative(), // documentTypeId: Integer, non-negative
+    superAdminAboutId: z
+      .number()
+      .int()
+      .positive({ message: "Talep nedeni seçilmelidir" }), // superAdminAboutId: Integer, non-negative
+    descriptionSuperAdmin: z.string().nullable(),
+    formFile: z
+      .instanceof(File)
+      .nullable()
+      .optional()
+      .refine((file) => !file || file.size > 0, {
+        message: "Boş bir dosya yükleyemezsiniz.",
+      }),
+  })
+  .superRefine((data, ctx) => {
+    if (data.superAdminActionId === 4) {
+      if (!data.formFile) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Üst yönetici onayı için dosya gereklidir",
+          path: ["formFile"],
+        });
+      }
+    }
+  });
 
 export type UpdateWaitingRequestModel = z.infer<
   typeof SUpdateWaitingRequestModel

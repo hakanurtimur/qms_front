@@ -19,6 +19,16 @@ export const SRequestDocumentListModel = z.object({
   state: z.boolean(),
 });
 
+export const SApprovedGarbageResponseModel = SResponseModel.extend({
+  data: z.object({
+    garbageURL: z.string(),
+  }),
+});
+
+export type ApprovedGarbageResponseModel = z.infer<
+  typeof SApprovedGarbageResponseModel
+>;
+
 // export const SRequestDocumentModel = z.object({
 //   documentType: z.string().min(1, "Belge türü seçiniz"),
 //   file: z

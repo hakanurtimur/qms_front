@@ -42,9 +42,25 @@ export class WaitingRequestsService {
     user_id: string,
     data: UpdateWaitingRequestModel,
   ): Promise<unknown> {
+    const formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, value instanceof File ? value : String(value));
+      }
+    });
+
+    console.log(data.formFile);
+    console.log("formData :" + formData);
+
     return await api.put(
       `/documentdemand/update-superadmin-document-demand/${user_id}`,
-      data,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
     );
   }
 
