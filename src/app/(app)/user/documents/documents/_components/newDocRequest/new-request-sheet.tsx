@@ -14,6 +14,7 @@ import React, { useState } from "react";
 import RequestForm from "@/app/(app)/user/documents/documents/_components/request-form";
 import { RequestDocumentCreate } from "@/models/user/documents/documents/requestDocumentCreate";
 import { DialogOverlay } from "@/components/ui/dialog";
+import { useAuth } from "@/context/authContext";
 
 interface Props {
   onSubmit: (data: { userId: string; formData: RequestDocumentCreate }) => void;
@@ -21,7 +22,16 @@ interface Props {
 }
 
 const NewRequestSheet = ({ onSubmit, documentTypeOpts }: Props) => {
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
+  if (
+    user?.roleId == "1" ||
+    user?.roleId == "5" ||
+    user?.roleId == "6" ||
+    user?.roleId == "7"
+  ) {
+    return null;
+  }
   return (
     <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
       <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />

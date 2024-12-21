@@ -38,12 +38,19 @@ export default function Layout({ children }: Props) {
               href: "/user/documents/documents",
               items: [],
             },
-            {
-              icon: DocumentTextIcon,
-              label: "Talepler",
-              href: "/user/documents/requests",
-              items: [],
-            },
+            ...(user?.roleId === "4" ||
+            user?.roleId === "3" ||
+            user?.roleId === "2" ||
+            user?.roleId === "6"
+              ? [
+                  {
+                    icon: DocumentTextIcon,
+                    label: "Talepler",
+                    href: "/user/documents/requests",
+                    items: [],
+                  },
+                ]
+              : []),
             ...(user?.roleId === "4"
               ? [
                   {
