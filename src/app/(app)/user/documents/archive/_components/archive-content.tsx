@@ -31,7 +31,7 @@ const ArchiveContent = () => {
       },
     });
   };
-  console.log("archiveQuery", archiveQuery.data);
+
   return (
     <>
       {archiveQuery.data ? (

@@ -267,9 +267,11 @@ const OrganisationRequestSheetForm = ({
             />
             <TooltipProvider>
               <div className="flex flex-col">
-                <div className="text-sm font-medium leading-none h-[16.5px] flex items-end">
-                  Doküman
-                </div>
+                {(!!model?.garbageId || !!model?.fileId) && (
+                  <div className="text-sm font-medium leading-none h-[16.5px] flex items-end">
+                    Doküman
+                  </div>
+                )}
                 <div className="flex items-center gap-4 mt-4">
                   {model && model.garbageId ? (
                     <Tooltip>

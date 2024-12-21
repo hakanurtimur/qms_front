@@ -227,7 +227,7 @@ export const adminNavItems: NavItemModel[] = [
       {
         icon: DocumentTextIcon,
         label: "Yetkilendirme",
-        href: "/admin/kullanici-yonetimi/yetkilendirme",
+        href: "/admin/user-management/authorization",
         items: [],
       },
       {
