@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Sheet,
   SheetContent,
@@ -72,6 +72,9 @@ const MainDocSheet: React.FC<MainDocSheetProps> = ({
     handleSubmit(updatedData);
   };
 
+  useEffect(() => {
+    console.log("Form ", form.getValues("lookOutDate"));
+  }, [form]);
   console.log("Document Type Name", data.documentTypeName);
 
   return (
@@ -198,6 +201,7 @@ const MainDocSheet: React.FC<MainDocSheetProps> = ({
                               readonly={true}
                               {...field}
                               value={data?.publishDate}
+                              placeholder=""
                             />
                           </FormControl>
                           <FormMessage />
@@ -213,8 +217,8 @@ const MainDocSheet: React.FC<MainDocSheetProps> = ({
                           <FormControl>
                             <DatePicker
                               name="lookOutDate"
-                              value={field.value}
-                              onChange={field.onChange}
+                              onChange={(value) => field.onChange(value)}
+                              value={data?.lookOutDate}
                             />
                           </FormControl>
                           <FormMessage />

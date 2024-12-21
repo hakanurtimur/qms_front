@@ -143,10 +143,10 @@ export function DatePicker({
               )}
             >
               <span className="flex-1 text-left">
-                {selectedDateTime
+                {value
                   ? includeTime
-                    ? `${format(selectedDateTime, "dd.MM.yyyy")} ${selectedDateTime.getHours().toString().padStart(2, "0")}:${selectedDateTime.getMinutes().toString().padStart(2, "0")}`
-                    : format(selectedDateTime, "dd.MM.yyyy")
+                    ? `${format(new Date(selectedDateTime), "dd.MM.yyyy")} ${new Date(value).getHours().toString().padStart(2, "0")}:${new Date(selectedDateTime).getMinutes().toString().padStart(2, "0")}`
+                    : format(new Date(selectedDateTime), "dd.MM.yyyy")
                   : placeholder}
               </span>
               {includeTime ? (
