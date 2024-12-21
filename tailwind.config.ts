@@ -30,7 +30,7 @@ const config = {
         "screen-70": "70vh",
       },
       colors: {
-        "primary-50": "#e8ebf5", // Very light, for backgrounds
+        /* "primary-50": "#e8ebf5", // Very light, for backgrounds
         "primary-100": "#c6d0ea", // Light shade, subtle backgrounds
         "primary-200": "#9fb4d7", // Lighter shade
         "primary-300": "#7899c5", // Soft main color
@@ -40,7 +40,8 @@ const config = {
         "primary-700": "#254279", // Darker for emphasis
         "primary-800": "#1e3663", // Even darker
         "primary-900": "#172a50", // Very dark for contrast
-        "primary-950": "#22366b",
+        "primary-950": "#22366b", */
+        primary: colors.slate,
         secondary: colors.green,
         tertiary: colors.yellow,
         success: colors.green,

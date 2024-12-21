@@ -25,6 +25,11 @@ export default function RootLayout({
                 content="width=device-width, initial-scale=1.0"
               />
               <title>Qubqa</title>
+              <link
+                rel="icon"
+                href="/icons/qubqa-logo.ico"
+                type="image/x-icon"
+              />
             </head>
             <body>
               {children}

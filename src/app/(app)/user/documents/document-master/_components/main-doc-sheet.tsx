@@ -5,6 +5,7 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
+  SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -284,9 +285,9 @@ const MainDocSheet: React.FC<MainDocSheetProps> = ({
                     </div>
                   </div>
                   <div className="flex gap-5 mt-1">
-                    <Button variant="outline" onClick={() => setIsOpen(false)}>
-                      İptal
-                    </Button>
+                    <SheetClose asChild>
+                      <Button variant="outline">İptal</Button>
+                    </SheetClose>
                     <Button type="submit">Kaydet</Button>
                   </div>
                 </div>
