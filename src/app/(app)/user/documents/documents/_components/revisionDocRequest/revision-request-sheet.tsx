@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ClipboardDocumentListIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import React, { useState } from "react";
 import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
 import { RequestDocumentCreate } from "@/models/user/documents/documents/requestDocumentCreate";
 import RequestForm from "@/app/(app)/user/documents/documents/_components/request-form";
@@ -23,8 +23,9 @@ interface Props {
 }
 
 const RevisionRequestSheet = ({ onSubmit, model, documentTypeOpts }: Props) => {
+  const [open, setOpen] = useState(false);
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
       <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
       <SheetTrigger asChild>
         <Button size={"icon"}>
@@ -43,6 +44,7 @@ const RevisionRequestSheet = ({ onSubmit, model, documentTypeOpts }: Props) => {
           variant={"revision"}
           onSubmit={onSubmit}
           model={model}
+          onSheetClose={() => setOpen(false)}
         />
       </SheetContent>
     </Sheet>

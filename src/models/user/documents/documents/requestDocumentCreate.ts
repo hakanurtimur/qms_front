@@ -1,21 +1,44 @@
 import { z } from "zod";
 
-export const SRequestDocumentCreate = z.object({
-  RoleId: z.number().int(),
-  UserId: z.number().int(),
-  DepartmentId: z.number().int(),
-  DocumentTypeId: z.number().int(),
-  Description: z.string(),
-  GarbageFileName: z.string(),
-  FileId: z.number().int().optional().nullable(),
-  FormFile: z
-    .instanceof(File)
-    .nullable()
-    .optional()
-    .refine((file) => !file || file.size > 0, {
-      message: "Boş bir dosya yükleyemezsiniz.",
-    }),
-});
+export const SRequestDocumentCreate = z
+  .object({
+    RoleId: z.number().int(),
+    UserId: z.number().int(),
+    DepartmentId: z.number().int({ message: "Departman seçilmelidir." }),
+    DocumentTypeId: z
+      .number({ message: "Departman seçilmelidir." })
+      .int({ message: "Departman seçilmelidir." }),
+    Description: z
+      .string()
+      .min(5, { message: "Açıklama en az 5 karakter olmalıdır." }),
+    GarbageFileName: z.string(),
+    FileId: z.number().int().optional().nullable(),
+    FormFile: z
+      .instanceof(File)
+      .nullable()
+      .optional()
+      .refine((file) => !file || file.size > 0, {
+        message: "Boş bir dosya yükleyemezsiniz.",
+      }),
+    TemporaryFileName: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (!data.FormFile) {
+      if (!data.TemporaryFileName) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["TemporaryFileName"],
+          message: "Temsili dosya adı dosya yüklenmediğinde zorunludur.",
+        });
+      } else if (data.TemporaryFileName.length < 3) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["TemporaryFileName"],
+          message: "Temsili dosya adı en az 3 karakter olmalıdır.",
+        });
+      }
+    }
+  });
 
 export type RequestDocumentCreate = z.infer<typeof SRequestDocumentCreate>;
 

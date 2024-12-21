@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import React, { useState } from "react";
 import RequestForm from "@/app/(app)/user/documents/documents/_components/request-form";
 import { RequestDocumentCreate } from "@/models/user/documents/documents/requestDocumentCreate";
 import { DialogOverlay } from "@/components/ui/dialog";
@@ -21,8 +21,9 @@ interface Props {
 }
 
 const NewRequestSheet = ({ onSubmit, documentTypeOpts }: Props) => {
+  const [open, setOpen] = useState(false);
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
       <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
       <SheetTrigger asChild>
         <Button className="flex gap-2">
@@ -45,6 +46,7 @@ const NewRequestSheet = ({ onSubmit, documentTypeOpts }: Props) => {
           }) => {
             onSubmit(data);
           }}
+          onSheetClose={() => setOpen(false)}
         />
       </SheetContent>
     </Sheet>

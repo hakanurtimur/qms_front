@@ -128,7 +128,7 @@ function Combobox<T extends FieldValues>({
                 </PopoverContent>
               </Popover>
             </FormControl>
-            <FormMessage />
+            <FormMessage className="pt-2" />
           </FormItem>
         </div>
       )}

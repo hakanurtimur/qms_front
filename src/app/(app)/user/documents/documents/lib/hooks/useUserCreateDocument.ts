@@ -2,11 +2,15 @@ import { RequestDocumentCreate } from "@/models/user/documents/documents/request
 import requestDocumentService from "@/services/user/documents/request-document/RequestDocumentsService";
 import { useMutation } from "@tanstack/react-query";
 
-export const useUserCreateDocument = (onSuccess: () => void) => {
+export const useUserCreateDocument = (
+  onSuccess: () => void,
+  onError: () => void,
+) => {
   return useMutation({
     mutationKey: ["createDocument"],
     mutationFn: (data: { userId: string; formData: RequestDocumentCreate }) =>
       requestDocumentService.createDocument(data),
     onSuccess: onSuccess,
+    onError: onError,
   });
 };

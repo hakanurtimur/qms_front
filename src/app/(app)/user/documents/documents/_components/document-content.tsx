@@ -16,6 +16,7 @@ import { useUserCreateDocument } from "../lib/hooks/useUserCreateDocument";
 import { useUserUpdateDocument } from "../lib/hooks/useUserUpdateDocument";
 import { useUserGetDocuments } from "../lib/hooks/useUserGetDocuments";
 import useGetFile from "../../hooks/useGetFile";
+import LoadingText from "@/components/ui/loading-text";
 
 const DocumentContentPage = () => {
   // TODO: add query service
@@ -60,12 +61,9 @@ const DocumentContentPage = () => {
     return () => clearTimeout(timer); // Temizleme
   }, []);
 
-  console.log("query", query.data?.data);
   const categories = query.data?.data.map((doc) => doc.categoryName);
 
   const folderNames = query.data?.data.map((doc) => doc.folderName);
-  console.log("folderNames", folderNames);
-  console.log("categories", categories);
 
   const categroyOpts = categories
     ? convertStringArrayToOptions(categories)
@@ -74,14 +72,22 @@ const DocumentContentPage = () => {
     ? convertStringArrayToOptions(folderNames)
     : null;
 
-  const createDocumentMutation = useUserCreateDocument(async () => {
-    await query.refetch();
-    toast({
-      title: "Başarılı",
-      description: "Doküman revize talebi başarıyla oluşturuldu",
-      variant: "success",
-    });
-  });
+  const createDocumentMutation = useUserCreateDocument(
+    async () => {
+      await query.refetch();
+      toast({
+        title: "Başarılı",
+        description: "Doküman başarıyla oluşturuldu",
+        variant: "success",
+      });
+    },
+    () =>
+      toast({
+        title: "İşlem Gerçekleştirilemedi",
+        description: "Doküman oluşturulurken bir hata oluştu",
+        variant: "destructive",
+      }),
+  );
 
   const reviseDocumentMutation = useUserUpdateDocument(async () => {
     await query.refetch();
@@ -137,7 +143,7 @@ const DocumentContentPage = () => {
         )}
       </div>
       {isLoading ? (
-        <div className="flex items-center justify-center">Yükleniyor...</div>
+        <LoadingText />
       ) : query.data && categroyOpts && folderOpts && documentTypeOpts ? (
         <DataTable
           categoryOpts={categroyOpts}
@@ -153,7 +159,7 @@ const DocumentContentPage = () => {
           documentTypeOpts={documentTypeOpts}
         />
       ) : (
-        <div className="flex items-center justify-center">...</div>
+        <LoadingText />
       )}
       {getFileMutation.data && (
         <PdfViewer

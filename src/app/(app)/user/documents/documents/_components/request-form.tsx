@@ -10,23 +10,24 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { SheetClose, SheetFooter } from "@/components/ui/sheet";
+import { SheetFooter } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Dropzone } from "@/components/ui/dropZone";
-import { Input } from "@/components/ui/input";
 import {
   RequestDocumentCreate,
   SRequestDocumentCreate,
 } from "@/models/user/documents/documents/requestDocumentCreate";
 import { useAuth } from "@/context/authContext";
 import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
+import { Input } from "@/components/ui/input";
 
 interface Props {
   documentTypeOpts?: { [key: number]: string };
   onSubmit: (data: { userId: string; formData: RequestDocumentCreate }) => void;
   variant: "default" | "revision";
   model?: RequestDocumentListModel;
+  onSheetClose: () => void;
 }
 
 const DUMMY_OPTIONS: { [key: string]: string } = {
@@ -39,6 +40,7 @@ const RequestForm = ({
   variant,
   documentTypeOpts = DUMMY_OPTIONS,
   model,
+  onSheetClose,
 }: Props) => {
   const { user } = useAuth();
   const [isFileUploaded, setIsFileUploaded] = useState(false);
@@ -52,11 +54,12 @@ const RequestForm = ({
       DocumentTypeId: model
         ? model.documentTypeId
         : documentTypeOpts
-          ? +Object.keys(documentTypeOpts)[0]
-          : 0,
+          ? undefined
+          : undefined,
       Description: "",
       GarbageFileName: "",
       FileId: model ? model.fileId : undefined,
+      TemporaryFileName: "",
       FormFile: undefined,
     },
   });
@@ -65,7 +68,11 @@ const RequestForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit((formData: RequestDocumentCreate) => {
+          // TODO: add this logic all validation forms
           onSubmit({ userId: user?.userId ?? "", formData });
+          if (Object.keys(form.formState.errors).length === 0) {
+            onSheetClose();
+          }
         })}
         className="space-y-5 mt-5"
       >
@@ -119,14 +126,22 @@ const RequestForm = ({
             )}
           />
         </div>
-        {!isFileUploaded && (
-          <FormItem>
-            <FormLabel>Temsili Dosya Adı</FormLabel>
-            <FormControl>
-              <Input placeholder="Dosya adını girin" />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
+        {!isFileUploaded && variant === "default" && (
+          <FormField
+            control={form.control}
+            name={"TemporaryFileName"}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className={"flex items-center justify-between"}>
+                  Temsili Dosya Adı
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         )}
         <FormField
           control={form.control}
@@ -144,14 +159,10 @@ const RequestForm = ({
           )}
         />
         <SheetFooter>
-          <SheetClose>
-            <Button type="button" variant="outline">
-              İptal Et
-            </Button>
-          </SheetClose>
-          <SheetClose>
-            <Button type="submit">Kaydet</Button>
-          </SheetClose>
+          <Button onClick={onSheetClose} type="button" variant="outline">
+            İptal Et
+          </Button>
+          <Button type="submit">Kaydet</Button>
         </SheetFooter>
       </form>
     </Form>
