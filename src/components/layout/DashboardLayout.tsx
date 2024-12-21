@@ -167,7 +167,7 @@ const DashboardLayout = ({
                 >
                   <Link href={"/admin"}>
                     <BriefcaseIcon className={"h-5 w-5"} />
-                    <span>Admin Paneline Geç</span>
+                    <span>Yönetim Paneline Geç</span>
                   </Link>
                 </Button>
               </div>
@@ -231,7 +231,7 @@ const DashboardLayout = ({
                     <Button className="flex gap-2 w-full justify-start" asChild>
                       <Link href={"/admin"}>
                         <BriefcaseIcon className={"h-5 w-5"} />
-                        <span>Admin Paneline Geç</span>
+                        <span>Yönetim Paneline Geç</span>
                       </Link>
                     </Button>
                   </div>

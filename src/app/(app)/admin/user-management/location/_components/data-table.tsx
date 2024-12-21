@@ -79,7 +79,7 @@ export function DataTable<TData, TValue>({
               }
             />
           </div>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 w-40 items-center">
             <Label>Durum</Label>
             <Select
               value={

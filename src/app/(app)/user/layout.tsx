@@ -4,14 +4,14 @@ import { useState } from "react";
 import { useAuth } from "@/context/authContext";
 import { NavItemModel } from "@/components/ui/breadcrumb-with-dropdown";
 import {
-  ArrowPathRoundedSquareIcon,
-  ArrowTopRightOnSquareIcon,
-  ArrowTrendingUpIcon,
-  CursorArrowRippleIcon,
+  // ArrowPathRoundedSquareIcon,
+  // ArrowTopRightOnSquareIcon,
+  // ArrowTrendingUpIcon,
+  // CursorArrowRippleIcon,
   DocumentTextIcon,
-  FlagIcon,
-  ShieldExclamationIcon,
-  WrenchIcon,
+  // FlagIcon,
+  // ShieldExclamationIcon,
+  // WrenchIcon,
 } from "@heroicons/react/24/outline";
 
 interface Props {
@@ -86,105 +86,105 @@ export default function Layout({ children }: Props) {
               : []),
           ],
         },
-        {
-          icon: ArrowPathRoundedSquareIcon,
-          label: "Hasta Geri Bildirim",
-          href: "/patient-feedback",
-          items: [
-            {
-              icon: DocumentTextIcon,
-              label: "Bildirim Yap",
-              href: "/user/patient-feedback/submit-report",
-              items: [],
-            },
-            {
-              icon: DocumentTextIcon,
-              label: "Bildirimlerim",
-              href: "/user/patient-feedback/my-reports",
-              items: [],
-            },
-            {
-              icon: DocumentTextIcon,
-              label: "Kurum Bildirimleri",
-              href: "/user/patient-feedback/company-reports",
-              items: [],
-            },
-          ],
-        },
-        {
-          icon: FlagIcon,
-          label: "Hasta Güvenliği Bildirimi",
-          href: "/patient-safety",
-          items: [
-            {
-              icon: DocumentTextIcon,
-              label: "Bildirim Yap",
-              href: "/user/patient-safety/submit-report",
-              items: [],
-            },
-            {
-              icon: DocumentTextIcon,
-              label: "Bildirimlerim",
-              href: "/user/patient-safety/my-reports",
-              items: [],
-            },
-            {
-              icon: DocumentTextIcon,
-              label: "Kurum Bildirimleri",
-              href: "/user/patient-safety/company-reports",
-              items: [],
-            },
-          ],
-        },
-        {
-          icon: CursorArrowRippleIcon,
-          label: "Çalışan Güvenliği Bildirimi",
-          href: "/personnel-safety",
-          items: [
-            {
-              icon: DocumentTextIcon,
-              label: "Bildirim Yap",
-              href: "/user/personnel-safety/submit-report",
-              items: [],
-            },
-            {
-              icon: DocumentTextIcon,
-              label: "Bildirimlerim",
-              href: "/user/personnel-safety/my-reports",
-              items: [],
-            },
-            {
-              icon: DocumentTextIcon,
-              label: "Kurum Bildirimleri",
-              href: "/user/personnel-safety/company-reports",
-              items: [],
-            },
-          ],
-        },
-        {
-          icon: ArrowTopRightOnSquareIcon,
-          label: "DİF",
-          href: "/dif",
-          items: [],
-        },
-        {
-          icon: ArrowTrendingUpIcon,
-          label: "Göstergeler",
-          href: "/gostergeler",
-          items: [],
-        },
-        {
-          icon: ShieldExclamationIcon,
-          label: "İç Denetimler",
-          href: "/ic-denetimler",
-          items: [],
-        },
-        {
-          icon: WrenchIcon,
-          label: "Kalite İyileştirme Araçları",
-          href: "/kalite-iyilestirme",
-          items: [],
-        },
+        // {
+        //   icon: ArrowPathRoundedSquareIcon,
+        //   label: "Hasta Geri Bildirim",
+        //   href: "/patient-feedback",
+        //   items: [
+        //     {
+        //       icon: DocumentTextIcon,
+        //       label: "Bildirim Yap",
+        //       href: "/user/patient-feedback/submit-report",
+        //       items: [],
+        //     },
+        //     {
+        //       icon: DocumentTextIcon,
+        //       label: "Bildirimlerim",
+        //       href: "/user/patient-feedback/my-reports",
+        //       items: [],
+        //     },
+        //     {
+        //       icon: DocumentTextIcon,
+        //       label: "Kurum Bildirimleri",
+        //       href: "/user/patient-feedback/company-reports",
+        //       items: [],
+        //     },
+        //   ],
+        // },
+        // {
+        //   icon: FlagIcon,
+        //   label: "Hasta Güvenliği Bildirimi",
+        //   href: "/patient-safety",
+        //   items: [
+        //     {
+        //       icon: DocumentTextIcon,
+        //       label: "Bildirim Yap",
+        //       href: "/user/patient-safety/submit-report",
+        //       items: [],
+        //     },
+        //     {
+        //       icon: DocumentTextIcon,
+        //       label: "Bildirimlerim",
+        //       href: "/user/patient-safety/my-reports",
+        //       items: [],
+        //     },
+        //     {
+        //       icon: DocumentTextIcon,
+        //       label: "Kurum Bildirimleri",
+        //       href: "/user/patient-safety/company-reports",
+        //       items: [],
+        //     },
+        //   ],
+        // },
+        // {
+        //   icon: CursorArrowRippleIcon,
+        //   label: "Çalışan Güvenliği Bildirimi",
+        //   href: "/personnel-safety",
+        //   items: [
+        //     {
+        //       icon: DocumentTextIcon,
+        //       label: "Bildirim Yap",
+        //       href: "/user/personnel-safety/submit-report",
+        //       items: [],
+        //     },
+        //     {
+        //       icon: DocumentTextIcon,
+        //       label: "Bildirimlerim",
+        //       href: "/user/personnel-safety/my-reports",
+        //       items: [],
+        //     },
+        //     {
+        //       icon: DocumentTextIcon,
+        //       label: "Kurum Bildirimleri",
+        //       href: "/user/personnel-safety/company-reports",
+        //       items: [],
+        //     },
+        //   ],
+        // },
+        // {
+        //   icon: ArrowTopRightOnSquareIcon,
+        //   label: "DİF",
+        //   href: "/dif",
+        //   items: [],
+        // },
+        // {
+        //   icon: ArrowTrendingUpIcon,
+        //   label: "Göstergeler",
+        //   href: "/gostergeler",
+        //   items: [],
+        // },
+        // {
+        //   icon: ShieldExclamationIcon,
+        //   label: "İç Denetimler",
+        //   href: "/ic-denetimler",
+        //   items: [],
+        // },
+        // {
+        //   icon: WrenchIcon,
+        //   label: "Kalite İyileştirme Araçları",
+        //   href: "/kalite-iyilestirme",
+        //   items: [],
+        // },
       ]
     : [];
 
