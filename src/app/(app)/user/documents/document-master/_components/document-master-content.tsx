@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import MainDocTable from "./main-doc-table";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,13 +9,12 @@ import {
   DocumentMasterMainSheetModal,
   DocumentMasterMainSheetModelRequest,
 } from "@/models/user/documents/document-master/DocumentMasterModels";
-import { useState } from "react";
 import MainDocSheet from "./main-doc-sheet";
 import DocumentMasterHistoryModal from "./history-modal";
 import HistorySheet from "./history-sheet";
 import useDocumentMainList from "./../libs/hooks/useDocumentMainList";
 import useDocumentGetById from "./../libs/hooks/useDocumentGetById";
-import useIssueTypeList from "../../waiting-requests/lib/hooks/useIssueTypeList";
+import useIssueTypeList from "../../organisation-requests/lib/hooks/useIssueTypeList";
 import { RequestDocumentCreatedModel } from "@/models/user/documents/documents/requestDocumentCreate";
 import useDocumentUpdateHistory from "./../libs/hooks/useDocumentUpdateHistory";
 import useDocumentHistoryList from "./../libs/hooks/useDocumenHistoryList";

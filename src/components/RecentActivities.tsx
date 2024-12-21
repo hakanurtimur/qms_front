@@ -21,7 +21,7 @@ export default function RecentActivities() {
                 <p className="text-sm font-medium leading-none">
                   {activity.description}
                 </p>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
+                <p className="text-sm text-primary-500 dark:text-primary-400">
                   {activity.time}
                 </p>
               </div>

@@ -74,7 +74,7 @@ const PatientDetailsForm = ({
                     <div>Adı Soyadı</div>
                   </FormLabel>
                   <FormControl>
-                    <Input className="bg-slate-100 pe-11" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -108,7 +108,7 @@ const PatientDetailsForm = ({
                     <div>Hasta No</div>
                   </FormLabel>
                   <FormControl>
-                    <Input className="bg-slate-100 pe-11" {...field} readOnly />
+                    <Input {...field} readOnly />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

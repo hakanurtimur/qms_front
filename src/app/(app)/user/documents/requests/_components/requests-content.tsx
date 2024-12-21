@@ -77,12 +77,14 @@ const RequestContentPage = () => {
   const deparments = allRequestsQuery.data?.data.map(
     (doc) => doc.departmentName ?? "",
   );
-
   const documentTypes = allRequestsQuery.data?.data.map(
     (doc) => doc.documentTypeName ?? "",
   );
   const requestTypes = allRequestsQuery.data?.data.map(
     (doc) => doc.requestTypeName ?? "",
+  );
+  const actionTypes = allRequestsQuery.data?.data.map(
+    (doc) => doc.actionName ?? "",
   );
 
   const departmentOps = deparments
@@ -97,6 +99,10 @@ const RequestContentPage = () => {
     ? convertStringArrayToOptions(requestTypes)
     : null;
 
+  const actionTypesOpts = actionTypes
+    ? convertStringArrayToOptions(actionTypes)
+    : null;
+
   const activeDeparments = activeRequestsQuery.data?.data.map(
     (doc) => doc.departmentName ?? "",
   );
@@ -106,6 +112,9 @@ const RequestContentPage = () => {
   );
   const activeRequestTypes = activeRequestsQuery.data?.data.map(
     (doc) => doc.requestTypeName ?? "",
+  );
+  const activeActionTypes = activeRequestsQuery.data?.data.map(
+    (doc) => doc.actionName ?? "",
   );
 
   const activeDepartmentOps = activeDeparments
@@ -118,6 +127,10 @@ const RequestContentPage = () => {
 
   const activeRequestTypeOpts = activeRequestTypes
     ? convertStringArrayToOptions(activeRequestTypes)
+    : null;
+
+  const activeActionTypesOpts = activeActionTypes
+    ? convertStringArrayToOptions(activeActionTypes)
     : null;
 
   const handleUpdateDocumentDemand = async (
@@ -157,6 +170,7 @@ const RequestContentPage = () => {
           documentTypeOpts &&
           documentTypeListOpts &&
           actionTypeListOpts &&
+          actionTypesOpts &&
           requestTypeOpts ? (
             <DataTable
               departmentOps={departmentOps}
@@ -164,6 +178,7 @@ const RequestContentPage = () => {
               requestTypeOpts={requestTypeOpts}
               documentTypeListOpts={documentTypeListOpts}
               actionTypeListOpts={actionTypeListOpts}
+              actionNameOpts={actionTypesOpts}
               columns={columns}
               data={allRequestsQuery.data.data}
               handleGetGarbage={handleGetGarbage}
@@ -181,6 +196,7 @@ const RequestContentPage = () => {
           activeDocumentTypeOpts &&
           documentTypeListOpts &&
           actionTypeListOpts &&
+          activeActionTypesOpts &&
           activeRequestTypeOpts ? (
             <DataTable
               departmentOps={activeDepartmentOps}
@@ -188,6 +204,7 @@ const RequestContentPage = () => {
               requestTypeOpts={activeRequestTypeOpts}
               documentTypeListOpts={documentTypeListOpts}
               actionTypeListOpts={actionTypeListOpts}
+              actionNameOpts={activeActionTypesOpts}
               columns={columns}
               data={activeRequestsQuery.data.data}
               variant={"actives"}
@@ -200,7 +217,7 @@ const RequestContentPage = () => {
       </Tabs>
       {getGarbageMutation.data && (
         <PdfViewer
-          variant={"view"}
+          variant={"printible"}
           open={show}
           onOpenChange={() => setShow(false)}
           fileName={garbageFileName ?? null}

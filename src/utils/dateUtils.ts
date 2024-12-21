@@ -23,5 +23,5 @@ export const formatDateWithoutTime = (dateString: string): string => {
     return "Geçersiz tarih";
   }
 
-  return format(date, "dd/MM/yyyy", { locale: tr });
+  return format(date, "yyyy-MM-dd", { locale: tr });
 };

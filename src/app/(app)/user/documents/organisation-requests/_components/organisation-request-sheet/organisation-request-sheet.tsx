@@ -13,8 +13,9 @@ import { UpdateWaitingRequestModel } from "@/models/user/documents/waitingReques
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/context/authContext";
 import waitingRequestsService from "@/services/user/documents/waiting-requests/WaitingRequestsService";
-import WaitingRequestSheetForm from "@/app/(app)/user/documents/waiting-requests/_components/waiting-request-sheet/waiting-request-sheet-form";
+
 import { DialogOverlay } from "@/components/ui/dialog";
+import OrganisationRequestSheetForm from "@/app/(app)/user/documents/organisation-requests/_components/organisation-request-sheet/organisation-request-sheet-form";
 
 interface Props {
   id: string;
@@ -27,7 +28,7 @@ interface Props {
   documentTypeListQpts?: { [key: number]: string };
 }
 
-const WaitingRequestSheet = ({
+const OrganisationRequestSheet = ({
   id,
   onSubmit,
   variant,
@@ -66,7 +67,7 @@ const WaitingRequestSheet = ({
           </SheetDescription>
         </SheetHeader>
         {requestDetailsQuery.data && (
-          <WaitingRequestSheetForm
+          <OrganisationRequestSheetForm
             variant={variant}
             model={requestDetailsQuery.data.data}
             onSubmit={onSubmit}
@@ -83,4 +84,4 @@ const WaitingRequestSheet = ({
   );
 };
 
-export default WaitingRequestSheet;
+export default OrganisationRequestSheet;

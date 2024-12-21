@@ -39,8 +39,8 @@ import {
   PlusIcon,
 } from "@heroicons/react/24/outline";
 import PdfViewer from "@/components/ui/pdf-viewer";
-import useGetApprovedGarbageFile from "@/app/(app)/user/documents/waiting-requests/lib/hooks/useGetApprovedGarbageFile";
 import { Badge } from "@/components/ui/badge";
+import useGetApprovedGarbageFile from "@/app/(app)/user/documents/organisation-requests/lib/hooks/useGetApprovedGarbageFile";
 
 interface Props {
   onSubmit: (data: UpdateWaitingRequestModel) => void;
@@ -54,7 +54,7 @@ interface Props {
   onSheetClose?: () => void;
 }
 
-const WaitingRequestSheetForm = ({
+const OrganisationRequestSheetForm = ({
   onSubmit,
   model,
   variant,
@@ -431,4 +431,4 @@ const WaitingRequestSheetForm = ({
   );
 };
 
-export default WaitingRequestSheetForm;
+export default OrganisationRequestSheetForm;

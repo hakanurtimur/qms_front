@@ -9,11 +9,11 @@ export default function DashboardCards() {
           <CardTitle className="text-sm font-medium">
             Toplam Kullanıcı
           </CardTitle>
-          <Users className="h-4 w-4 text-slate-500 dark:text-slate-400" />
+          <Users className="h-4 w-4 text-primary-500 dark:text-primary-400" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">1,234</div>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
+          <p className="text-xs text-primary-500 dark:text-primary-400">
             +20.1% geçen aydan
           </p>
         </CardContent>

@@ -75,7 +75,7 @@ function Combobox<T extends FieldValues>({
                     variant="outline"
                     role="combobox"
                     className={cn(
-                      "flex w-full justify-between font-normal disabled:bg-primary-100 disabled:opacity-100 disabled:text-slate-950",
+                      "flex w-full justify-between font-normal disabled:bg-primary-100 disabled:opacity-100 disabled:text-primary-950",
                       !field.value && "text-muted-foreground",
                     )}
                     disabled={readonly}

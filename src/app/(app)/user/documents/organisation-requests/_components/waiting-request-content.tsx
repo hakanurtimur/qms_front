@@ -2,14 +2,14 @@
 import React, { useState } from "react";
 import { convertStringArrayToOptions } from "@/utils/convertStringArrayToOptions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DataTable } from "@/app/(app)/user/documents/waiting-requests/_components/data-table";
-import { columns } from "@/app/(app)/user/documents/waiting-requests/_components/columns";
-import { ResultedDataTable } from "@/app/(app)/user/documents/waiting-requests/_components/resulted/resulted-data-table";
-import { resultedColumns } from "@/app/(app)/user/documents/waiting-requests/_components/resulted/resulted-columns";
+import { DataTable } from "@/app/(app)/user/documents/organisation-requests/_components/data-table";
+import { columns } from "@/app/(app)/user/documents/organisation-requests/_components/columns";
+import { ResultedDataTable } from "@/app/(app)/user/documents/organisation-requests/_components/resulted/resulted-data-table";
+import { resultedColumns } from "@/app/(app)/user/documents/organisation-requests/_components/resulted/resulted-columns";
 import { useAuth } from "@/context/authContext";
 import PdfViewer from "@/components/ui/pdf-viewer";
-import DocumentReviseForm from "@/app/(app)/user/documents/waiting-requests/_components/document-revise-modal";
-import DocumentUploadForm from "@/app/(app)/user/documents/waiting-requests/_components/document-upload-modal";
+import DocumentReviseForm from "@/app/(app)/user/documents/organisation-requests/_components/document-revise-modal";
+import DocumentUploadForm from "@/app/(app)/user/documents/organisation-requests/_components/document-upload-modal";
 import useDocumentTypes from "@/app/(app)/user/documents/hooks/useDocumentTypes";
 import useSuperAdminActionTypes from "@/app/(app)/user/documents/hooks/useSuperAdminActionTypes";
 import useSuperAdminAboutTypes from "@/app/(app)/user/documents/hooks/useSuperAdminAboutTypes";
@@ -133,6 +133,12 @@ const WaitingRequestsContentPage = () => {
   const requestTypes = allRequestsQuery.data?.data.map(
     (doc) => doc.requestTypeName,
   );
+  const superAdminActionNames = allRequestsQuery.data?.data.map(
+    (doc) => doc.superAdminActionName,
+  );
+  const superAdminActionNameOpts = superAdminActionNames
+    ? convertStringArrayToOptions(superAdminActionNames)
+    : null;
 
   const departmentOps = deparments
     ? convertStringArrayToOptions(deparments)
@@ -164,6 +170,13 @@ const WaitingRequestsContentPage = () => {
   const activeRequestTypes = activeRequestsQuery.data?.data.map(
     (doc) => doc.requestTypeName,
   );
+  const activeSuperAdminActionNames = activeRequestsQuery.data?.data.map(
+    (doc) => doc.superAdminActionName,
+  );
+  const activeSuperAdminActionNameOpts = activeSuperAdminActionNames
+    ? convertStringArrayToOptions(activeSuperAdminActionNames)
+    : null;
+
   const activeDepartmentOps = activeDeparments
     ? convertStringArrayToOptions(activeDeparments)
     : null;
@@ -237,6 +250,7 @@ const WaitingRequestsContentPage = () => {
           documentTypeOpts &&
           superAdminActionOpts &&
           superAdminAboutOpts &&
+          superAdminActionNameOpts &&
           requestTypeOpts ? (
             <DataTable
               departmentOps={departmentOps}
@@ -246,6 +260,7 @@ const WaitingRequestsContentPage = () => {
               data={allRequestsQuery.data.data}
               superAdminActionOpts={superAdminActionOpts}
               superAdminAboutOpts={superAdminAboutOpts}
+              superAdminActionNameOpts={superAdminActionNameOpts}
               handleGetGarbage={handleGetGarbage}
               handleGetFile={handleGetFile}
               handleUpdateWaitingRequest={handleUpdateWaitingRequest}
@@ -262,6 +277,7 @@ const WaitingRequestsContentPage = () => {
           superAdminActionOpts &&
           documentTypeOpts &&
           superAdminAboutOpts &&
+          activeSuperAdminActionNameOpts &&
           activeRequestTypeOpts ? (
             <DataTable
               departmentOps={activeDepartmentOps}
@@ -272,6 +288,7 @@ const WaitingRequestsContentPage = () => {
               variant={"actives"}
               superAdminActionOpts={superAdminActionOpts}
               superAdminAboutOpts={superAdminAboutOpts}
+              superAdminActionNameOpts={activeSuperAdminActionNameOpts}
               handleGetGarbage={handleGetGarbage}
               handleGetFile={handleGetFile}
               documentTypeListQpts={documentTypeListQpts}
@@ -295,7 +312,7 @@ const WaitingRequestsContentPage = () => {
       </Tabs>
       {getGarbageMutation.data && (
         <PdfViewer
-          variant={"view"}
+          variant={"printible"}
           open={show}
           onOpenChange={() => setShow(false)}
           fileName={garbageFileName ?? null}

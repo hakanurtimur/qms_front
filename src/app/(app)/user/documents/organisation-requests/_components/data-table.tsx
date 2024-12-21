@@ -25,11 +25,12 @@ import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NonFormCombobox from "@/components/ui/nonform-combobox";
-import WaitingRequestSheet from "@/app/(app)/user/documents/waiting-requests/_components/waiting-request-sheet/waiting-request-sheet";
+
 import {
   UpdateWaitingRequestModel,
   WaitingRequestModel,
 } from "@/models/user/documents/waitingRequests/waitingRequestModel";
+import OrganisationRequestSheet from "@/app/(app)/user/documents/organisation-requests/_components/organisation-request-sheet/organisation-request-sheet";
 
 interface DataTableProps<TData, TValue> {
   departmentOps: { [key: string]: string };
@@ -40,6 +41,7 @@ interface DataTableProps<TData, TValue> {
   variant?: "default" | "actives";
   superAdminActionOpts: { [key: number]: string };
   superAdminAboutOpts: { [key: number]: string };
+  superAdminActionNameOpts: { [key: number]: string };
   handleGetGarbage: (fileId: string) => void;
   handleGetFile: (fileId: string) => void;
   documentTypeListQpts?: { [key: number]: string };
@@ -55,6 +57,7 @@ export function DataTable<TData, TValue>({
   variant = "default",
   superAdminActionOpts,
   superAdminAboutOpts,
+  superAdminActionNameOpts,
   handleGetGarbage,
   handleGetFile,
   documentTypeListQpts,
@@ -111,22 +114,22 @@ export function DataTable<TData, TValue>({
                 />
               </div>
 
-              {/*  <div className="flex-1">
+              <div className="flex-1">
                 <NonFormCombobox
                   value={
                     (table
-                      .getColumn("documentTypeName")
+                      .getColumn("superAdminActionName")
                       ?.getFilterValue() as string) || ""
                   }
                   onChange={(value) =>
                     table
-                      .getColumn("documentTypeName")
+                      .getColumn("superAdminActionName")
                       ?.setFilterValue(value ? value : "")
                   }
-                  placeholder={"Doküman Tipi"}
-                  options={documentTypeOpts}
+                  placeholder={"Kalite Durum"}
+                  options={superAdminActionNameOpts}
                 />
-              </div> */}
+              </div>
               <div className="flex-1">
                 <NonFormCombobox
                   value={
@@ -193,7 +196,7 @@ export function DataTable<TData, TValue>({
                       ))}
                       <TableCell>
                         <div className="flex items-center gap-4">
-                          <WaitingRequestSheet
+                          <OrganisationRequestSheet
                             id={(
                               row.original as WaitingRequestModel
                             ).id.toString()}

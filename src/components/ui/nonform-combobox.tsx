@@ -89,6 +89,22 @@ function NonFormCombobox({
               <CommandList>
                 <CommandEmpty>Bulunamadı</CommandEmpty>
                 <CommandGroup>
+                  <CommandItem
+                    value={""}
+                    key={"placeholder"}
+                    onSelect={(key) => {
+                      setOpen(false);
+                      onChange(key);
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        value === "" ? "opacity-100" : "opacity-0",
+                      )}
+                    />
+                    Tümü
+                  </CommandItem>
                   {Object.entries(options).map(([key, name]) => (
                     <CommandItem
                       value={name}

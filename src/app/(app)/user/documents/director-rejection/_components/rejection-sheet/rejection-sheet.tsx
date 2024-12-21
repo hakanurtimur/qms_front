@@ -15,7 +15,7 @@ import { DirectorRejectionModel } from "@/models/user/documents/director-rejecti
 import useGetFile from "@/app/(app)/user/documents/hooks/useGetFile";
 import PdfViewer from "@/components/ui/pdf-viewer";
 import { DialogOverlay } from "@/components/ui/dialog";
-import useGetApprovedGarbageFile from "@/app/(app)/user/documents/waiting-requests/lib/hooks/useGetApprovedGarbageFile";
+import useGetApprovedGarbageFile from "@/app/(app)/user/documents/organisation-requests/lib/hooks/useGetApprovedGarbageFile";
 
 interface Props {
   model: DirectorRejectionModel;

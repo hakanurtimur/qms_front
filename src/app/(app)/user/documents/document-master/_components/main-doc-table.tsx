@@ -123,7 +123,7 @@ export default function MainDocTable({
                           <Tooltip>
                             <TooltipTrigger asChild className="">
                               <EditIcon
-                                className="w-8 h-8 p-2 rounded-md bg-slate-800 text-white cursor-pointer "
+                                className="w-8 h-8 p-2 rounded-md bg-primary-800 text-white cursor-pointer "
                                 onClick={() =>
                                   handleOpenMainDocSheet(
                                     String(row.original.id),

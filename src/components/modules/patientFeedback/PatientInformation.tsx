@@ -57,7 +57,7 @@ const PatientInformation = ({
                   <div>Hasta Adı</div>
                 </FormLabel>
                 <FormControl>
-                  <Input className={"bg-slate-100"} {...field} readOnly />
+                  <Input {...field} readOnly />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -72,7 +72,7 @@ const PatientInformation = ({
                   <div>Doğum Tarihi</div>
                 </FormLabel>
                 <FormControl>
-                  <Input className={"bg-slate-100"} {...field} readOnly />
+                  <Input {...field} readOnly />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -87,7 +87,7 @@ const PatientInformation = ({
                   <div>Hasta No</div>
                 </FormLabel>
                 <FormControl>
-                  <Input className={"bg-slate-100"} {...field} readOnly />
+                  <Input {...field} readOnly />
                 </FormControl>
                 <FormMessage />
               </FormItem>

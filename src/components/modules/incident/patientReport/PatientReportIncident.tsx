@@ -72,7 +72,7 @@ const PatientReportIncident = ({
                       defaultValue={patientFormModel?.nameSurname}
                       value={patientFormModel?.nameSurname}
                       readOnly
-                      className="bg-slate-100 w-52"
+                      className="w-52"
                     />
                   </FormControl>
                   <FormMessage />
@@ -111,7 +111,7 @@ const PatientReportIncident = ({
                       {...field}
                       value={patientFormModel?.patientId}
                       readOnly
-                      className="bg-slate-100 w-52"
+                      className="w-52"
                     />
                   </FormControl>
                   <FormMessage />

@@ -42,6 +42,7 @@ interface DataTableProps<TData, TValue> {
   requestTypeOpts: { [key: string]: string };
   documentTypeListOpts: { [key: string]: string };
   actionTypeListOpts: { [key: string]: string };
+  actionNameOpts: { [key: string]: string };
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   variant?: "default" | "actives";
@@ -56,6 +57,7 @@ export function DataTable<TData, TValue>({
    */ requestTypeOpts,
   documentTypeListOpts,
   actionTypeListOpts,
+  actionNameOpts,
   columns,
   data,
   variant = "default",
@@ -117,22 +119,22 @@ export function DataTable<TData, TValue>({
                 />
               </div>
 
-              {/*  <div className="flex-1">
+              <div className="flex-1">
                 <NonFormCombobox
                   value={
                     (table
-                      .getColumn("documentTypeName")
+                      .getColumn("actionName")
                       ?.getFilterValue() as string) || ""
                   }
                   onChange={(value) =>
                     table
-                      .getColumn("documentTypeName")
+                      .getColumn("actionName")
                       ?.setFilterValue(value ? value : "")
                   }
-                  placeholder={"Doküman Tipi"}
-                  options={documentTypeOpts}
+                  placeholder={"Durum"}
+                  options={actionNameOpts}
                 />
-              </div> */}
+              </div>
               <div className="flex-1">
                 <NonFormCombobox
                   value={
@@ -155,7 +157,7 @@ export function DataTable<TData, TValue>({
                 placeholder="Arama yapın..."
                 value={globalFilter ?? ""}
                 onChange={(event) =>
-                  setGlobalFilter(event.target.value.toLocaleUpperCase("tr"))
+                  setGlobalFilter(event.target.value.toUpperCase())
                 }
                 className="max-w-sm"
               />

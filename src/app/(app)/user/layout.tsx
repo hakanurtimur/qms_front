@@ -49,7 +49,7 @@ export default function Layout({ children }: Props) {
                   {
                     icon: DocumentTextIcon,
                     label: "Kurum Talepleri",
-                    href: "/user/documents/waiting-requests",
+                    href: "/user/documents/organisation-requests",
                     items: [],
                   },
                 ]

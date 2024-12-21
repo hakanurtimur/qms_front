@@ -17,7 +17,7 @@ const FormPage = ({ children }: Props) => {
         </div>
         {children}
       </div>
-      <div className="md:col-span-1 md:pb-0 md:px-0 px-5 py-5 col-span-2  flex flex-col gap-4 items-center bg-gradient-to-b from-slate-700 to-slate-900 relative"></div>
+      <div className="md:col-span-1 md:pb-0 md:px-0 px-5 py-5 col-span-2  flex flex-col gap-4 items-center bg-gradient-to-b from-primary-700 to-primary-900 relative"></div>
     </div>
   );
 };
