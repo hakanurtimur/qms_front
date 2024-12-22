@@ -16,8 +16,7 @@ import {
   BriefcaseIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
-import { Badge } from "@/components/ui/badge";
-import authService from "@/services/AuthService";
+/*  */ import authService from "@/services/AuthService";
 import { useAuth } from "@/context/authContext";
 import Link from "next/link";
 import {
@@ -282,12 +281,12 @@ const DashboardLayout = ({
               className="rounded-full relative"
             >
               <BellIcon className="h-5 w-5" />
-              <Badge
+              {/*  <Badge
                 className={"absolute -top-2 -right-2 rounded-full"}
                 variant={"destructive"}
               >
                 3
-              </Badge>
+              </Badge> */}
             </Button>
 
             <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>

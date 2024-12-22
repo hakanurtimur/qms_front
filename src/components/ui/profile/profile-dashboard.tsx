@@ -4,15 +4,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
+/* import {
   ChartConfig,
-  ChartContainer,
+     ChartContainer,
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-import {
+  ChartTooltipContent, 
+} from "@/components/ui/chart"; */
+/* import {
   Area,
   AreaChart,
   Bar,
@@ -22,7 +22,7 @@ import {
   Pie,
   PieChart,
   XAxis,
-} from "recharts";
+} from "recharts"; */
 import * as React from "react";
 import UploadProfileModal from "../../../app/(app)/admin/profile/_components/upload-profile-modal";
 import { UploadIcon, X } from "lucide-react";
@@ -98,15 +98,15 @@ const ProfileDashboard = () => {
     systemRole: data?.data?.roleName,
   };
 
-  const chartData2 = [
+  /*   const chartData2 = [
     { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
     { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
     { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
     { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
     { browser: "other", visitors: 190, fill: "var(--color-other)" },
   ];
-
-  const chartData = [
+ */
+  /*   const chartData = [
     { month: "January", desktop: 186, mobile: 80 },
     { month: "February", desktop: 305, mobile: 200 },
     { month: "March", desktop: 237, mobile: 120 },
@@ -114,8 +114,8 @@ const ProfileDashboard = () => {
     { month: "May", desktop: 209, mobile: 130 },
     { month: "June", desktop: 214, mobile: 140 },
   ];
-
-  const chartConfig = {
+ */
+  /* const chartConfig = {
     desktop: {
       label: "Desktop",
       color: "#2563eb",
@@ -151,11 +151,11 @@ const ProfileDashboard = () => {
       color: "hsl(var(--chart-5))",
     },
   } satisfies ChartConfig;
-
-  const totalVisitors = React.useMemo(() => {
+ */
+  /*   const totalVisitors = React.useMemo(() => {
     return chartData2.reduce((acc, curr) => acc + curr.visitors, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); */
 
   const handleRemoveProfileImg = () => {
     console.log("remove profile img");
@@ -179,31 +179,94 @@ const ProfileDashboard = () => {
           <CardContent className="grid grid-cols-3 gap-4">
             <FormItem>
               <Label>Sicil No</Label>
-              <Input value={dummyData.registeryNo} readOnly />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Input
+                    value={dummyData.registeryNo}
+                    className="truncate max-w-[190px]"
+                    readOnly
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{dummyData.registeryNo}</p>
+                </TooltipContent>
+              </Tooltip>
             </FormItem>
             <FormItem>
-              <Label>Ad-Soyad</Label>
-              <Input
-                value={dummyData.name + " " + dummyData.surname}
-                readOnly
-              />
+              <Label>Adı Soyadı</Label>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Input
+                    value={dummyData.name + " " + dummyData.surname}
+                    className="truncate max-w-[190px]"
+                    readOnly
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{dummyData.name + " " + dummyData.surname}</p>
+                </TooltipContent>
+              </Tooltip>
             </FormItem>
             <FormItem>
               <Label>Sistem Rolü</Label>
-              <Input value={dummyData.systemRole} readOnly />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Input
+                    value={dummyData.systemRole}
+                    className="truncate max-w-[190px]"
+                    readOnly
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{dummyData.systemRole}</p>
+                </TooltipContent>
+              </Tooltip>
             </FormItem>
             <FormItem>
               <Label>Kullanıcı Adı</Label>
-              <Input value={dummyData.username} readOnly />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Input
+                    value={dummyData.username}
+                    className="truncate max-w-[190px]"
+                    readOnly
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{dummyData.username}</p>
+                </TooltipContent>
+              </Tooltip>
             </FormItem>
             <FormItem>
               <Label>Mail</Label>
-              <Input value={dummyData.email} readOnly />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Input
+                    value={dummyData.email}
+                    className="truncate max-w-[190px]"
+                    readOnly
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{dummyData.email}</p>
+                </TooltipContent>
+              </Tooltip>
             </FormItem>
 
             <FormItem>
               <Label>Telefon</Label>
-              <Input value={dummyData.phoneNum} readOnly />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Input
+                    value={dummyData.phoneNum}
+                    className="truncate max-w-[190px]"
+                    readOnly
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{dummyData.phoneNum}</p>
+                </TooltipContent>
+              </Tooltip>
             </FormItem>
           </CardContent>
         </Card>
@@ -217,22 +280,66 @@ const ProfileDashboard = () => {
             <div className="flex flex-col gap-4 w-3/4">
               <div className="flex flex-row gap-4 min-w-full">
                 <FormItem className="w-full">
-                  <Label>Lokasyon</Label>
-                  <Input value={dummyData.location} readOnly />
+                  <Label>Şube Adı</Label>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Input
+                        value={dummyData.location}
+                        className="truncate max-w-[230px]"
+                        readOnly
+                      />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{dummyData.location}</p>
+                    </TooltipContent>
+                  </Tooltip>
                 </FormItem>
                 <FormItem className="w-full">
-                  <Label>Departman</Label>
-                  <Input value={dummyData.department} readOnly />
+                  <Label>Bölüm</Label>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Input
+                        value={dummyData.department}
+                        className="truncate max-w-[230px]"
+                        readOnly
+                      />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{dummyData.department}</p>
+                    </TooltipContent>
+                  </Tooltip>
                 </FormItem>
               </div>
               <div className="flex flex-row gap-4">
                 <FormItem className="w-full">
                   <Label>Görev</Label>
-                  <Input value={dummyData.job} readOnly />
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Input
+                        value={dummyData.job}
+                        className="truncate max-w-[230px]"
+                        readOnly
+                      />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{dummyData.job}</p>
+                    </TooltipContent>
+                  </Tooltip>
                 </FormItem>
                 <FormItem className="w-full">
                   <Label>Ünvan</Label>
-                  <Input value={dummyData.title} readOnly />
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Input
+                        value={dummyData.title}
+                        className="truncate max-w-[230px]"
+                        readOnly
+                      />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{dummyData.title}</p>
+                    </TooltipContent>
+                  </Tooltip>
                 </FormItem>
               </div>
             </div>
@@ -288,7 +395,7 @@ const ProfileDashboard = () => {
         </Card>
       </div>
       <div className="grid md:grid-cols-4 grid-cols-1 gap-8">
-        <Card>
+        {/*  <Card>
           <CardHeader>
             <CardTitle>Kullanıcı İstatistikleri</CardTitle>
           </CardHeader>
@@ -313,8 +420,8 @@ const ProfileDashboard = () => {
               </BarChart>
             </ChartContainer>
           </CardContent>
-        </Card>
-        <Card>
+        </Card> */}
+        {/*  <Card>
           <CardHeader>
             <CardTitle>Kullanıcı İstatistikleri</CardTitle>
           </CardHeader>
@@ -435,7 +542,7 @@ const ProfileDashboard = () => {
               </BarChart>
             </ChartContainer>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
       <UploadProfileModal
         open={openProfileUploadModal}
