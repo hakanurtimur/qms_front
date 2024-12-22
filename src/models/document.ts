@@ -43,3 +43,35 @@ const DocumentApiResponseUrlSchema = z.object({
 export type DocumentApiResponseUrl = z.infer<
   typeof DocumentApiResponseUrlSchema
 >;
+
+export const SDocumentCategoryListModel = z.object({
+  categoryId: z.number(),
+  categoryName: z.string(),
+});
+
+export type DocumentCategoryListModel = z.infer<
+  typeof SDocumentCategoryListModel
+>;
+
+export const SDocumentCategoryListResponseModel = z.object({
+  data: z.array(SDocumentCategoryListModel),
+});
+
+export type DocumentCategoryListResponseModel = z.infer<
+  typeof SDocumentCategoryListResponseModel
+>;
+
+export const DocumentFolderListModel = z.object({
+  categoryId: z.number(),
+  folderName: z.string(),
+});
+
+export type DocumentFolderListModel = z.infer<typeof DocumentFolderListModel>;
+
+export const DocumentFolderListResponseModel = z.object({
+  data: z.array(DocumentFolderListModel),
+});
+
+export type DocumentFolderListResponseModel = z.infer<
+  typeof DocumentFolderListResponseModel
+>;

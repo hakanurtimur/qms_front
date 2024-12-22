@@ -54,6 +54,8 @@ interface DataTableProps<TData, TValue> {
     formData: RequestDocumentCreate;
   }) => void;
   documentTypeOpts: { [key: number]: string };
+  onChangedCategoryName: (categoryName: string) => void;
+
 }
 
 export function DataTable<TData, TValue>({
@@ -66,6 +68,7 @@ export function DataTable<TData, TValue>({
   getDocumentLoading,
   onReviseDocument,
   documentTypeOpts,
+  onChangedCategoryName,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
     {
@@ -154,9 +157,11 @@ export function DataTable<TData, TValue>({
                         ?.getFilterValue() as string) || ""
                     }
                     onChange={(value) =>
-                      table
+                     { table
                         .getColumn("categoryName")
                         ?.setFilterValue(value ? value : "")
+                       onChangedCategoryName(value);
+                      table.getColumn("folderName")?.setFilterValue("");}
                     }
                     placeholder={"Kategori Seçiniz"}
                     options={categoryOpts}

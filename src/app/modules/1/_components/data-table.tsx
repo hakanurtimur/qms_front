@@ -42,6 +42,7 @@ interface DataTableProps<TData, TValue> {
   folderOpts: { [key: string]: string };
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  onChangedCategoryName: (categoryName: string) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -49,6 +50,7 @@ export function DataTable<TData, TValue>({
   folderOpts,
   columns,
   data,
+  onChangedCategoryName,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
     {
@@ -126,11 +128,14 @@ export function DataTable<TData, TValue>({
                         .getColumn("categoryName")
                         ?.getFilterValue() as string) || ""
                     }
-                    onChange={(value) =>
+                    onChange={(value) => {
                       table
                         .getColumn("categoryName")
-                        ?.setFilterValue(value ? value : "")
-                    }
+                        ?.setFilterValue(value ? value : "");
+
+                      onChangedCategoryName(value);
+                      table.getColumn("folderName")?.setFilterValue("");
+                    }}
                     placeholder={"Kategori Seçiniz"}
                     options={categoryOpts}
                   />
