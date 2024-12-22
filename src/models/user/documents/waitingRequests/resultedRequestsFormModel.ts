@@ -1,39 +1,41 @@
 import { z } from "zod";
 
-export const SResultedRequestsFormModel = z.object({
-  documentTypeId: z.number().int(),
-  folderId: z.number().int(),
-  code: z.string(),
-  newFileName: z.string().optional(),
-  formFile: z.instanceof(File).refine((file) => !file || file.size > 0, {
-    message: "Boş bir dosya yükleyemezsiniz.",
+// Ortak alanları içeren base model
+const SampleRequestFormModel = z.object({
+  folderId: z.number({ message: "Klasör seçmelisiniz." }).optional(),
+  formFile: z
+    .instanceof(File, {
+      message: "Dosya yüklemelisiniz.",
+    })
+    .refine((file) => !file || file.size > 0, {
+      message: "Boş bir dosya yükleyemezsiniz.",
+    }),
+  archiveInfo: z.string({ message: "Arşiv bilgisi boş olamaz." }).min(1, {
+    message: "Arşiv bilgisi boş olamaz.",
   }),
-  publishDate: z.string(),
-  archiveInfo: z.string(),
-  issueTypeId: z.number().int(),
-  hiddenId: z.number().int(),
+  issueTypeId: z.number({ message: "Baskı türü seçmelisiniz." }),
   format: z.string().optional(),
-  reviseDate: z.string(),
-  description: z.string(),
+  reviseDate: z.string({ message: "Revize tarihi boş olamaz." }),
+  description: z.string({ message: "Açıklama boş olamaz." }).min(1, {
+    message: "Açıklama boş olamaz.",
+  }),
 });
 
-// descripton mutlaka girilmesi gerekiyor
+// İlk model (örnek: SResultedRequestsFormModel)
+export const SResultedRequestsFormModel = SampleRequestFormModel.extend({
+  documentTypeId: z.number({ message: "Döküman tipi seçmelisiniz." }),
+  code: z.string({ message: "Kod boş olamaz." }),
+  newFileName: z.string().optional(),
+  publishDate: z.string({ message: "Yayın tarihi boş olamaz." }),
+  hiddenId: z.number({ message: "Görünürlük boş olamaz." }),
+});
+
 export type ResultedRequestsFormModel = z.infer<
   typeof SResultedRequestsFormModel
 >;
 
-//fileId olmayan versiyonunu yao
-export const SResultedRequestsReviseFormModel = z.object({
-  folderId: z.number().int().optional(),
-  formFile: z.instanceof(File).refine((file) => !file || file.size > 0, {
-    message: "Boş bir dosya yükleyemezsiniz.",
-  }),
-  archiveInfo: z.string(),
-  issueTypeId: z.number().int(),
-  format: z.string().optional(),
-  reviseDate: z.string(),
-  description: z.string(),
-  reviseNo: z.string(),
+export const SResultedRequestsReviseFormModel = SampleRequestFormModel.extend({
+  reviseNo: z.string({ message: "Revizyon numarası boş olamaz." }),
 });
 
 export type ResultedRequestsReviseFormModel = z.infer<
