@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import FormContainerCard from "@/components/ui/form-container-card";
 import CagriButon from "../ui/cagriButon";
+
 interface Props {
   locations: Location[];
   locationLoading: boolean;
@@ -58,8 +59,8 @@ const AdminLogin = ({
   }, [form, locationLoading, locations]);
 
   return (
-    <div className="grid grid-cols-2 w-full h-screen bg-primary-50">
-      <div className="md:flex hidden flex-col gap-4 items-center bg-gradient-to-b from-primary-800 to-primary-900 relative">
+    <div className="grid grid-cols-2 w-full h-screen bg-primary-50 min-h-fit">
+      <div className="xl:flex hidden flex-col gap-4 items-center bg-gradient-to-b from-primary-800 to-primary-900 relative">
         <div className="absolute bottom-5 right-5">
           <Button variant="primary" size={"icon"} asChild>
             <Link href={"/login"}>
@@ -68,14 +69,14 @@ const AdminLogin = ({
           </Button>
         </div>
       </div>
-      <div className="md:col-span-1 md:pb-0 md:px-0 px-5 py-5 col-span-2 flex flex-col items-center justify-center gap-8 animate-slide-in-from-right relative">
-        <div className="md:absolute right-5 top-5">
+      <div className="xl:col-span-1 xl:pb-0 xl:px-0 px-5 py-5 col-span-2 flex flex-col items-center justify-center gap-8 animate-slide-in-from-right relative">
+        <div className="xl:absolute right-5 top-5">
           <Logo />
         </div>
-        <div className="md:absolute bottom-5 right-5">
+        <div className="xl:absolute bottom-5 right-5">
           <CagriButon />
         </div>
-        <div className="md:hidden block">
+        <div className="xl:hidden block">
           <Button variant="primary" size={"icon"} asChild>
             <Link href={"/login"}>
               <UsersIcon className="h-8 w-8" />

@@ -75,14 +75,16 @@ function Combobox<T extends FieldValues>({
                     variant="outline"
                     role="combobox"
                     className={cn(
-                      "flex w-full justify-between font-normal disabled:bg-primary-100 disabled:opacity-100 disabled:text-primary-950",
+                      "flex justify-between max-w-full min-w-full font-normal disabled:bg-primary-100 disabled:opacity-100 disabled:text-primary-950 truncate",
                       !field.value && "text-muted-foreground",
                     )}
                     disabled={readonly}
                   >
-                    <span className="grow-0">
-                      {field.value ? options[field.value] : placeholder}
-                    </span>
+                    <div className="grow-0 truncate max-w-[%95]">
+                      <div className="max-w-full truncate">
+                        {field.value ? options[field.value] : placeholder}
+                      </div>
+                    </div>
                     {!readonly && (
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     )}

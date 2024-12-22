@@ -76,6 +76,7 @@ const ManagerForm = ({ model, onSubmit }: Props) => {
           name={"departmentId"}
           label={"Bölüm"}
           options={departmentOptions}
+          variant={"in-column"}
         />
         <FormField
           control={form.control}
@@ -114,6 +115,7 @@ const ManagerForm = ({ model, onSubmit }: Props) => {
           name={"roleId"}
           label={"Rol"}
           options={roleOptions}
+          variant={"in-column"}
         />
 
         <FormItem>

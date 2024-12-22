@@ -65,14 +65,16 @@ function NonFormCombobox({
               variant="outline"
               role="combobox"
               className={cn(
-                "flex w-full justify-between font-normal",
+                "flex min-w-full max-w-full justify-between font-normal",
                 !value && "text-muted-foreground",
               )}
               disabled={readonly}
             >
-              <span className="grow-0">
-                {value ? options[value] : placeholder}
-              </span>
+              <div className="grow-0 truncate max-w-[%95]">
+                <div className="max-w-full truncate">
+                  {value ? options[value] : placeholder}
+                </div>
+              </div>
               {!readonly && (
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               )}

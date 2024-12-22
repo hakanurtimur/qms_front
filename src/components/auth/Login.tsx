@@ -68,15 +68,15 @@ const Login = ({
   }, [form, locationLoading, locations]);
 
   return (
-    <div className="grid grid-cols-2 w-full h-screen bg-primary-50">
-      <div className="md:col-span-1 md:pb-0 py-5 md:px-0 px-5  col-span-2 flex flex-col items-center justify-center gap-8 animate-slide-in-from-left relative">
-        <div className="md:absolute top-5 left-5 mt-5 md:mt-0">
+    <div className="grid grid-cols-2 w-full h-screen bg-primary-50 min-h-fit">
+      <div className="xl:col-span-1 xl:pb-0 py-5 xl:px-0 px-5  col-span-2 flex flex-col items-center justify-center gap-8 animate-slide-in-from-left relative">
+        <div className="xl:absolute top-5 left-5 mt-5 xl:mt-0">
           <Logo />
         </div>
-        <div className="md:absolute bottom-5 left-5">
+        <div className="xl:absolute bottom-5 left-5">
           <CagriButon />
         </div>
-        <div className="md:hidden block">
+        <div className="xl:hidden block">
           <Button
             disabled={locationLoading}
             variant="primary"
@@ -193,8 +193,8 @@ const Login = ({
           </Form>
         </FormContainerCard>
       </div>
-      <div className="md:col-span-1 md:pb-0 md:px-0 px-5 py-5 col-span-2  flex flex-col gap-4 items-center bg-gradient-to-b from-primary-700 to-primary-900 relative">
-        <div className="bottom-5 left-5 hidden md:block absolute">
+      <div className="xl:col-span-1 xl:pb-0 xl:px-0 px-5 py-5 col-span-2  flex flex-col gap-4 items-center bg-gradient-to-b from-primary-700 to-primary-900 relative">
+        <div className="bottom-5 left-5 hidden xl:block absolute">
           <Button
             disabled={locationLoading}
             variant="primary"

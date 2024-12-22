@@ -110,6 +110,7 @@ const EmployeeForm = ({ model, onSubmit }: Props) => {
           name={"roleId"}
           label={"Rol"}
           options={roleOptions}
+          variant={"in-column"}
         />
         <FormItem>
           <FormLabel>Mail</FormLabel>
