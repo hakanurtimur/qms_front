@@ -39,7 +39,6 @@ import {
   PlusIcon,
 } from "@heroicons/react/24/outline";
 import PdfViewer from "@/components/ui/pdf-viewer";
-import { Badge } from "@/components/ui/badge";
 import useGetApprovedGarbageFile from "@/app/(app)/user/documents/organisation-requests/lib/hooks/useGetApprovedGarbageFile";
 
 interface Props {
@@ -396,26 +395,22 @@ const OrganisationRequestSheetForm = ({
                   >
                     İptal Et
                   </Button>
-                  {
-                    <div className="flex items-center justify-center gap-2">
+
+                  <div className="flex items-center justify-center gap-2">
+                    {form.getValues("superAdminActionId") === 4 && (
                       <Tooltip>
                         <TooltipTrigger>
-                          <Badge className="aspect-square rounded-full">
-                            <InformationCircleIcon className="w-4 h-4 text-white" />
-                          </Badge>
+                          <InformationCircleIcon className="w-6 h-6 text-primary-600" />
                         </TooltipTrigger>
                         <TooltipContent>
                           Talep üst yönetici onay sürecindedir
                         </TooltipContent>
                       </Tooltip>
-                      <Button
-                        disabled={!!model?.approveGarbageId}
-                        type="submit"
-                      >
-                        Kaydet
-                      </Button>
-                    </div>
-                  }
+                    )}
+                    <Button disabled={!!model?.approveGarbageId} type="submit">
+                      Kaydet
+                    </Button>
+                  </div>
                 </div>
               )}
             </SheetFooter>
