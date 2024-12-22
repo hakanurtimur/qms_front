@@ -206,15 +206,15 @@ const Login = ({
             </Link>
           </Button>
         </div>
-        <div className="flex flex-col justify-center gap-12 items-stretch flex-1">
+        <div className="flex flex-col justify-center xl:gap-8 lg:gap-6 md:gap-6 gap-4 items-stretch flex-1">
           {moduleLoading
             ? null
             : modules.map((module) => (
                 <Button
                   key={module.moduleId}
                   variant="outline"
-                  size="4xl"
-                  className=""
+                  size="3xl"
+                  className="rounded-full"
                   asChild
                 >
                   <Link href={`modules/${module.moduleId}`}>
