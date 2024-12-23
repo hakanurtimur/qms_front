@@ -42,7 +42,7 @@ const Page = () => {
     onError: (error) => {
       toast({
         variant: "destructive",
-        description: error.message,
+        description: "Kullanıcı adı veya şifre hatalı",
       });
       setError(error.message);
     },
