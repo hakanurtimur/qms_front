@@ -88,6 +88,7 @@ const SDocumentMasterHistoryModelRequest = z.object({
   publishDate: z.string(),
   reviseDate: z.string(),
   description: z.string(),
+  reviseNo: z.string(),
 });
 
 export type DocumentMasterHistoryModelRequest = z.infer<

@@ -53,6 +53,7 @@ const HistorySheet: React.FC<HistorySheetProps> = ({
 
   const onSubmit = (data: DocumentMasterHistoryModel) => {
     setSubmitData({
+      reviseNo: data.reviseNo,
       reviseDate: data.reviseDate,
       publishDate: data.publishDate,
       description: data.description,
@@ -85,7 +86,12 @@ const HistorySheet: React.FC<HistorySheetProps> = ({
                         <FormItem>
                           <FormLabel>Revize No</FormLabel>
                           <FormControl>
-                            <Input readOnly value={data?.reviseNo} />
+                            <Input
+                              defaultValue={data?.reviseNo}
+                              onChange={(e) =>
+                                form.setValue("reviseNo", e.target.value)
+                              }
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
