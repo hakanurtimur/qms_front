@@ -234,12 +234,12 @@ const RequestSheetForm = ({
               <Input
                 readOnly
                 className="w-full bg-primary-100"
-                value={model?.superAdminAboutName ?? ""}
+                value={model?.superAdminActionName ?? ""}
               />
             </FormItem>
 
             <FormItem>
-              <Label>Açıklama</Label>
+              <Label>{model?.superAdminName} - Açıklama</Label>
               <Textarea
                 readOnly
                 className="w-full bg-primary-100 pb-3.5"
@@ -279,7 +279,7 @@ const RequestSheetForm = ({
                   </div>
                 )}
                 <div className="flex items-center gap-4 mt-4">
-                  {variant === "actives" && (
+                  {variant === "actives" && model && model.actionId === 2 && (
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button

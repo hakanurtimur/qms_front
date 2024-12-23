@@ -67,8 +67,8 @@ const DocumentContentPage = () => {
     return () => clearTimeout(timer); // Temizleme
   }, []);
 
-  const folderNames = query.data?.data.map((doc) => doc.folderName);
-
+  /*   const folderNames = query.data?.data.map((doc) => doc.folderName);
+   */
 
   const createDocumentMutation = useUserCreateDocument(
     async () => {
@@ -92,8 +92,7 @@ const DocumentContentPage = () => {
   const documentsFolderListQuery = useNonLoginGetDocumentFolderList();
 
   const categories = documentsCategoryListQuery.data
-    ? documentsCategoryListQuery.data.data
-        .map((doc) => doc.categoryName)
+    ? documentsCategoryListQuery.data.data.map((doc) => doc.categoryName)
     : [];
 
   const categroyOpts = categories

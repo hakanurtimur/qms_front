@@ -127,12 +127,12 @@ const MainDocSheet: React.FC<MainDocSheetProps> = ({
                       name="documentTypeName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Döküman Tipi</FormLabel>
+                          <FormLabel>Doküman Tipi</FormLabel>
                           <FormControl>
                             <Input
                               readOnly
                               {...field}
-                              value={data.documentTypeName}
+                              value={data?.documentTypeName}
                             />
                           </FormControl>
                           <FormMessage />

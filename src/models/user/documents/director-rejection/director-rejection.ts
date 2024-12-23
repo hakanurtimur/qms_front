@@ -37,7 +37,7 @@ export const SDirectorRejectionDetailsModel = z.object({
   requestTypeName: z.string(), // RequestTypeName STRING
   descriptionUser: z.string(), // DescriptionUser STRING
   adminName: z.string(), // AdminName STRING
-  descriptionManager: z.string(), // DescriptionManager STRING
+  descriptionAdmin: z.string(), // DescriptionAdmin STRING
   superAdminName: z.string(), // SuperAdminName STRING
   superAdminAboutName: z.string(), // SuperAdminAboutName STRING
   descriptionSuperAdmin: z.string(), // DescriptionSuperAdmin STRING

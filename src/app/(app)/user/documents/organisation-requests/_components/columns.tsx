@@ -130,13 +130,13 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
     header: ({ column }) => {
       return (
         <SortingBtn
-          text={"Admin Adı"}
+          text={"Bölüm Sorumlusu"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
       );
     },
     enableHiding: true,
-    footer: "Admin Adı",
+    footer: "Bölüm Sorumlusu",
   },
   /*   {
     accessorKey: "documentTypeName",

@@ -146,14 +146,16 @@ const RequestContentPage = () => {
 
   return (
     <div className="w-full flex flex-col space-y-10">
-      <Button
-        className="w-fit px-7"
-        onClick={() => {
-          window.location.reload();
-        }}
-      >
-        Listele
-      </Button>
+      <div className="flex items-center justify-between">
+        <Button
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
+          Listele
+        </Button>
+      </div>
+
       <Tabs defaultValue="all">
         <div className="w-full flex justify-between items-center">
           <TabsList className="grid grid-cols-2 w-[480px]">

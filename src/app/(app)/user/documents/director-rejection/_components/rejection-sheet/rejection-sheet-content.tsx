@@ -39,7 +39,7 @@ const RejectionSheetContent = ({
     requestTypeName: model ? (model.requestTypeName ?? "") : "",
     documentTypeId: model ? (model.documentTypeName ?? 0) : 0,
     descriptionUser: model ? (model.descriptionUser ?? "") : "",
-    descriptionManager: model ? (model.descriptionManager ?? "") : "",
+    descriptionAdmin: model ? (model.descriptionAdmin ?? "") : "",
     openDate: model ? (model.openDate ?? "") : "",
     updateDate: model ? (model.updateDate ?? "") : "",
     superAdminActionName: model ? (model.superAdminActionName ?? "") : "",
@@ -136,7 +136,7 @@ const RejectionSheetContent = ({
           <Textarea
             rows={5}
             className="w-full pb-3.5"
-            value={defaultValues.descriptionManager}
+            value={defaultValues.descriptionAdmin}
             readOnly
           />
         </FormItem>
@@ -147,7 +147,7 @@ const RejectionSheetContent = ({
           <Input readOnly value={defaultValues.superAdminActionName} />
         </FormItem>
         <FormItem>
-          <Label>Açıklama</Label>
+          <Label>{model?.superAdminName} - Açıklama</Label>
           <Textarea
             readOnly
             className="w-full bg-primary-100 pb-3.5"

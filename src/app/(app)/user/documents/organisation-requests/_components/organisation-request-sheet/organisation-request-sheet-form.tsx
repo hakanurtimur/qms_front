@@ -242,7 +242,7 @@ const OrganisationRequestSheetForm = ({
               name="descriptionSuperAdmin"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Açıklama</FormLabel>
+                  <FormLabel>{model?.superAdminName} - Açıklama</FormLabel>
                   <FormControl>
                     <Textarea
                       {...field}

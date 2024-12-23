@@ -7,7 +7,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { useAuth } from "@/context/authContext";
 import RequestSheetForm from "@/app/(app)/user/documents/requests/_components/request-sheet/request-sheet-form";
@@ -57,8 +57,12 @@ const RequestSheet = ({
     >
       <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
       <SheetTrigger asChild>
-        <Button disabled={query.isPending} size={"icon"}>
-          <PencilSquareIcon className="w-4 h-4" />
+        <Button disabled={query.isPending} size="icon">
+          {variant === "default" ? (
+            <EyeIcon className="w-4 h-4" />
+          ) : (
+            <PencilSquareIcon className="w-4 h-4" />
+          )}
         </Button>
       </SheetTrigger>
       <SheetContent className="min-w-[1100px]">

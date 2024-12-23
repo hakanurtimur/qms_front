@@ -7,7 +7,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 import { UpdateWaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
 import { useQuery } from "@tanstack/react-query";
@@ -56,7 +56,11 @@ const OrganisationRequestSheet = ({
       <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
       <SheetTrigger asChild>
         <Button size={"icon"}>
-          <PencilSquareIcon className="w-4 h-4" />
+          {variant === "default" ? (
+            <EyeIcon className="w-4 h-4" />
+          ) : (
+            <PencilSquareIcon className="w-4 h-4" />
+          )}
         </Button>
       </SheetTrigger>
       <SheetContent className="min-w-[1100px]">

@@ -55,7 +55,6 @@ interface DataTableProps<TData, TValue> {
   }) => void;
   documentTypeOpts: { [key: number]: string };
   onChangedCategoryName: (categoryName: string) => void;
-
 }
 
 export function DataTable<TData, TValue>({
@@ -156,13 +155,13 @@ export function DataTable<TData, TValue>({
                         .getColumn("categoryName")
                         ?.getFilterValue() as string) || ""
                     }
-                    onChange={(value) =>
-                     { table
+                    onChange={(value) => {
+                      table
                         .getColumn("categoryName")
-                        ?.setFilterValue(value ? value : "")
-                       onChangedCategoryName(value);
-                      table.getColumn("folderName")?.setFilterValue("");}
-                    }
+                        ?.setFilterValue(value ? value : "");
+                      onChangedCategoryName(value);
+                      table.getColumn("folderName")?.setFilterValue("");
+                    }}
                     placeholder={"Kategori Seçiniz"}
                     options={categoryOpts}
                   />

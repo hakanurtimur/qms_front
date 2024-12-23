@@ -92,6 +92,8 @@ const DashboardLayout = ({
       } else {
         router.push("/admin-login");
       }
+    } else {
+      console.log("Burası samet abi");
     }
   };
 

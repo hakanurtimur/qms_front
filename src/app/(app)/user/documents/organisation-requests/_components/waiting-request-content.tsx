@@ -32,6 +32,7 @@ import { useUserGetAllRequests } from "../lib/hooks/useUserGetAllRequests";
 import { useUserGetActiveRequests } from "../lib/hooks/useUserGetActiveRequest";
 import { useUserGetResultesRequests } from "../lib/hooks/useUserGetResultesRequests";
 import { useUserUpdateWaitingRequest } from "../lib/hooks/useUserUpdateWaitingRequest";
+import { Button } from "@/components/ui/button";
 
 const WaitingRequestsContentPage = () => {
   const { user } = useAuth();
@@ -233,6 +234,16 @@ const WaitingRequestsContentPage = () => {
 
   return (
     <div className="w-full flex flex-col space-y-10">
+      <div className="flex items-center justify-between">
+        <Button
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
+          Listele
+        </Button>
+      </div>
+
       <Tabs defaultValue="all">
         <div className="w-full flex justify-between items-center">
           <TabsList className="grid grid-cols-3 w-[720px]">
@@ -241,6 +252,7 @@ const WaitingRequestsContentPage = () => {
             <TabsTrigger value="result">Sonuç Bekleyen Talepler</TabsTrigger>
           </TabsList>
         </div>
+
         <TabsContent
           className="animate-in pt-2 slide-in-from-bottom-16 duration-500"
           value={"all"}
