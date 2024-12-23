@@ -69,6 +69,8 @@ const DepartmentForm = ({ model, onSubmit }: Props) => {
           name={"departmentId"}
           label={"Bölüm"}
           options={departmentOptions}
+          variant={"in-column"}
+          searchStringCase={"upper"}
         />
         <SheetFooter>
           <SheetClose asChild>
