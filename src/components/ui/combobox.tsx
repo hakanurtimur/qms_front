@@ -33,6 +33,7 @@ interface FormSelectFieldProps<T extends FieldValues> {
   width?: string;
   variant?: "in-column" | "default";
   readonly?: boolean;
+  searchStringCase?: "default" | "lower" | "upper";
 }
 
 function Combobox<T extends FieldValues>({
@@ -44,10 +45,29 @@ function Combobox<T extends FieldValues>({
   width = "",
   variant = "default",
   readonly = false,
+  searchStringCase = "default",
 }: FormSelectFieldProps<T>) {
   const [open, setOpen] = React.useState(false);
   const triggerRef = React.useRef<HTMLButtonElement>(null);
   const [popoverWidth, setPopoverWidth] = React.useState<number | undefined>();
+  const [searchValue, setSearchValue] = React.useState("");
+
+  React.useEffect(() => {
+    if (triggerRef.current) {
+      setPopoverWidth(triggerRef.current.offsetWidth);
+    }
+  }, [triggerRef.current, open]);
+
+  const transformSearchValue = (value: string) => {
+    switch (searchStringCase) {
+      case "lower":
+        return value.toLowerCase();
+      case "upper":
+        return value.toUpperCase();
+      default:
+        return value;
+    }
+  };
 
   React.useEffect(() => {
     if (triggerRef.current) {
@@ -97,7 +117,13 @@ function Combobox<T extends FieldValues>({
                   }}
                 >
                   <Command>
-                    <CommandInput placeholder="Ara" />
+                    <CommandInput
+                      value={searchValue}
+                      onValueChange={(val) =>
+                        setSearchValue(transformSearchValue(val))
+                      }
+                      placeholder="Ara"
+                    />
                     <CommandList>
                       <CommandEmpty>Bulunamadı</CommandEmpty>
                       <CommandGroup>
