@@ -18,7 +18,6 @@ import useGetFile from "@/app/(app)/user/documents/hooks/useGetFile";
 import { UpdateWaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
 import { toast } from "@/hooks/use-toast";
 import useCategoryFolderList from "../lib/hooks/useCategoryFolderList";
-import useHiddenList from "../lib/hooks/useHiddenList";
 import useIssueTypeList from "../lib/hooks/useIssueTypeList";
 import {
   ResultedRequestsFormModel,
@@ -26,7 +25,10 @@ import {
 } from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
 import useDocumentCreate from "../lib/hooks/useDocumentCreate";
 import useDocumentRevise from "../lib/hooks/useDocumentRevise";
-import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
+import {
+  UserCategoryFolderListModel,
+  UserCategoryFolderListModelResponse,
+} from "@/models/user/documents/documents/requestDocument";
 import { RequestDocumentCreatedModel } from "@/models/user/documents/documents/requestDocumentCreate";
 import { useUserGetAllRequests } from "../lib/hooks/useUserGetAllRequests";
 import { useUserGetActiveRequests } from "../lib/hooks/useUserGetActiveRequest";
@@ -40,6 +42,9 @@ const WaitingRequestsContentPage = () => {
   const { superAdminActionOpts } = useSuperAdminActionTypes();
   const { superAdminAboutOpts } = useSuperAdminAboutTypes();
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
+  const [categoryFolderList, setCategoryFolderList] = useState<
+    UserCategoryFolderListModel[]
+  >([]);
   const [uploadData, setUploadData] =
     useState<ResultedRequestsFormModel | null>(null);
   const [reviseData, setReviseData] =
@@ -61,15 +66,21 @@ const WaitingRequestsContentPage = () => {
     key: ["getDocUrl"],
   });
 
-  const categoryFolderList =
-    useCategoryFolderList({
-      key: ["category-folder-list"],
-    }) ?? [];
+  const categoryFolderListMutation = useCategoryFolderList(
+    (data: UserCategoryFolderListModelResponse) => {
+      console.log("Category Folder List", data);
+      setCategoryFolderList(data.data);
 
-  const hiddenTypeList =
-    useHiddenList({
-      key: ["hidden-type-list"],
-    }) ?? [];
+      console.log(categoryFolderListMutation);
+    },
+    () => {
+      toast({
+        title: "Hata",
+        description: "Klasörler getirilirken bir hata oluştu",
+        variant: "destructive",
+      });
+    },
+  );
 
   const issueTypeList =
     useIssueTypeList({
@@ -232,6 +243,10 @@ const WaitingRequestsContentPage = () => {
     });
   };
 
+  const handleDocumentTypeChange = (documentTypeId: number) => {
+    categoryFolderListMutation.mutate(documentTypeId);
+  };
+
   return (
     <div className="w-full flex flex-col space-y-10">
       <div className="flex items-center justify-between">
@@ -347,9 +362,9 @@ const WaitingRequestsContentPage = () => {
             setOpen={() => setDocumentUploadModal(!openDocumentUploadModal)}
             documentTypeListQpts={documentTypeListQpts}
             categoryFolderList={
-              categoryFolderList as RequestDocumentListModel[]
+              categoryFolderList as unknown as UserCategoryFolderListModel[]
             }
-            hiddenTypeList={hiddenTypeList as RequestDocumentCreatedModel[]}
+            handleDocumentTypeChange={handleDocumentTypeChange}
             issueTypeList={issueTypeList as RequestDocumentCreatedModel[]}
             onSubmit={handleSubmitDocumentUpload}
           />

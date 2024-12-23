@@ -26,17 +26,17 @@ import {
   ResultedRequestsFormModel,
   SResultedRequestsFormModel,
 } from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
-import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
+import { UserCategoryFolderListModel } from "@/models/user/documents/documents/requestDocument";
 import { RequestDocumentCreatedModel } from "@/models/user/documents/documents/requestDocumentCreate";
 
 interface DocumentUploadFormProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   documentTypeListQpts: { [key: string]: string };
-  categoryFolderList: RequestDocumentListModel[];
-  hiddenTypeList: RequestDocumentCreatedModel[];
+  categoryFolderList: UserCategoryFolderListModel[];
   issueTypeList: RequestDocumentCreatedModel[];
   onSubmit: (data: ResultedRequestsFormModel) => void;
+  handleDocumentTypeChange: (value: number) => void;
 }
 
 export default function DocumentUploadForm({
@@ -44,9 +44,9 @@ export default function DocumentUploadForm({
   setOpen,
   documentTypeListQpts,
   categoryFolderList,
-  hiddenTypeList,
   issueTypeList,
   onSubmit,
+  handleDocumentTypeChange,
 }: DocumentUploadFormProps) {
   const form = useForm<ResultedRequestsFormModel>({
     resolver: zodResolver(SResultedRequestsFormModel),
@@ -54,6 +54,7 @@ export default function DocumentUploadForm({
   });
 
   const handleSubmit = (data: ResultedRequestsFormModel) => {
+    console.log("Submit", data);
     onSubmit(data);
     setOpen(false);
   };
@@ -83,7 +84,10 @@ export default function DocumentUploadForm({
                       <DynamicCombobox
                         name="documentTypeId"
                         options={documentTypeListQpts}
-                        onChange={field.onChange}
+                        onChange={(value: string | number) => {
+                          field.onChange(value);
+                          handleDocumentTypeChange(value as number);
+                        }}
                       />
                     </FormItem>
                   )}
@@ -100,7 +104,7 @@ export default function DocumentUploadForm({
                         options={categoryFolderList.reduce(
                           (
                             acc: { [key: string]: string },
-                            item: RequestDocumentListModel,
+                            item: UserCategoryFolderListModel,
                           ) => {
                             acc[item?.folderId] = item?.folderName;
                             return acc;
@@ -109,32 +113,6 @@ export default function DocumentUploadForm({
                         )}
                         onChange={(value) => field.onChange(value)}
                         width="w-[300px] w-full"
-                      />
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="hiddenId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Görünürlük</FormLabel>
-                      <DynamicCombobox
-                        name="hidden"
-                        options={hiddenTypeList.reduce(
-                          (
-                            acc: { [key: string]: string },
-                            item: RequestDocumentCreatedModel,
-                          ) => {
-                            if (item?.hiddenId && item?.hiddenName) {
-                              acc[item.hiddenId] = item.hiddenName;
-                            }
-                            return acc;
-                          },
-                          {},
-                        )}
-                        onChange={(value) => field.onChange(value)}
                       />
                       <FormMessage />
                     </FormItem>

@@ -15,7 +15,7 @@ const SampleRequestFormModel = z.object({
   }),
   issueTypeId: z.number({ message: "Baskı türü seçmelisiniz." }),
   format: z.string().optional(),
-  reviseDate: z.string({ message: "Revize tarihi boş olamaz." }),
+  reviseDate: z.string({ message: "Revize tarihi boş olamaz." }).optional(),
   description: z.string({ message: "Açıklama boş olamaz." }).min(1, {
     message: "Açıklama boş olamaz.",
   }),
@@ -27,7 +27,6 @@ export const SResultedRequestsFormModel = SampleRequestFormModel.extend({
   code: z.string({ message: "Kod boş olamaz." }),
   newFileName: z.string().optional(),
   publishDate: z.string({ message: "Yayın tarihi boş olamaz." }),
-  hiddenId: z.number({ message: "Görünürlük boş olamaz." }),
 });
 
 export type ResultedRequestsFormModel = z.infer<
