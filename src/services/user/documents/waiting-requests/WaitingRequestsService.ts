@@ -9,7 +9,7 @@ import {
   ResultedRequestsReviseFormModel,
 } from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
 import { RequestDocumentCreatedModelResponse } from "@/models/user/documents/documents/requestDocumentCreate";
-import { RequestDocumentListModelResponse } from "@/models/user/documents/documents/requestDocument";
+import { UserCategoryFolderListModelResponse } from "@/models/user/documents/documents/requestDocument";
 
 export class WaitingRequestsService {
   public async list(
@@ -73,8 +73,10 @@ export class WaitingRequestsService {
     );
   }
   //api/document/get-category-folder-list
-  public async getCategoryFolderList(): Promise<RequestDocumentListModelResponse> {
-    return await api.get(`/document/get-category-folder-list`);
+  public async getCategoryFolderList(
+    documentType: number,
+  ): Promise<UserCategoryFolderListModelResponse> {
+    return await api.get(`/document/get-category-folder-list/${documentType}`);
   }
 
   //api/documentdemand/get-hidden-type-list

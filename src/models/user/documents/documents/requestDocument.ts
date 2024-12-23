@@ -60,3 +60,21 @@ export const SRequestDocumentGetModelResponse = SResponseModel.extend({
 export type RequestDocumentGetModelResponse = z.infer<
   typeof SRequestDocumentGetModelResponse
 >;
+
+export const SUserCategoryFolderListModel = z.object({
+  categoryId: z.number().int(),
+  folderId: z.number().int(),
+  folderName: z.string(),
+});
+
+export type UserCategoryFolderListModel = z.infer<
+  typeof SUserCategoryFolderListModel
+>;
+
+export const SUserCategoryFolderListModelResponse = SResponseModel.extend({
+  data: z.array(SUserCategoryFolderListModel),
+});
+
+export type UserCategoryFolderListModelResponse = z.infer<
+  typeof SUserCategoryFolderListModelResponse
+>;
