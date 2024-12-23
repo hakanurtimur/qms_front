@@ -21,7 +21,7 @@ const useDocumentCreate = ({ userId, id, body, key }: DocumentCreateParams) => {
         variant: "success",
       });
 
-      //window.location.reload();
+      window.location.reload();
     },
     onError: () => {
       toast({
