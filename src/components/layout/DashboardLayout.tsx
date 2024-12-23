@@ -38,10 +38,10 @@ import {
 } from "@/app/(app)/user/service/change-password.store";
 import { useRouter } from "next/navigation";
 import { ResponseModel } from "@/models/api/response";
-/* import { AIChatBox } from "@/components/ui/ai-chat-box";
- */ /* import { GeminiRequest } from "@/models/gemini-ai";
+import { AIChatBox } from "@/components/ui/ai-chat-box";
+import { GeminiRequest } from "@/models/gemini-ai";
 import geminiService from "@/services/GeminiService";
-import { useMutation } from "@tanstack/react-query"; */
+import { useMutation } from "@tanstack/react-query";
 
 interface Props {
   variant: "admin" | "user";
@@ -63,21 +63,21 @@ const DashboardLayout = ({
     (state) => state as IChangePasswordStore,
   );
   const router = useRouter();
-  /*   const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState([
     {
       text: "Merhaba, ben Medicalpoint Hastaneler grubunun Kalite Kontrol Asistanıyım.  Size nasıl yardımcıolabilirim?",
       isUser: false,
     },
-  ]); */
-  /*   const [input, setInput] = useState("");
-   */ /*   const [openChatModal, setOpenChatModal] = useState(false);
-   */
+  ]);
+  const [input, setInput] = useState("");
+  const [openChatModal, setOpenChatModal] = useState(false);
+
   const [popoverOpen, setPopoverOpen] = useState(false);
 
-  /* const modelPrompt = `
+  const modelPrompt = `
 
 
-  `; */
+  `;
 
   const handlePasswordChange = async (data: ChangePasswordModel) => {
     const res: unknown = await changePassword(data, Number(user?.userId));
@@ -97,7 +97,7 @@ const DashboardLayout = ({
     }
   };
 
-  /*   const sendMessageToAI = useMutation({
+  const sendMessageToAI = useMutation({
     mutationFn: (data: GeminiRequest) => geminiService.getAIResponse(data),
     onSuccess: (res) => {
       const response = res?.data?.candidates[0].content.parts[0].text;
@@ -106,9 +106,9 @@ const DashboardLayout = ({
         { text: response, type: "ai", id: Math.random(), isUser: false },
       ]);
     },
-  }); */
+  });
 
-  /*   const handleSendMessage = (e: { preventDefault: () => void }) => {
+  const handleSendMessage = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (input.trim()) {
       console.log(input);
@@ -139,7 +139,7 @@ const DashboardLayout = ({
       setInput("");
       sendMessageToAI.mutate(request);
     }
-  }; */
+  };
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-muted/40">
@@ -269,14 +269,14 @@ const DashboardLayout = ({
             </SheetContent>
           </Sheet>
           <div className="flex flex-shrink gap-4 items-center">
-            {/*  <AIChatBox
+            <AIChatBox
               messages={messages}
               input={input}
               setInput={setInput}
               handleSendMessage={handleSendMessage}
               open={openChatModal}
               onOpenChange={setOpenChatModal}
-            /> */}
+            />
             <Button
               variant="outline"
               size="icon"
