@@ -124,11 +124,8 @@ export const SUpdateWaitingRequestModel = z
     userId: z.number().int().nonnegative(), // userId: Integer, non-negative
     superAdminActionId: z.number().int().nonnegative(), // actionId: Integer, non-negative
     documentTypeId: z.number().int().nonnegative(), // documentTypeId: Integer, non-negative
-    superAdminAboutId: z
-      .number()
-      .int()
-      .positive({ message: "Talep nedeni seçilmelidir" }), // superAdminAboutId: Integer, non-negative
-    descriptionSuperAdmin: z.string().nullable(),
+    superAdminAboutId: z.number().int(),
+    descriptionSuperAdmin: z.string().optional(), // descriptionSuperAdmin: String, min: 1
     formFile: z
       .instanceof(File)
       .nullable()
@@ -146,6 +143,28 @@ export const SUpdateWaitingRequestModel = z
           path: ["formFile"],
         });
       }
+    }
+
+    if (
+      data.superAdminActionId !== 5 &&
+      (!!data.superAdminAboutId || data.superAdminAboutId <= 0)
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Talep Nedeni seçmelisiniz",
+        path: ["superAdminAboutId"],
+      });
+    }
+
+    if (
+      (data.superAdminActionId === 2 || data.superAdminActionId === 5) &&
+      (!!data.descriptionSuperAdmin || data.descriptionSuperAdmin!.length <= 10)
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Açıklama gereklidir",
+        path: ["descriptionSuperAdmin"],
+      });
     }
   });
 

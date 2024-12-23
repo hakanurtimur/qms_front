@@ -133,6 +133,7 @@ const PdfViewer = ({
                   {Array.from({ length: numPages || 0 }, (_, index) => (
                     <PaginationItem key={index}>
                       <PaginationLink
+                        className={`border-2 rounded-full border-transparent ${pageNumber === index + 1 && "bg-primary-200 border-primary-600"}`}
                         onClick={() => {
                           handlePageChange(index + 1);
                         }}
