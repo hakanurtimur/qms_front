@@ -82,12 +82,7 @@ const ProfileDashboard = () => {
 
   const dummyData = {
     registeryNo: data?.data?.registeryNo,
-    name: data?.data?.nameSurname
-      ? data?.data?.nameSurname.split(" ")[0]
-      : "John",
-    surname: data?.data?.nameSurname
-      ? data?.data?.nameSurname.split(" ")[1]
-      : "Doe",
+    nameSurname: data?.data?.nameSurname,
     username: data?.data?.username,
     email: data?.data?.mail,
     phoneNum: data?.data?.phoneNumber,
@@ -197,23 +192,23 @@ const ProfileDashboard = () => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Input
-                    value={dummyData.name + " " + dummyData.surname}
-                    className="truncate max-w-[190px]"
+                    value={dummyData.nameSurname}
+                    className="truncate max-w-[280px]"
                     readOnly
                   />
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{dummyData.name + " " + dummyData.surname}</p>
+                  <p>{dummyData.nameSurname}</p>
                 </TooltipContent>
               </Tooltip>
             </FormItem>
             <FormItem>
-              <Label>Sistem Rolü</Label>
+              <Label className="ml-8">Sistem Rolü</Label>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Input
                     value={dummyData.systemRole}
-                    className="truncate max-w-[190px]"
+                    className="truncate ml-8 max-w-[150px]"
                     readOnly
                   />
                 </TooltipTrigger>
@@ -243,7 +238,7 @@ const ProfileDashboard = () => {
                 <TooltipTrigger asChild>
                   <Input
                     value={dummyData.email}
-                    className="truncate max-w-[190px]"
+                    className="truncate max-w-[280px]"
                     readOnly
                   />
                 </TooltipTrigger>
@@ -254,12 +249,12 @@ const ProfileDashboard = () => {
             </FormItem>
 
             <FormItem>
-              <Label>Telefon</Label>
+              <Label className="ml-8">Telefon</Label>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Input
                     value={dummyData.phoneNum}
-                    className="truncate max-w-[190px]"
+                    className="truncate ml-8 max-w-[150px]"
                     readOnly
                   />
                 </TooltipTrigger>
