@@ -8,6 +8,7 @@ import GuestSheet from "@/app/(app)/admin/user-management/employee-management/_c
 import { useAdminGetEmployees } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetEmployees";
 import { useAdminGetManagers } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetManagers";
 import LoadingText from "@/components/ui/loading-text";
+import { Button } from "@/components/ui/button";
 
 const EmployeeManagementContent = () => {
   const employeesQuery = useAdminGetEmployees();
@@ -15,6 +16,15 @@ const EmployeeManagementContent = () => {
 
   return (
     <Tabs className={"h-full"} defaultValue="employee">
+      <div className="flex items-center mb-8 justify-between">
+        <Button
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
+          Listele
+        </Button>
+      </div>
       <div className="w-full flex justify-between items-center">
         <TabsList className="grid grid-cols-2 w-[480px]">
           <TabsTrigger value="employee">Personel</TabsTrigger>

@@ -13,7 +13,13 @@ const LocationContent = () => {
   return (
     <>
       <div className="flex justify-between">
-        <Button>Listele</Button>
+        <Button
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
+          Listele
+        </Button>
         <Button size={"icon"}>
           <PlusIcon className="w-5 h-5" />
         </Button>

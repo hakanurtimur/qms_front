@@ -13,7 +13,13 @@ const RoleManagementContent = () => {
   return (
     <>
       <div className="flex justify-between">
-        <Button>Listele</Button>
+        <Button
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
+          Listele
+        </Button>
         <CreateRoleSheet />
       </div>
       {query.data && !query.isPending ? (

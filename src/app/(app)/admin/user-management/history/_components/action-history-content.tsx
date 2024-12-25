@@ -23,7 +23,13 @@ const ActionHistoryContent = () => {
   return (
     <>
       <div className="flex justify-between">
-        <Button>Listele</Button>
+        <Button
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
+          Listele
+        </Button>
       </div>
       {query.data && nameOpts && updateTableOpts && !query.isPending ? (
         <DataTable
