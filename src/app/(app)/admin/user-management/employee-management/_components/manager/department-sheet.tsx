@@ -17,6 +17,11 @@ import { useAuth } from "@/context/authContext";
 import { useAdminUpdateManagerDepartment } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminUpdateManagerDepartment";
 import { toast } from "@/hooks/use-toast";
 import { DialogOverlay } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Props {
   model: EmployeeToManageTableModel;
@@ -60,25 +65,30 @@ const DepartmentSheet = ({ model }: Props) => {
   };
 
   return (
-    <Sheet>
-      <DialogOverlay className="fixed inset-0 z-50 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-      <SheetTrigger asChild>
-        <Button size="icon">
-          <BriefcaseIcon className="w-4 h-4" />
-        </Button>
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Yönetici Departman Atama</SheetTitle>
-          <SheetDescription>
-            Buradan yönetici departman atamalarını düzenleyebilirsiniz.
-          </SheetDescription>
-        </SheetHeader>
-        {query.data ? (
-          <DepartmentForm model={query.data.data} onSubmit={handleSubmit} />
-        ) : null}
-      </SheetContent>
-    </Sheet>
+    <Tooltip>
+      <Sheet>
+        <DialogOverlay className="fixed inset-0 z-50 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
+        <SheetTrigger asChild>
+          <TooltipTrigger asChild>
+            <Button size="icon">
+              <BriefcaseIcon className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+        </SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Bölüm Atama</SheetTitle>
+            <SheetDescription>
+              Buradan yönetici için bölüm ataması yapılır.
+            </SheetDescription>
+          </SheetHeader>
+          {query.data ? (
+            <DepartmentForm model={query.data.data} onSubmit={handleSubmit} />
+          ) : null}
+        </SheetContent>
+      </Sheet>
+      <TooltipContent>Bölüm Atama</TooltipContent>
+    </Tooltip>
   );
 };
 

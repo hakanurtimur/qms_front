@@ -16,6 +16,11 @@ import waitingRequestsService from "@/services/user/documents/waiting-requests/W
 
 import { DialogOverlay } from "@/components/ui/dialog";
 import OrganisationRequestSheetForm from "@/app/(app)/user/documents/organisation-requests/_components/organisation-request-sheet/organisation-request-sheet-form";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Props {
   id: string;
@@ -46,45 +51,52 @@ const OrganisationRequestSheet = ({
   });
 
   return (
-    <Sheet
-      onOpenChange={async () => {
-        await requestDetailsQuery.refetch();
-        setOpen(!open);
-      }}
-      open={open}
-    >
-      <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-      <SheetTrigger asChild>
-        <Button size={"icon"}>
-          {variant === "default" ? (
-            <EyeIcon className="w-4 h-4" />
-          ) : (
-            <PencilSquareIcon className="w-4 h-4" />
+    <Tooltip>
+      <Sheet
+        onOpenChange={async () => {
+          await requestDetailsQuery.refetch();
+          setOpen(!open);
+        }}
+        open={open}
+      >
+        <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
+        <SheetTrigger asChild>
+          <TooltipTrigger asChild>
+            <Button size={"icon"}>
+              {variant === "default" ? (
+                <EyeIcon className="w-4 h-4" />
+              ) : (
+                <PencilSquareIcon className="w-4 h-4" />
+              )}
+            </Button>
+          </TooltipTrigger>
+        </SheetTrigger>
+        <SheetContent className="min-w-[1100px]">
+          <SheetHeader>
+            <SheetTitle>Talep Bilgileri</SheetTitle>
+            <SheetDescription>
+              Buradan talepleri düzenleyebilirsiniz.
+            </SheetDescription>
+          </SheetHeader>
+          {requestDetailsQuery.data && (
+            <OrganisationRequestSheetForm
+              variant={variant}
+              model={requestDetailsQuery.data.data}
+              onSubmit={onSubmit}
+              superAdminActionOpts={superAdminActionOpts}
+              superAdminAboutOpts={superAdminAboutOpts}
+              handleGetGarbage={handleGetGarbage}
+              handleGetFile={handleGetFile}
+              documentTypeListQpts={documentTypeListQpts}
+              onSheetClose={() => setOpen(false)}
+            />
           )}
-        </Button>
-      </SheetTrigger>
-      <SheetContent className="min-w-[1100px]">
-        <SheetHeader>
-          <SheetTitle>Talep Bilgileri</SheetTitle>
-          <SheetDescription>
-            Buradan talepleri düzenleyebilirsiniz.
-          </SheetDescription>
-        </SheetHeader>
-        {requestDetailsQuery.data && (
-          <OrganisationRequestSheetForm
-            variant={variant}
-            model={requestDetailsQuery.data.data}
-            onSubmit={onSubmit}
-            superAdminActionOpts={superAdminActionOpts}
-            superAdminAboutOpts={superAdminAboutOpts}
-            handleGetGarbage={handleGetGarbage}
-            handleGetFile={handleGetFile}
-            documentTypeListQpts={documentTypeListQpts}
-            onSheetClose={() => setOpen(false)}
-          />
-        )}
-      </SheetContent>
-    </Sheet>
+        </SheetContent>
+      </Sheet>
+      <TooltipContent>
+        {variant === "default" ? "Görüntüle" : "Düzenle"}
+      </TooltipContent>
+    </Tooltip>
   );
 };
 

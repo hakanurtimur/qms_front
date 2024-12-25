@@ -17,6 +17,11 @@ import { toast } from "@/hooks/use-toast";
 import { useAdminGetRolesList } from "@/app/(app)/admin/user-management/role-management/lib/hooks/useAdminGetRolesList";
 import { useAuth } from "@/context/authContext";
 import { DialogOverlay } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 const CreateRoleSheet = () => {
   const { user } = useAuth();
   const { refetch: refetchRoles } = useAdminGetRolesList();
@@ -48,24 +53,28 @@ const CreateRoleSheet = () => {
   };
 
   return (
-    <Sheet>
-      <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-      <SheetTrigger asChild>
-        <Button className="gap-2">
-          <PlusIcon className="w-4 h-4" />
-          <p>Rol Ekle</p>
-        </Button>
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Rol Ekleme</SheetTitle>
-          <SheetDescription>
-            Buradan yeni rol ekleyebilirsiniz.
-          </SheetDescription>
-        </SheetHeader>
-        <CreateSheetForm onSubmit={handleSubmmit} />
-      </SheetContent>
-    </Sheet>
+    <Tooltip>
+      <Sheet>
+        <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
+        <SheetTrigger asChild>
+          <TooltipTrigger asChild>
+            <Button className="gap-2">
+              <PlusIcon className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+        </SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Rol Ekleme</SheetTitle>
+            <SheetDescription>
+              Buradan yeni rol ekleyebilirsiniz.
+            </SheetDescription>
+          </SheetHeader>
+          <CreateSheetForm onSubmit={handleSubmmit} />
+        </SheetContent>
+      </Sheet>
+      <TooltipContent>Rol Ekle</TooltipContent>
+    </Tooltip>
   );
 };
 

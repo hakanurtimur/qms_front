@@ -16,6 +16,11 @@ import { useAuth } from "@/context/authContext";
 import { useAdminGetLocations } from "@/app/(app)/admin/user-management/location/lib/hooks/useAdminGetLocations";
 import SheetForm from "@/app/(app)/admin/user-management/location/_components/sheet-form";
 import { DialogOverlay } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Props {
   model: ManagerLocationModel;
@@ -48,23 +53,28 @@ const FormSheet = ({ model }: Props) => {
   };
 
   return (
-    <Sheet>
-      <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-      <SheetTrigger asChild>
-        <Button size="icon">
-          <PencilSquareIcon className="w-4 h-4" />
-        </Button>
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Lokasyon Düzenle</SheetTitle>
-          <SheetDescription>
-            Buradan lokasyon bilgilerini düzenleyebilirsiniz.
-          </SheetDescription>
-        </SheetHeader>
-        <SheetForm model={model} onSubmit={handleSubmit} />
-      </SheetContent>
-    </Sheet>
+    <Tooltip>
+      <Sheet>
+        <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
+        <SheetTrigger asChild>
+          <TooltipTrigger asChild>
+            <Button size="icon">
+              <PencilSquareIcon className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+        </SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Lokasyon Düzenle</SheetTitle>
+            <SheetDescription>
+              Buradan lokasyon bilgilerini düzenleyebilirsiniz.
+            </SheetDescription>
+          </SheetHeader>
+          <SheetForm model={model} onSubmit={handleSubmit} />
+        </SheetContent>
+      </Sheet>
+      <TooltipContent>Düzenle</TooltipContent>
+    </Tooltip>
   );
 };
 

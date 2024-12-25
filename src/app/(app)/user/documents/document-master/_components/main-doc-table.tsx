@@ -73,7 +73,7 @@ export default function MainDocTable({
           <div className="flex items-center py-4 px-4 gap-10">
             <div className="flex flex-1 max-w-[420px] flex-shrink-0 col-span-1 justify-stretch gap-2">
               <Input
-                placeholder="Arama yapın..."
+                placeholder="DETAYLI ARAMA"
                 value={globalFilter ?? ""}
                 onChange={(event) =>
                   setGlobalFilter(event.target.value.toLocaleUpperCase("tr"))
@@ -131,7 +131,7 @@ export default function MainDocTable({
                                 }
                               />
                             </TooltipTrigger>
-                            <TooltipContent>Güncelle</TooltipContent>
+                            <TooltipContent>Düzenle</TooltipContent>
                           </Tooltip>
                         </div>
                       </TableCell>

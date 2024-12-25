@@ -71,7 +71,7 @@ export function DataTable<TData, TValue>({
             <div className="w-64">
               <NonFormCombobox
                 width={"max-w-sm"}
-                placeholder="Ad Soyad"
+                placeholder="ADI SOYADI"
                 value={
                   (table
                     .getColumn("nameSurname")
@@ -88,7 +88,7 @@ export function DataTable<TData, TValue>({
             <div className={"w-64"}>
               <NonFormCombobox
                 width={"max-w-sm"}
-                placeholder="İşlem Yeri"
+                placeholder="İŞLEM YERİ"
                 value={
                   (table
                     .getColumn("updateTable")
@@ -106,7 +106,7 @@ export function DataTable<TData, TValue>({
           <div className={"w-64"}>
             <Input
               name="description"
-              placeholder="Detaylı Arama"
+              placeholder="DETAYLI ARAMA"
               value={table.getColumn("description")?.getFilterValue() as string}
               onChange={(event) =>
                 table

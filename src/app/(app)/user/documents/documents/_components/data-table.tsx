@@ -162,7 +162,7 @@ export function DataTable<TData, TValue>({
                       onChangedCategoryName(value);
                       table.getColumn("folderName")?.setFilterValue("");
                     }}
-                    placeholder={"Kategori Seçiniz"}
+                    placeholder={"KATEGORİ SEÇİNİZ"}
                     options={categoryOpts}
                   />
                 </div>
@@ -195,7 +195,7 @@ export function DataTable<TData, TValue>({
                           value ? value.toLocaleUpperCase("tr") : "",
                         )
                     }
-                    placeholder={"Klasör Seçiniz"}
+                    placeholder={"KLASÖR SEÇİNİZ"}
                     options={folderOpts}
                   />
                 </div>
@@ -216,7 +216,7 @@ export function DataTable<TData, TValue>({
               </Tooltip>
               <Input
                 name="fileName"
-                placeholder="Dosya Adı"
+                placeholder="DOSYA ADI İLE ARA"
                 value={
                   (table.getColumn("fileName")?.getFilterValue() as string) ||
                   ""

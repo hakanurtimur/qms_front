@@ -31,7 +31,7 @@ export default function ArchiveDocSheet({ data }: ArchiveDocSheetProps) {
         <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
         <SheetTrigger asChild className="">
           <TooltipTrigger>
-            <EditIcon className="w-9 h-9 rounded bg-primary-900 text-white p-2 cursor-pointer" />
+            <EditIcon className="w-8 h-8 p-2 rounded-md bg-primary-800 text-white cursor-pointer " />
           </TooltipTrigger>
         </SheetTrigger>
         <SheetContent className="w-[400px] sm:w-[540px]">
@@ -44,7 +44,7 @@ export default function ArchiveDocSheet({ data }: ArchiveDocSheetProps) {
           <ArchiveDocForm data={data} />
         </SheetContent>
       </Sheet>
-      <TooltipContent>Güncelle</TooltipContent>
+      <TooltipContent>Düzenle</TooltipContent>
     </Tooltip>
   );
 }

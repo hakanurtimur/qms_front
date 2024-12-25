@@ -114,7 +114,7 @@ export function DataTable<TData, TValue>({
                       .getColumn("departmentName")
                       ?.setFilterValue(value ? value : "")
                   }
-                  placeholder={"Bölüm Adı"}
+                  placeholder={"BÖLÜM ADI"}
                   options={departmentOps}
                 />
               </div>
@@ -131,7 +131,7 @@ export function DataTable<TData, TValue>({
                       .getColumn("actionName")
                       ?.setFilterValue(value ? value : "")
                   }
-                  placeholder={"Durum"}
+                  placeholder={"DURUM"}
                   options={actionNameOpts}
                 />
               </div>
@@ -147,17 +147,17 @@ export function DataTable<TData, TValue>({
                       .getColumn("requestTypeName")
                       ?.setFilterValue(value ? value : "")
                   }
-                  placeholder={"Talep Tipi"}
+                  placeholder={"TALEP TİPİ"}
                   options={requestTypeOpts}
                 />
               </div>
             </div>
             <div className="flex flex-1 max-w-[420px] flex-shrink-0 col-span-1 justify-stretch gap-2">
               <Input
-                placeholder="Arama yapın..."
+                placeholder="DETAYLI ARAMA"
                 value={globalFilter ?? ""}
                 onChange={(event) =>
-                  setGlobalFilter(event.target.value.toUpperCase())
+                  setGlobalFilter(event.target.value.toLocaleUpperCase("tr-TR"))
                 }
                 className="max-w-sm"
               />

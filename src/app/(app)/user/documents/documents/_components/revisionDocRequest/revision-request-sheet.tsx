@@ -56,7 +56,7 @@ const RevisionRequestSheet = ({ onSubmit, model, documentTypeOpts }: Props) => {
           />
         </SheetContent>
       </Sheet>
-      <TooltipContent>Revize Talebi</TooltipContent>
+      <TooltipContent>Revize Talebi Oluştur</TooltipContent>
     </Tooltip>
   );
 };

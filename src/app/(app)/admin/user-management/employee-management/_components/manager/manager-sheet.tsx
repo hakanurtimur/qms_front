@@ -19,6 +19,11 @@ import { useAdminUpdateManager } from "@/app/(app)/admin/user-management/employe
 import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/authContext";
 import { DialogOverlay } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Props {
   model: EmployeeToManageTableModel;
@@ -68,25 +73,30 @@ const ManagerSheet = ({ model }: Props) => {
   };
 
   return (
-    <Sheet>
-      <DialogOverlay className="fixed inset-0 z-50 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-      <SheetTrigger asChild>
-        <Button size="icon">
-          <PencilSquareIcon className="w-4 h-4" />
-        </Button>
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Yönetici Bilgisi</SheetTitle>
-          <SheetDescription>
-            Buradan yönetici bilgilerini düzenleyebilirsiniz.
-          </SheetDescription>
-        </SheetHeader>
-        {query.data ? (
-          <ManagerForm model={query.data.data} onSubmit={handleSubmit} />
-        ) : null}
-      </SheetContent>
-    </Sheet>
+    <Tooltip>
+      <Sheet>
+        <DialogOverlay className="fixed inset-0 z-50 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
+        <SheetTrigger asChild>
+          <TooltipTrigger asChild>
+            <Button size="icon">
+              <PencilSquareIcon className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+        </SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Yönetici Bilgisi</SheetTitle>
+            <SheetDescription>
+              Buradan yönetici bilgilerini düzenleyebilirsiniz.
+            </SheetDescription>
+          </SheetHeader>
+          {query.data ? (
+            <ManagerForm model={query.data.data} onSubmit={handleSubmit} />
+          ) : null}
+        </SheetContent>
+      </Sheet>
+      <TooltipContent>Düzenle</TooltipContent>
+    </Tooltip>
   );
 };
 

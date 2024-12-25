@@ -2,7 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import SortingBtn from "@/components/ui/sorting-btn";
-import { formatDateWithoutTime } from "@/utils/dateUtils";
 import { WaitingRequestModel } from "@/models/user/documents/waitingRequests/waitingRequestModel";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -94,7 +93,7 @@ export const columns: ColumnDef<WaitingRequestModel>[] = [
       );
     },
     cell: ({ cell }) => {
-      return formatDateWithoutTime(cell.getValue() as string);
+      return cell.getValue() as string;
     },
     enableHiding: true,
     footer: "Talep Tarihi",

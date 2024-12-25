@@ -16,6 +16,11 @@ import useGetFile from "@/app/(app)/user/documents/hooks/useGetFile";
 import PdfViewer from "@/components/ui/pdf-viewer";
 import { DialogOverlay } from "@/components/ui/dialog";
 import useGetApprovedGarbageFile from "@/app/(app)/user/documents/organisation-requests/lib/hooks/useGetApprovedGarbageFile";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Props {
   model: DirectorRejectionModel;
@@ -68,30 +73,35 @@ const RejectionSheet = ({ model, variant, onApproveRequest }: Props) => {
           src={fileUrl ?? ""}
         />
       )}
-      <Sheet>
-        <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-        <SheetTrigger asChild>
-          <Button size={"icon"}>
-            <PencilSquareIcon className="w-4 h-4" />
-          </Button>
-        </SheetTrigger>
-        <SheetContent className="min-w-[1100px]">
-          <SheetHeader>
-            <SheetTitle>Direktör Onayı</SheetTitle>
-          </SheetHeader>
-          {query.data && (
-            <RejectionSheetContent
-              onGetFile={handleGetFile}
-              onGetGarbage={handleGetGarbage}
-              variant={variant}
-              model={query.data.data}
-              onApproveRequest={(action_id) =>
-                onApproveRequest(model.id.toString(), action_id)
-              }
-            />
-          )}
-        </SheetContent>
-      </Sheet>
+      <Tooltip>
+        <Sheet>
+          <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
+          <SheetTrigger asChild>
+            <TooltipTrigger asChild>
+              <Button size={"icon"}>
+                <PencilSquareIcon className="w-4 h-4" />
+              </Button>
+            </TooltipTrigger>
+          </SheetTrigger>
+          <SheetContent className="min-w-[1100px]">
+            <SheetHeader>
+              <SheetTitle>Direktör Onayı</SheetTitle>
+            </SheetHeader>
+            {query.data && (
+              <RejectionSheetContent
+                onGetFile={handleGetFile}
+                onGetGarbage={handleGetGarbage}
+                variant={variant}
+                model={query.data.data}
+                onApproveRequest={(action_id) =>
+                  onApproveRequest(model.id.toString(), action_id)
+                }
+              />
+            )}
+          </SheetContent>
+        </Sheet>
+        <TooltipContent>Düzenle</TooltipContent>
+      </Tooltip>
     </>
   );
 };

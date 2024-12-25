@@ -144,7 +144,7 @@ export function ScreenDataTable<TData, TValue>({
               options={screenRoleOpts}
             />
             <Input
-              placeholder="Arama yapın..."
+              placeholder="DETAYLI ARAMA"
               value={globalFilter ?? ""}
               onChange={(event) =>
                 setGlobalFilter(event.target.value.toLocaleUpperCase("tr"))

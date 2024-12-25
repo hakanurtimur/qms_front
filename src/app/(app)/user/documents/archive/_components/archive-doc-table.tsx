@@ -128,7 +128,7 @@ export default function ArchiveDocTable({
                       ) ?? {}
                     }
                     name="category"
-                    placeholder="Kategori Seçiniz"
+                    placeholder="KATEGORİ SEÇİNİZ"
                     onChange={(value) => setSelectedCategory(value as string)}
                     width="w-[300px]"
                   />
@@ -155,7 +155,7 @@ export default function ArchiveDocTable({
                       ) ?? {}
                     }
                     name="folder"
-                    placeholder="Klasör Seçiniz"
+                    placeholder="KLASÖR SEÇİNİZ"
                     onChange={(value) => setSelectedFolder(value as string)}
                     width="w-[300px]"
                   />
@@ -174,7 +174,7 @@ export default function ArchiveDocTable({
                 </TooltipContent>
               </Tooltip>
               <Input
-                placeholder="Dosya adı ara..."
+                placeholder="DOSYA ADI İLE ARA"
                 value={globalFilter}
                 onChange={(e) => setGlobalFilter(e.target.value.toUpperCase())}
                 className="w-[400px]"
@@ -224,7 +224,7 @@ export default function ArchiveDocTable({
                           <Tooltip>
                             <TooltipTrigger>
                               <EyeIcon
-                                className="w-9 h-9 rounded bg-primary-900 text-white p-2 cursor-pointer"
+                                className="w-8 h-8 p-2 rounded-md bg-primary-800 text-white cursor-pointer "
                                 onClick={() =>
                                   handleViewDocument(
                                     String(row.original.fileId),

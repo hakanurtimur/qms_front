@@ -62,7 +62,7 @@ export function DataTable<TData, TValue>({
       <div className="rounded-md border w-full min-w-[800px] no-scrollbar">
         <div className="flex items-center py-4 px-4 justify-between gap-10 w-full no-scrollbar">
           <Input
-            placeholder="Arama yapın..."
+            placeholder="DETAYLI ARAMA"
             value={globalFilter ?? ""}
             onChange={(event) =>
               setGlobalFilter(event.target.value.toLocaleUpperCase("tr"))

@@ -17,6 +17,11 @@ import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/authContext";
 import { useAdminGetEmployees } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetEmployees";
 import { DialogOverlay } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 const GuestSheet = () => {
   const { user } = useAuth();
   const { refetch: refetchEmployees } = useAdminGetEmployees();
@@ -47,26 +52,30 @@ const GuestSheet = () => {
   };
 
   return (
-    <Sheet>
-      <DialogOverlay className="fixed inset-0 z-50 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
+    <Tooltip>
+      <Sheet>
+        <DialogOverlay className="fixed inset-0 z-50 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
 
-      <SheetTrigger asChild>
-        <Button className="gap-2">
-          <PlusIcon className="w-4 h-4" />
-          <p>Misafir Kullanıcı Ekle</p>
-        </Button>
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Misafir Kullanıcı Ekle</SheetTitle>
-          <SheetDescription>
-            Buradan misafir kullanıcı bilgilerini düzenleyebilirsiniz.
-          </SheetDescription>
-        </SheetHeader>
-        <div className="mt-2"></div>
-        <GuestForm onSubmit={handleSubmit} />
-      </SheetContent>
-    </Sheet>
+        <SheetTrigger asChild>
+          <TooltipTrigger asChild>
+            <Button className="gap-2">
+              <PlusIcon className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+        </SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Misafir Kullanıcı Ekle</SheetTitle>
+            <SheetDescription>
+              Buradan misafir kullanıcı bilgilerini düzenleyebilirsiniz.
+            </SheetDescription>
+          </SheetHeader>
+          <div className="mt-2"></div>
+          <GuestForm onSubmit={handleSubmit} />
+        </SheetContent>
+      </Sheet>
+      <TooltipContent>Misafir Kullanıcı Ekle</TooltipContent>
+    </Tooltip>
   );
 };
 

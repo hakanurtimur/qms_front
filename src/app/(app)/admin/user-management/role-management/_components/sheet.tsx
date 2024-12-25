@@ -18,6 +18,11 @@ import { useAuth } from "@/context/authContext";
 import { useAdminGetRolesList } from "@/app/(app)/admin/user-management/role-management/lib/hooks/useAdminGetRolesList";
 import { useAdminGetSingleRole } from "@/app/(app)/admin/user-management/role-management/lib/hooks/useAdminGetSingleRole";
 import { DialogOverlay } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 interface Props {
   model: RoleManagementRoleModel;
 }
@@ -57,25 +62,30 @@ const RoleSheet = ({ model }: Props) => {
   };
 
   return (
-    <Sheet>
-      <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-      <SheetTrigger asChild>
-        <Button size="icon">
-          <PencilSquareIcon className="w-4 h-4" />
-        </Button>
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Rol İşlemleri</SheetTitle>
-          <SheetDescription>
-            Buradan rol bilgilerini güncelleyebilirsiniz.
-          </SheetDescription>
-        </SheetHeader>
-        {query.data && (
-          <SheetForm model={query.data.data} onSubmit={handleSubmit} />
-        )}
-      </SheetContent>
-    </Sheet>
+    <Tooltip>
+      <Sheet>
+        <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
+        <SheetTrigger asChild>
+          <TooltipTrigger asChild>
+            <Button size="icon">
+              <PencilSquareIcon className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+        </SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Rol İşlemleri</SheetTitle>
+            <SheetDescription>
+              Buradan rol bilgilerini güncelleyebilirsiniz.
+            </SheetDescription>
+          </SheetHeader>
+          {query.data && (
+            <SheetForm model={query.data.data} onSubmit={handleSubmit} />
+          )}
+        </SheetContent>
+      </Sheet>
+      <TooltipContent>Düzenle</TooltipContent>
+    </Tooltip>
   );
 };
 

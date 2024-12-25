@@ -15,7 +15,6 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import Combobox from "@/components/ui/combobox";
 import { Textarea } from "@/components/ui/textarea";
-import { DatePicker } from "@/components/ui/date-picker";
 import { FolderIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
 import {
   Tooltip,
@@ -157,29 +156,15 @@ const OrganisationRequestSheetForm = ({
               />
             </FormItem>
             <FormItem>
-              <Label>Talep Tarihi</Label>
-              <DatePicker
-                name={"openDate"}
-                value={model?.openDate ?? ""}
-                onChange={(value) => {
-                  console.log(value);
-                }}
-                placeholder="Seçiniz"
-                readonly={true}
-                includeTime={true}
-              />
+              <FormLabel>Talep Tarihi</FormLabel>
+              <Input name={"openDate"} value={model?.openDate ?? ""} readOnly />
             </FormItem>
             <FormItem>
-              <Label>Son İşlem Tarihi</Label>
-              <DatePicker
+              <FormLabel>Son İşlem Tarihi</FormLabel>
+              <Input
                 name={"updateDate"}
                 value={model?.updateDate ?? ""}
-                onChange={(value) => {
-                  console.log(value);
-                }}
-                placeholder="Seçiniz"
-                readonly={true}
-                includeTime={true}
+                readOnly
               />
             </FormItem>
           </div>

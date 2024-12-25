@@ -136,7 +136,7 @@ export function DataTable<TData, TValue>({
                       onChangedCategoryName(value);
                       table.getColumn("folderName")?.setFilterValue("");
                     }}
-                    placeholder={"Kategori Seçiniz"}
+                    placeholder={"KATEGORİ SEÇİNİZ"}
                     options={categoryOpts}
                   />
                 </div>
@@ -167,7 +167,7 @@ export function DataTable<TData, TValue>({
                         .getColumn("folderName")
                         ?.setFilterValue(value ? value : "")
                     }
-                    placeholder={"Klasör Seçiniz"}
+                    placeholder={"KLASÖR SEÇİNİZ"}
                     options={folderOpts}
                   />
                 </div>
@@ -188,7 +188,7 @@ export function DataTable<TData, TValue>({
               </Tooltip>
               <Input
                 name="fileName"
-                placeholder="Dosya Adı"
+                placeholder="DOSYA ADI İLE ARA"
                 value={
                   (table.getColumn("fileName")?.getFilterValue() as string) ||
                   ""
@@ -239,15 +239,20 @@ export function DataTable<TData, TValue>({
                         </TableCell>
                       ))}
                       <TableCell>
-                        <Button
-                          onClick={() => {
-                            const selected = row.original as DocumentModel;
-                            mutation.mutate(selected.fileId.toString());
-                          }}
-                          size="icon"
-                        >
-                          <EyeIcon className="w-4 h-4" />
-                        </Button>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <Button
+                              onClick={() => {
+                                const selected = row.original as DocumentModel;
+                                mutation.mutate(selected.fileId.toString());
+                              }}
+                              size="icon"
+                            >
+                              <EyeIcon className="w-4 h-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>Görüntüle</TooltipContent>
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                   ))

@@ -72,7 +72,7 @@ export function DataTable<TData, TValue>({
           <div className="flex-grow-0 flex-shrink">
             <Input
               name="locationName"
-              placeholder="Detaylı Arama"
+              placeholder="DETAYLI ARAMA"
               value={globalFilter ?? ""}
               onChange={(event) =>
                 setGlobalFilter(event.target.value.toLocaleUpperCase("tr"))

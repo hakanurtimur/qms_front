@@ -15,6 +15,11 @@ import { UpdateDocumentDemandModel } from "@/models/user/documents/userRequests/
 import { useQuery } from "@tanstack/react-query";
 import requestDocumentService from "@/services/user/documents/request-document/RequestDocumentsService";
 import { DialogOverlay } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Props {
   id: string;
@@ -48,46 +53,53 @@ const RequestSheet = ({
   };
 
   return (
-    <Sheet
-      onOpenChange={async (isOpen) => {
-        if (!isOpen) {
-          await handleRefresh();
-        }
-      }}
-    >
-      <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-      <SheetTrigger asChild>
-        <Button disabled={query.isPending} size="icon">
-          {variant === "default" ? (
-            <EyeIcon className="w-4 h-4" />
-          ) : (
-            <PencilSquareIcon className="w-4 h-4" />
+    <Tooltip>
+      <Sheet
+        onOpenChange={async (isOpen) => {
+          if (!isOpen) {
+            await handleRefresh();
+          }
+        }}
+      >
+        <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
+        <SheetTrigger asChild>
+          <TooltipTrigger asChild>
+            <Button disabled={query.isPending} size="icon">
+              {variant === "default" ? (
+                <EyeIcon className="w-4 h-4" />
+              ) : (
+                <PencilSquareIcon className="w-4 h-4" />
+              )}
+            </Button>
+          </TooltipTrigger>
+        </SheetTrigger>
+        <SheetContent className="min-w-[1100px]">
+          <SheetHeader>
+            <SheetTitle>Talep Bilgileri</SheetTitle>
+            <SheetDescription>
+              Buradan taleplteri düzenleyebilirsiniz.
+            </SheetDescription>
+          </SheetHeader>
+          {query.data && (
+            <>
+              <RequestSheetForm
+                variant={variant}
+                model={query.data.data}
+                onSubmit={onSubmit}
+                documentTypeListOpts={documentTypeListOpts}
+                actionTypeListOpts={actionTypeListOpts}
+                handleGetGarbage={handleGetGarbage}
+                handleGetFile={handleGetFile}
+                handleRefresh={handleRefresh}
+              />
+            </>
           )}
-        </Button>
-      </SheetTrigger>
-      <SheetContent className="min-w-[1100px]">
-        <SheetHeader>
-          <SheetTitle>Talep Bilgileri</SheetTitle>
-          <SheetDescription>
-            Buradan taleplteri düzenleyebilirsiniz.
-          </SheetDescription>
-        </SheetHeader>
-        {query.data && (
-          <>
-            <RequestSheetForm
-              variant={variant}
-              model={query.data.data}
-              onSubmit={onSubmit}
-              documentTypeListOpts={documentTypeListOpts}
-              actionTypeListOpts={actionTypeListOpts}
-              handleGetGarbage={handleGetGarbage}
-              handleGetFile={handleGetFile}
-              handleRefresh={handleRefresh}
-            />
-          </>
-        )}
-      </SheetContent>
-    </Sheet>
+        </SheetContent>
+      </Sheet>
+      <TooltipContent>
+        {variant === "default" ? "Görüntüle" : "Düzenle"}
+      </TooltipContent>
+    </Tooltip>
   );
 };
 

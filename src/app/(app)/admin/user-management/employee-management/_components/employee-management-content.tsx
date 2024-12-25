@@ -24,6 +24,9 @@ const EmployeeManagementContent = () => {
         >
           Listele
         </Button>
+        <div className="flex w-full justify-end my-2">
+          <GuestSheet />
+        </div>
       </div>
       <div className="w-full flex justify-between items-center">
         <TabsList className="grid grid-cols-2 w-[480px]">
@@ -37,9 +40,6 @@ const EmployeeManagementContent = () => {
       >
         {employeesQuery.data ? (
           <>
-            <div className="flex w-full justify-end my-2">
-              <GuestSheet />
-            </div>
             <DataTable
               data={employeesQuery.data.data}
               columns={Columns}

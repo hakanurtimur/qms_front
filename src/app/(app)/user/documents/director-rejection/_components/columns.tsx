@@ -2,7 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import SortingBtn from "@/components/ui/sorting-btn";
-import { formatDateWithoutTime } from "@/utils/dateUtils";
 import { DirectorRejectionModel } from "@/models/user/documents/director-rejection/director-rejection";
 
 export const columns: ColumnDef<DirectorRejectionModel>[] = [
@@ -42,7 +41,7 @@ export const columns: ColumnDef<DirectorRejectionModel>[] = [
     },
     footer: "Talep Tarihi",
     cell: ({ cell }) => {
-      return formatDateWithoutTime(cell.getValue() as string);
+      return cell.getValue() as string;
     },
   },
   {
@@ -93,7 +92,7 @@ export const columns: ColumnDef<DirectorRejectionModel>[] = [
     },
     footer: "Güncelleme Tarihi",
     cell: ({ cell }) => {
-      return formatDateWithoutTime(cell.getValue() as string);
+      return cell.getValue() as string;
     },
   },
 ];

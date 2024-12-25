@@ -15,6 +15,11 @@ import RequestForm from "@/app/(app)/user/documents/documents/_components/reques
 import { RequestDocumentCreate } from "@/models/user/documents/documents/requestDocumentCreate";
 import { DialogOverlay } from "@/components/ui/dialog";
 import { useAuth } from "@/context/authContext";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Props {
   onSubmit: (data: { userId: string; formData: RequestDocumentCreate }) => void;
@@ -33,33 +38,40 @@ const NewRequestSheet = ({ onSubmit, documentTypeOpts }: Props) => {
     return null;
   }
   return (
-    <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
-      <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-      <SheetTrigger asChild>
-        <Button className="flex gap-2">
-          <PlusIcon className="w-4 h-4 text-white" /> <p>Doküman Talebi</p>
-        </Button>
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Doküman Talebi</SheetTitle>
-          <SheetDescription>
-            Buradan yeni doküman talebi oluşturabilirsiniz.
-          </SheetDescription>
-        </SheetHeader>
-        <RequestForm
-          documentTypeOpts={documentTypeOpts}
-          variant={"default"}
-          onSubmit={(data: {
-            userId: string;
-            formData: RequestDocumentCreate;
-          }) => {
-            onSubmit(data);
-          }}
-          onSheetClose={() => setOpen(false)}
-        />
-      </SheetContent>
-    </Sheet>
+    <Tooltip>
+      <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
+        <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
+        <SheetTrigger asChild>
+          <TooltipTrigger asChild>
+            <Button className="flex gap-2">
+              <PlusIcon className="w-4 h-4 text-white" />
+            </Button>
+          </TooltipTrigger>
+        </SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Doküman Talebi</SheetTitle>
+            <SheetDescription>
+              Buradan yeni doküman talebi oluşturabilirsiniz.
+            </SheetDescription>
+          </SheetHeader>
+          <RequestForm
+            documentTypeOpts={documentTypeOpts}
+            variant={"default"}
+            onSubmit={(data: {
+              userId: string;
+              formData: RequestDocumentCreate;
+            }) => {
+              onSubmit(data);
+            }}
+            onSheetClose={() => setOpen(false)}
+          />
+        </SheetContent>
+      </Sheet>
+      <TooltipContent>
+        <span>Doküman Talebi Oluştur</span>
+      </TooltipContent>
+    </Tooltip>
   );
 };
 

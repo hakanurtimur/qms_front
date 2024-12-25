@@ -141,7 +141,7 @@ export function ResultedDataTable<TData, TValue>({
             </div>
             <div className="flex flex-1 max-w-[420px] flex-shrink-0 col-span-1 justify-stretch gap-2">
               <Input
-                placeholder="Arama yapın..."
+                placeholder="DETAYLI ARAMA"
                 value={globalFilter ?? ""}
                 onChange={(event) =>
                   setGlobalFilter(event.target.value.toLocaleUpperCase("tr"))
@@ -227,7 +227,9 @@ export function ResultedDataTable<TData, TValue>({
                                   <ArrowPathIcon className="h-4 w-4" />
                                 </Button>
                               </TooltipTrigger>
-                              <TooltipContent>Revize Et</TooltipContent>
+                              <TooltipContent>
+                                Revize Dokümanı Ekle
+                              </TooltipContent>
                             </Tooltip>
                           )}
                         </div>

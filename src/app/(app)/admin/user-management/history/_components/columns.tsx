@@ -3,7 +3,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ActionHistoryModel } from "@/models/admin/actionHistory";
 import SortingBtn from "@/components/ui/sorting-btn";
-import { formatDateWithoutTime } from "@/utils/dateUtils";
 
 export const columns: ColumnDef<ActionHistoryModel>[] = [
   {
@@ -58,7 +57,7 @@ export const columns: ColumnDef<ActionHistoryModel>[] = [
     cell: ({ cell }) => {
       return (
         <div className="flex items-center justify-end">
-          {formatDateWithoutTime(cell.getValue() as string)}
+          {cell.getValue() as string}
         </div>
       );
     },

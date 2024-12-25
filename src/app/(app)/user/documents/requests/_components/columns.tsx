@@ -3,7 +3,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { UserRequestModel } from "@/models/user/documents/userRequests/userRequestModel";
 import SortingBtn from "@/components/ui/sorting-btn";
-import { formatDateWithoutTime } from "@/utils/dateUtils";
 import { Badge } from "@/components/ui/badge";
 import {
   Tooltip,
@@ -103,7 +102,7 @@ export const columns: ColumnDef<UserRequestModel>[] = [
       );
     },
     cell: ({ cell }) => {
-      return formatDateWithoutTime(cell.getValue() as string);
+      return cell.getValue() as string;
     },
     footer: "Talep Tarihi",
   },

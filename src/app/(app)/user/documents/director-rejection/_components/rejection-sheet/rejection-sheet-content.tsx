@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { DatePicker } from "@/components/ui/date-picker";
 import { Label } from "@/components/ui/label";
 import {
   Tooltip,
@@ -86,22 +85,18 @@ const RejectionSheetContent = ({
         </FormItem>
         <FormItem>
           <Label>Talep Tarihi</Label>
-          <DatePicker
+          <Input
             name={"openDate"}
-            value={defaultValues.openDate}
-            placeholder="Seçiniz"
-            readonly={true}
-            includeTime={true}
+            value={defaultValues.openDate ?? ""}
+            readOnly
           />
         </FormItem>
         <FormItem>
           <Label>Son İşlem Tarihi</Label>
-          <DatePicker
-            name={"UpdateDate"}
-            value={defaultValues.updateDate}
-            placeholder="Seçiniz"
-            readonly={true}
-            includeTime={true}
+          <Input
+            name={"updateDate"}
+            value={defaultValues.updateDate ?? ""}
+            readOnly
           />
         </FormItem>
       </div>
