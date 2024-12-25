@@ -32,8 +32,8 @@ const EmployeeForm = ({ model, onSubmit }: Props) => {
     resolver: zodResolver(SEmployeeToManageTableModel),
     defaultValues: {
       ...model,
-      phoneNumber: model.phoneNumber ?? "",
-      mail: model.mail ?? "",
+      phoneNumber: model?.phoneNumber ?? "",
+      mail: model?.mail ?? "",
     },
   });
   const roleOptions = convertObjectArrayToOptions(
@@ -74,7 +74,7 @@ const EmployeeForm = ({ model, onSubmit }: Props) => {
           <FormControl>
             <Input
               placeholder=""
-              value={model.departmentName ?? ""}
+              value={model?.departmentName ?? ""}
               className={"bg-primary-100"}
               readOnly
             />
@@ -85,7 +85,7 @@ const EmployeeForm = ({ model, onSubmit }: Props) => {
           <FormControl>
             <Input
               placeholder=""
-              value={model.jobName ?? ""}
+              value={model?.jobName ?? ""}
               className={"bg-primary-100"}
               readOnly
             />
@@ -97,7 +97,7 @@ const EmployeeForm = ({ model, onSubmit }: Props) => {
           <FormControl>
             <Input
               placeholder=""
-              value={model.titleName ?? ""}
+              value={model?.titleName ?? ""}
               className={"bg-primary-100"}
               readOnly
             />
@@ -117,7 +117,7 @@ const EmployeeForm = ({ model, onSubmit }: Props) => {
           <FormControl>
             <Input
               placeholder=""
-              value={model.mail ?? ""}
+              value={model?.mail ?? ""}
               className={"bg-primary-100"}
               readOnly
             />
@@ -129,7 +129,7 @@ const EmployeeForm = ({ model, onSubmit }: Props) => {
           <FormControl>
             <Input
               placeholder=""
-              value={model.phoneNumber ?? ""}
+              value={model?.phoneNumber ?? ""}
               className={"bg-primary-100"}
               readOnly
             />

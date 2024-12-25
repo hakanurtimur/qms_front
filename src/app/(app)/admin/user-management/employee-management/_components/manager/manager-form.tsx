@@ -34,8 +34,8 @@ const ManagerForm = ({ model, onSubmit }: Props) => {
     resolver: zodResolver(SEmployeeToManageTableModel),
     defaultValues: {
       ...model,
-      phoneNumber: model.phoneNumber ?? "",
-      mail: model.mail ?? "",
+      phoneNumber: model?.phoneNumber ?? "",
+      mail: model?.mail ?? "",
     },
   });
 
@@ -58,7 +58,7 @@ const ManagerForm = ({ model, onSubmit }: Props) => {
           name="nameSurname"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Ad-Soyad</FormLabel>
+              <FormLabel>Adı Soyadı</FormLabel>
               <FormControl>
                 <Input
                   placeholder=""
@@ -102,7 +102,7 @@ const ManagerForm = ({ model, onSubmit }: Props) => {
           <FormControl>
             <Input
               placeholder=""
-              value={model.titleName ?? ""}
+              value={model?.titleName ?? ""}
               className={"bg-primary-100"}
               readOnly
             />
@@ -123,7 +123,7 @@ const ManagerForm = ({ model, onSubmit }: Props) => {
           <FormControl>
             <Input
               placeholder=""
-              value={model.mail ?? ""}
+              value={model?.mail ?? ""}
               className={"bg-primary-100"}
               readOnly
             />
@@ -135,7 +135,7 @@ const ManagerForm = ({ model, onSubmit }: Props) => {
           <FormControl>
             <Input
               placeholder=""
-              value={model.phoneNumber ?? ""}
+              value={model?.phoneNumber ?? ""}
               className={"bg-primary-100"}
               readOnly
             />
