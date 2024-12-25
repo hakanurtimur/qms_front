@@ -77,6 +77,7 @@ const ManagerForm = ({ model, onSubmit }: Props) => {
           label={"Bölüm"}
           options={departmentOptions}
           variant={"in-column"}
+          searchStringCase={"upper"}
         />
         <FormField
           control={form.control}
@@ -116,6 +117,7 @@ const ManagerForm = ({ model, onSubmit }: Props) => {
           label={"Rol"}
           options={roleOptions}
           variant={"in-column"}
+          searchStringCase={"upper"}
         />
 
         <FormItem>

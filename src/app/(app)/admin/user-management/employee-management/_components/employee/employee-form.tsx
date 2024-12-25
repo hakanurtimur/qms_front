@@ -111,6 +111,7 @@ const EmployeeForm = ({ model, onSubmit }: Props) => {
           label={"Rol"}
           options={roleOptions}
           variant={"in-column"}
+          searchStringCase={"upper"}
         />
         <FormItem>
           <FormLabel>Mail</FormLabel>
