@@ -153,7 +153,7 @@ const HistorySheet: React.FC<HistorySheetProps> = ({
                       name="superAdminName"
                       render={() => (
                         <FormItem>
-                          <FormLabel>QMS Sorumlusu</FormLabel>
+                          <FormLabel>Kalite Sorumlusu</FormLabel>
                           <FormControl>
                             <Input readOnly value={data?.superAdminName} />
                           </FormControl>
