@@ -51,7 +51,7 @@ export function AIChatBox({
             </Button>
           </TooltipTrigger>
         </DialogTrigger>
-        <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
+        <DialogOverlay className="fixed inset-0 bg-black/40 backdrop-blur-md z-50" />
         <DialogContent className="sm:max-w-[800px]">
           <DialogHeader>
             <DialogTitle>Qubqa AI</DialogTitle>
