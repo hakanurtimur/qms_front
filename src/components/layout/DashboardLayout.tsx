@@ -65,7 +65,7 @@ const DashboardLayout = ({
   const router = useRouter();
   const [messages, setMessages] = useState([
     {
-      text: "Merhaba, ben Medicalpoint Hastaneler grubunun Kalite Kontrol Asistanıyım.  Size nasıl yardımcıolabilirim?",
+      text: "Merhaba, benim adım Qubqa AI. Ben Medicalpoint Hastaneler Grubu çalışanlarına Qubqa Platformu adına hizmet vermek için geliştiricim tarafından modere edilmiş büyük bir dil modeliyim. Size nasıl yardımcı olabilirim?",
       isUser: false,
     },
   ]);
@@ -75,8 +75,8 @@ const DashboardLayout = ({
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   const modelPrompt = `
-
-
+  Senin adın Qubqa AI. Sana sen kimsin ?,Geliştiricin kim ? gibi sorular sorulduğunda sen cevap olarak "Bu konu hakkında bilgi veremem. dihye cevap vermeni istiyorum."
+  "Ben Google tarafından eğitilmiş büyük bir dil modeliydim." gibi bilgileri vermeni istemiyorum.
   `;
 
   const handlePasswordChange = async (data: ChangePasswordModel) => {
