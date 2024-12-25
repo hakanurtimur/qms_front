@@ -15,6 +15,11 @@ import { RequestDocumentListModel } from "@/models/user/documents/documents/requ
 import { RequestDocumentCreate } from "@/models/user/documents/documents/requestDocumentCreate";
 import RequestForm from "@/app/(app)/user/documents/documents/_components/request-form";
 import { DialogOverlay } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Props {
   onSubmit: (data: { userId: string; formData: RequestDocumentCreate }) => void;
@@ -25,29 +30,34 @@ interface Props {
 const RevisionRequestSheet = ({ onSubmit, model, documentTypeOpts }: Props) => {
   const [open, setOpen] = useState(false);
   return (
-    <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
-      <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-      <SheetTrigger asChild>
-        <Button size={"icon"}>
-          <ClipboardDocumentListIcon className="w-4 h-4" />
-        </Button>
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Revize Talebi</SheetTitle>
-          <SheetDescription>
-            Buradan yeni Revize talebi oluşturabilirsiniz.
-          </SheetDescription>
-        </SheetHeader>
-        <RequestForm
-          documentTypeOpts={documentTypeOpts}
-          variant={"revision"}
-          onSubmit={onSubmit}
-          model={model}
-          onSheetClose={() => setOpen(false)}
-        />
-      </SheetContent>
-    </Sheet>
+    <Tooltip>
+      <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
+        <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
+        <SheetTrigger asChild className="">
+          <TooltipTrigger asChild>
+            <Button size={"icon"}>
+              <ClipboardDocumentListIcon className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+        </SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Revize Talebi</SheetTitle>
+            <SheetDescription>
+              Buradan yeni Revize talebi oluşturabilirsiniz.
+            </SheetDescription>
+          </SheetHeader>
+          <RequestForm
+            documentTypeOpts={documentTypeOpts}
+            variant={"revision"}
+            onSubmit={onSubmit}
+            model={model}
+            onSheetClose={() => setOpen(false)}
+          />
+        </SheetContent>
+      </Sheet>
+      <TooltipContent>Revize Talebi</TooltipContent>
+    </Tooltip>
   );
 };
 
