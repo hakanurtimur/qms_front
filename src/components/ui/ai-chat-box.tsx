@@ -14,6 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 
 interface Message {
   text: string;
@@ -40,12 +41,17 @@ export function AIChatBox({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button
-          className="flex bottom-4 right-4 rounded-full bg-opacity-5 w-6 h-6"
-          size="icon"
-        >
-          <Sparkles className="h-6 w-6 " />
-        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              className="flex bottom-4 right-4 rounded-full bg-opacity-5 w-6 h-6"
+              size="icon"
+            >
+              <Sparkles className="h-6 w-6 " />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Qubqa AI</TooltipContent>
+        </Tooltip>
       </DialogTrigger>
       <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
       <DialogContent className="sm:max-w-[800px]">

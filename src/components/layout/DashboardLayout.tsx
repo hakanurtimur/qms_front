@@ -42,6 +42,7 @@ import { AIChatBox } from "@/components/ui/ai-chat-box";
 import { GeminiRequest } from "@/models/gemini-ai";
 import geminiService from "@/services/GeminiService";
 import { useMutation } from "@tanstack/react-query";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 interface Props {
   variant: "admin" | "user";
@@ -277,70 +278,80 @@ const DashboardLayout = ({
               open={openChatModal}
               onOpenChange={setOpenChatModal}
             />
-            <Button
-              variant="outline"
-              size="icon"
-              className="rounded-full relative"
-            >
-              <BellIcon className="h-5 w-5" />
-              {/*  <Badge
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="rounded-full relative"
+                >
+                  <BellIcon className="h-5 w-5" />
+                  {/*  <Badge
                 className={"absolute -top-2 -right-2 rounded-full"}
                 variant={"destructive"}
               >
                 3
               </Badge> */}
-            </Button>
-
-            <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-              <PopoverTrigger asChild className="">
-                <Button
-                  variant={"darkGhost"}
-                  size={"icon"}
-                  className="relative  rounded-full bg-white hover:bg-gray-100"
-                >
-                  <UserIcon className="h-6 w-6 text-black-900 " />
                 </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-48 z-50 flex flex-col gap-2">
-                <div className="font-bold px-2.5">{user?.username}</div>
-                <PopoverClose asChild>
-                  <Link
-                    href={`/${variant}/profile`}
-                    className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+              </TooltipTrigger>
+              <TooltipContent>Bildirimlerim</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+                <PopoverTrigger asChild className="">
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant={"darkGhost"}
+                      size={"icon"}
+                      className="relative  rounded-full bg-white hover:bg-gray-100"
+                    >
+                      <UserIcon className="h-6 w-6 text-black-900 " />
+                    </Button>
+                  </TooltipTrigger>
+                </PopoverTrigger>
+                <PopoverContent className="w-48 z-50 flex flex-col gap-2">
+                  <div className="font-bold px-2.5">{user?.username}</div>
+                  <PopoverClose asChild>
+                    <Link
+                      href={`/${variant}/profile`}
+                      className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                    >
+                      Profil
+                    </Link>
+                  </PopoverClose>
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <button className="flex cursor-pointer items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
+                        Şifre Değiştir
+                      </button>
+                    </SheetTrigger>
+                    <SheetContent side="right">
+                      <SheetHeader>
+                        <SheetTitle>Şifre Değiştir</SheetTitle>
+                      </SheetHeader>
+                      <ChangePassowordForm
+                        onSubmit={handlePasswordChange}
+                        error={null}
+                        formLoading={false}
+                        variant={"sheet"}
+                      />
+                    </SheetContent>
+                  </Sheet>
+                  <div
+                    onClick={async () => {
+                      await authService.logout();
+                      onSetAuthenticated(false);
+                      router.push("/login");
+                    }}
+                    className="cursor-pointer flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                   >
-                    Profil
-                  </Link>
-                </PopoverClose>
-                <Sheet>
-                  <SheetTrigger asChild>
-                    <button className="flex cursor-pointer items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground">
-                      Şifre Değiştir
-                    </button>
-                  </SheetTrigger>
-                  <SheetContent side="right">
-                    <SheetHeader>
-                      <SheetTitle>Şifre Değiştir</SheetTitle>
-                    </SheetHeader>
-                    <ChangePassowordForm
-                      onSubmit={handlePasswordChange}
-                      error={null}
-                      formLoading={false}
-                      variant={"sheet"}
-                    />
-                  </SheetContent>
-                </Sheet>
-                <div
-                  onClick={async () => {
-                    await authService.logout();
-                    onSetAuthenticated(false);
-                    router.push("/login");
-                  }}
-                  className="cursor-pointer flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                >
-                  Çıkış Yap
-                </div>
-              </PopoverContent>
-            </Popover>
+                    Çıkış Yap
+                  </div>
+                </PopoverContent>
+              </Popover>
+              <TooltipContent>Profilim</TooltipContent>
+            </Tooltip>
           </div>
           <Button
             size={"icon"}
