@@ -70,7 +70,7 @@ const Login = ({
   return (
     <div className="grid grid-cols-2 w-full h-screen bg-primary-50 min-h-fit">
       <div className="xl:col-span-1 xl:pb-0 py-5 xl:px-0 px-5  col-span-2 flex flex-col items-center justify-center gap-8 animate-slide-in-from-left relative">
-        <div className="xl:absolute top-5 left-5 mt-5 xl:mt-0">
+        <div className="xl:absolute top-5 left-5 mt-5 xl:mt-0 p-42">
           <Logo />
         </div>
         <div className="xl:absolute bottom-5 left-5">
@@ -93,7 +93,7 @@ const Login = ({
           className="md:w-1/2 w-full"
         >
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
               <FormField
                 control={form.control}
                 name="locationId"

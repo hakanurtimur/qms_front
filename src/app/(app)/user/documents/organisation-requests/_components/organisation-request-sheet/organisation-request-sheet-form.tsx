@@ -11,7 +11,7 @@ import {
 import { SheetClose, SheetFooter } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import Combobox from "@/components/ui/combobox";
 import { Textarea } from "@/components/ui/textarea";
@@ -33,12 +33,14 @@ import { Dropzone } from "@/components/ui/dropZone";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import {
+  ArrowPathIcon,
   DocumentMagnifyingGlassIcon,
   InformationCircleIcon,
   PlusIcon,
 } from "@heroicons/react/24/outline";
 import PdfViewer from "@/components/ui/pdf-viewer";
 import useGetApprovedGarbageFile from "@/app/(app)/user/documents/organisation-requests/lib/hooks/useGetApprovedGarbageFile";
+import { toast } from "@/hooks/use-toast";
 
 interface Props {
   onSubmit: (data: UpdateWaitingRequestModel) => void;
@@ -66,6 +68,7 @@ const OrganisationRequestSheetForm = ({
   const { user } = useAuth();
   const [openDialog, setOpenDialog] = useState(false);
   const [openPdfViewer, setOpenPdfViewer] = useState(false);
+  const [superAdminTempActionId, setSuperAdminTempActionId] = useState(0);
 
   const handleShow = () => setOpenPdfViewer(true);
 
@@ -88,14 +91,20 @@ const OrganisationRequestSheetForm = ({
     },
   });
 
-  console.log("model: ", model);
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === "superAdminActionId") {
+        setSuperAdminTempActionId(value.superAdminActionId ?? 0);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [form.watch]);
 
   const handleGetApprovedGarbage = () => {
     if (!model?.approveGarbageId) return;
     getGarbageMutation.mutate(model?.approveGarbageId.toString());
   };
-
-  console.log("garbageSrc: ", garbageSrc);
 
   return (
     <>
@@ -294,74 +303,90 @@ const OrganisationRequestSheetForm = ({
                     </Tooltip>
                   ) : null}
                 </div>
-                {form.getValues("superAdminActionId") === 4 &&
-                  variant === "actives" && (
-                    <div className="flex items-center gap-4 mt-4">
-                      {!model?.approveGarbageId ? (
-                        <FormField
-                          control={form.control}
-                          name="formFile"
-                          render={({ field }) => (
-                            <>
-                              <Dialog
-                                open={openDialog}
-                                onOpenChange={(open) => {
-                                  setOpenDialog(open);
-                                }}
-                              >
-                                <DialogTrigger asChild className="mt-4">
-                                  <Button
-                                    type="button"
-                                    className="pb-3 pt-3 min-h-12 max-w-32 aspect-square gap-2"
-                                  >
-                                    <PlusIcon className="w-4 h-4" /> Dosya ekle
-                                  </Button>
-                                </DialogTrigger>
-
-                                <DialogContent>
-                                  <FormItem>
-                                    <FormLabel>Dosya İsmi</FormLabel>
-                                    <FormControl>
-                                      <Dropzone
-                                        onChange={(value) => {
-                                          field.onChange(value);
-                                          if (form.getValues("formFile")) {
-                                            setOpenDialog(false);
-                                          }
-                                        }}
-                                        className="w-full h-32"
-                                        fileExtensions={[
-                                          "pdf",
-                                          "doc",
-                                          "docx",
-                                          "xlsx",
-                                          "xls",
-                                        ]}
-                                      />
-                                    </FormControl>
-                                  </FormItem>
-                                </DialogContent>
-                              </Dialog>
-                              <FormMessage className="mt-4" />
-                            </>
-                          )}
-                        />
-                      ) : (
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              onClick={handleGetApprovedGarbage}
-                              type="button"
-                              className="pb-3 pt-3 min-h-12 max-w-32 aspect-square gap-2"
+                {superAdminTempActionId === 4 && variant === "actives" && (
+                  <div className="flex items-center gap-4 mt-4">
+                    {!model?.approveGarbageId ? (
+                      <FormField
+                        control={form.control}
+                        name="formFile"
+                        render={({ field }) => (
+                          <>
+                            <Dialog
+                              open={openDialog}
+                              onOpenChange={(open) => {
+                                setOpenDialog(open);
+                              }}
                             >
-                              <DocumentMagnifyingGlassIcon className="w-4 h-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>Onaylanmış Doküman</TooltipContent>
-                        </Tooltip>
-                      )}
-                    </div>
-                  )}
+                              <DialogTrigger asChild className="mt-4">
+                                <Button
+                                  type="button"
+                                  className="pb-3 pt-3 min-h-12 max-w-32 aspect-square gap-2"
+                                >
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      {form.getValues("formFile") ? (
+                                        <ArrowPathIcon className="w-4 h-4" />
+                                      ) : (
+                                        <PlusIcon className="w-4 h-4" />
+                                      )}
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      Doküman Yükle
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </Button>
+                              </DialogTrigger>
+
+                              <DialogContent>
+                                <FormItem>
+                                  <FormLabel>Dosya İsmi</FormLabel>
+                                  <FormControl>
+                                    <Dropzone
+                                      onChange={(value) => {
+                                        field.onChange(value);
+                                        if (form.getValues("formFile")) {
+                                          setOpenDialog(false);
+                                        }
+                                        toast({
+                                          title: "Dosya eklendi",
+                                          description:
+                                            "Dosya başarıyla eklendi",
+                                          variant: "success",
+                                        });
+                                      }}
+                                      className="w-full h-32"
+                                      fileExtensions={[
+                                        "pdf",
+                                        "doc",
+                                        "docx",
+                                        "xlsx",
+                                        "xls",
+                                      ]}
+                                    />
+                                  </FormControl>
+                                </FormItem>
+                              </DialogContent>
+                            </Dialog>
+                            <FormMessage className="mt-4" />
+                          </>
+                        )}
+                      />
+                    ) : (
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            onClick={handleGetApprovedGarbage}
+                            type="button"
+                            className="pb-3 pt-3 min-h-12 max-w-32 aspect-square gap-2"
+                          >
+                            <DocumentMagnifyingGlassIcon className="w-4 h-4" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Onaylanmış Doküman</TooltipContent>
+                      </Tooltip>
+                    )}
+                  </div>
+                )}
               </div>
             </TooltipProvider>
           </div>

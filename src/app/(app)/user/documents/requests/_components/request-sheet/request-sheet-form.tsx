@@ -73,8 +73,6 @@ const RequestSheetForm = ({
     },
   });
 
-  console.log(form.formState.errors);
-
   return (
     <>
       <Form {...form}>
@@ -141,7 +139,7 @@ const RequestSheetForm = ({
               />
             </FormItem>
           </div>
-          <div className="space-y-5 border-r-2 border-primary-600 pr-4">
+          <div className="space-y-5 border-r-2 pt-[9px] border-primary-600 pr-4">
             <NonFormCombobox
               label={"Doküman Tipi"}
               value={model?.documentTypeId.toString() ?? "0"}

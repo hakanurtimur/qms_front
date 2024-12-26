@@ -147,6 +147,8 @@ export const SUpdateWaitingRequestModel = z
 
     if (
       data.superAdminActionId !== 5 &&
+      data.superAdminActionId !== 2 &&
+      data.superAdminActionId !== 1 &&
       (!data.superAdminAboutId || data.superAdminAboutId <= 0)
     ) {
       ctx.addIssue({
