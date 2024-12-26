@@ -42,6 +42,11 @@ const Page = () => {
     : [];
 
   const handleChangeCategory = (name: string) => {
+    if (!name) {
+      console.log("name null");
+      setFolderOpts({});
+      return;
+    }
     const selectedCategory = documentsCategoryListQuery.data?.data.find(
       (doc) => doc.categoryName === name,
     );

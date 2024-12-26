@@ -131,6 +131,10 @@ const DocumentContentPage = () => {
   };
 
   const handleChangeCategory = (name: string) => {
+    if (!name) {
+      setFolderOpts({});
+      return;
+    }
     const selectedCategory = documentsCategoryListQuery.data?.data.find(
       (doc) => doc.categoryName === name,
     );
