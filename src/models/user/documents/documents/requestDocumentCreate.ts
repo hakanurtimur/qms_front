@@ -6,8 +6,8 @@ export const SRequestDocumentCreate = z
     UserId: z.number().int(),
     DepartmentId: z.number().int({ message: "Departman seçilmelidir." }),
     DocumentTypeId: z
-      .number({ message: "Departman seçilmelidir." })
-      .int({ message: "Departman seçilmelidir." }),
+      .number({ message: "Doküman tipi seçilmelidir." })
+      .int({ message: "Doküman tipi seçilmelidir." }),
     Description: z
       .string()
       .min(5, { message: "Açıklama en az 5 karakter olmalıdır." }),
@@ -23,14 +23,15 @@ export const SRequestDocumentCreate = z
     TemporaryFileName: z.string().optional(),
   })
   .superRefine((data, ctx) => {
-    if (!data.FormFile) {
-      if (!data.TemporaryFileName) {
+    if (data.FileId == null || data.FileId < 0) {
+      console.log("FileId", data.FileId);
+      if (!data.FormFile && !data.TemporaryFileName) {
         ctx.addIssue({
           code: "custom",
           path: ["TemporaryFileName"],
           message: "Temsili dosya adı dosya yüklenmediğinde zorunludur.",
         });
-      } else if (data.TemporaryFileName.length < 3) {
+      } else if (data.TemporaryFileName && data.TemporaryFileName.length < 3) {
         ctx.addIssue({
           code: "custom",
           path: ["TemporaryFileName"],

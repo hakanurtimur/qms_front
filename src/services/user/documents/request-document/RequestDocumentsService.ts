@@ -108,7 +108,6 @@ export class RequestDocumentService {
     formData: RequestDocumentCreate;
   }): Promise<RequestDocumentCreatedModelResponse> {
     const formData = new FormData();
-
     Object.entries(data.formData).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
         formData.append(key, value instanceof File ? value : String(value));
