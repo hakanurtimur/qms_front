@@ -147,7 +147,7 @@ export const SUpdateWaitingRequestModel = z
 
     if (
       data.superAdminActionId !== 5 &&
-      (!!data.superAdminAboutId || data.superAdminAboutId <= 0)
+      (!data.superAdminAboutId || data.superAdminAboutId <= 0)
     ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -158,7 +158,7 @@ export const SUpdateWaitingRequestModel = z
 
     if (
       (data.superAdminActionId === 2 || data.superAdminActionId === 5) &&
-      (!!data.descriptionSuperAdmin || data.descriptionSuperAdmin!.length <= 10)
+      (!data.descriptionSuperAdmin || data.descriptionSuperAdmin!.length <= 10)
     ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
