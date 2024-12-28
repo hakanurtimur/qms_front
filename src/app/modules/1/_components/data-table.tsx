@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { EyeIcon, InformationCircleIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import React, { useState } from "react";
 
 import { useMutation } from "@tanstack/react-query";
 import documentService from "@/services/DocumentService";
@@ -36,6 +36,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import NonFormCombobox from "@/components/ui/nonform-combobox";
+import PdfViewer from "@/components/ui/pdf-viewer";
 
 interface DataTableProps<TData, TValue> {
   categoryOpts: { [key: string]: string };
@@ -67,6 +68,7 @@ export function DataTable<TData, TValue>({
     },
   ]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [showPrint, setShowPrint] = useState(false);
 
   const mutation = useMutation({
     mutationKey: ["goDoc"],
@@ -75,7 +77,7 @@ export function DataTable<TData, TValue>({
       console.log(data);
       console.log(data.data.url);
       if (data.data.url) {
-        window.open(data.data.url, "_blank");
+        setShowPrint(true);
       }
     },
   });
@@ -99,6 +101,8 @@ export function DataTable<TData, TValue>({
       columnFilters,
     },
   });
+
+  console.log(mutation.data);
 
   return (
     <TooltipProvider>
@@ -273,6 +277,15 @@ export function DataTable<TData, TValue>({
             <DataTablePagination isColumnHiderDropdownVisible table={table} />
           </div>
         </div>
+        {mutation.data && (
+          <PdfViewer
+            variant={"printible"}
+            open={showPrint}
+            onOpenChange={() => setShowPrint(false)}
+            fileName={mutation.data.data.fileName}
+            src={mutation.data.data.url ?? ""}
+          />
+        )}
       </div>
     </TooltipProvider>
   );
