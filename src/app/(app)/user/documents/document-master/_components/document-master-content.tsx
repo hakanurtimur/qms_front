@@ -111,6 +111,7 @@ export default function DocumentMasterContentPage() {
   ) => {
     setUpdateDocHistoryDetailsData(data);
     updateDocumentHistoryDetailsMutation.mutate();
+    getDocumentHistoryByIdMutation.mutate();
     setOpenHistorySheet(false);
     documentHistoryListMutation.mutate();
   };
