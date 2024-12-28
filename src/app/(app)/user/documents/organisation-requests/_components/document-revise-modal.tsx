@@ -5,9 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
+  DialogOverlay,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -28,20 +31,30 @@ import {
   SResultedRequestsReviseFormModel,
 } from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
 import { RequestDocumentCreatedModel } from "@/models/user/documents/documents/requestDocumentCreate";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
 interface DocumentReviseFormProps {
   open: boolean;
-  setOpen: (open: boolean) => void;
   documentTypeListQpts: { [key: string]: string };
   issueTypeList: RequestDocumentCreatedModel[];
   onSubmit: (data: ResultedRequestsReviseFormModel) => void;
+  rowId: string;
+  handleOpenDocumentReviseModal: (id: string) => void;
+  handleDocumentReviseModal: (id: string) => void;
 }
 
 export default function DocumentReviseForm({
   open,
-  setOpen,
   issueTypeList,
   onSubmit,
+  rowId,
+  handleOpenDocumentReviseModal,
+  handleDocumentReviseModal,
 }: DocumentReviseFormProps) {
   const form = useForm<ResultedRequestsReviseFormModel>({
     resolver: zodResolver(SResultedRequestsReviseFormModel),
@@ -50,15 +63,28 @@ export default function DocumentReviseForm({
 
   const handleSubmit = (data: ResultedRequestsReviseFormModel) => {
     onSubmit(data as ResultedRequestsReviseFormModel);
-    setOpen(false);
+    handleDocumentReviseModal(rowId);
   };
 
-  if (!open) {
-    return null;
-  }
-
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={() => handleOpenDocumentReviseModal(rowId)}
+    >
+      <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
+      <DialogTrigger asChild>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              size={"icon"}
+              onClick={() => handleOpenDocumentReviseModal(rowId)}
+            >
+              <ArrowPathIcon className="h-4 w-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Doküman Revize</TooltipContent>
+        </Tooltip>
+      </DialogTrigger>
       <DialogContent className="max-w-[740px] h-5/7 flex flex-col">
         <DialogHeader className="px-6 py-4 border-b">
           <DialogTitle>Doküman Revize</DialogTitle>
@@ -118,8 +144,10 @@ export default function DocumentReviseForm({
                       <FormControl>
                         <DatePicker
                           name="reviseDate"
-                          onChange={(date) => field.onChange(date)}
-                          includeTime={false}
+                          onChange={(date) => {
+                            field.onChange(date);
+                            console.log("Date", date);
+                          }}
                           value={field.value}
                         />
                       </FormControl>
@@ -181,16 +209,18 @@ export default function DocumentReviseForm({
               </div>
             </div>
             <div className="flex justify-end gap-2">
-              <Button
-                onClick={() => {
-                  form.reset();
-                  setOpen(false);
-                }}
-                variant="outline"
-                type="button"
-              >
-                Vazgeç
-              </Button>
+              <DialogClose>
+                <Button
+                  variant="outline"
+                  type="button"
+                  onClick={() => {
+                    form.reset();
+                    handleDocumentReviseModal(rowId);
+                  }}
+                >
+                  Vazgeç
+                </Button>
+              </DialogClose>
               <Button type="submit">Gönder</Button>
             </div>
           </form>

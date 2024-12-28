@@ -5,9 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
+  DialogOverlay,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -28,25 +31,33 @@ import {
 } from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
 import { UserCategoryFolderListModel } from "@/models/user/documents/documents/requestDocument";
 import { RequestDocumentCreatedModel } from "@/models/user/documents/documents/requestDocumentCreate";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { PlusIcon } from "@heroicons/react/24/outline";
 
 interface DocumentUploadFormProps {
   open: boolean;
-  setOpen: (open: boolean) => void;
   documentTypeListQpts: { [key: string]: string };
   categoryFolderList: UserCategoryFolderListModel[];
   issueTypeList: RequestDocumentCreatedModel[];
-  onSubmit: (data: ResultedRequestsFormModel) => void;
   handleDocumentTypeChange: (value: number) => void;
+  onSubmitDocumentUpload: (data: ResultedRequestsFormModel) => void;
+  rowId: string;
+  handleOpenDocumentUploadModal: (id: string) => void;
 }
 
 export default function DocumentUploadForm({
   open,
-  setOpen,
   documentTypeListQpts,
   categoryFolderList,
   issueTypeList,
-  onSubmit,
   handleDocumentTypeChange,
+  onSubmitDocumentUpload,
+  rowId,
+  handleOpenDocumentUploadModal,
 }: DocumentUploadFormProps) {
   const form = useForm<ResultedRequestsFormModel>({
     resolver: zodResolver(SResultedRequestsFormModel),
@@ -55,16 +66,32 @@ export default function DocumentUploadForm({
 
   const handleSubmit = (data: ResultedRequestsFormModel) => {
     console.log("Submit", data);
-    onSubmit(data);
-    setOpen(false);
+    onSubmitDocumentUpload(data);
   };
 
-  if (!open) {
-    return null;
-  }
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="max-w-[970px] h-5/7 flex flex-col   ">
+    <Dialog
+      open={open}
+      onOpenChange={() => {
+        console.log("Open Change");
+        handleOpenDocumentUploadModal(rowId);
+      }}
+    >
+      <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
+      <DialogTrigger asChild>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              size={"icon"}
+              onClick={() => handleOpenDocumentUploadModal(rowId)}
+            >
+              <PlusIcon className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Doküman Yükle</TooltipContent>
+        </Tooltip>
+      </DialogTrigger>
+      <DialogContent className="max-w-[970px] h-5/7 flex flex-col">
         <DialogHeader className="px-6 py-4 border-b">
           <DialogTitle>Doküman Yükle</DialogTitle>
         </DialogHeader>
@@ -249,16 +276,17 @@ export default function DocumentUploadForm({
               </div>
             </div>
             <div className="flex justify-end gap-3">
-              <Button
-                onClick={() => {
-                  form.reset();
-                  setOpen(false);
-                }}
-                variant="outline"
-                type="button"
-              >
-                Vazgeç
-              </Button>
+              <DialogClose>
+                <Button
+                  variant="outline"
+                  type="button"
+                  onClick={() => {
+                    form.reset();
+                  }}
+                >
+                  Vazgeç
+                </Button>
+              </DialogClose>
               <Button type="submit">Gönder</Button>
             </div>
           </form>

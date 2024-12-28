@@ -8,8 +8,6 @@ import { ResultedDataTable } from "@/app/(app)/user/documents/organisation-reque
 import { resultedColumns } from "@/app/(app)/user/documents/organisation-requests/_components/resulted/resulted-columns";
 import { useAuth } from "@/context/authContext";
 import PdfViewer from "@/components/ui/pdf-viewer";
-import DocumentReviseForm from "@/app/(app)/user/documents/organisation-requests/_components/document-revise-modal";
-import DocumentUploadForm from "@/app/(app)/user/documents/organisation-requests/_components/document-upload-modal";
 import useDocumentTypes from "@/app/(app)/user/documents/hooks/useDocumentTypes";
 import useSuperAdminActionTypes from "@/app/(app)/user/documents/hooks/useSuperAdminActionTypes";
 import useSuperAdminAboutTypes from "@/app/(app)/user/documents/hooks/useSuperAdminAboutTypes";
@@ -59,7 +57,7 @@ const WaitingRequestsContentPage = () => {
   const [showFile, setShowFile] = useState(false);
   const [openDocumentUploadModal, setDocumentUploadModal] =
     React.useState(false);
-  const [openDocumentReviseModal, setDocumentReviseModal] =
+  const [openDocumentReviseModal, setOpenDocumentReviseModal] =
     React.useState(false);
   const { fileUrl, fileName, getFileMutation } = useGetFile({
     handleShow: () => setShowFile(true),
@@ -202,13 +200,15 @@ const WaitingRequestsContentPage = () => {
     : null;
 
   const handleOpenDocumentUploadModal = (id: string) => {
+    console.log("Open Document Upload Modal", id);
     setSelectedRow(id);
-    setDocumentUploadModal(true);
+    setDocumentUploadModal(!openDocumentUploadModal);
   };
 
   const handleOpenDocumentReviseModal = (id: string) => {
     setSelectedRow(id);
-    setDocumentReviseModal(true);
+    console.log("Open Document Revise Modal", id);
+    setOpenDocumentReviseModal(!openDocumentReviseModal);
   };
 
   const handleSubmitDocumentUpload = (data: ResultedRequestsFormModel) => {
@@ -217,7 +217,10 @@ const WaitingRequestsContentPage = () => {
       newFileName: data.formFile?.name.split(".")[0],
       format: data.formFile?.type?.split("/")[1],
     };
+    console.log("Submit Document Upload", body);
+    console.log("Selected Row", selectedRow);
     setUploadData(body);
+    setDocumentUploadModal(false);
     createDocument.mutate();
   };
 
@@ -228,7 +231,8 @@ const WaitingRequestsContentPage = () => {
       ...data,
       format: data.formFile?.type?.split("/")[1],
     };
-
+    console.log("Submit Document Revise", body);
+    console.log("Selected Row", selectedRow);
     setReviseData(body);
     reviseDocument.mutate();
   };
@@ -330,9 +334,17 @@ const WaitingRequestsContentPage = () => {
           {resultedRequestsQuery.data ? (
             <ResultedDataTable
               columns={resultedColumns}
+              isOpenDocumentUploadModal={openDocumentUploadModal}
+              isOpenDocumentReviseModal={openDocumentReviseModal}
               data={resultedRequestsQuery.data.data}
-              handleDocumentUploadModal={handleOpenDocumentUploadModal}
-              handleDocumentReviseModal={handleOpenDocumentReviseModal}
+              handleOpenDocumentUploadModal={handleOpenDocumentUploadModal}
+              handleOpenDocumentReviseModal={handleOpenDocumentReviseModal}
+              documentTypeListQpts={documentTypeListQpts ?? {}}
+              categoryFolderList={categoryFolderList}
+              issueTypeList={issueTypeList as RequestDocumentCreatedModel[]}
+              onSubmitDocumentUpload={handleSubmitDocumentUpload}
+              onSubmitDocumentRevise={handleSubmitDocumentRevise}
+              handleDocumentTypeChange={handleDocumentTypeChange}
             />
           ) : null}
         </TabsContent>
@@ -355,28 +367,7 @@ const WaitingRequestsContentPage = () => {
           src={fileUrl ?? ""}
         />
       )}
-      {documentTypeListQpts && (
-        <>
-          <DocumentUploadForm
-            open={openDocumentUploadModal}
-            setOpen={() => setDocumentUploadModal(!openDocumentUploadModal)}
-            documentTypeListQpts={documentTypeListQpts}
-            categoryFolderList={
-              categoryFolderList as unknown as UserCategoryFolderListModel[]
-            }
-            handleDocumentTypeChange={handleDocumentTypeChange}
-            issueTypeList={issueTypeList as RequestDocumentCreatedModel[]}
-            onSubmit={handleSubmitDocumentUpload}
-          />
-          <DocumentReviseForm
-            open={openDocumentReviseModal}
-            setOpen={() => setDocumentReviseModal(!openDocumentReviseModal)}
-            documentTypeListQpts={documentTypeListQpts}
-            issueTypeList={issueTypeList as RequestDocumentCreatedModel[]}
-            onSubmit={handleSubmitDocumentRevise}
-          />
-        </>
-      )}
+      {documentTypeListQpts && <></>}
     </div>
   );
 };

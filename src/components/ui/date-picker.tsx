@@ -110,8 +110,11 @@ export function DatePicker({
   });
 
   const handleCheck = () => {
-    if (onChange) {
-      onChange(format(selectedDateTime, "yyyy-MM-dd'T'HH:mm"));
+    if (onChange && selectedDateTime) {
+      // includeTime false ise sadece tarih, true ise tarih ve saat
+      const dateFormat = includeTime ? "yyyy-MM-dd'T'HH:mm" : "yyyy-MM-dd";
+      const formattedDate = format(selectedDateTime, dateFormat);
+      onChange(formattedDate);
     }
     setOpen(false);
   };

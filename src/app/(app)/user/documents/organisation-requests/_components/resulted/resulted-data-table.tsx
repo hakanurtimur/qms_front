@@ -23,28 +23,45 @@ import {
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import DocumentUploadModal from "../document-upload-modal";
+import { UserCategoryFolderListModel } from "@/models/user/documents/documents/requestDocument";
+import { RequestDocumentCreatedModel } from "@/models/user/documents/documents/requestDocumentCreate";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
-import { ArrowPathIcon, PlusIcon } from "@heroicons/react/24/outline";
+  ResultedRequestsFormModel,
+  ResultedRequestsReviseFormModel,
+} from "@/models/user/documents/waitingRequests/resultedRequestsFormModel";
+import DocumentReviseForm from "../document-revise-modal";
 
 interface DataTableProps<TData, TValue> {
   // requestTypeOpts: { [key: string]: string };
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  handleDocumentUploadModal: (id: string) => void;
-  handleDocumentReviseModal: (id: string) => void;
+  isOpenDocumentUploadModal: boolean;
+  isOpenDocumentReviseModal: boolean;
+  handleOpenDocumentUploadModal: (id: string) => void;
+  handleOpenDocumentReviseModal: (id: string) => void;
+  documentTypeListQpts: { [key: string]: string };
+  categoryFolderList: UserCategoryFolderListModel[];
+  issueTypeList: RequestDocumentCreatedModel[];
+  handleDocumentTypeChange: (value: number) => void;
+  onSubmitDocumentUpload: (data: ResultedRequestsFormModel) => void;
+  onSubmitDocumentRevise: (data: ResultedRequestsReviseFormModel) => void;
 }
 
 export function ResultedDataTable<TData, TValue>({
   columns,
   data,
-  handleDocumentUploadModal,
-  handleDocumentReviseModal,
+  isOpenDocumentUploadModal,
+  isOpenDocumentReviseModal,
+  handleOpenDocumentUploadModal,
+  handleOpenDocumentReviseModal,
+  documentTypeListQpts,
+  categoryFolderList,
+  issueTypeList,
+  handleDocumentTypeChange,
+  onSubmitDocumentUpload,
+  onSubmitDocumentRevise,
 }: DataTableProps<TData, TValue>) {
   const [globalFilter, setGlobalFilter] = React.useState<string>("");
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -189,48 +206,37 @@ export function ResultedDataTable<TData, TValue>({
                       <TableCell>
                         <div className="flex items-center gap-4">
                           {row.getValue("requestTypeId") === 1 && (
-                            <Tooltip>
-                              <TooltipTrigger
-                                asChild
-                                onClick={() => {
-                                  handleDocumentUploadModal(
-                                    String(row.getValue("id")),
-                                  );
-                                }}
-                              >
-                                {/*<RequestSheet*/}
-                                {/*  model={queryData}*/}
-                                {/*  onSubmit={mutationFn}*/}
-                                {/*/>*/}
-                                <Button size={"icon"}>
-                                  <PlusIcon className="h-4 w-4" />
-                                </Button>
-                              </TooltipTrigger>
-                              <TooltipContent>Yeni Doküman Ekle</TooltipContent>
-                            </Tooltip>
+                            <DocumentUploadModal
+                              open={isOpenDocumentUploadModal}
+                              rowId={String(row.getValue("id"))}
+                              handleOpenDocumentUploadModal={
+                                handleOpenDocumentUploadModal
+                              }
+                              documentTypeListQpts={documentTypeListQpts}
+                              categoryFolderList={categoryFolderList}
+                              issueTypeList={issueTypeList}
+                              handleDocumentTypeChange={
+                                handleDocumentTypeChange
+                              }
+                              onSubmitDocumentUpload={onSubmitDocumentUpload}
+                            />
                           )}
                           {row.getValue("requestTypeId") === 2 && (
-                            <Tooltip>
-                              <TooltipTrigger
-                                asChild
-                                onClick={() => {
-                                  handleDocumentReviseModal(
-                                    String(row.getValue("id")),
-                                  );
-                                }}
-                              >
-                                {/*<RequestSheet*/}
-                                {/*  model={queryData}*/}
-                                {/*  onSubmit={mutationFn}*/}
-                                {/*/>*/}
-                                <Button size={"icon"}>
-                                  <ArrowPathIcon className="h-4 w-4" />
-                                </Button>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                Revize Dokümanı Ekle
-                              </TooltipContent>
-                            </Tooltip>
+                            <DocumentReviseForm
+                              open={isOpenDocumentReviseModal}
+                              rowId={String(row.getValue("id"))}
+                              handleOpenDocumentReviseModal={
+                                handleOpenDocumentReviseModal
+                              }
+                              handleDocumentReviseModal={
+                                handleOpenDocumentReviseModal
+                              }
+                              documentTypeListQpts={documentTypeListQpts}
+                              issueTypeList={
+                                issueTypeList as RequestDocumentCreatedModel[]
+                              }
+                              onSubmit={onSubmitDocumentRevise}
+                            />
                           )}
                         </div>
                       </TableCell>
