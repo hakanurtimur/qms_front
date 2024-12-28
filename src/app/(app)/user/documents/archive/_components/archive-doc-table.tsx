@@ -27,43 +27,36 @@ import {
 } from "@/components/ui/tooltip";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
-import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 import { RequestDocumentListModel } from "@/models/user/documents/documents/requestDocument";
 import { EyeIcon, InfoIcon } from "lucide-react";
 import ArchiveDocSheet from "./archive-doc-sheet";
+import NonFormCombobox from "@/components/ui/nonform-combobox";
 
 export interface ArchiveDocTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   handleViewDocument: (fileId: string) => void;
   handleEditDocument: (fileId: string) => void;
+  handleChangeCategory: (name: string) => void;
+  categoryOpts: { [key: string]: string } | null;
+  folderOpts: { [key: string]: string } | null;
 }
 
 export default function ArchiveDocTable({
   columns,
   data,
   handleViewDocument,
+  handleChangeCategory,
+  categoryOpts,
+  folderOpts,
 }: ArchiveDocTableProps<RequestDocumentListModel, unknown>) {
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [categoryType, setCategoryType] = useState<string[] | null>(null);
-  const [folderType, setFolderType] = useState<string[] | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
 
   const [filteredData, setFilteredData] =
     useState<RequestDocumentListModel[]>(data);
-
-  useEffect(() => {
-    const uniqueCategories = Array.from(
-      new Set(data.map((item) => item.categoryName)),
-    );
-    const uniqueFolders = Array.from(
-      new Set(data.map((item) => item.folderName)),
-    );
-    setCategoryType(uniqueCategories);
-    setFolderType(uniqueFolders);
-  }, [data]);
 
   useEffect(() => {
     let filtered = data;
@@ -120,17 +113,16 @@ export default function ArchiveDocTable({
                   </TooltipContent>
                 </Tooltip>
                 <div className="flex-1">
-                  <DynamicCombobox
-                    options={
-                      categoryType?.reduce(
-                        (acc, item) => ({ ...acc, [item]: item }),
-                        {},
-                      ) ?? {}
-                    }
-                    name="category"
+                  <NonFormCombobox
+                    options={categoryOpts ?? {}}
                     placeholder="KATEGORİ SEÇİNİZ"
-                    onChange={(value) => setSelectedCategory(value as string)}
+                    onChange={(value) => {
+                      setSelectedCategory(value as string);
+                      handleChangeCategory(value as string);
+                      setSelectedFolder(null);
+                    }}
                     width="w-[300px]"
+                    value={selectedCategory ?? ""}
                   />
                 </div>
               </div>
@@ -147,17 +139,12 @@ export default function ArchiveDocTable({
                   </TooltipContent>
                 </Tooltip>
                 <div className="flex-1">
-                  <DynamicCombobox
-                    options={
-                      folderType?.reduce(
-                        (acc, item) => ({ ...acc, [item]: item }),
-                        {},
-                      ) ?? {}
-                    }
-                    name="folder"
-                    placeholder="KLASÖR SEÇİNİZ"
+                  <NonFormCombobox
+                    options={folderOpts ?? {}}
+                    placeholder="KATEGORİ SEÇİNİZ"
                     onChange={(value) => setSelectedFolder(value as string)}
                     width="w-[300px]"
+                    value={selectedFolder ?? ""}
                   />
                 </div>
               </div>
