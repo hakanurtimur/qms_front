@@ -20,6 +20,7 @@ import LoadingText from "@/components/ui/loading-text";
 import useNonLoginGetDocumentCategoryList from "@/app/modules/1/lib/hooks/useNonLoginGetDocumentCategoryList";
 import useNonLoginGetDocumentFolderList from "@/app/modules/1/lib/hooks/useNonLoginGetDocumentFolderList";
 import { DocumentFolderListModel } from "@/models/document";
+import { TimeoutModal } from "../../../../../../components/ui/timeout-modal";
 
 const DocumentContentPage = () => {
   // TODO: add query service
@@ -35,6 +36,7 @@ const DocumentContentPage = () => {
   const [folderOpts, setFolderOpts] = React.useState<{ [key: string]: string }>(
     {},
   );
+  const [isTimeoutModalOpen, setIsTimeoutModalOpen] = useState(false);
   const {
     fileUrl: printFileUrl,
     fileName: printFileName,
@@ -43,7 +45,7 @@ const DocumentContentPage = () => {
     handleShow: () => setShowPrint(true),
     key: ["getDocUrl", "print"],
   });
-
+  const [timeForRevise, setTimeForRevise] = useState(5);
   const query = useUserGetDocuments(user?.roleId ?? "");
 
   /*
@@ -99,14 +101,24 @@ const DocumentContentPage = () => {
     ? convertStringArrayToOptions(categories)
     : null;
 
-  const reviseDocumentMutation = useUserUpdateDocument(async () => {
-    await query.refetch();
-    toast({
-      title: "Başarılı",
-      description: "Doküman revize talebi başarıyla oluşturuldu",
-      variant: "success",
-    });
-  });
+  const reviseDocumentMutation = useUserUpdateDocument(
+    async () => {
+      await query.refetch();
+      toast({
+        title: "Başarılı",
+        description: "Doküman revize talebi başarıyla oluşturuldu",
+        variant: "success",
+      });
+    },
+    () => {
+      setIsTimeoutModalOpen(true);
+      toast({
+        title: "İşlem Gerçekleştirilemedi",
+        description: "Doküman revize talebi oluşturulurken bir hata oluştu",
+        variant: "destructive",
+      });
+    },
+  );
 
   const handleGetDocument = (fileId: string) => {
     getFileMutation.mutate(fileId);
@@ -221,6 +233,22 @@ const DocumentContentPage = () => {
           src={printFileUrl ?? ""}
         />
       )}
+      <TimeoutModal
+        isOpen={isTimeoutModalOpen}
+        onClose={() => {
+          setIsTimeoutModalOpen(false);
+        }}
+        onTimeUpdate={(remainingTime) => {
+          setTimeForRevise(remainingTime);
+        }}
+        onTimeExpired={() => {
+          setIsTimeoutModalOpen(false);
+        }}
+        duration={timeForRevise}
+        title="Bilgilendirme"
+        description="İlgili dokümanın revize işlemleri devam etmektedir. İlgili dokümanın talep aksiyonlarının devam ettiğini bilgilerinize sunarız. Lütfen daha sonra tekrar deneyiniz."
+        showTimer={false}
+      />
     </div>
   );
 };
