@@ -2,7 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import SortingBtn from "@/components/ui/sorting-btn";
-import { formatDateWithoutTime } from "@/utils/dateUtils";
 import { DocumentMasterMainModal } from "@/models/user/documents/document-master/DocumentMasterModels";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -119,9 +118,6 @@ export const columns: ColumnDef<DocumentMasterMainModal>[] = [
         />
       );
     },
-    cell: ({ cell }) => {
-      return formatDateWithoutTime(cell.getValue() as string);
-    },
     footer: "Revize Tarihi",
   },
   {
@@ -133,9 +129,6 @@ export const columns: ColumnDef<DocumentMasterMainModal>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
       );
-    },
-    cell: ({ cell }) => {
-      return formatDateWithoutTime(cell.getValue() as string);
     },
     footer: "Yayın Tarihi",
   },

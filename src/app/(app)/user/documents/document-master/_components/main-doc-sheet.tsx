@@ -1,11 +1,11 @@
 import React from "react";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetClose,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -24,10 +24,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { DatePicker } from "@/components/ui/date-picker";
 import { DialogOverlay } from "@/components/ui/dialog";
 import { RequestDocumentCreatedModel } from "@/models/user/documents/documents/requestDocumentCreate";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
+import FormDatePicker from "@/components/ui/form-date-picker";
 
 type MainDocSheetProps = {
   isOpen: boolean;
@@ -88,7 +88,7 @@ const MainDocSheet: React.FC<MainDocSheetProps> = ({
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(handleSubmitForm)}
-                className="space-y-4 flex flex-col"
+                className="gap-4 flex flex-col"
               >
                 <div className="w-full h-full flex gap-4">
                   <div className="flex flex-col gap-2 w-56">
@@ -169,57 +169,22 @@ const MainDocSheet: React.FC<MainDocSheetProps> = ({
                   <div className="h-full ps-1 rounded-md text-gray-200 bg-gray-200" />
 
                   <div className="flex flex-col gap-2 w-56">
-                    <FormField
+                    <FormDatePicker
                       control={form.control}
+                      label="Revize Tarihi"
                       name="lastReviseDate"
-                      render={() => (
-                        <FormItem>
-                          <FormLabel>Revize Tarihi</FormLabel>
-                          <FormControl>
-                            <DatePicker
-                              readonly={true}
-                              name="reviseDate"
-                              value={form.getValues("lastReviseDate")}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                      disabled
                     />
-                    <FormField
+                    <FormDatePicker
                       control={form.control}
+                      label="Yayın Tarihi"
                       name="publishDate"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Yayın Tarihi</FormLabel>
-                          <FormControl>
-                            <DatePicker
-                              readonly={true}
-                              {...field}
-                              value={field.value}
-                              placeholder=""
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                      disabled
                     />
-                    <FormField
+                    <FormDatePicker
+                      control={form.control}
+                      label="Gözden Geçirme Tarihi"
                       name="lookOutDate"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Gözden Geçirme Tarihi</FormLabel>
-                          <FormControl>
-                            <DatePicker
-                              name="lookOutDate"
-                              onChange={(date) => field.onChange(date)}
-                              placeholder=""
-                              value={field.value}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
                     />
                     <FormField
                       control={form.control}

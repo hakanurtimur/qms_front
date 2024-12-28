@@ -23,9 +23,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { DatePicker } from "@/components/ui/date-picker";
 import { DialogOverlay } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
+import FormDatePicker from "@/components/ui/form-date-picker";
 
 type HistorySheetProps = {
   isOpen: boolean;
@@ -48,6 +48,8 @@ const HistorySheet: React.FC<HistorySheetProps> = ({
       superAdminName: data?.superAdminName,
       administratorName: data?.administratorName,
       publishDate: data?.publishDate,
+      reviseDate: data?.reviseDate,
+      description: data?.description,
     },
   });
 
@@ -97,43 +99,15 @@ const HistorySheet: React.FC<HistorySheetProps> = ({
                         </FormItem>
                       )}
                     />
-                    <FormField
+                    <FormDatePicker
                       control={form.control}
-                      name="reviseDate"
-                      render={() => (
-                        <FormItem>
-                          <FormLabel>Revize Tarihi</FormLabel>
-                          <FormControl>
-                            <DatePicker
-                              name="reviseDate"
-                              value={data?.reviseDate}
-                              onChange={(date) =>
-                                form.setValue("reviseDate", date)
-                              }
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                      name={"reviseDate"}
+                      label={"Revize Tarihi"}
                     />
-                    <FormField
+                    <FormDatePicker
                       control={form.control}
                       name="publishDate"
-                      render={() => (
-                        <FormItem>
-                          <FormLabel>Yayın Tarihi</FormLabel>
-                          <FormControl>
-                            <DatePicker
-                              name="publishDate"
-                              value={form.getValues("publishDate")}
-                              onChange={(date) =>
-                                form.setValue("publishDate", date)
-                              }
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                      label="Yayın Tarihi"
                     />
                     <FormField
                       control={form.control}

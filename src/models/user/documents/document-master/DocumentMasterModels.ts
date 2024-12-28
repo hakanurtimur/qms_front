@@ -33,7 +33,13 @@ export const SDocumentMasterMainSheetModal = z.object({
   publishDate: z.string(),
   lastReviseNo: z.string(),
   lastReviseDate: z.string(),
-  lookOutDate: z.string(),
+  lookOutDate: z
+    .string({
+      message: "Bu alan zorunludur",
+    })
+    .min(1, {
+      message: "Bu alan zorunludur",
+    }),
   archiveInfo: z.string().optional(),
   issueTypeName: z.string().optional(),
   issueTypeId: z.number().optional(),
@@ -64,8 +70,12 @@ export type DocumentMasterMainSheetModelRequest = z.infer<
 export const SDocumentMasterHistoryModel = z.object({
   id: z.number().optional(),
   reviseNo: z.string(),
-  reviseDate: z.string(),
-  publishDate: z.string(),
+  reviseDate: z.string({
+    message: "Bu alan zorunludur",
+  }),
+  publishDate: z.string({
+    message: "Bu alan zorunludur",
+  }),
   description: z.string(),
   userName: z.string(),
   superAdminName: z.string(),
