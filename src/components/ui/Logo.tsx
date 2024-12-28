@@ -31,7 +31,7 @@ const Logo = ({ className }: Props) => {
     >
       {/* Logo Siyah */}
       {(pathname.includes("login") || pathname.includes("admin-login")) && (
-        <Image src="/icons/logo-siyah.png" alt="Logo" width={288} height={72} />
+        <Image src="/icons/logo-white.png" alt="Logo" width={288} height={72} />
       )}
 
       {/* Logo Beyaz */}
