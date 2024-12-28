@@ -218,12 +218,12 @@ export const adminNavItems: NavItemModel[] = [
         href: "/admin/user-management/role-management",
         items: [],
       },
-      // {
-      //   icon: DocumentTextIcon,
-      //   label: "Modül İşlem",
-      //   href: "/admin/user-management/module-management",
-      //   items: [],
-      // },
+      {
+        icon: DocumentTextIcon,
+        label: "Modül İşlem",
+        href: "/admin/user-management/module-management",
+        items: [],
+      },
       // {
       //   icon: DocumentTextIcon,
       //   label: "Yetkilendirme",

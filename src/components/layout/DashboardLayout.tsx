@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import {
   ArrowLeftStartOnRectangleIcon,
   Bars3Icon,
-  BellIcon,
   BriefcaseIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
@@ -43,6 +42,7 @@ import { GeminiRequest } from "@/models/gemini-ai";
 import geminiService from "@/services/GeminiService";
 import { useMutation } from "@tanstack/react-query";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { NotificationsModel } from "@/components/layout/notifications-model";
 
 interface Props {
   variant: "admin" | "user";
@@ -140,6 +140,32 @@ const DashboardLayout = ({
       setInput("");
       sendMessageToAI.mutate(request);
     }
+  };
+
+  const [notifications, setNotifications] = useState([
+    {
+      id: "1",
+      title: "Qubqa Bilgilendirme",
+      description: "İlgili alan geliştirme aşamasındadır.",
+      date: "22.12.2024",
+      isRead: false,
+    },
+  ]);
+
+  const handleNotificationRead = (id: string) => {
+    setNotifications((prev) =>
+      prev.map((notification) =>
+        notification.id === id
+          ? { ...notification, isRead: true }
+          : notification,
+      ),
+    );
+  };
+
+  const handleNotificationDelete = (id: string) => {
+    setNotifications((prev) =>
+      prev.filter((notification) => notification.id !== id),
+    );
   };
 
   return (
@@ -279,24 +305,22 @@ const DashboardLayout = ({
               onOpenChange={setOpenChatModal}
             />
 
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="rounded-full relative"
-                >
-                  <BellIcon className="h-5 w-5" />
-                  {/*  <Badge
-                className={"absolute -top-2 -right-2 rounded-full"}
-                variant={"destructive"}
-              >
-                3
-              </Badge> */}
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Bildirimlerim</TooltipContent>
-            </Tooltip>
+            <NotificationsModel
+              notifications={notifications}
+              onNotificationClick={(id) => {
+                console.log("Clicked notification:", id);
+              }}
+              onNotificationRead={handleNotificationRead}
+              onNotificationDelete={handleNotificationDelete}
+              onMarkAllAsRead={() => {
+                setNotifications((prev) =>
+                  prev.map((notification) => ({
+                    ...notification,
+                    isRead: true,
+                  })),
+                );
+              }}
+            />
             <Tooltip>
               <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
                 <PopoverTrigger asChild className="">
