@@ -27,7 +27,7 @@ const ScreenForm = ({ onSubmit, model }: Props) => {
   const form = useForm<ScreenToManageModel>({
     resolver: zodResolver(SScreenToManageModel),
     defaultValues: {
-      typeName: model ? (model.typeName ?? "") : "",
+      pageName: model ? (model.pageName ?? "") : "",
       moduleName: model ? (model.moduleName ?? "") : "",
       subModuleName: model ? (model.subModuleName ?? "") : "",
       roleName: model ? (model.roleName ?? "") : "",
@@ -40,7 +40,7 @@ const ScreenForm = ({ onSubmit, model }: Props) => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 mt-5">
         <FormField
           control={form.control}
-          name="typeName"
+          name="pageName"
           render={({ field }) => (
             <FormItem>
               <FormLabel className={"flex items-center justify-between"}>

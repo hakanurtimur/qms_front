@@ -33,7 +33,6 @@ export const moduleColumns: ColumnDef<ModuleToManageModel>[] = [
         />
       );
     },
-    // TODO ADD THIS BEHAVIOR TO ALL BOOLEAN COLUMNS
     cell: ({ cell }) => {
       return cell.getValue() ? "AKTİF" : "PASİF";
     },

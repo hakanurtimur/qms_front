@@ -62,7 +62,7 @@ const ModuleForm = ({ onSubmit, model }: Props) => {
               <FormLabel className="flex items-center">Pasif</FormLabel>
               <FormControl>
                 <Switch
-                  checked={field.value}
+                  checked={field.value ?? false}
                   onCheckedChange={field.onChange}
                 />
               </FormControl>

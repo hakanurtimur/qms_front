@@ -6,7 +6,7 @@ import SortingBtn from "@/components/ui/sorting-btn";
 
 export const screenColumns: ColumnDef<ScreenToManageModel>[] = [
   {
-    accessorKey: "typeName",
+    accessorKey: "pageName",
     header: ({ column }) => {
       return (
         <SortingBtn
@@ -38,6 +38,9 @@ export const screenColumns: ColumnDef<ScreenToManageModel>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         />
       );
+    },
+    cell: ({ cell }) => {
+      return cell.getValue() ? cell.getValue() : "-";
     },
     footer: "Alt Modül Adı",
   },

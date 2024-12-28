@@ -51,20 +51,6 @@ export function ScreenDataTable<TData, TValue>({
   const [globalFilter, setGlobalFilter] = React.useState<string>("");
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
-  // TODO: add related mutation
-
-  // const mutation = useMutation({
-  //   mutationKey: ["goDoc"],
-  //   mutationFn: (fileId: string) => documentService.goDoc(fileId),
-  //   onSuccess: (data) => {
-  //     console.log(data);
-  //     console.log(data.data.url);
-  //     if (data.data.url) {
-  //       window.open(data.data.url, "_blank");
-  //     }
-  //   },
-  // });
-
   const table = useReactTable({
     data,
     columns,
@@ -96,10 +82,10 @@ export function ScreenDataTable<TData, TValue>({
               width={"w-1/2 max-w-sm"}
               placeholder="Tip Adı"
               value={
-                (table.getColumn("typeName")?.getFilterValue() as string) || ""
+                (table.getColumn("pageName")?.getFilterValue() as string) || ""
               }
               onChange={(value) =>
-                table.getColumn("typeName")?.setFilterValue(value ? value : "")
+                table.getColumn("pageName")?.setFilterValue(value ? value : "")
               }
               options={screenTypeOpts}
             />
@@ -169,7 +155,7 @@ export function ScreenDataTable<TData, TValue>({
                         </TableHead>
                       );
                     })}
-                    <TableHead className="w-40">İşlem</TableHead>
+                    <TableHead className="w-40 text-end">İşlem</TableHead>
                   </TableRow>
                 ))}
               </TableHeader>
@@ -188,12 +174,9 @@ export function ScreenDataTable<TData, TValue>({
                           )}
                         </TableCell>
                       ))}
-                      <TableCell>
+                      <TableCell className="text-end">
                         <ScreenUpdateSheet
                           model={row.original as ScreenToManageModel}
-                          onSubmit={(data: ScreenToManageModel) => {
-                            console.log(data);
-                          }}
                         />
                       </TableCell>
                     </TableRow>

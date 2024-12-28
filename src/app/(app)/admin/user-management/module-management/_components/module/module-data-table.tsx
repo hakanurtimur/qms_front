@@ -148,9 +148,6 @@ export function ModuleDataTable<TData, TValue>({
                       <TableCell>
                         <ModuleUpdateSheet
                           model={row.original as ModuleToManageModel}
-                          onSubmit={(data: ModuleToManageModel) => {
-                            console.log(data);
-                          }}
                         />
                       </TableCell>
                     </TableRow>
