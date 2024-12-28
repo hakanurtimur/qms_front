@@ -21,7 +21,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { DatePicker } from "@/components/ui/date-picker";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 import { Dropzone } from "@/components/ui/dropZone";
 import { Input } from "@/components/ui/input";
@@ -37,6 +36,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import Combobox from "@/components/ui/combobox";
+import FormDatePicker from "@/components/ui/form-date-picker";
 
 interface DocumentUploadFormProps {
   open: boolean;
@@ -52,10 +53,10 @@ interface DocumentUploadFormProps {
 export default function DocumentUploadForm({
   open,
   documentTypeListQpts,
-  categoryFolderList,
   issueTypeList,
-  handleDocumentTypeChange,
   onSubmitDocumentUpload,
+  categoryFolderList,
+  handleDocumentTypeChange,
   rowId,
   handleOpenDocumentUploadModal,
 }: DocumentUploadFormProps) {
@@ -102,48 +103,31 @@ export default function DocumentUploadForm({
           >
             <div className="flex flex-row gap-6">
               <div className="flex flex-col w-56 gap-2">
-                <FormField
+                <Combobox
                   control={form.control}
-                  name="documentTypeId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Doküman Tipi</FormLabel>
-                      <DynamicCombobox
-                        name="documentTypeId"
-                        options={documentTypeListQpts}
-                        onChange={(value: string | number) => {
-                          field.onChange(value);
-                          handleDocumentTypeChange(value as number);
-                        }}
-                      />
-                    </FormItem>
-                  )}
+                  name={"documentTypeId"}
+                  label={"Doküman Tipi"}
+                  options={documentTypeListQpts}
+                  variant={"in-column"}
+                  onChangeExtra={(value: string | number) => {
+                    handleDocumentTypeChange(+value);
+                  }}
                 />
-
-                <FormField
+                <Combobox
                   control={form.control}
                   name="folderId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Klasör</FormLabel>
-                      <DynamicCombobox
-                        name="folderId"
-                        options={categoryFolderList.reduce(
-                          (
-                            acc: { [key: string]: string },
-                            item: UserCategoryFolderListModel,
-                          ) => {
-                            acc[item?.folderId] = item?.folderName;
-                            return acc;
-                          },
-                          {},
-                        )}
-                        onChange={(value) => field.onChange(value)}
-                        width="w-[300px] w-full"
-                      />
-                      <FormMessage />
-                    </FormItem>
+                  label={"Klasör"}
+                  options={categoryFolderList.reduce(
+                    (
+                      acc: { [key: string]: string },
+                      item: UserCategoryFolderListModel,
+                    ) => {
+                      acc[item?.folderId] = item?.folderName;
+                      return acc;
+                    },
+                    {},
                   )}
+                  variant={"in-column"}
                 />
                 <FormField
                   control={form.control}
@@ -187,41 +171,15 @@ export default function DocumentUploadForm({
                     </FormItem>
                   )}
                 />
-                <FormField
+                <FormDatePicker
                   control={form.control}
                   name="publishDate"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Yayın Tarihi</FormLabel>
-                      <FormControl>
-                        <DatePicker
-                          name="publishDate"
-                          onChange={(date) => field.onChange(date)}
-                          includeTime={false}
-                          value={field.value}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={"Yayın Tarihi"}
                 />
-                <FormField
+                <FormDatePicker
                   control={form.control}
                   name="reviseDate"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Revize Tarihi</FormLabel>
-                      <FormControl>
-                        <DatePicker
-                          name="reviseDate"
-                          onChange={(date) => field.onChange(date)}
-                          includeTime={false}
-                          value={field.value}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={"Revize Tarihi"}
                 />
                 <FormField
                   control={form.control}

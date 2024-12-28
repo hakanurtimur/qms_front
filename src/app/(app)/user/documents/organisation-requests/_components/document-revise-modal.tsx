@@ -21,8 +21,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-
-import { DatePicker } from "@/components/ui/date-picker";
 import { DynamicCombobox } from "@/components/ui/dynamic-combobox";
 import { Input } from "@/components/ui/input";
 import { Dropzone } from "@/components/ui/dropZone";
@@ -37,6 +35,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import FormDatePicker from "@/components/ui/form-date-picker";
 
 interface DocumentReviseFormProps {
   open: boolean;
@@ -135,25 +134,10 @@ export default function DocumentReviseForm({
                     </FormItem>
                   )}
                 />
-                <FormField
+                <FormDatePicker
                   control={form.control}
                   name="reviseDate"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Revize Tarihi</FormLabel>
-                      <FormControl>
-                        <DatePicker
-                          name="reviseDate"
-                          onChange={(date) => {
-                            field.onChange(date);
-                            console.log("Date", date);
-                          }}
-                          value={field.value}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  label={"Revize Tarihi"}
                 />
                 <FormField
                   control={form.control}
@@ -182,7 +166,6 @@ export default function DocumentReviseForm({
                           onChange={(value) => field.onChange(value)}
                           className="w-full h-32"
                           fileExtensions={["pdf", "doc", "docx", "xlsx", "xls"]}
-                          key={field.value?.name ?? ""}
                         />
                       </FormControl>
                       <FormMessage />

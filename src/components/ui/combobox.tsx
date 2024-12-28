@@ -34,6 +34,7 @@ interface FormSelectFieldProps<T extends FieldValues> {
   variant?: "in-column" | "default";
   readonly?: boolean;
   searchStringCase?: "default" | "lower" | "upper";
+  onChangeExtra?: (value: string) => void;
 }
 
 function Combobox<T extends FieldValues>({
@@ -46,6 +47,7 @@ function Combobox<T extends FieldValues>({
   variant = "default",
   readonly = false,
   searchStringCase = "default",
+  onChangeExtra,
 }: FormSelectFieldProps<T>) {
   const [open, setOpen] = React.useState(false);
   const triggerRef = React.useRef<HTMLButtonElement>(null);
@@ -137,6 +139,9 @@ function Combobox<T extends FieldValues>({
                                 : Number(key);
                               field.onChange(parsedKey);
                               setOpen(false);
+                              {
+                                onChangeExtra && onChangeExtra(key);
+                              }
                             }}
                           >
                             <Check

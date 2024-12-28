@@ -65,7 +65,13 @@ const FormDatePicker = <T extends FieldValues>({
 
         return (
           <FormItem className="flex flex-col">
-            {label && <FormLabel className="my-[5px]">{label}</FormLabel>}
+            {label && (
+              <FormLabel
+                className={`my-[5px] ${fieldState.error && "text-red-500"}`}
+              >
+                {label}
+              </FormLabel>
+            )}
             <Popover>
               <PopoverTrigger asChild>
                 <FormControl>
