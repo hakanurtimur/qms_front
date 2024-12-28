@@ -246,8 +246,14 @@ const DocumentContentPage = () => {
         }}
         duration={timeForRevise}
         title="Bilgilendirme"
-        description="İlgili dokümanın revize işlemleri devam etmektedir. İlgili dokümanın talep aksiyonlarının devam ettiğini bilgilerinize sunarız. Lütfen daha sonra tekrar deneyiniz."
+        description="İlgili dokümanın revize işlemleri devam ettiğinden dolayı lütfen daha sonra tekrar deneyiniz."
         showTimer={false}
+        onOpenChange={(open) => {
+          if (!open) {
+            setIsTimeoutModalOpen(false);
+          }
+        }}
+        isPermanent={true}
       />
     </div>
   );

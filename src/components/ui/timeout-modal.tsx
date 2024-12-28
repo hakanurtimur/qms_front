@@ -19,6 +19,8 @@ interface TimeoutModalProps {
   onTimeUpdate?: (remainingTime: number) => void;
   onTimeExpired?: () => void;
   showTimer?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  isPermanent?: boolean;
 }
 
 export function TimeoutModal({
@@ -30,6 +32,8 @@ export function TimeoutModal({
   onTimeUpdate,
   onTimeExpired,
   showTimer = true,
+  onOpenChange,
+  isPermanent = false,
 }: TimeoutModalProps) {
   const [timeLeft, setTimeLeft] = useState(duration);
 
@@ -39,7 +43,7 @@ export function TimeoutModal({
   };
 
   useEffect(() => {
-    if (!isOpen) {
+    if (!isOpen || isPermanent) {
       updateTime(duration);
       return;
     }
@@ -59,10 +63,18 @@ export function TimeoutModal({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isOpen, duration, onClose, onTimeExpired, onTimeUpdate]);
+  }, [isOpen, duration, onClose, onTimeExpired, onTimeUpdate, isPermanent]);
 
   return (
-    <Dialog open={isOpen}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!open) {
+          onClose();
+        }
+        onOpenChange?.(open);
+      }}
+    >
       <DialogOverlay className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50" />
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
