@@ -102,13 +102,13 @@ const WaitingRequestsContentPage = () => {
 
   const updateWaitingRequestMutation = useUserUpdateWaitingRequest(
     () => {
-      allRequestsQuery.refetch();
-      activeRequestsQuery.refetch();
       toast({
         title: "Başarılı",
         description: "Talep başarıyla güncellendi",
         variant: "success",
       });
+      allRequestsQuery.refetch().then();
+      activeRequestsQuery.refetch().then();
     },
     () => {
       toast({

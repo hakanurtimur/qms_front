@@ -125,7 +125,7 @@ export const SUpdateWaitingRequestModel = z
     superAdminActionId: z.number().int().nonnegative(), // actionId: Integer, non-negative
     documentTypeId: z.number().int().nonnegative(), // documentTypeId: Integer, non-negative
     superAdminAboutId: z.number().int(),
-    descriptionSuperAdmin: z.string().optional(), // descriptionSuperAdmin: String, min: 1
+    descriptionSuperAdmin: z.string({}).optional(), // descriptionSuperAdmin: String, min: 1
     formFile: z
       .instanceof(File)
       .nullable()
@@ -160,11 +160,11 @@ export const SUpdateWaitingRequestModel = z
 
     if (
       (data.superAdminActionId === 2 || data.superAdminActionId === 5) &&
-      (!data.descriptionSuperAdmin || data.descriptionSuperAdmin!.length <= 10)
+      (!data.descriptionSuperAdmin || data.descriptionSuperAdmin!.length <= 5)
     ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Açıklama gereklidir",
+        message: "Açıklama en az 5 karakter olmalıdır",
         path: ["descriptionSuperAdmin"],
       });
     }

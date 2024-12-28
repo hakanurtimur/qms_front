@@ -27,7 +27,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { ArrowPathIcon, PlusIcon } from "@heroicons/react/24/outline";
 import GarbageUpdaterDialog from "@/app/(app)/user/documents/requests/_components/request-sheet/garbage-updater-dialog";
 import NonFormCombobox from "@/components/ui/nonform-combobox";
 import { Label } from "@/components/ui/label";
@@ -256,9 +256,7 @@ const RequestSheetForm = ({
 
             <TooltipProvider>
               <div className="flex flex-col">
-                {(variant === "actives" ||
-                  !!model?.garbageId ||
-                  !!model?.fileId) && (
+                {(!!model?.garbageId || !!model?.fileId) && (
                   <div className="text-sm font-medium leading-none h-[16.5px] flex items-end">
                     Doküman
                   </div>
@@ -275,10 +273,18 @@ const RequestSheetForm = ({
                           type="button"
                           className="pb-3 pt-3 min-w-12 min-h-12"
                         >
-                          <ArrowPathIcon className="min-h-8 max-h-8 w-auto" />
+                          {!(model.garbageId === 0 || !model.garbageId) ? (
+                            <ArrowPathIcon className="min-h-8 max-h-8 w-auto" />
+                          ) : (
+                            <PlusIcon className="min-h-8 max-h-8 w-auto" />
+                          )}
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent>Değiştir</TooltipContent>
+                      <TooltipContent>
+                        {!(model.garbageId === 0 || !model.garbageId)
+                          ? "Talep Dokümanı Değiştir"
+                          : "Talep Dokümanı Yükle"}
+                      </TooltipContent>
                     </Tooltip>
                   )}
                   {model && model.garbageId ? (

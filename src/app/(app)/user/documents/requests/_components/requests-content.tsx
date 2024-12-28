@@ -51,7 +51,8 @@ const RequestContentPage = () => {
 
   const updateDocumentDemandMutation = useUserUpdateDocumentDemand(
     () => {
-      activeRequestsQuery.refetch();
+      allRequestsQuery.refetch().then();
+      activeRequestsQuery.refetch().then();
       toast({
         title: "Başarılı",
         description: "Talep başarıyla güncellendi",
