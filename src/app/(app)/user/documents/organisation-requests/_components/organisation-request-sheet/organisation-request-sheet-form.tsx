@@ -11,7 +11,7 @@ import {
 import { SheetClose, SheetFooter } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import Combobox from "@/components/ui/combobox";
 import { Textarea } from "@/components/ui/textarea";
@@ -51,8 +51,9 @@ interface Props {
   handleGetGarbage: (fileId: string) => void;
   handleGetFile: (fileId: string) => void;
   documentTypeListQpts?: { [key: number]: string };
-  onSheetClose?: () => void;
+  handleRefresh?: () => void;
 }
+/* not genel yapıyı incele düzelt */
 
 const OrganisationRequestSheetForm = ({
   onSubmit,
@@ -63,13 +64,16 @@ const OrganisationRequestSheetForm = ({
   handleGetGarbage,
   handleGetFile,
   documentTypeListQpts,
-  onSheetClose,
+  handleRefresh,
 }: Props) => {
   const { user } = useAuth();
   const [openDialog, setOpenDialog] = useState(false);
+  const [open, setOpen] = useState(false);
   const [openPdfViewer, setOpenPdfViewer] = useState(false);
-  const [superAdminTempActionId, setSuperAdminTempActionId] = useState(0);
-
+  const [selectedSuperAdminAction, setSelectedSuperAdminAction] = useState(
+    model?.superAdminActionId ?? 0,
+  );
+  console.log("open", open);
   const handleShow = () => setOpenPdfViewer(true);
 
   const { garbageSrc, getGarbageMutation } = useGetApprovedGarbageFile({
@@ -91,34 +95,24 @@ const OrganisationRequestSheetForm = ({
     },
   });
 
-  useEffect(() => {
-    const subscription = form.watch((value, { name }) => {
-      if (name === "superAdminActionId") {
-        setSuperAdminTempActionId(value.superAdminActionId ?? 0);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [form.watch]);
-
   const handleGetApprovedGarbage = () => {
     if (!model?.approveGarbageId) return;
     getGarbageMutation.mutate(model?.approveGarbageId.toString());
   };
-
   return (
     <>
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit((formData: UpdateWaitingRequestModel) => {
-            onSubmit(formData);
-            if (
-              Object.keys(form.formState.errors).length === 0 &&
-              onSheetClose
-            ) {
-              onSheetClose();
-            }
-          })}
+          onSubmit={form.handleSubmit(
+            async (formData: UpdateWaitingRequestModel) => {
+              onSubmit(formData);
+              if (handleRefresh) {
+                await handleRefresh();
+                setOpen(false);
+              }
+              setOpen(false);
+            },
+          )}
           className="mt-10 grid grid-cols-3 gap-x-4 gap-y-8"
         >
           <div className="space-y-5 border-r-2 border-primary-600 pr-4">
@@ -224,6 +218,10 @@ const OrganisationRequestSheetForm = ({
           </div>
           <div className="space-y-5 pr-4">
             <Combobox<UpdateWaitingRequestModel>
+              onChangeExtra={(value) => {
+                setSelectedSuperAdminAction(+value);
+                form.setValue("superAdminAboutId", 0);
+              }}
               control={form.control}
               name={"superAdminActionId"}
               variant={"in-column"}
@@ -274,6 +272,7 @@ const OrganisationRequestSheetForm = ({
                         <Button
                           onClick={() => {
                             handleGetGarbage(model.garbageId.toString());
+                            setOpen(true);
                           }}
                           type="button"
                           className="pb-3 pt-3 min-w-24 min-h-12"
@@ -303,7 +302,7 @@ const OrganisationRequestSheetForm = ({
                     </Tooltip>
                   ) : null}
                 </div>
-                {superAdminTempActionId === 4 && variant === "actives" && (
+                {selectedSuperAdminAction === 4 && variant === "actives" && (
                   <div className="flex items-center gap-4 mt-4">
                     {!model?.approveGarbageId ? (
                       <FormField
@@ -398,14 +397,11 @@ const OrganisationRequestSheetForm = ({
                 </SheetClose>
               ) : (
                 <div className="flex gap-2">
-                  <Button
-                    onClick={onSheetClose}
-                    type="button"
-                    variant="outline"
-                  >
-                    İptal Et
-                  </Button>
-
+                  <SheetClose asChild>
+                    <Button type="button" variant="outline">
+                      İptal Et
+                    </Button>
+                  </SheetClose>
                   <div className="flex items-center justify-center gap-2">
                     {form.getValues("superAdminActionId") === 4 && (
                       <Tooltip>
@@ -417,9 +413,14 @@ const OrganisationRequestSheetForm = ({
                         </TooltipContent>
                       </Tooltip>
                     )}
-                    <Button disabled={!!model?.approveGarbageId} type="submit">
-                      Kaydet
-                    </Button>
+                    <SheetClose asChild>
+                      <Button
+                        disabled={!!model?.approveGarbageId}
+                        type="submit"
+                      >
+                        Kaydet
+                      </Button>
+                    </SheetClose>
                   </div>
                 </div>
               )}

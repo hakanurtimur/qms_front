@@ -44,19 +44,30 @@ const OrganisationRequestSheet = ({
 }: Props) => {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
+
   const requestDetailsQuery = useQuery({
-    queryKey: ["requestDetails", id],
-    queryFn: async () => waitingRequestsService.get(id, user?.roleId ?? ""),
+    queryKey: ["requestDetails", "get", id],
+    queryFn: () => waitingRequestsService.get(id, user?.roleId ?? ""),
   });
 
+  const handleRefresh = async () => {
+    await requestDetailsQuery.refetch();
+  };
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button size={"icon"} onClick={() => setOpen(true)}>
+        <Button
+          disabled={requestDetailsQuery.isPending}
+          onClick={() => setOpen(true)}
+          size={"icon"}
+        >
           {variant === "default" ? (
             <EyeIcon className="w-4 h-4" />
           ) : (
-            <PencilSquareIcon className="w-4 h-4" />
+            <PencilSquareIcon
+              onClick={() => setOpen(true)}
+              className="w-4 h-4"
+            />
           )}
         </Button>
       </TooltipTrigger>
@@ -64,11 +75,13 @@ const OrganisationRequestSheet = ({
         {variant === "default" ? "Görüntüle" : "Düzenle"}
       </TooltipContent>
       <Sheet
-        onOpenChange={async () => {
-          await requestDetailsQuery.refetch();
-          setOpen(!open);
-        }}
         open={open}
+        onOpenChange={async (isOpen) => {
+          if (!isOpen) {
+            await handleRefresh();
+          }
+          setOpen(isOpen);
+        }}
       >
         <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
 
@@ -89,7 +102,7 @@ const OrganisationRequestSheet = ({
               handleGetGarbage={handleGetGarbage}
               handleGetFile={handleGetFile}
               documentTypeListQpts={documentTypeListQpts}
-              onSheetClose={() => setOpen(false)}
+              handleRefresh={handleRefresh}
             />
           )}
         </SheetContent>
