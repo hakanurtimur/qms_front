@@ -102,7 +102,8 @@ const DashboardLayout = ({
       console.log("...");
       toast({
         title: "Hata",
-        description: "Şifre değiştirme işlemi başarısız oldu. Lütfen tekrar deneyiniz.",
+        description:
+          "Şifre değiştirme işlemi başarısız oldu. Lütfen tekrar deneyiniz.",
         variant: "destructive",
       });
     }
