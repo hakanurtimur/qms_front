@@ -6,7 +6,6 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@heroicons/react/24/outline";
@@ -29,25 +28,20 @@ interface Props {
 const NewRequestSheet = ({ onSubmit, documentTypeOpts }: Props) => {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
-  if (
-    user?.roleId == "1" ||
-    user?.roleId == "5" ||
-    user?.roleId == "6" ||
-    user?.roleId == "7"
-  ) {
+
+  if (user?.roleId == "1" || user?.roleId == "5" || user?.roleId == "7") {
     return null;
   }
   return (
     <Tooltip>
+      <TooltipTrigger asChild>
+        <Button className="flex gap-2" onClick={() => setOpen(true)}>
+          <PlusIcon className="w-4 h-4 text-white" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>Doküman Talebi Oluştur</TooltipContent>
       <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
         <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-        <SheetTrigger asChild>
-          <TooltipTrigger asChild>
-            <Button className="flex gap-2">
-              <PlusIcon className="w-4 h-4 text-white" />
-            </Button>
-          </TooltipTrigger>
-        </SheetTrigger>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Doküman Talebi</SheetTitle>
@@ -68,9 +62,6 @@ const NewRequestSheet = ({ onSubmit, documentTypeOpts }: Props) => {
           />
         </SheetContent>
       </Sheet>
-      <TooltipContent>
-        <span>Doküman Talebi Oluştur</span>
-      </TooltipContent>
     </Tooltip>
   );
 };

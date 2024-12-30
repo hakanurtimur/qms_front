@@ -24,10 +24,8 @@ async function changePassword(data: ChangePasswordModel, userId: number) {
       DuplicateNewPassword: data.passwordConfirm,
       UserId: userId,
     });
-    console.log("response", response);
     return response as unknown as ResponseModel;
   } catch (error: unknown) {
-    console.log("error", error);
     return error as ResponseModel;
   }
 }

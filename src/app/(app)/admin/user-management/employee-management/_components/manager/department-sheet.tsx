@@ -6,10 +6,9 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import { BriefcaseIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import React, { useState } from "react";
 import { EmployeeToManageTableModel } from "@/models/admin/employeeManagement/employeeToManageTableModel";
 import DepartmentForm from "@/app/(app)/admin/user-management/employee-management/_components/manager/department-form";
 import { useAdminGetSingleManager } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetSingleManager";
@@ -30,6 +29,7 @@ interface Props {
 const DepartmentSheet = ({ model }: Props) => {
   const { user } = useAuth();
   const query = useAdminGetSingleManager(model.id);
+  const [open, setOpen] = useState<boolean>(false);
   const { refetch: refetchManagers } = useAdminGetSingleManager(model.id);
   const updateManagerDepartmentMutation = useAdminUpdateManagerDepartment(
     () => {
@@ -66,15 +66,14 @@ const DepartmentSheet = ({ model }: Props) => {
 
   return (
     <Tooltip>
-      <Sheet>
+      <TooltipTrigger asChild>
+        <Button size="icon" onClick={() => setOpen(true)}>
+          <BriefcaseIcon className="w-4 h-4" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>Bölüm Atama</TooltipContent>
+      <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
         <DialogOverlay className="fixed inset-0 z-50 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-        <SheetTrigger asChild>
-          <TooltipTrigger asChild>
-            <Button size="icon">
-              <BriefcaseIcon className="w-4 h-4" />
-            </Button>
-          </TooltipTrigger>
-        </SheetTrigger>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Bölüm Atama</SheetTitle>
@@ -87,7 +86,6 @@ const DepartmentSheet = ({ model }: Props) => {
           ) : null}
         </SheetContent>
       </Sheet>
-      <TooltipContent>Bölüm Atama</TooltipContent>
     </Tooltip>
   );
 };

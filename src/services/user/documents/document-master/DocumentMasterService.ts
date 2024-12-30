@@ -55,8 +55,6 @@ export class DocumentMasterService {
     id: string,
     data: DocumentMasterHistoryModelRequest,
   ): Promise<void> {
-    console.log("id", id);
-    console.log("data", data);
     return await api.post(
       `/documentmaster/update-document-master-history-detail/${id}`,
       data,

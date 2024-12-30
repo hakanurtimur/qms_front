@@ -17,7 +17,6 @@ const useGetApprovedGarbageFile = ({ handleShow, userId }: Props) => {
     onSuccess: (data) => {
       const regex = /\.(xls|xlsx|csv)$/i;
       const fileUrl = data.data.garbageURL;
-      console.log(fileUrl);
       if (fileUrl && regex.test(fileUrl)) {
         window.open(fileUrl);
         return;

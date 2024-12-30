@@ -61,7 +61,6 @@ const ArchiveContent = () => {
       (doc) => doc.categoryName === name,
     );
     const categoryId = selectedCategory ? selectedCategory.categoryId : null;
-    console.log("Selected Category ID:", categoryId);
 
     if (categoryId !== null) {
       documentsFolderListQuery.mutate(categoryId, {

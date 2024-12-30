@@ -67,7 +67,10 @@ const ModuleManagementContent = () => {
             <TabsTrigger value="screens">Ekranlar</TabsTrigger>
           </TabsList>
         </div>
-        <TabsContent value={"modules"}>
+        <TabsContent
+          value={"modules"}
+          className="animate-in slide-in-from-bottom-16 duration-500"
+        >
           {moduleQuery.data && moduleNameOpts ? (
             <ModuleDataTable
               moduleNameOpts={moduleNameOpts}
@@ -78,7 +81,10 @@ const ModuleManagementContent = () => {
             <LoadingText />
           )}
         </TabsContent>
-        <TabsContent value={"screens"}>
+        <TabsContent
+          value={"screens"}
+          className="animate-in slide-in-from-bottom-16 duration-500"
+        >
           {screenQuery.data &&
           screenModuleOpts &&
           screenTypeOpts &&

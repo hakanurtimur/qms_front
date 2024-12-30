@@ -47,7 +47,7 @@ const ProfileDashboard = () => {
     React.useState(false);
   const auth = useAuth();
 
-  const { data, isSuccess, refetch } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["profile"],
     queryFn: () => profileService.getProfile(Number(auth.user?.userId)),
     enabled: !!auth.user?.userId,
@@ -67,18 +67,15 @@ const ProfileDashboard = () => {
     mutationFn: (file: File) =>
       profileService.changeProfileImg(Number(auth.user?.userId), file),
     onSuccess: () => {
-      console.log("success");
       refetch();
     },
   });
 
-  React.useEffect(() => {
+  /*  React.useEffect(() => {
     if (isSuccess && data?.data?.pathProfileImg) {
       console.log("Url:" + data.data?.pathProfileImg);
     }
-  }, [isSuccess, data]);
-
-  console.log(isSuccess ? data : "Loading...");
+  }, [isSuccess, data]); */
 
   const dummyData = {
     registeryNo: data?.data?.registeryNo,
@@ -153,12 +150,10 @@ const ProfileDashboard = () => {
   }, []); */
 
   const handleRemoveProfileImg = () => {
-    console.log("remove profile img");
     deleteProfileImgMutation.mutate();
   };
 
   const handleUploadProfileImg = (file: File) => {
-    console.log("upload profile img");
     uploadProfileImgMutation.mutate(file);
   };
 

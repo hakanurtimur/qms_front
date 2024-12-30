@@ -9,7 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import React, { useState } from "react";
 import { EmployeeToManageTableModel } from "@/models/admin/employeeManagement/employeeToManageTableModel";
 import EmployeeForm from "@/app/(app)/admin/user-management/employee-management/_components/employee/employee-form";
 import { useAdminGetSingleEmployee } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetSingleEmployee";
@@ -31,6 +31,7 @@ interface Props {
 const EmployeeSheet = ({ model }: Props) => {
   const { user } = useAuth();
   const query = useAdminGetSingleEmployee(model.id);
+  const [open, setOpen] = useState<boolean>(false);
   const { refetch: refetchEmployees } = useAdminGetEmployees();
   const updateEmployeeMutation = useAdminUpdateEmployee(
     () => {
@@ -67,15 +68,14 @@ const EmployeeSheet = ({ model }: Props) => {
 
   return (
     <Tooltip>
-      <Sheet>
+      <TooltipTrigger asChild>
+        <Button size="icon" onClick={() => setOpen(true)}>
+          <PencilSquareIcon className="w-4 h-4" />
+        </Button>
+      </TooltipTrigger>
+      <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
         <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-        <SheetTrigger asChild>
-          <TooltipTrigger asChild>
-            <Button size="icon">
-              <PencilSquareIcon className="w-4 h-4" />
-            </Button>
-          </TooltipTrigger>
-        </SheetTrigger>
+        <SheetTrigger asChild></SheetTrigger>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Personel Bilgisi</SheetTitle>

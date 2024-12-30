@@ -43,7 +43,6 @@ const Page = () => {
 
   const handleChangeCategory = (name: string) => {
     if (!name) {
-      console.log("name null");
       setFolderOpts({});
       return;
     }
@@ -51,7 +50,6 @@ const Page = () => {
       (doc) => doc.categoryName === name,
     );
     const categoryId = selectedCategory ? selectedCategory.categoryId : null;
-    console.log("Selected Category ID:", categoryId);
 
     if (categoryId !== null) {
       documentsFolderListQuery.mutate(categoryId, {

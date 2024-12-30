@@ -37,7 +37,6 @@ const PatientFiltering = ({ onSubmitFilter: onSubmit, onReset }: Props) => {
   });
 
   const handleSubmit = (data: PatientFeedbackFilterFormForLogin) => {
-    console.log(data);
     const req: PatientFeedbackByIdRequestModel = {
       protocolId: data.protocolNum as string,
       identityNumber: data.patientTC as string,

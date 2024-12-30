@@ -50,9 +50,6 @@ export class WaitingRequestsService {
       }
     });
 
-    console.log(data.formFile);
-    console.log("formData :" + formData);
-
     return await api.put(
       `/documentdemand/update-superadmin-document-demand/${user_id}`,
       formData,
@@ -112,8 +109,8 @@ export class WaitingRequestsService {
           },
         },
       );
-    } catch (error) {
-      console.log("error", error);
+    } catch (error: unknown) {
+      return error;
     }
   }
 
@@ -123,9 +120,6 @@ export class WaitingRequestsService {
     id: string,
     body: ResultedRequestsReviseFormModel,
   ): Promise<unknown> {
-    console.log("body", body);
-    console.log("userId", userId);
-    console.log("id", id);
     const formFile = new FormData();
     Object.entries(body?.formFile).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {

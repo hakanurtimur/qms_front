@@ -60,7 +60,6 @@ export class PatientSafetyFeedbackService {
     data: PatientSafetyFeedbackPatientRequestModel,
     userId?: string,
   ) {
-    console.log("Gelecek Data", data);
     if (data.victimState === 1) {
       if (data.victimUserId === 0) {
         toast({

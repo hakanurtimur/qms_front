@@ -6,10 +6,9 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import React, { useState } from "react";
 import { EmployeeToManageTableModel } from "@/models/admin/employeeManagement/employeeToManageTableModel";
 import ManagerForm from "@/app/(app)/admin/user-management/employee-management/_components/manager/manager-form";
 import { useAdminGetSingleManager } from "@/app/(app)/admin/user-management/employee-management/lib/hooks/useAdminGetSingleManager";
@@ -32,6 +31,7 @@ interface Props {
 const ManagerSheet = ({ model }: Props) => {
   const { user } = useAuth();
   const query = useAdminGetSingleManager(model.id);
+  const [open, setOpen] = useState<boolean>(false);
   const { refetch: refetchEmployees } = useAdminGetEmployees();
   const { refetch: refetchManagers } = useAdminGetManagers();
   const updateManagerMutation = useAdminUpdateManager(
@@ -74,15 +74,14 @@ const ManagerSheet = ({ model }: Props) => {
 
   return (
     <Tooltip>
-      <Sheet>
+      <TooltipTrigger asChild>
+        <Button size="icon" onClick={() => setOpen(true)}>
+          <PencilSquareIcon className="w-4 h-4" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>Düzenle</TooltipContent>
+      <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
         <DialogOverlay className="fixed inset-0 z-50 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-        <SheetTrigger asChild>
-          <TooltipTrigger asChild>
-            <Button size="icon">
-              <PencilSquareIcon className="w-4 h-4" />
-            </Button>
-          </TooltipTrigger>
-        </SheetTrigger>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Yönetici Bilgisi</SheetTitle>
@@ -95,7 +94,6 @@ const ManagerSheet = ({ model }: Props) => {
           ) : null}
         </SheetContent>
       </Sheet>
-      <TooltipContent>Düzenle</TooltipContent>
     </Tooltip>
   );
 };

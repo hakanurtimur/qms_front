@@ -55,10 +55,6 @@ const PatientDetailsForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmithandle)}
-        onChange={() => {
-          console.log(form.getValues("reportType"));
-          console.log(form.getValues("description"));
-        }}
         className={
           "space-y-8  animate-slide-in-from-bottom flex md:flex-row flex-col w-full"
         }

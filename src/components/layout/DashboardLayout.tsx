@@ -82,7 +82,6 @@ const DashboardLayout = ({
 
   const handlePasswordChange = async (data: ChangePasswordModel) => {
     const res: unknown = await changePassword(data, Number(user?.userId));
-    console.log("res", res);
     const resWithTyped = res as ResponseModel;
     if (resWithTyped.isSuccessful) {
       await authService.logout();
@@ -94,7 +93,7 @@ const DashboardLayout = ({
         router.push("/admin-login");
       }
     } else {
-      console.log("Burası samet abi");
+      console.log("...");
     }
   };
 
@@ -112,7 +111,6 @@ const DashboardLayout = ({
   const handleSendMessage = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (input.trim()) {
-      console.log(input);
       const request: GeminiRequest = {
         contents: [
           {
@@ -307,9 +305,6 @@ const DashboardLayout = ({
 
             <NotificationsModel
               notifications={notifications}
-              onNotificationClick={(id) => {
-                console.log("Clicked notification:", id);
-              }}
               onNotificationRead={handleNotificationRead}
               onNotificationDelete={handleNotificationDelete}
               onMarkAllAsRead={() => {

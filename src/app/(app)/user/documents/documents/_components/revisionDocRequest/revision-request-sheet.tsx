@@ -6,7 +6,6 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ClipboardDocumentListIcon } from "@heroicons/react/24/outline";
@@ -31,15 +30,14 @@ const RevisionRequestSheet = ({ onSubmit, model, documentTypeOpts }: Props) => {
   const [open, setOpen] = useState(false);
   return (
     <Tooltip>
+      <TooltipTrigger asChild>
+        <Button size={"icon"} onClick={() => setOpen(true)}>
+          <ClipboardDocumentListIcon className="w-4 h-4" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>Revize Talebi Oluştur</TooltipContent>
       <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
-        <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-        <SheetTrigger asChild className="">
-          <TooltipTrigger asChild>
-            <Button size={"icon"}>
-              <ClipboardDocumentListIcon className="w-4 h-4" />
-            </Button>
-          </TooltipTrigger>
-        </SheetTrigger>
+        <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />{" "}
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Revize Talebi</SheetTitle>
@@ -56,7 +54,6 @@ const RevisionRequestSheet = ({ onSubmit, model, documentTypeOpts }: Props) => {
           />
         </SheetContent>
       </Sheet>
-      <TooltipContent>Revize Talebi Oluştur</TooltipContent>
     </Tooltip>
   );
 };

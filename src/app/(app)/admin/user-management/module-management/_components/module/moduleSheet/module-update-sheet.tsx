@@ -4,7 +4,6 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
@@ -16,6 +15,11 @@ import { useAdminUpdateModule } from "@/app/(app)/admin/user-management/module-m
 import { useAuth } from "@/context/authContext";
 import { useAdminGetModules } from "@/app/(app)/admin/user-management/module-management/lib/hooks/useAdminGetModules";
 import { toast } from "@/hooks/use-toast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Props {
   model: ModuleToManageModel;
@@ -57,24 +61,27 @@ const ModuleUpdateSheet = ({ model }: Props) => {
     });
   };
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
-        <Button size={"icon"}>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button size={"icon"} onClick={() => setOpen(true)}>
           <PencilSquareIcon className="w-4 h-4" />
         </Button>
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Modül Bilgileri</SheetTitle>
-          <SheetDescription>
-            Buradan modülleri düzenleyebilirsiniz.
-          </SheetDescription>
-        </SheetHeader>
-        {query.data?.data && (
-          <ModuleForm model={model} onSubmit={handleSubmit} />
-        )}
-      </SheetContent>
-    </Sheet>
+      </TooltipTrigger>
+      <TooltipContent>Düzenle</TooltipContent>
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Modül Bilgileri</SheetTitle>
+            <SheetDescription>
+              Buradan modülleri düzenleyebilirsiniz.
+            </SheetDescription>
+          </SheetHeader>
+          {query.data?.data && (
+            <ModuleForm model={model} onSubmit={handleSubmit} />
+          )}
+        </SheetContent>
+      </Sheet>
+    </Tooltip>
   );
 };
 

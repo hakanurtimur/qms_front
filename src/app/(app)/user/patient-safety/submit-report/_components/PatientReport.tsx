@@ -28,7 +28,6 @@ const PatientReport = ({
   userList,
 }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  console.log("patientFormModel", patientFormModel);
   return (
     <div
       className={"flex md:flex-row h-full flex-col w-full gap-8 items-start "}

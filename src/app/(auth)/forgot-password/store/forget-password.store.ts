@@ -30,7 +30,6 @@ export async function forgetPassword(email: string) {
     const response = await api.postWithoutData<unknown>(
       `/user/forget-password/${email}`,
     );
-    console.log("response", response);
     return response as ResponseModel | unknown;
   } catch (error: unknown) {
     return error as ResponseModel | unknown;

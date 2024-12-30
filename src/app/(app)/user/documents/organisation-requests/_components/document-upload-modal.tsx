@@ -66,7 +66,6 @@ export default function DocumentUploadForm({
   });
 
   const handleSubmit = (data: ResultedRequestsFormModel) => {
-    console.log("Submit", data);
     onSubmitDocumentUpload(data);
   };
 
@@ -74,7 +73,6 @@ export default function DocumentUploadForm({
     <Dialog
       open={open}
       onOpenChange={() => {
-        console.log("Open Change");
         handleOpenDocumentUploadModal(rowId);
       }}
     >

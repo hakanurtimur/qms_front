@@ -8,7 +8,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import React, { useState } from "react";
 import { ManagerLocationModel } from "@/models/admin/location";
 import { useAdminUpdateLocation } from "@/app/(app)/admin/user-management/location/lib/hooks/useAdminUpdateLocation";
 import { toast } from "@/hooks/use-toast";
@@ -29,6 +29,7 @@ interface Props {
 const FormSheet = ({ model }: Props) => {
   const { user } = useAuth();
   const { refetch: refecthLocations } = useAdminGetLocations();
+  const [open, setOpen] = useState<boolean>(false);
   const mutation = useAdminUpdateLocation(
     () => {
       toast({
@@ -54,15 +55,15 @@ const FormSheet = ({ model }: Props) => {
 
   return (
     <Tooltip>
-      <Sheet>
+      <TooltipTrigger asChild>
+        <Button size="icon" onClick={() => setOpen(true)}>
+          <PencilSquareIcon className="w-4 h-4" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>Düzenle</TooltipContent>
+      <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
         <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-        <SheetTrigger asChild>
-          <TooltipTrigger asChild>
-            <Button size="icon">
-              <PencilSquareIcon className="w-4 h-4" />
-            </Button>
-          </TooltipTrigger>
-        </SheetTrigger>
+        <SheetTrigger asChild></SheetTrigger>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Lokasyon Düzenle</SheetTitle>
@@ -73,7 +74,6 @@ const FormSheet = ({ model }: Props) => {
           <SheetForm model={model} onSubmit={handleSubmit} />
         </SheetContent>
       </Sheet>
-      <TooltipContent>Düzenle</TooltipContent>
     </Tooltip>
   );
 };

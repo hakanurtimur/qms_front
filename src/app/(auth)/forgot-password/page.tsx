@@ -10,6 +10,7 @@ import {
   useForgetPasswordStore,
 } from "./store/forget-password.store";
 import { ResponseModel } from "@/models/api/response";
+import { toast } from "@/hooks/use-toast";
 
 const Page = () => {
   const router = useRouter();
@@ -33,12 +34,21 @@ const Page = () => {
     }
     const res: unknown = await forgetPassword(data.email);
     const resWithTyped = res as ResponseModel;
-    console.log("res", res);
     if (resWithTyped.isSuccessful) {
       router.push("/login");
+      toast({
+        title: "Başarılı",
+        description:
+          "Şifre sıfırlama talimatları e-posta adresinize gönderildi.",
+        variant: "success",
+      });
+    } else {
+      toast({
+        title: "Hata",
+        description: `Eksik veya hatalı giriş yaptınız. Lütfen tekrar deneyin.`,
+        variant: "destructive",
+      });
     }
-
-    console.log(data);
   };
 
   const setCaptchaValueHandler = (value: string | null) => {

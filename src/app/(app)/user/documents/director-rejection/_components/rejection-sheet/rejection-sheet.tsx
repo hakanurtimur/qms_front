@@ -3,7 +3,6 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
@@ -32,6 +31,7 @@ const RejectionSheet = ({ model, variant, onApproveRequest }: Props) => {
   const { user } = useAuth();
   const query = useGetRequestDetails(model.id.toString(), user?.roleId ?? "");
   const [show, setShow] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [showFile, setShowFile] = useState(false);
 
   const handleShow = () => setShow(true);
@@ -74,15 +74,15 @@ const RejectionSheet = ({ model, variant, onApproveRequest }: Props) => {
         />
       )}
       <Tooltip>
-        <Sheet>
+        <TooltipTrigger asChild>
+          <Button size={"icon"} onClick={() => setOpen(true)}>
+            <PencilSquareIcon className="w-4 h-4" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>Düzenle</TooltipContent>
+        <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
           <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-          <SheetTrigger asChild>
-            <TooltipTrigger asChild>
-              <Button size={"icon"}>
-                <PencilSquareIcon className="w-4 h-4" />
-              </Button>
-            </TooltipTrigger>
-          </SheetTrigger>
+
           <SheetContent className="min-w-[1100px]">
             <SheetHeader>
               <SheetTitle>Direktör Onayı</SheetTitle>
@@ -100,7 +100,6 @@ const RejectionSheet = ({ model, variant, onApproveRequest }: Props) => {
             )}
           </SheetContent>
         </Sheet>
-        <TooltipContent>Düzenle</TooltipContent>
       </Tooltip>
     </>
   );

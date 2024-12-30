@@ -20,7 +20,6 @@ const Page = () => {
   const [insertFormDate, setInsertFormDate] =
     useState<PatientFeedbackInsertRequestModel | null>(null);
   const user = useAuth();
-  console.log(user);
 
   const onSubmitFilter = (data: PatientFeedbackByIdRequestModel) => {
     setFilterFormDate(data);
@@ -28,7 +27,6 @@ const Page = () => {
   };
 
   const onSubmitPatient = (data: PatientFeedbackForm) => {
-    console.log(data);
     const req: PatientFeedbackInsertRequestModel = {
       userId: user.user?.userId ?? "",
       protocolId: getPatientFeedbackByIdMutation.data?.data.protocolId ?? "",
@@ -46,7 +44,6 @@ const Page = () => {
   };
 
   const handleReset = () => {
-    console.log("reset");
     getPatientFeedbackByIdMutation.reset();
   };
 

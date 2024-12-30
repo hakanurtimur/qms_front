@@ -48,7 +48,6 @@ const Login = ({
   modules,
   moduleLoading,
   onSubmit,
-  error,
   formLoading,
 }: Props) => {
   const form = useForm<UserLogin>({
@@ -178,7 +177,6 @@ const Login = ({
                   Şifremi Unuttum
                 </Link>
               </div>
-              <p className="text-danger-500">{error && error}</p>
               <Button
                 disabled={locationLoading || formLoading}
                 variant="primary"

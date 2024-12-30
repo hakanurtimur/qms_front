@@ -6,10 +6,9 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import React, { useState } from "react";
 import { RoleManagementRoleModel } from "@/models/admin/roleManagementRoleModel";
 import CreateSheetForm from "@/app/(app)/admin/user-management/role-management/_components/create-role/create-sheet-form";
 import { useAdminCreateRole } from "@/app/(app)/admin/user-management/role-management/lib/hooks/useAdminCreateRole";
@@ -25,6 +24,7 @@ import {
 const CreateRoleSheet = () => {
   const { user } = useAuth();
   const { refetch: refetchRoles } = useAdminGetRolesList();
+  const [open, setOpen] = useState<boolean>(false);
 
   const createMutation = useAdminCreateRole(
     () => {
@@ -54,15 +54,14 @@ const CreateRoleSheet = () => {
 
   return (
     <Tooltip>
-      <Sheet>
+      <TooltipTrigger asChild>
+        <Button onClick={() => setOpen(true)} className="gap-2">
+          <PlusIcon className="w-4 h-4" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>Rol Ekle</TooltipContent>
+      <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
         <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-        <SheetTrigger asChild>
-          <TooltipTrigger asChild>
-            <Button className="gap-2">
-              <PlusIcon className="w-4 h-4" />
-            </Button>
-          </TooltipTrigger>
-        </SheetTrigger>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Rol Ekleme</SheetTitle>
@@ -73,7 +72,6 @@ const CreateRoleSheet = () => {
           <CreateSheetForm onSubmit={handleSubmmit} />
         </SheetContent>
       </Sheet>
-      <TooltipContent>Rol Ekle</TooltipContent>
     </Tooltip>
   );
 };

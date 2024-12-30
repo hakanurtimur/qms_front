@@ -66,10 +66,7 @@ const WaitingRequestsContentPage = () => {
 
   const categoryFolderListMutation = useCategoryFolderList(
     (data: UserCategoryFolderListModelResponse) => {
-      console.log("Category Folder List", data);
       setCategoryFolderList(data.data);
-
-      console.log(categoryFolderListMutation);
     },
     () => {
       toast({
@@ -200,14 +197,12 @@ const WaitingRequestsContentPage = () => {
     : null;
 
   const handleOpenDocumentUploadModal = (id: string) => {
-    console.log("Open Document Upload Modal", id);
     setSelectedRow(id);
     setDocumentUploadModal(!openDocumentUploadModal);
   };
 
   const handleOpenDocumentReviseModal = (id: string) => {
     setSelectedRow(id);
-    console.log("Open Document Revise Modal", id);
     setOpenDocumentReviseModal(!openDocumentReviseModal);
   };
 
@@ -217,8 +212,6 @@ const WaitingRequestsContentPage = () => {
       newFileName: data.formFile?.name.split(".")[0],
       format: data.formFile?.type?.split("/")[1],
     };
-    console.log("Submit Document Upload", body);
-    console.log("Selected Row", selectedRow);
     setUploadData(body);
     setDocumentUploadModal(false);
     createDocument.mutate();
@@ -231,8 +224,6 @@ const WaitingRequestsContentPage = () => {
       ...data,
       format: data.formFile?.type?.split("/")[1],
     };
-    console.log("Submit Document Revise", body);
-    console.log("Selected Row", selectedRow);
     setReviseData(body);
     reviseDocument.mutate();
   };

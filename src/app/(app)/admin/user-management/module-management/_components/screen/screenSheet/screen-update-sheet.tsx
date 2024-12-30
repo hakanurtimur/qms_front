@@ -4,7 +4,6 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
@@ -16,6 +15,11 @@ import { useAuth } from "@/context/authContext";
 import { useAdminUpdateScreen } from "@/app/(app)/admin/user-management/module-management/lib/hooks/useAdminUpdateScreen";
 import { toast } from "@/hooks/use-toast";
 import { useAdminGetScreens } from "@/app/(app)/admin/user-management/module-management/lib/hooks/useAdminGetScreens";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Props {
   model: ScreenToManageModel;
@@ -58,22 +62,25 @@ const ScreenUpdateSheet = ({ model }: Props) => {
   };
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
-        <Button size={"icon"}>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button size={"icon"} onClick={() => setOpen(true)}>
           <PencilSquareIcon className="w-4 h-4" />
         </Button>
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Ekran Bilgileri</SheetTitle>
-          <SheetDescription>
-            Buradan ekranları düzenleyebilirsiniz.
-          </SheetDescription>
-        </SheetHeader>
-        <ScreenForm model={model} onSubmit={handleSubmit} />
-      </SheetContent>
-    </Sheet>
+      </TooltipTrigger>
+      <TooltipContent>Düzenle</TooltipContent>
+      <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Ekran Bilgileri</SheetTitle>
+            <SheetDescription>
+              Buradan ekranları düzenleyebilirsiniz.
+            </SheetDescription>
+          </SheetHeader>
+          <ScreenForm model={model} onSubmit={handleSubmit} />
+        </SheetContent>
+      </Sheet>
+    </Tooltip>
   );
 };
 

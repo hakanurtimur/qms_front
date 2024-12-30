@@ -74,8 +74,6 @@ export function DataTable<TData, TValue>({
     mutationKey: ["goDoc"],
     mutationFn: (fileId: string) => documentService.goDoc(fileId),
     onSuccess: (data) => {
-      console.log(data);
-      console.log(data.data.url);
       if (data.data.url) {
         setShowPrint(true);
       }
@@ -101,8 +99,6 @@ export function DataTable<TData, TValue>({
       columnFilters,
     },
   });
-
-  console.log(mutation.data);
 
   return (
     <TooltipProvider>

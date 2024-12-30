@@ -69,7 +69,6 @@ const MainDocSheet: React.FC<MainDocSheetProps> = ({
       lookOutDate: data.lookOutDate ?? "",
       archiveInfo: data.archiveInfo ?? "",
     };
-    console.log("updatedData", updatedData);
     handleSubmit(updatedData);
   };
 

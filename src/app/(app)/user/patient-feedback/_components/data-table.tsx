@@ -44,7 +44,6 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   columns,
   data,
-  variant = "all",
 }: DataTableProps<TData, TValue>) {
   const [globalFilter, setGlobalFilter] = React.useState<string>("");
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -73,8 +72,6 @@ export function DataTable<TData, TValue>({
       globalFilter,
     },
   });
-
-  console.log(variant);
 
   return (
     <TooltipProvider>

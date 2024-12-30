@@ -25,7 +25,6 @@ const Page = () => {
   };
 
   const onSubmitPatient = (data: PatientFeedbackForm) => {
-    console.log(data);
     const req: PatientFeedbackInsertRequestModel = {
       userId: filterFormDate?.userId ?? "",
       protocolId: getPatientFeedbackByIdMutation.data?.data.protocolId ?? "",

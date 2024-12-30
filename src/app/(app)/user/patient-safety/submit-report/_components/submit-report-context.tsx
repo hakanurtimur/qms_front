@@ -79,7 +79,6 @@ const SubmitReportContext = () => {
   }, [patientGetByIdMutation.isSuccess]);
 
   const handlePatientReportSubmit = (data: IncidentFormPatient) => {
-    console.log("Patient Report Submit", data);
     const req: PatientSafetyFeedbackPatientRequestModel = {
       typeId: Number(selectedTab),
       victimState: data.isSecondaryVictim == "true" ? 1 : 0,
@@ -112,7 +111,7 @@ const SubmitReportContext = () => {
   const handleResetPatientForm = () => {
     setPatient(null);
   };
-
+  // TODO: Hakan abi bakacak LOG silinecek
   const handleEmployeeReportSubmit = (data: IncidentFormEmployee) => {
     console.log(data);
   };

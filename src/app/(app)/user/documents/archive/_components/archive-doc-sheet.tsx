@@ -6,7 +6,6 @@ import {
   SheetHeader,
   SheetTitle,
   SheetDescription,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import { DialogOverlay } from "@/components/ui/dialog";
 import { EditIcon } from "lucide-react";
@@ -17,23 +16,28 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useState } from "react";
 
 export interface ArchiveDocSheetProps {
   data: RequestDocumentListModel;
 }
 
 export default function ArchiveDocSheet({ data }: ArchiveDocSheetProps) {
+  const [open, setOpen] = useState(false);
   /* not modelleri ve sheeti incele */
 
   return (
     <Tooltip>
-      <Sheet>
+      <TooltipTrigger>
+        <EditIcon
+          onClick={() => setOpen(true)}
+          className="w-8 h-8 p-2 rounded-md bg-primary-800 text-white cursor-pointer "
+        />
+      </TooltipTrigger>
+      <TooltipContent>Düzenle</TooltipContent>
+
+      <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
         <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-        <SheetTrigger asChild className="">
-          <TooltipTrigger>
-            <EditIcon className="w-8 h-8 p-2 rounded-md bg-primary-800 text-white cursor-pointer " />
-          </TooltipTrigger>
-        </SheetTrigger>
         <SheetContent className="w-[400px] sm:w-[540px]">
           <SheetHeader>
             <SheetTitle>Arşivleme</SheetTitle>
@@ -44,7 +48,6 @@ export default function ArchiveDocSheet({ data }: ArchiveDocSheetProps) {
           <ArchiveDocForm data={data} />
         </SheetContent>
       </Sheet>
-      <TooltipContent>Düzenle</TooltipContent>
     </Tooltip>
   );
 }

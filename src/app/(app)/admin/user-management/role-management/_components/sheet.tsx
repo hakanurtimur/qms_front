@@ -6,10 +6,9 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import React, { useState } from "react";
 import { RoleManagementRoleModel } from "@/models/admin/roleManagementRoleModel";
 import SheetForm from "@/app/(app)/admin/user-management/role-management/_components/sheet-form";
 import { useAdminUpdateRole } from "@/app/(app)/admin/user-management/role-management/lib/hooks/useAdminUpdateRole";
@@ -30,6 +29,7 @@ interface Props {
 const RoleSheet = ({ model }: Props) => {
   const { user } = useAuth();
   const { refetch: refetchRoles } = useAdminGetRolesList();
+  const [open, setOpen] = useState<boolean>(false);
   const query = useAdminGetSingleRole(model.roleId);
 
   const updateMutation = useAdminUpdateRole(
@@ -63,15 +63,14 @@ const RoleSheet = ({ model }: Props) => {
 
   return (
     <Tooltip>
-      <Sheet>
+      <TooltipTrigger asChild>
+        <Button size="icon" onClick={() => setOpen(true)}>
+          <PencilSquareIcon className="w-4 h-4" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>Düzenle</TooltipContent>
+      <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
         <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-        <SheetTrigger asChild>
-          <TooltipTrigger asChild>
-            <Button size="icon">
-              <PencilSquareIcon className="w-4 h-4" />
-            </Button>
-          </TooltipTrigger>
-        </SheetTrigger>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Rol İşlemleri</SheetTitle>
@@ -84,7 +83,6 @@ const RoleSheet = ({ model }: Props) => {
           )}
         </SheetContent>
       </Sheet>
-      <TooltipContent>Düzenle</TooltipContent>
     </Tooltip>
   );
 };

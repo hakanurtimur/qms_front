@@ -62,7 +62,6 @@ const Page = () => {
   });
 
   const handleSubmitPatientFilter = (data: IncidentFormFilter) => {
-    console.log(data);
     setProtocolId(data.protocolNum);
     patientGetByIdMutation.mutate();
     setPatient(patientGetByIdMutation.data?.data as PatientModel);
@@ -75,7 +74,6 @@ const Page = () => {
   }, [patientGetByIdMutation.isSuccess]);
 
   const handlePatientReportSubmit = (data: IncidentFormPatient) => {
-    console.log("Patient Report Submit", data);
     const req: PatientSafetyFeedbackPatientRequestModel = {
       typeId: Number(selectedTab),
       victimState: data.isSecondaryVictim == "true" ? 1 : 0,
@@ -110,7 +108,6 @@ const Page = () => {
   };
 
   const handleIncidentReportSubmit = (data: IncidentForm) => {
-    console.log("Incident Report Submit", data);
     const req: PatientSafetyFeedbackInsertRequestModel = {
       typeId: Number(selectedTab),
       description: data.incidentDescription,

@@ -24,7 +24,6 @@ export const SRequestDocumentCreate = z
   })
   .superRefine((data, ctx) => {
     if (data.FileId == null || data.FileId < 0) {
-      console.log("FileId", data.FileId);
       if (!data.FormFile && !data.TemporaryFileName) {
         ctx.addIssue({
           code: "custom",
