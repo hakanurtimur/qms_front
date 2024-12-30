@@ -71,14 +71,14 @@ const DepartmentSheet = ({ model }: Props) => {
           <BriefcaseIcon className="w-4 h-4" />
         </Button>
       </TooltipTrigger>
-      <TooltipContent>Bölüm Atama</TooltipContent>
+      <TooltipContent>Müdürlük Atama</TooltipContent>
       <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
         <DialogOverlay className="fixed inset-0 z-50 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
         <SheetContent>
           <SheetHeader>
-            <SheetTitle>Bölüm Atama</SheetTitle>
+            <SheetTitle>Müdürlük Atama</SheetTitle>
             <SheetDescription>
-              Buradan yönetici için bölüm ataması yapılır.
+              Buradan yönetici için müdürlük ataması yapılır.
             </SheetDescription>
           </SheetHeader>
           {query.data ? (

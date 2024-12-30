@@ -43,6 +43,7 @@ import geminiService from "@/services/GeminiService";
 import { useMutation } from "@tanstack/react-query";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { NotificationsModel } from "@/components/layout/notifications-model";
+import { toast } from "@/hooks/use-toast";
 
 interface Props {
   variant: "admin" | "user";
@@ -92,8 +93,18 @@ const DashboardLayout = ({
       } else {
         router.push("/admin-login");
       }
+      toast({
+        title: "Başarılı",
+        description: "Şifreniz başarıyla güncellendi",
+        variant: "success",
+      });
     } else {
       console.log("...");
+      toast({
+        title: "Hata",
+        description: "Şifre değiştirme işlemi başarısız oldu. Lütfen tekrar deneyiniz.",
+        variant: "destructive",
+      });
     }
   };
 

@@ -80,7 +80,7 @@ const MainDocSheet: React.FC<MainDocSheetProps> = ({
           <SheetHeader>
             <SheetTitle>Detay Bilgileri</SheetTitle>
             <SheetDescription>
-              Buradan taleblerinizi düzenleyebilirsiniz.
+              Buradan taleplerinizi düzenleyebilirsiniz.
             </SheetDescription>
           </SheetHeader>
           <div className="mt-4 flex">
