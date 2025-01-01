@@ -330,7 +330,7 @@ const DashboardLayout = ({
             />
             <Tooltip>
               <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-                <PopoverTrigger asChild className="">
+                <PopoverTrigger>
                   <TooltipTrigger asChild>
                     <Button
                       variant={"darkGhost"}

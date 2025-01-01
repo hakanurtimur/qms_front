@@ -39,7 +39,6 @@ const AdminLogin = ({
   locations,
   locationLoading,
   onSubmit,
-  error,
   formLoading,
 }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -176,7 +175,6 @@ const AdminLogin = ({
                   Şifremi Unuttum
                 </Link>
               </div>
-              <p className="text-danger-500">{error && error}</p>
               <Button
                 disabled={locationLoading || formLoading}
                 variant="primary"

@@ -41,7 +41,7 @@ export function AIChatBox({
   return (
     <Tooltip>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogTrigger asChild className="">
+        <DialogTrigger className="">
           <TooltipTrigger asChild>
             <Button
               className="flex bottom-4 right-4 rounded-full bg-opacity-5 w-6 h-6"
