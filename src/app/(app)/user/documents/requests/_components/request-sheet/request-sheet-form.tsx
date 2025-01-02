@@ -32,6 +32,7 @@ import GarbageUpdaterDialog from "@/app/(app)/user/documents/requests/_component
 import NonFormCombobox from "@/components/ui/nonform-combobox";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/context/authContext";
+import { toast } from "@/hooks/use-toast";
 
 interface Props {
   onSubmit: (data: UpdateDocumentDemandModel) => void;
@@ -358,6 +359,11 @@ const RequestSheetForm = ({
                 if (file) {
                   form.setValue("formFile", file);
                 }
+                toast({
+                  title: "Dosya eklendi",
+                  description: "Dosya başarıyla eklendi",
+                  variant: "success",
+                });
               }}
             />
           )}

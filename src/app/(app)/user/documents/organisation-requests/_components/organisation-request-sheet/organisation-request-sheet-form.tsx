@@ -220,7 +220,7 @@ const OrganisationRequestSheetForm = ({
             <Combobox<UpdateWaitingRequestModel>
               onChangeExtra={(value) => {
                 setSelectedSuperAdminAction(+value);
-                form.setValue("superAdminAboutId", 0);
+                //Samet form.setValue("superAdminAboutId", model?.superAdminAboutId || 0));
               }}
               control={form.control}
               name={"superAdminActionId"}
