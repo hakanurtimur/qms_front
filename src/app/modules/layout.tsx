@@ -12,17 +12,17 @@ const Layout = ({ children }: Props) => {
   let title = "DOKÜMANLAR";
 
   if (pathname === "/modules/2") {
-    title = "Hasta Geri Bildirim";
+    title = "HASTA GERİ BİLDİRİM";
   }
   if (pathname === "/modules/3") {
-    title = "Hasta Güvenliği Bildirimi";
+    title = "HASTA GÜVENLİĞİ BİLDİRİMİ";
   }
   if (pathname === "/modules/10") {
-    title = "Çalışan Güvenliği Bildirimi";
+    title = "ÇALIŞAN GÜVENLİĞİ BİLDİRİMİ";
   }
-  if (pathname === "/modules") {
+  /*   if (pathname === "/modules") {
     title = "Olay Bildirimi";
-  }
+  } */
 
   return <NonLoginLayout title={title}>{children}</NonLoginLayout>;
 };

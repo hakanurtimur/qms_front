@@ -17,7 +17,7 @@ export default function RootLayout({
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <TooltipProvider>
-          <html lang="en">
+          <html lang="tr">
             <head>
               <meta charSet="UTF-8" />
               <meta
