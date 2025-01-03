@@ -1,14 +1,14 @@
 import {
-  // ArrowPathRoundedSquareIcon,
-  // ArrowTopRightOnSquareIcon,
-  // ArrowTrendingUpIcon,
-  // CursorArrowRippleIcon,
+  ArrowPathRoundedSquareIcon,
+  ArrowTopRightOnSquareIcon,
+  ArrowTrendingUpIcon,
+  CursorArrowRippleIcon,
   DocumentTextIcon,
-  // FlagIcon,
-  // PaperClipIcon,
-  // ShieldExclamationIcon,
+  FlagIcon,
+  PaperClipIcon,
+  ShieldExclamationIcon,
   UserGroupIcon,
-  // WrenchIcon,
+  WrenchIcon,
 } from "@heroicons/react/24/outline";
 import { NavItemModel } from "@/components/ui/breadcrumb-with-dropdown";
 
@@ -122,83 +122,83 @@ import { NavItemModel } from "@/components/ui/breadcrumb-with-dropdown";
 // ];
 
 export const adminNavItems: NavItemModel[] = [
-  // {
-  //   icon: DocumentTextIcon,
-  //   label: "Dokümanlar",
-  //   href: "/dokumanlar",
-  //   items: [
-  //     {
-  //       icon: DocumentTextIcon,
-  //       label: "Politikalar",
-  //       href: "/dokumanlar/politikalar",
-  //       items: [],
-  //     },
-  //     {
-  //       icon: DocumentTextIcon,
-  //       label: "Prosedürler",
-  //       href: "/dokumanlar/prosedurler",
-  //       items: [],
-  //     },
-  //     {
-  //       icon: DocumentTextIcon,
-  //       label: "Formlar",
-  //       href: "/dokumanlar/formlar",
-  //       items: [],
-  //     },
-  //   ],
-  // },
-  // {
-  //   icon: ArrowPathRoundedSquareIcon,
-  //   label: "Hasta Geri Bildirim",
-  //   href: "/hasta-geri-bildirim",
-  //   items: [],
-  // },
-  // {
-  //   icon: FlagIcon,
-  //   label: "Hasta Güvenliği Bildirimi",
-  //   href: "/admin/hasta-guvenligi",
-  //   items: [],
-  // },
-  // {
-  //   icon: CursorArrowRippleIcon,
-  //   label: "Çalışan Güvenliği Bildirimi",
-  //   href: "/calisan-guvenligi",
-  //   items: [],
-  // },
-  // {
-  //   icon: ArrowTopRightOnSquareIcon,
-  //   label: "DİF",
-  //   href: "/dif",
-  //   items: [],
-  // },
-  // {
-  //   icon: ArrowTrendingUpIcon,
-  //   label: "Göstergeler",
-  //   href: "/gostergeler",
-  //   items: [],
-  // },
-  // {
-  //   icon: ShieldExclamationIcon,
-  //   label: "İç Denetimler",
-  //   href: "/ic-denetimler",
-  //   items: [],
-  // },
-  // {
-  //   icon: WrenchIcon,
-  //   label: "Kalite İyileştirme Araçları",
-  //   href: "/kalite-iyilestirme",
-  //   items: [],
-  // },
-  // {
-  //   icon: PaperClipIcon,
-  //   label: "Raporlama",
-  //   href: "/raporlama",
-  //   items: [],
-  // },
+  {
+    icon: DocumentTextIcon,
+    label: "Dokümanlar",
+    href: "/documents",
+    items: [
+      {
+        icon: DocumentTextIcon,
+        label: "Politikalar",
+        href: "/admin/documents/page1",
+        items: [],
+      },
+      {
+        icon: DocumentTextIcon,
+        label: "Prosedürler",
+        href: "/admin/documents/page2",
+        items: [],
+      },
+      {
+        icon: DocumentTextIcon,
+        label: "Formlar",
+        href: "/admin/documents/page3",
+        items: [],
+      },
+    ],
+  },
+  {
+    icon: ArrowPathRoundedSquareIcon,
+    label: "Hasta Geri Bildirim",
+    href: "/patient-feedback",
+    items: [],
+  },
+  {
+    icon: FlagIcon,
+    label: "Hasta Güvenliği Bildirimi",
+    href: "/patient-safety",
+    items: [],
+  },
+  {
+    icon: CursorArrowRippleIcon,
+    label: "Çalışan Güvenliği Bildirimi",
+    href: "/personnel-safety",
+    items: [],
+  },
+  {
+    icon: ArrowTopRightOnSquareIcon,
+    label: "DİF",
+    href: "/rra",
+    items: [],
+  },
+  {
+    icon: ArrowTrendingUpIcon,
+    label: "Göstergeler",
+    href: "/indicators",
+    items: [],
+  },
+  {
+    icon: ShieldExclamationIcon,
+    label: "İç Denetimler",
+    href: "/internal-audits",
+    items: [],
+  },
+  {
+    icon: WrenchIcon,
+    label: "Kalite İyileştirme Araçları",
+    href: "/quality-improvement",
+    items: [],
+  },
+  {
+    icon: PaperClipIcon,
+    label: "Raporlama",
+    href: "/report",
+    items: [],
+  },
   {
     icon: UserGroupIcon,
     label: "Kullanıcı Yönetimi",
-    href: "/kullanici-yonetimi",
+    href: "/user-management",
     items: [
       {
         icon: DocumentTextIcon,
@@ -214,6 +214,12 @@ export const adminNavItems: NavItemModel[] = [
       },
       {
         icon: DocumentTextIcon,
+        label: "Bölüm İşlem",
+        href: "/admin/user-management/directorate",
+        items: [],
+      },
+      {
+        icon: DocumentTextIcon,
         label: "Rol İşlem",
         href: "/admin/user-management/role-management",
         items: [],
@@ -224,12 +230,12 @@ export const adminNavItems: NavItemModel[] = [
         href: "/admin/user-management/module-management",
         items: [],
       },
-      // {
-      //   icon: DocumentTextIcon,
-      //   label: "Yetkilendirme",
-      //   href: "/admin/user-management/authorization",
-      //   items: [],
-      // },
+      {
+        icon: DocumentTextIcon,
+        label: "Yetkilendirme",
+        href: "/admin/user-management/authorization",
+        items: [],
+      },
       {
         icon: DocumentTextIcon,
         label: "Tarihçe",
