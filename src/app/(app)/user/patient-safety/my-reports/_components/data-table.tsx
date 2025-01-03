@@ -24,11 +24,12 @@ import React from "react";
 
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { Input } from "@/components/ui/input";
-import NonFormCombobox from "@/components/ui/nonform-combobox"; // Import NonFormCombobox
+import NonFormCombobox from "@/components/ui/nonform-combobox";
 import GeneralSheet from "./general-report/general-report-sheet";
 import PatientSheet from "./patient-report/patient-report-sheet";
 import { generalSheetDummyData } from "@/models/user/patient-safety-notification/sheet-model/patient-security-general-sheet-model";
 import { dummyPatientSecuritySheetData } from "@/models/user/patient-safety-notification/sheet-model/patient-security-sheet-model";
+import PatientSafetyMyDutiesSheet from "./my-assigned-duties/my-duties-sheet";
 
 interface DataTableProps<TData extends { reportType: string }, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -75,7 +76,7 @@ export function DataTable<TData extends { reportType: string }, TValue>({
 
   return (
     <div className="w-full overflow-scroll flex items-center justify-center no-scrollbar">
-      <div className="rounded-md border w-full max-w-[1600px] min-w-[800px] no-scrollbar">
+      <div className="min-w-full rounded-md border no-scrollbar">
         <div className="flex items-center py-4 px-4 gap-10 no-scrollbar">
           <div className="flex flex-1 flex-shrink-0 items-center gap-4">
             <div className="flex-shrink-0 w-48">
@@ -186,7 +187,11 @@ export function DataTable<TData extends { reportType: string }, TValue>({
                           <PatientSheet model={dummyPatientSecuritySheetData} />
                         )
                       ) : null}
+                      {variant === "actives" ? (
+                        <PatientSafetyMyDutiesSheet />
+                      ) : null}
                     </TableCell>
+                    <TableCell></TableCell>
                   </TableRow>
                 ))
               ) : (
@@ -203,7 +208,6 @@ export function DataTable<TData extends { reportType: string }, TValue>({
           </Table>
         </div>
 
-        {/* Pagination Section */}
         <div>
           <DataTablePagination isColumnHiderDropdownVisible table={table} />
         </div>
