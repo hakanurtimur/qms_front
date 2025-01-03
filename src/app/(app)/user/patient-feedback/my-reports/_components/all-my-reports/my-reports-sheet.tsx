@@ -2,11 +2,12 @@
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import React, { useState } from "react";
 import { DialogOverlay } from "@/components/ui/dialog";
@@ -16,7 +17,7 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 import { EyeIcon } from "lucide-react";
-import PatientFeedbackMyReportsForm from "./my-reports-form";
+import PatientFeedbackForm from "./my-reports-form";
 
 const PatientFeedbackMyAllReportsSheet = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -30,15 +31,19 @@ const PatientFeedbackMyAllReportsSheet = () => {
       </TooltipTrigger>
       <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
         <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
-        <SheetTrigger asChild></SheetTrigger>
-        <SheetContent>
+        <SheetContent className="min-w-full max-w-[90vw] p-6">
           <SheetHeader>
             <SheetTitle>Tüm Bildirimlerim</SheetTitle>
             <SheetDescription>
               Buradan Tüm Bildirimlerinizi Görüntüleyebilirsiniz.
             </SheetDescription>
           </SheetHeader>
-          <PatientFeedbackMyReportsForm />
+          <PatientFeedbackForm />
+          <SheetFooter>
+            <SheetClose asChild>
+              <Button type="button">Kapat</Button>
+            </SheetClose>
+          </SheetFooter>
         </SheetContent>
       </Sheet>
       <TooltipContent>Görüntüle</TooltipContent>

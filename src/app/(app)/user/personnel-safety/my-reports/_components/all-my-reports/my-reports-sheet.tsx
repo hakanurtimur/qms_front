@@ -2,8 +2,10 @@
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -16,7 +18,7 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 import { EyeIcon } from "lucide-react";
-import MyReportsForm from "./my-reports-form";
+import EmployeeSafetyMyReportsForm from "./my-reports-form";
 
 const MyAllReportsSheet = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -31,14 +33,19 @@ const MyAllReportsSheet = () => {
       <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
         <DialogOverlay className="fixed inset-0 bg-gray-800 bg-opacity-60 transition-opacity backdrop-blur-sm" />
         <SheetTrigger asChild></SheetTrigger>
-        <SheetContent>
+        <SheetContent className="min-w-[850px] max-w-[90vw] p-6">
           <SheetHeader>
             <SheetTitle>Tüm Bildirimlerim</SheetTitle>
             <SheetDescription>
               Buradan Tüm Bildirimlerinizi Görüntüleyebilirsiniz.
             </SheetDescription>
           </SheetHeader>
-          <MyReportsForm />
+          <EmployeeSafetyMyReportsForm />
+          <SheetFooter>
+            <SheetClose asChild>
+              <Button type="button">Kapat</Button>
+            </SheetClose>
+          </SheetFooter>
         </SheetContent>
       </Sheet>
       <TooltipContent>Görüntüle</TooltipContent>

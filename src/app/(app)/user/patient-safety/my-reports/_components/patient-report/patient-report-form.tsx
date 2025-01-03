@@ -129,7 +129,7 @@ const PatientForm: React.FC<PatientFormProps> = ({ model }) => {
         </div>
       </div>
 
-      <div className="space-y-6 pl-8">
+      <div className="space-y-6 pl-2">
         <div className="grid grid-cols-8 gap-4">
           <div className="col-span-4">
             <label className="font-semibold">Durum</label>
