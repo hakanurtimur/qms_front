@@ -60,7 +60,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className="w-full overflow-scroll flex items-center justify-start no-scrollbar">
       <div className="rounded-md border w-full min-w-[800px] no-scrollbar">
-        <div className="flex items-center py-4 px-4 justify-between gap-10 w-full no-scrollbar">
+        <div className="flex items-center py-4 px-4 justify-end gap-10 w-full no-scrollbar">
           <Input
             placeholder="DETAYLI ARAMA"
             value={globalFilter ?? ""}

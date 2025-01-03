@@ -26,6 +26,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import ModuleUpdateSheet from "./moduleSheet/module-update-sheet";
 import { ModuleToManageModel } from "@/models/admin/moduleManagement/moduleToManageModel";
 import NonFormCombobox from "@/components/ui/nonform-combobox";
+import { Input } from "@/components/ui/input";
 
 interface DataTableProps<TData, TValue> {
   moduleNameOpts: { [key: string]: string };
@@ -99,6 +100,14 @@ export function ModuleDataTable<TData, TValue>({
               }
               options={moduleNameOpts}
             />
+            <Input
+              placeholder="DETAYLI ARAMA"
+              value={globalFilter ?? ""}
+              onChange={(event) =>
+                setGlobalFilter(event.target.value.toLocaleUpperCase("tr"))
+              }
+              className="max-w-sm"
+            />
             {/*TODO: add input */}
             {/*<Input*/}
             {/*  placeholder="Arama yapın..."*/}
@@ -126,7 +135,7 @@ export function ModuleDataTable<TData, TValue>({
                         </TableHead>
                       );
                     })}
-                    <TableHead className="w-40">İşlem</TableHead>
+                    <TableHead className="w-20">İşlem</TableHead>
                   </TableRow>
                 ))}
               </TableHeader>

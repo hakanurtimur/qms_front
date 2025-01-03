@@ -45,9 +45,9 @@ const ModuleForm = ({ onSubmit, model }: Props) => {
               </FormLabel>
               <FormControl>
                 <Input
-                  value={field.value}
+                  // value={field.value}
                   className={"bg-primary-100"}
-                  readOnly
+                  {...field}
                 />
               </FormControl>
               <FormMessage />
