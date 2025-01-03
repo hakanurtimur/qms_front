@@ -157,7 +157,7 @@ const PatientForm: React.FC<PatientFormProps> = ({ model }) => {
           />
         </div>
         <div className="col-span-12 mt-4">
-          <label className="font-semibold">Döküman</label>
+          <label className="font-semibold">Doküman</label>
           <div className="flex items-center space-x-4 mt-2">
             <Button
               variant="outline"

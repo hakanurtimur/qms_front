@@ -22,7 +22,7 @@ const SampleRequestFormModel = z.object({
 
 // İlk model (örnek: SResultedRequestsFormModel)
 export const SResultedRequestsFormModel = SampleRequestFormModel.extend({
-  documentTypeId: z.number({ message: "Döküman tipi seçmelisiniz." }),
+  documentTypeId: z.number({ message: "Doküman tipi seçmelisiniz." }),
   code: z.string({ message: "Kod boş olamaz." }),
   newFileName: z.string().optional(),
   publishDate: z.string({ message: "Yayın tarihi boş olamaz." }),

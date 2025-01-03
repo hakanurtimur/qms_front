@@ -132,7 +132,7 @@ const GeneralForm: React.FC<GeneralFormProps> = ({ model }) => {
 
         <div className="col-span-12 mt-2">
           <div className="flex flex-col space-y-2">
-            <FormLabel>Dökümanlar</FormLabel>
+            <FormLabel>Dokümanlar</FormLabel>
             <div className="flex items-center space-x-4">
               <Button
                 variant="outline"

@@ -35,9 +35,9 @@ const dashboardCardItems = [
     icon: Dock,
   },
   {
-    title: "DÖF",
+    title: "DİF",
     value: "0",
-    growth: "DÖF Sayısı",
+    growth: "DİF Sayısı",
     icon: ArrowTopRightOnSquareIcon,
   },
   {
